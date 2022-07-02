@@ -1,10 +1,8 @@
-import React, {Suspense} from 'react';
-import {useRoutes} from 'react-router-dom';
-
-// import Home from '../views/Home';
+import React, { Suspense } from 'react';
+import { useRoutes } from 'react-router-dom';
 
 const lazyLoad = (
-    Comp: React.LazyExoticComponent<React.ComponentType<any>>,
+  Comp: React.LazyExoticComponent<React.ComponentType<any>>
 ) => {
   return (
     <Suspense fallback={<>加载中...</>}>
@@ -20,27 +18,12 @@ const routes = [
     icon: 'logo',
     children: [
       {
-        path: '/main',
-        element: lazyLoad(React.lazy(() => import('~/views/Home/Main'))),
+        path: '/sort',
+        element: lazyLoad(React.lazy(() => import('~/views/Home/Sort'))),
         icon: 'template',
         isShow: true,
-        text: 'Home',
-      },
-      {
-        path: '/search',
-        element: lazyLoad(React.lazy(() => import('~/views/Home/Search'))),
-        icon: 'template',
-        isShow: false,
-        text: 'Search',
-      },
-
-      {
-        path: '/tags',
-        element: lazyLoad(React.lazy(() => import('~/views/Home/Tags'))),
-        icon: 'template',
-        isShow: true,
-        text: 'Tags',
-      },
+        text: 'Sort',
+      }
     ],
   },
 ];
@@ -50,4 +33,4 @@ const MYRoutes = () => {
   return element;
 };
 
-export {MYRoutes, routes};
+export { MYRoutes, routes };

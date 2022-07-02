@@ -4,7 +4,10 @@
     "description": "crack leetCode",
     "main": "index.tsx",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "dev": "webpack serve",
+        "start": "node server.js",
+        "build": "webpack",
+        "lint": "npx prettier  src/**/*.{tsx,ts} --write && eslint --fix src/**/*.{tsx,ts} "
     },
     "repository": {
         "type": "git",
