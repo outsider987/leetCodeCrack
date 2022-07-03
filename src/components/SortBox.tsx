@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 
 interface Props {
   height: number,
@@ -8,7 +8,7 @@ interface Props {
 const SortBox: React.FC<Props> = ({ height ,width}) => {
   return (
     <div
-      className="border-black border-2 bg-gray-300"
+      className="border-black border border-solid bg-gray-300"
       style={{ height: `${height}vh`,width:`${width}vw` }}
     ></div>
   );

@@ -1,29 +1,85 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
+import Button from '~/components/Button';
 import SortBox from '~/components/SortBox';
 
+export interface BoxState {
+  sort_index: number;
+  value: number;
+}
+
 const Sort = () => {
-  let randomArray: any[] = [];
-
-  const getRandomNoDuplicateArray = (maxValue: number) => {
-    let result: number[] = [];
-    while (result.length < maxValue) {
-      const randomValu = Math.floor(Math.random() * maxValue) + 1;
-      if (result.indexOf(randomValu) === -1) result.push(randomValu);
-    }
-    return result 
+  const refArray = useRef<number[]>(getRandomNoDuplicateArray(99));
+  const [tempArray, setTempArray] = useState(refArray.current);
+  const onStart = async () => {
+    await quickSort(refArray.current);
   };
-  randomArray = getRandomNoDuplicateArray(99);
 
-  
+  const quickSort = async (
+    array: number[],
+    length = array.length - 1,
+    start = 0
+  ): Promise<number[]> => {
+    if (array.length < 2) return array; // base case
 
-  
+    let left: number[] = [];
+    let right: number[] = [];
+    let pivot = array[length];
+
+    while (start < length) {
+      if (array[start] < pivot) {
+        await left.push(array[start]);
+      } else {
+        await right.push(array[start]);
+      }
+
+      await start++;
+    }
+    refArray.current = await replaceOrignalPartArray(refArray.current, start, [
+      ...left,
+      pivot,
+      ...right,
+    ] as []);
+    setTempArray(refArray.current);
+    await sleep(100);
+
+    return [...(await quickSort(left)), pivot, ...(await quickSort(right))];
+  };
+  const replaceOrignalPartArray = (
+    orgArray: number[],
+    start: number,
+    chandArray: []
+  ): number[] => {
+    const temp = new Array(...orgArray);
+    temp.splice(0, chandArray.length, ...chandArray) as [];
+
+    return temp;
+  };
 
   return (
-    <div className='flex flex-row items-end max-h-[94vh]'>
-      {randomArray.map((item, index) => (
-        <SortBox height={item} width={2} />
-      ))}
+    <div className="flex flex-row">
+      <span className=" font-bold text-lg text-white">QickSort</span>
+      <div className="w-full flex items-end mr-2 mb-2">
+        <Button onClick={onStart}> start</Button>
+      </div>
+
+      <div className="flex w-full flex-row items-end max-h-[94vh]">
+        {tempArray.map((item, index) => (
+          <SortBox key={index} height={item} width={2} />
+        ))}
+      </div>
     </div>
   );
 };
 export default Sort;
+
+async function sleep(ms: number) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+function getRandomNoDuplicateArray(maxValue: number): number[] {
+  let result: any = [];
+  while (result.length < maxValue) {
+    const randomValu = Math.floor(Math.random() * maxValue) + 1;
+    if (result.indexOf(randomValu) === -1) result.push(randomValu);
+  }
+  return result;
+}

@@ -23,6 +23,13 @@ const routes = [
         icon: 'template',
         isShow: true,
         text: 'Sort',
+      },
+      {
+        path: '/js',
+        element: lazyLoad(React.lazy(() => import('~/views/Home/Js'))),
+        icon: 'template',
+        isShow: true,
+        text: 'JS',
       }
     ],
   },
