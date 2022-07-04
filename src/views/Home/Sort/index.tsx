@@ -27,18 +27,19 @@ const Sort = () => {
 
     while (start < length) {
       if (array[start] < pivot) {
-        await left.push(array[start]);
+        left.push(array[start]);
       } else {
-        await right.push(array[start]);
+        right.push(array[start]);
       }
 
-      await start++;
+      start++;
     }
-    refArray.current = await replaceOrignalPartArray(refArray.current, start, [
+
+    refArray.current = replaceOrignalPartArray(refArray.current, pivot, [
       ...left,
       pivot,
       ...right,
-    ] as []);
+    ]);
     setTempArray(refArray.current);
     await sleep(100);
 
@@ -46,18 +47,24 @@ const Sort = () => {
   };
   const replaceOrignalPartArray = (
     orgArray: number[],
-    start: number,
-    chandArray: []
+    pivot: number,
+    changeArray: number[]
   ): number[] => {
     const temp = new Array(...orgArray);
-    temp.splice(0, chandArray.length, ...chandArray) as [];
-
+    temp.splice(
+      temp.findIndex((i) => i === pivot) - (changeArray.length - 1),
+      changeArray.length,
+      ...changeArray
+    );
     return temp;
   };
 
   return (
     <div className="flex flex-row">
-      <span className=" font-bold text-lg text-white">QickSort</span>
+      <span className=" flex flex-col font-bold text-lg text-white">
+        <span>QickSort</span>
+        <span>count:{tempArray.length}</span>
+      </span>
       <div className="w-full flex items-end mr-2 mb-2">
         <Button onClick={onStart}> start</Button>
       </div>
