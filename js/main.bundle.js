@@ -427,7 +427,7 @@ const Page404 = () => {
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("2b197a821abb6a947285")
+/******/ 		__webpack_require__.h = () => ("a759751c37986d4e4e0b")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
@@ -503,7 +503,7 @@ const Page404 = () => {
 /******/ 	
 /******/ 	/* webpack/runtime/publicPath */
 /******/ 	(() => {
-/******/ 		__webpack_require__.p = "/leetCodeCrack/";
+/******/ 		__webpack_require__.p = "/webpack-demo/";
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/jsonp chunk loading */
