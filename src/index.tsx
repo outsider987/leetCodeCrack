@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter,BrowserRouter } from 'react-router-dom';
 import { MYRoutes } from './router';
 import './index.scss';
 import './reset.scss';
@@ -10,8 +10,8 @@ const root = createRoot(rootElement);
 
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <HashRouter>
       <MYRoutes />
-    </BrowserRouter>
+    </HashRouter>
   </React.StrictMode>
 );
