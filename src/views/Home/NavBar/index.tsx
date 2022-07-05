@@ -1,11 +1,12 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import SvgICon from '~/components/SvgIcon';
-import { routes } from '~/router';
+import { HomeRoute, routes } from '~/router';
 import NavBarItem from './NavBarItem';
 
+
 const NavBar = () => {
-  const mainRoutes = routes[0];
+  
   return (
     <div
       className="w-full min-h-screen bg-navbar
@@ -22,7 +23,7 @@ const NavBar = () => {
           className="hidden lg:flex flex-col
       space-y-6 items-center"
         >
-          {mainRoutes.children.map((item) => (
+          {HomeRoute.children.map((item) => (
             <NavBarItem
               key={item.path}
               isShow={item.isShow}

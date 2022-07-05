@@ -7,7 +7,8 @@
         "dev": "webpack serve",
         "start": "node server.js",
         "build": "webpack",
-        "lint": "npx prettier  src/**/*.{tsx,ts} --write && eslint --fix src/**/*.{tsx,ts} "
+        "lint": "npx prettier  src/**/*.{tsx,ts} --write && eslint --fix src/**/*.{tsx,ts} ",
+        "deploy": "gh-pages -d dist"
     },
     "repository": {
         "type": "git",
@@ -37,6 +38,7 @@
         "eslint": ">=5.16.0",
         "eslint-config-google": "^0.14.0",
         "fork-ts-checker-webpack-plugin": "^7.2.11",
+        "gh-pages": "^4.0.0",
         "html-webpack-plugin": "^5.5.0",
         "mini-css-extract-plugin": "^2.6.0",
         "node-sass": "^7.0.1",

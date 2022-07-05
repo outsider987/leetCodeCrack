@@ -15,6 +15,7 @@ module.exports = {
     chunkFilename: '[chunkhash].js',
     sourceMapFilename: 'js/[file].map',
     clean: true,
+    publicPath: '/webpack-demo/'
   },
   module: {
     rules: [
@@ -33,7 +34,7 @@ module.exports = {
         type: 'asset/resource',
       },
 
-    //   { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
+      //   { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
       {
         test: /\.tsx?$/,
         loader: 'ts-loader',
@@ -77,13 +78,17 @@ module.exports = {
   devtool: 'source-map',
 
   devServer: {
+    static: {
+        directory: path.resolve(__dirname, './dist')
+      },
+      allowedHosts: 'all',
+    compress: true,
     hot: true,
     historyApiFallback: true,
-    static: path.join(__dirname, 'dist'),
+    // static: path.join(__dirname, 'dist'),
     open: true,
     port: 8080,
     compress: true,
-
   },
   optimization: {
     splitChunks: {

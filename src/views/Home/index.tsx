@@ -14,7 +14,7 @@ const Home = () => {
     <Wrapper>
       <NavBar></NavBar>
       <div className={contentContainer}>
-        {location.pathname !== '/' ? <Outlet /> : <Navigate to={'/sort'} />}
+        {useLocation().pathname !== '/' ? <Outlet /> : <Navigate to={'/sort'} />}
         {/* <Outlet /> */}
       </div>
     </Wrapper>
