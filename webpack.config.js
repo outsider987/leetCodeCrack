@@ -15,7 +15,7 @@ module.exports = {
     chunkFilename: '[chunkhash].js',
     sourceMapFilename: 'js/[file].map',
     clean: true,
-    publicPath: '/webpack-demo/'
+    // publicPath: '/webpack-demo/'
   },
   module: {
     rules: [
