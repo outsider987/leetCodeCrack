@@ -38,6 +38,15 @@ const HomeRoute = {
           isShow: true,
           text: 'QuickSort',
         },
+        {
+            path: '/sort/mergesort',
+            element: lazyLoad(
+              React.lazy(() => import('~/views/Home/Sort/MergeSort'))
+            ),
+            icon: 'template',
+            isShow: true,
+            text: 'MergeSort',
+          },
       ],
     },
     {

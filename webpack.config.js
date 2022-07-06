@@ -84,7 +84,7 @@ module.exports = {
       allowedHosts: 'all',
     compress: true,
     hot: true,
-    historyApiFallback: true,
+    historyApiFallback: { index: "/", disableDotRule: true },
     // static: path.join(__dirname, 'dist'),
     open: true,
     port: 8080,

@@ -7,53 +7,63 @@ export interface BoxState {
   value: number;
 }
 
-const QuickSort = () => {
-    
+const MergeSort = () => {
   const refArray = useRef<number[]>(getRandomNoDuplicateArray(99));
   const [tempArray, setTempArray] = useState(refArray.current);
-  const onStart = async () => {
-    await quickSort(refArray.current);
+
+  const merge = async (left: number[], right: number[]) => {
+    const result = [];
+    let leftIndex = 0;
+    let rightIndex = 0;
+    let pivot = refArray.current.findIndex((item)=>item===left[0])
+    console.log(pivot);
+    while (leftIndex < left.length && rightIndex < right.length) {
+      if (left[leftIndex] < right[rightIndex]) {
+        result.push(left[leftIndex]);
+        leftIndex++;
+      } else {
+        result.push(right[rightIndex]);
+        rightIndex++;
+      }
+    }
+    
+    const t =result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex)); 
+ 
+    refArray.current = replaceOrignalPartArray(refArray.current,pivot, t);
+    setTempArray(refArray.current);
+    await sleep(200);
+    // console
+    return t;
   };
 
-  const quickSort = async (
-    array: number[],
-    length = array.length - 1,
-    start = 0
-  ): Promise<number[]> => {
-    if (array.length < 2) return array; // base case
-
-    let left: number[] = [];
-    let right: number[] = [];
-    let pivot = array[length];
-
-    while (start < length) {
-      if (array[start] < pivot) {
-        left.push(array[start]);
-      } else {
-        right.push(array[start]);
-      }
-
-      start++;
+  const mergeSort = async (array: number[]): Promise<number[]> => {
+    if (array.length === 1) {
+      return array;
     }
+    const length = array.length;
+    const middle = Math.floor(length / 2);
+    const left = array.slice(0, middle);
+    const right = array.slice(middle);
 
-    refArray.current = replaceOrignalPartArray(refArray.current, pivot, [
-      ...left,
-      pivot,
-      ...right,
-    ]);
-    setTempArray(refArray.current);
-    await sleep(100);
 
-    return [...(await quickSort(left)), pivot, ...(await quickSort(right))];
+    // refArray.current = replaceOrignalPartArray(refArray.current, right);
+    // setTempArray(refArray.current);
+    // await sleep(100);
+
+
+    return merge(await mergeSort(left), await mergeSort(right));
+  };
+  const onStart = async () => {
+    setTempArray(await mergeSort(refArray.current));
   };
   const replaceOrignalPartArray = (
     orgArray: number[],
-    pivot: number,
+    pivot:number,
     changeArray: number[]
   ): number[] => {
     const temp = new Array(...orgArray);
     temp.splice(
-      temp.findIndex((i) => i === pivot) - (changeArray.length - 1),
+        pivot ,
       changeArray.length,
       ...changeArray
     );
@@ -63,7 +73,7 @@ const QuickSort = () => {
   return (
     <div className="flex flex-row">
       <span className=" flex flex-col font-bold text-lg text-white">
-        <span>QickSort</span>
+        <span>MergeDort</span>
         <span>count:{tempArray.length}</span>
       </span>
       <div className="w-full flex items-end mr-2 mb-2">
@@ -78,7 +88,7 @@ const QuickSort = () => {
     </div>
   );
 };
-export default QuickSort;
+export default MergeSort;
 
 async function sleep(ms: number) {
   return new Promise((r) => setTimeout(r, ms));

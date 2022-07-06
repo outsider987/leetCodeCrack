@@ -15,12 +15,12 @@ const Sort = () => {
   return (
     <>
       {isShow ? (
-        <div className="flex h-[80vh]">
+        <div className="flex h-[80vh] space-x-3">
           {HomeRoute.children
             .find((item) => item.path === '/sort')
             ?.children?.map((item2) => (
               <Link
-                className="text-white hover:text- text-2xl rounded-2xl shadow-xl flex justify-center items-center font-bold tracking-wide w-1/2 h-1/2 bg-navbar"
+                className="text-white  hover:text- text-2xl rounded-2xl shadow-xl flex justify-center items-center font-bold tracking-wide w-1/2 h-1/2 bg-navbar"
                 to={item2.path}
               >
                 {item2.text}
