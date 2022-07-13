@@ -16,7 +16,6 @@ const MergeSort = () => {
     let leftIndex = 0;
     let rightIndex = 0;
     let pivot = refArray.current.findIndex((item)=>item===left[0])
-    console.log(pivot);
     while (leftIndex < left.length && rightIndex < right.length) {
       if (left[leftIndex] < right[rightIndex]) {
         result.push(left[leftIndex]);
@@ -31,8 +30,7 @@ const MergeSort = () => {
  
     refArray.current = replaceOrignalPartArray(refArray.current,pivot, t);
     setTempArray(refArray.current);
-    await sleep(200);
-    // console
+    await sleep(100);
     return t;
   };
 

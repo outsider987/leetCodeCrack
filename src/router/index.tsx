@@ -23,6 +23,13 @@ const HomeRoute = {
   icon: 'logo',
   children: [
     {
+        path: '/profile',
+        element: lazyLoad(React.lazy(() => import('~/views/Home/Profile'))),
+        icon: 'template',
+        isShow: true,
+        text: 'profile',
+      },
+    {
       path: '/sort',
       element: lazyLoad(React.lazy(() => import('~/views/Home/Sort'))),
       icon: 'template',
@@ -49,14 +56,8 @@ const HomeRoute = {
           },
       ],
     },
-    {
-      path: '/js',
-      element: lazyLoad(React.lazy(() => import('~/views/Home/Js'))),
-      icon: 'template',
-      isShow: true,
-      text: 'JS',
-    },
-  ],
+   
+    ],
 };
 const routes = [
   HomeRoute,

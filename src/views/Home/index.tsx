@@ -3,18 +3,21 @@ import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import NavBar from './NavBar';
 import Wrapper from './Wrapper';
 
-
 const Home = () => {
-  
   const contentContainer =
-    location.pathname === '/tags'
+    useLocation().pathname === '/profile'
       ? 'content_tags_container'
       : 'content_container';
+  console.log(location.pathname);
   return (
     <Wrapper>
       <NavBar></NavBar>
       <div className={contentContainer}>
-        {useLocation().pathname !== '/' ? <Outlet /> : <Navigate to={'/sort'} />}
+        {useLocation().pathname !== '/' ? (
+          <Outlet />
+        ) : (
+          <Navigate to={'/sort'} />
+        )}
         {/* <Outlet /> */}
       </div>
     </Wrapper>
