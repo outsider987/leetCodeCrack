@@ -23,6 +23,9 @@ module.exports = {
       fontFamily: {
         opensans: ['Open Sans', 'sans-serif'],
       },
+      screens:{
+        sm:'280px'
+      }
     },
   },
   variants: {

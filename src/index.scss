@@ -5,12 +5,12 @@
 
 @layer components {
   .content_container {
-    @apply md:m-auto;
+    @apply md:m-10;
     @apply lg:ml-[9.09vw] lg:mt-[6vh]  w-full  lg:max-w-[730px] ;
   }
   .content_tags_container {
-    
-    @apply lg:ml-[9.09vw] lg:pt-20 w-full max-h-screen ;
+    @apply m-auto sm:p-3;
+    @apply lg:ml-[9.09vw] lg:pt-20 w-full h-full flex;
   }
   .slide_group {
     input[type='range'] {
