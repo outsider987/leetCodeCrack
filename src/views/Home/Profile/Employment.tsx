@@ -31,7 +31,7 @@ const Employment: React.FC<Props> = (props) => {
         </li>
         <li>
           Responsible:
-          <ul className=" leading-6 list-disc list-inside mt-1 space-y-1 hover:scale-110  transition ease-in-out delay-150 duration-300">
+          <ul className=" leading-6 list-disc list-inside mt-1 space-y-1 lg:hover:scale-110  transition ease-in-out delay-150 duration-300">
             {props.responsible.map((item) => (
               <li className="text-gray-400 font-light">
                 {item.content}{' '}
