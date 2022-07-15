@@ -111,25 +111,27 @@ const Profile = () => {
     },
     mobile: () => {
       return (
-        <div className="flex flex-col space-y-4 overflow-auto">
-          <div className=" justify-around flex flex-col items-center space-x-6 lg:max-w-[70vw]">
-            <img
-              className="w-[15vw] rounded-full"
-              src={require('~/assets/img/me.jpg')}
-            />
-            <div className="text-white h-full flex flex-col space-y-3">
-              <h1 className="text-xl font-bold text-center">{name}</h1>
-              <div className=" leading-[1.5rem] tracking-wide font-light text-gray-400">
-                {contentDescr}
+        <div className="overflow-auto">
+          <div className="flex flex-col space-y-4 sm:mr-2 ">
+            <div className=" justify-around flex flex-col items-center space-x-6 lg:max-w-[70vw]">
+              <img
+                className="w-[15vw] rounded-full"
+                src={require('~/assets/img/me.jpg')}
+              />
+              <div className="text-white h-full flex flex-col space-y-3">
+                <h1 className="text-xl font-bold text-center">{name}</h1>
+                <div className=" leading-[1.5rem] tracking-wide font-light text-gray-400">
+                  {contentDescr}
+                </div>
               </div>
             </div>
-          </div>
-          <div className="flex min-h-[50vh] flex-col space-y-6 ">
-            <h1 className="text-white text-2xl font-bold"> EMPLOYMENT</h1>
-            <div className="flex flex-col gap-6 ">
-              {list.map((item) => (
-                <Employment {...item} />
-              ))}
+            <div className="flex min-h-[50vh] flex-col space-y-6 ">
+              <h1 className="text-white text-2xl font-bold"> EMPLOYMENT</h1>
+              <div className="flex flex-col gap-6 ">
+                {list.map((item) => (
+                  <Employment {...item} />
+                ))}
+              </div>
             </div>
           </div>
         </div>
