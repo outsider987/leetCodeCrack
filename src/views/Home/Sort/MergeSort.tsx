@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Button from '~/components/Button';
+import LayoutDivider from '~/components/LayoutDivider';
 import SortBox from '~/components/SortBox';
 
 export interface BoxState {
@@ -15,7 +16,7 @@ const MergeSort = () => {
     const result = [];
     let leftIndex = 0;
     let rightIndex = 0;
-    let pivot = refArray.current.findIndex((item)=>item===left[0])
+    let pivot = refArray.current.findIndex((item) => item === left[0]);
     while (leftIndex < left.length && rightIndex < right.length) {
       if (left[leftIndex] < right[rightIndex]) {
         result.push(left[leftIndex]);
@@ -25,10 +26,12 @@ const MergeSort = () => {
         rightIndex++;
       }
     }
-    
-    const t =result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex)); 
- 
-    refArray.current = replaceOrignalPartArray(refArray.current,pivot, t);
+
+    const t = result
+      .concat(left.slice(leftIndex))
+      .concat(right.slice(rightIndex));
+
+    refArray.current = replaceOrignalPartArray(refArray.current, pivot, t);
     setTempArray(refArray.current);
     await sleep(100);
     return t;
@@ -43,11 +46,9 @@ const MergeSort = () => {
     const left = array.slice(0, middle);
     const right = array.slice(middle);
 
-
     // refArray.current = replaceOrignalPartArray(refArray.current, right);
     // setTempArray(refArray.current);
     // await sleep(100);
-
 
     return merge(await mergeSort(left), await mergeSort(right));
   };
@@ -56,35 +57,55 @@ const MergeSort = () => {
   };
   const replaceOrignalPartArray = (
     orgArray: number[],
-    pivot:number,
+    pivot: number,
     changeArray: number[]
   ): number[] => {
     const temp = new Array(...orgArray);
-    temp.splice(
-        pivot ,
-      changeArray.length,
-      ...changeArray
-    );
+    temp.splice(pivot, changeArray.length, ...changeArray);
     return temp;
   };
+  const content = {
+    desktop: () => {
+      return (
+        <div className="flex flex-row">
+          <span className=" flex flex-col font-bold text-lg text-white space-y-3 mr-2">
+            <span>MergeDort</span>
+            <span>count:{tempArray.length}</span>
+            <div className="w-full flex items-end mr-2 mb-2">
+              <Button onClick={onStart}> start</Button>
+            </div>
+          </span>
 
-  return (
-    <div className="flex flex-row">
-      <span className=" flex flex-col font-bold text-lg text-white">
-        <span>MergeDort</span>
-        <span>count:{tempArray.length}</span>
-      </span>
-      <div className="w-full flex items-end mr-2 mb-2">
-        <Button onClick={onStart}> start</Button>
-      </div>
+          <div className="flex w-full flex-row items-end max-h-[94vh]">
+            {tempArray.map((item, index) => (
+              <SortBox key={index} height={item} width={2} />
+            ))}
+          </div>
+        </div>
+      );
+    },
+    mobile: () => {
+      return (
+        <div className="flex flex-col">
+          <div className="items-center flex flex-row font-bold text-lg text-white justify-around">
+            <span>QickSort</span>
+            <span>count:{tempArray.length}</span>
+            <div className=" flex items-end mr-2 mb-2">
+              <Button onClick={onStart}> start</Button>
+            </div>
+          </div>
 
-      <div className="flex w-full flex-row items-end max-h-[94vh]">
-        {tempArray.map((item, index) => (
-          <SortBox key={index} height={item} width={2} />
-        ))}
-      </div>
-    </div>
-  );
+          <div className="flex w-full flex-row items-end max-h-[94vh]">
+            {tempArray.map((item, index) => (
+              <SortBox key={index} height={item * 0.9} width={2} />
+            ))}
+          </div>
+        </div>
+      );
+    },
+  };
+
+  return <LayoutDivider {...content} />;
 };
 export default MergeSort;
 
