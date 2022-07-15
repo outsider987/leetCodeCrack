@@ -27,7 +27,7 @@ const Employment: React.FC<Props> = (props) => {
       <ul className="list-disc list-inside space-y-1  ">
         <li>
           Skill:
-          <span className="leading-6 text-blue-400">{props.skill}</span>
+          <span className="leading-6 text-blue-400 break-words">{props.skill}</span>
         </li>
         <li>
           Responsible:
