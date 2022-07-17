@@ -44,9 +44,9 @@ module.exports = {
         },
       },
       animation: {
-        menu_collpase_on: 'menu_collpase_on 1s ease-in  ',
-        menu_collpase_off: 'menu_collpase_off 1s ease-in ',
-        fade_in:'fade_in 1s ease-in'
+        menu_collpase_on: 'menu_collpase_on 1s ease-in delay-1000',
+        menu_collpase_off: 'menu_collpase_off 1s ease-in delay-1000',
+        fade_in:'fade_in 1s ease-in delay-1000'
       },
     },
   },
