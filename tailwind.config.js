@@ -29,12 +29,12 @@ module.exports = {
       },
       keyframes: {
         fade_in:{
-            from:{ opacity:0},
-            to :{opacity:100}
+            '0%': { opacity: 0 },
+            '100%': { opacity: 100 },
         },
         menu_collpase_on: {
           '0%': { height: '0vh', opacity: 0 },
-          '100%': { height: '50vh' },
+          '100%': { height: '50vh',opacity: 100 },
         //   '100%': { height: '50vh', opacity: 100 },
         },
         menu_collpase_off: {
@@ -44,9 +44,9 @@ module.exports = {
         },
       },
       animation: {
-        menu_collpase_on: 'menu_collpase_on 1s ease-in-out ',
-        menu_collpase_off: 'menu_collpase_off 1s ease-in-out ',
-        fade_in:'fade_in 1s ease-in-out'
+        menu_collpase_on: 'menu_collpase_on 1s ease-in ',
+        menu_collpase_off: 'menu_collpase_off 1s ease-in ',
+        fade_in:'fade_in 1s ease-in '
       },
     },
   },
