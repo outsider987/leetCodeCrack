@@ -29,8 +29,8 @@ module.exports = {
       },
       keyframes: {
         fade_in:{
-            from:{ opacity:0},
-            to :{opacity:100}
+            '0%': { opacity: 0 },
+            '100%': { opacity: 100 },
         },
         menu_collpase_on: {
           '0%': { height: '0vh', opacity: 0 },

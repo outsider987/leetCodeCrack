@@ -49,10 +49,6 @@
   animation: mount 1s linear;
   
 }
-.test{
-    animation: webkit-mount   linear;
-    -webkit-animation-duration:1s
-}
 
 @keyframes mount {
   0% {
@@ -64,15 +60,6 @@
     // transform: translateY(0);
   }
 }
-@-webkit-keyframes webkit-mount {
-    from {
-        -webkit-opacity: 0;
-      
-    }
-    to {
-        -webkit-opacity: 1;
-    }
-  }
 
 .modal-unmount {
   animation: unmount 0.5s ease-in-out;
