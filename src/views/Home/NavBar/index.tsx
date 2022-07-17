@@ -16,8 +16,8 @@ const NavBar = () => {
   useEffect(() => {
     setMobildContentClass(
       toggelMenu
-        ? 'animate-menu_collpase_on h-[50vh]'
-        : ' animate-menu_collpase_off opacity-0 pointer-events-none'
+        ? 'h-[50vh] animate-menu_collpase_on '
+        : 'opacity-0 pointer-events-none animate-menu_collpase_off '
     );
   }, [toggelMenu]);
   useEffect(() => {
