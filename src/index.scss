@@ -50,7 +50,8 @@
   
 }
 .test{
-    animation: webkit-mount 1s linear;
+    animation: webkit-mount   linear;
+    -webkit-animation-duration:1s
 }
 
 @keyframes mount {

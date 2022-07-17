@@ -24,7 +24,12 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
-          'postcss-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [require('autoprefixer')],
+            },
+          },
           'sass-loader',
         ],
       },
@@ -79,12 +84,12 @@ module.exports = {
 
   devServer: {
     static: {
-        directory: path.resolve(__dirname, './dist')
-      },
-      allowedHosts: 'all',
+      directory: path.resolve(__dirname, './dist'),
+    },
+    allowedHosts: 'all',
     compress: true,
     hot: true,
-    historyApiFallback: { index: "/", disableDotRule: true },
+    historyApiFallback: { index: '/', disableDotRule: true },
     // static: path.join(__dirname, 'dist'),
     open: true,
     port: 8080,
