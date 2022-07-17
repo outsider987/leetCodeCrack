@@ -115,7 +115,7 @@ const Profile = () => {
     mobile: () => {
       return (
 
-        <div className="animate-fade_in overflow-auto ">
+        <div className="animate-fade_in overflow-auto opacity-100">
 
           <div className="flex flex-col space-y-4 sm:mr-2 ">
             <div className=" justify-around flex flex-col items-center space-x-6 lg:max-w-[70vw]">
