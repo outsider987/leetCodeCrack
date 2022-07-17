@@ -55,8 +55,8 @@ const Profile = () => {
     },
     {
       skill: 'C++,MFC,Typescript ,Angular,opencv,SPA,JIRA,Opencv',
-      endYear: '2018.01',
-      startYeat: '2021.07',
+      endYear: '2021.07',
+      startYeat: '2018.01',
       responsible: [
         {
           content: `survey task requirments and estimate effort on the manage platform(Jira)`,

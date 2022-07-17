@@ -24,13 +24,13 @@ const NavBarItem: React.FC<Props> = ({
   }
   return (
     <Link
+    onClick={onClick}
       to={path}
       className="flex flex-col justify-center relative
     items-center"
     >
       <SvgICon
         name={iconName}
-        onClick={onClick}
         className={`justify-center relative ${
           isFocus ? 'text-white' : 'text-[#6A6A6A]'
         }`}
