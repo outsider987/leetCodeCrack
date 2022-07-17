@@ -13,6 +13,7 @@ module.exports = {
       },
       spacing: {
         navbar_desktop_w: '5rem',
+        m_navbar_desktop_h: '8vh',
       },
       maxWidth: {
         navbar_desktop_w: '5rem',
@@ -23,9 +24,25 @@ module.exports = {
       fontFamily: {
         opensans: ['Open Sans', 'sans-serif'],
       },
-      screens:{
-        sm:'280px'
-      }
+      screens: {
+        sm: '280px',
+      },
+      keyframes: {
+        menu_collpase_on: {
+          '0%': { height: '0vh', opacity: 0, display: 'none' },
+          '50%': { height: '50vh', display: 'block' },
+        //   '100%': { height: '50vh', opacity: 100 },
+        },
+        menu_collpase_off: {
+          '0%': { height: '50vh', opacity: 100,display: 'block' },
+          '50%': { height: '0vh', opacity: 0,display: 'block' },
+        //   '100%': { height: '0vh', opacity: 0, display: 'none' },
+        },
+      },
+      animation: {
+        menu_collpase_on: 'menu_collpase_on 1s ease-in-out ',
+        menu_collpase_off: 'menu_collpase_off 1s ease-in-out ',
+      },
     },
   },
   variants: {

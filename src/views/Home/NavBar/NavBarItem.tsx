@@ -8,6 +8,7 @@ type Props = {
   text: string;
   isFocus: boolean;
   isShow: boolean;
+  onClick?: () => void;
 };
 
 const NavBarItem: React.FC<Props> = ({
@@ -16,6 +17,7 @@ const NavBarItem: React.FC<Props> = ({
   isShow,
   isFocus,
   text,
+  onClick,
 }) => {
   if (!isShow) {
     return <></>;
@@ -28,6 +30,7 @@ const NavBarItem: React.FC<Props> = ({
     >
       <SvgICon
         name={iconName}
+        onClick={onClick}
         className={`justify-center relative ${
           isFocus ? 'text-white' : 'text-[#6A6A6A]'
         }`}

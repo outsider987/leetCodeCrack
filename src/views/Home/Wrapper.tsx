@@ -6,9 +6,8 @@ type Props = {
 };
 const Wrapper: React.FC<Props> = ({children}) => {
   return (
-    <div className="w-full bg-greyscale min-h-screen flex ">
+    <div className="w-full bg-greyscale min-h-screen flex sm:flex-col lg:flex-row" >
       {children}
-
     </div>
   );
 };

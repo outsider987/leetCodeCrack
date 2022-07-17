@@ -5,11 +5,11 @@
 
 @layer components {
   .content_container {
-    @apply sm:h-full sm:p-3 ;
-    @apply lg:p-0 lg:pl-[9.09vw] lg:pt-[6vh]  w-full  lg:max-w-[730px] ;
+    @apply sm:h-full sm:p-3 sm:pt-m_navbar_desktop_h;
+    @apply lg:p-0 lg:pl-[9.09vw] lg:pt-[3vh]  w-full  lg:max-w-[730px] ;
   }
   .content_tags_container {
-    @apply m-auto sm:p-3;
+    @apply m-auto sm:p-3 sm:pt-m_navbar_desktop_h;
     @apply lg:ml-[9.09vw] lg:pt-20 w-full h-full flex;
   }
   .slide_group {
