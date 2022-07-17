@@ -33,13 +33,13 @@ module.exports = {
             to :{opacity:100}
         },
         menu_collpase_on: {
-          '0%': { height: '0vh', opacity: 0, display: 'none' },
-          '50%': { height: '50vh', display: 'block' },
+          '0%': { height: '0vh', opacity: 0 },
+          '100%': { height: '50vh' },
         //   '100%': { height: '50vh', opacity: 100 },
         },
         menu_collpase_off: {
-          '0%': { height: '50vh', opacity: 100,display: 'block' },
-          '50%': { height: '0vh', opacity: 0,display: 'block' },
+          '0%': { height: '50vh', opacity: 100 },
+          '100%': { height: '0vh', opacity: 0 },
         //   '100%': { height: '0vh', opacity: 0, display: 'none' },
         },
       },

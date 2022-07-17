@@ -6,6 +6,7 @@ import { HomeRoute, routes } from '~/router';
 import NavBarItem from './NavBarItem';
 
 const NavBar = () => {
+    console.log('NavBar Render');
   const [toggelMenu, setToggelMenu] = useState(false);
   const [mobildContentClass, setMobildContentClass] = useState('hidden');
 
@@ -19,6 +20,12 @@ const NavBar = () => {
         : ' animate-menu_collpase_off h-0 opacity-0 pointer-events-none'
     );
   }, [toggelMenu]);
+  useEffect(() => {
+    setMobildContentClass(
+     'hidden'
+    );
+  }, []);
+
 
   const layouts = {
     desktop: () => (
