@@ -85,8 +85,8 @@ const Profile = () => {
   const content = {
     desktop: () => {
       return (
-        <div className="flex flex-col space-y-4 ">
-          <div className=" justify-around flex items-center space-x-6 lg:max-w-[70vw]">
+        <div className="flex flex-col space-y-4 animate-fade_in">
+          <div className="  justify-around flex items-center space-x-6 lg:max-w-[70vw]">
             <img
               className="w-[15vw] rounded-full"
               src={require('~/assets/img/me.jpg')}
@@ -111,7 +111,7 @@ const Profile = () => {
     },
     mobile: () => {
       return (
-        <div className="overflow-auto">
+        <div className="overflow-auto animate-fade_in">
           <div className="flex flex-col space-y-4 sm:mr-2 ">
             <div className=" justify-around flex flex-col items-center space-x-6 lg:max-w-[70vw]">
               <img
@@ -120,7 +120,7 @@ const Profile = () => {
               />
               <div className="text-white h-full flex flex-col space-y-3">
                 <h1 className="text-xl font-bold text-center">{name}</h1>
-                <div className=" leading-[1.5rem] tracking-wide font-light text-gray-400">
+                <div className="leading-[1.5rem] tracking-wide font-light text-gray-400">
                   {contentDescr}
                 </div>
               </div>
