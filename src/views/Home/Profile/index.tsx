@@ -85,7 +85,7 @@ const Profile = () => {
   const content = {
     desktop: () => {
       return (
-        <div className="flex flex-col space-y-4 animate-fade_in">
+        <div className="flex flex-col space-y-4 modal-mount">
           <div className="  justify-around flex items-center space-x-6 lg:max-w-[70vw]">
             <img
               className="w-[15vw] rounded-full"
@@ -111,7 +111,7 @@ const Profile = () => {
     },
     mobile: () => {
       return (
-        <div className="overflow-auto animate-fade_in">
+        <div className="overflow-auto modal-mount">
           <div className="flex flex-col space-y-4 sm:mr-2 ">
             <div className=" justify-around flex flex-col items-center space-x-6 lg:max-w-[70vw]">
               <img
