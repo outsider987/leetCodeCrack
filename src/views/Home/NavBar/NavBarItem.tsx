@@ -35,7 +35,7 @@ const NavBarItem: React.FC<Props> = ({
           isFocus ? 'text-white' : 'text-[#6A6A6A]'
         }`}
       >
-        {!isFocus && (
+        {isFocus && (
           <div
             className="absolute  -right-[16.6%] -top-[20.83%] w-[22%] h-[22%]
         bg-navBarUnFocusBlue rounded-full"
@@ -47,7 +47,7 @@ const NavBarItem: React.FC<Props> = ({
         className="min-h-[18px] tracking-[0.4px] text-xs text-center
         leading-[150%] text-white"
       >
-        {isFocus && text}
+        { text}
       </span>
     </Link>
   );

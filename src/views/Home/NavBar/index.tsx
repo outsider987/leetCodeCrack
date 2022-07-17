@@ -66,7 +66,7 @@ const NavBar = () => {
             className="text-white justify-end"
             name="menu"
           />
-          <div className={`w-full bg-navbar   ${mobildContentClass}`}>
+          <div className={`w-full bg-navbar space-y-3 ${mobildContentClass}`}>
             {HomeRoute.children.map((item) => (
               <NavBarItem
                 onClick={onMobileMenuClick}
