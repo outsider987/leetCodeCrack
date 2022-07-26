@@ -16,7 +16,7 @@ const Home = () => {
         {useLocation().pathname !== '/' ? (
           <Outlet />
         ) : (
-          <Navigate to={'/sort'} />
+          <Navigate to={'/profile'} />
         )}
         {/* <Outlet /> */}
       </div>
