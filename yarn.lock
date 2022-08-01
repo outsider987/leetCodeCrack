@@ -3314,10 +3314,10 @@ optionator@^0.9.1:
     type-check "^0.4.0"
     word-wrap "^1.2.3"
 
-outsiderreactcomponent@^1.0.3:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/outsiderreactcomponent/-/outsiderreactcomponent-1.0.5.tgz#abb8486ddc897b247f8bd5c2ca59e2ebb94a2b3a"
-  integrity sha512-+gwYWrExrtCweOeuIaEKr1RlrKx94kMTKFktWSDuPR40kljtpKgjEzjHg8m/raRQ3TyguGn/Wl/8kgFxX08VtQ==
+outsiderreact@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/outsiderreact/-/outsiderreact-1.0.8.tgz#df57015bee8a6b5a64f6b2f13c4daf51a8b4ad85"
+  integrity sha512-9io4N1cMqYoveNLIqJFVKgLu+eatyrqpMScaYwfuPFZe5OD2R4dnTN4YnR53rZOdbb0aTECy9s5VKjm3ua++sA==
 
 p-limit@^2.2.0:
   version "2.3.0"

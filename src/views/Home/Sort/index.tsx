@@ -11,7 +11,6 @@ export interface BoxState {
 const Sort = () => {
   console.log(useLocation().pathname);
   const isShow = useLocation().pathname === '/sort';
-  console.log('123');
   return (
     <>
       {isShow ? (

@@ -5,8 +5,7 @@ import Sort from '~/views/Home/Sort';
 import QuickSort from '~/views/Home/Sort/QuickSort';
 import Page404 from '~/views/Page404';
 
-QuickSort
-
+QuickSort;
 
 const lazyLoad = (
   Comp: React.LazyExoticComponent<React.ComponentType<any>>
@@ -23,12 +22,12 @@ const HomeRoute = {
   icon: 'logo',
   children: [
     {
-        path: '/profile',
-        element: lazyLoad(React.lazy(() => import('~/views/Home/Profile'))),
-        icon: 'template',
-        isShow: true,
-        text: 'profile',
-      },
+      path: '/profile',
+      element: lazyLoad(React.lazy(() => import('~/views/Home/Profile'))),
+      icon: 'template',
+      isShow: true,
+      text: 'profile',
+    },
     {
       path: '/sort',
       element: lazyLoad(React.lazy(() => import('~/views/Home/Sort'))),
@@ -46,24 +45,30 @@ const HomeRoute = {
           text: 'QuickSort',
         },
         {
-            path: '/sort/mergesort',
-            element: lazyLoad(
-              React.lazy(() => import('~/views/Home/Sort/MergeSort'))
-            ),
-            icon: 'template',
-            isShow: true,
-            text: 'MergeSort',
-          },
+          path: '/sort/mergesort',
+          element: lazyLoad(
+            React.lazy(() => import('~/views/Home/Sort/MergeSort'))
+          ),
+          icon: 'template',
+          isShow: true,
+          text: 'MergeSort',
+        },
       ],
     },
-   
-    ],
+    {
+        path: '/member',
+        element: lazyLoad(React.lazy(() => import('~/views/Home/Member'))),
+        icon: 'template',
+        isShow: true,
+        text: 'member',
+      },
+  ],
 };
 const routes = [
   HomeRoute,
   {
     path: '*',
-    element: <Page404/>,
+    element: <Page404 />,
     icon: 'logo',
   },
 ];
