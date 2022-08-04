@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const tailwindcss = require('tailwindcss');
 module.exports = {
   mode: 'development',
   entry: path.join(__dirname, 'src', 'index.tsx'),
