@@ -20,13 +20,19 @@ module.exports = {
   },
   module: {
     rules: [
+        // {
+        //     test: /\.node$/,
+        //     loader: "node-loader",
+        //   },
       {
         test: /\.(css|scss)?$/,
+        include: path.resolve(__dirname, 'src'),
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
           'postcss-loader',
           'sass-loader',
+        //   'style-loader'
         ],
       },
 

@@ -1,9 +1,7 @@
 const { join } = require('path');
 module.exports = {
-  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html',join(
-    __dirname,
-    '../../node_modules/outsiderreact/**/{ts,html,js}'
-  )],
+  purge: ['./src/**/*.{js,jsx,ts,tsx}', 
+  './public/index.html','./node_modules/outsiderreact/dist/**/*.{ts,js}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {

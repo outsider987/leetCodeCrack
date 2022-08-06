@@ -1,10 +1,8 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
-import { HomeRoute } from '~/router';
+
 import Input from 'outsiderreact/dist/components/Input';
 import Button from 'outsiderreact/dist/components/Button';
-// import Input2 from '../../../components/Input';
-
+import SvgIcon from 'outsiderreact/dist/components/ModalSpin/ModalSpin';
 
 export interface MemberState {
   sort_index: number;
@@ -17,31 +15,24 @@ const Member = () => {
   return (
     <div>
       <form>
-        <div className='flex flex-col space-y-2'>
+        <div className="flex flex-col space-y-2">
           <Input
-          label='test'
+            label="test"
             inputClassName=""
             type="text"
             setInput={inputChange}
             value={''}
-            placeholder='{123}'
+            placeholder="{123}"
           />
+
           <Input
+            label="test"
             inputClassName=""
             type="text"
             setInput={inputChange}
             value={''}
-            
+            placeholder="{123}"
           />
-          <Button>
-            123
-          </Button>
-          {/* <Input2  label='test'
-            inputClassName=""
-            type="text"
-            setInput={inputChange}
-            value={''}
-            placeholder='{123}'/> */}
         </div>
       </form>
     </div>
