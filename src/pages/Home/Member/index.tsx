@@ -14,12 +14,12 @@ const Member = () => {
   const [password, setPassword] = useState();
 
   return (
-    <div className="w-full h-full flex ">
+    <div className="flex h-full w-full ">
       <form className="m-auto space-y-6">
         <div className="flex flex-col space-y-5 ">
           <Input
             label="Account"
-            className=" text-white w-[50vw]"
+            className=" w-[50vw] text-white"
             type="text"
             setInput={setAccount}
             value={account}
@@ -28,14 +28,14 @@ const Member = () => {
 
           <Input
             label="Password"
-            className=" text-white w-[50vw]"
+            className=" w-[50vw] text-white"
             type="text"
             setInput={setPassword}
             value={password}
             placeholder="Password"
           />
         </div>
-        <div className="w-full flex ">
+        <div className="flex w-full ">
           <Button className="m-auto">Submit</Button>
         </div>
       </form>

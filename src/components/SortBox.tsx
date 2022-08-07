@@ -8,7 +8,7 @@ interface Props {
 const SortBox: React.FC<Props> = ({ height, width }) => {
   return (
     <div
-      className="border-black border border-solid bg-gray-300"
+      className="border border-solid border-black bg-gray-300"
       style={{ height: `${height}vh`, width: `${width}vw` }}
     ></div>
   );

@@ -15,31 +15,31 @@ interface Responsible {
 
 const Employment: React.FC<Props> = (props) => {
   return (
-    <div className="text-white space-y-3">
-      <div className="flex w-full lg:max-w-[20vw] justify-between">
+    <div className="space-y-3 text-white">
+      <div className="flex w-full justify-between lg:max-w-[20vw]">
         <div className="text-gray-400">
           {props.startYeat}-{props.endYear}
         </div>
-        <div className="w-1 block bg-white bg-opacity-60"></div>
+        <div className="block w-1 bg-white bg-opacity-60"></div>
         <div>{props.company_name}</div>
       </div>
       <div> {props.title}</div>
-      <ul className="list-disc list-inside space-y-1  ">
+      <ul className="list-inside list-disc space-y-1  ">
         <li>
           Skill:
-          <span className="leading-6 text-blue-400 break-words">
+          <span className="break-words leading-6 text-blue-400">
             {props.skill}
           </span>
         </li>
         <li>
           Responsible:
-          <ul className=" leading-6 list-disc list-inside mt-1 space-y-1 lg:hover:scale-110  transition ease-in-out delay-150 duration-300">
+          <ul className=" mt-1 list-inside list-disc space-y-1 leading-6 transition  delay-150 duration-300 ease-in-out lg:hover:scale-110">
             {props.responsible.map((item) => (
-              <li className="text-gray-400 font-light">
+              <li className="font-light text-gray-400">
                 {item.content}{' '}
                 <a
                   target="blank"
-                  className=" text-blue-800 font-semibold"
+                  className=" font-semibold text-blue-800"
                   href={item.link}
                 >
                   {item.link !== `` && '(Link)'}

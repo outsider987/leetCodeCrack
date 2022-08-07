@@ -18,7 +18,7 @@ const Sort = () => {
             .find((item) => item.path === '/sort')
             ?.children?.map((item2) => (
               <Link
-                className="text-white  hover:text- text-2xl rounded-2xl shadow-xl flex justify-center items-center font-bold tracking-wide w-1/2 h-1/2 bg-navbar m-auto"
+                className="hover:text-  m-auto flex h-1/2 w-1/2 items-center justify-center rounded-2xl bg-navbar text-2xl font-bold tracking-wide text-white shadow-xl"
                 to={item2.path}
               >
                 {item2.text}

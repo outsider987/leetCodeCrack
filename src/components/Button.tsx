@@ -21,9 +21,9 @@ const Button: React.FC<Props> = ({
    text-white hover:bg-white hover:text-[#121212]`;
   return (
     <button
-      className={`flex font-bold justify-center border border-solid
-       border-white items-center
-    py-[0.8125rem] px-[0.625rem] leading-[100%] ${
+      className={`flex items-center justify-center border border-solid
+       border-white py-[0.8125rem]
+    px-[0.625rem] font-bold leading-[100%] ${
       isRounded ? 'rounded-full' : 'rounded'
     } ${isWhite ? whiteClass : darkClass} ${className}`}
       onClick={onClick}

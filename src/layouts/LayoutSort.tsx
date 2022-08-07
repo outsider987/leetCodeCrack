@@ -14,16 +14,16 @@ const LayoutSort: React.FC<Props> = (props) => {
 
   if (props.isDesktop) {
     return (
-      <div className="flex flex-row  h-[90vh]">
-        <span className=" flex flex-col font-bold text-lg text-white space-y-3 mr-2">
+      <div className="flex h-[90vh]  flex-row">
+        <span className=" mr-2 flex flex-col space-y-3 text-lg font-bold text-white">
           <span>{props.title}</span>
           <span>count:{props.boxDatas.length}</span>
-          <div className="w-full flex items-end mr-2 mb-2">
+          <div className="mr-2 mb-2 flex w-full items-end">
             <Button onClick={props.onStart}> start</Button>
           </div>
         </span>
 
-        <div className="flex w-full flex-row items-end max-h-[94vh]">
+        <div className="flex max-h-[94vh] w-full flex-row items-end">
           {props.boxDatas.map((item, index) => (
             <SortBox key={index} height={item} width={2} />
           ))}
@@ -33,15 +33,15 @@ const LayoutSort: React.FC<Props> = (props) => {
   }
   return (
     <div className="flex flex-col">
-      <div className=" flex flex-row font-bold text-lg text-white justify-around">
+      <div className=" flex flex-row justify-around text-lg font-bold text-white">
         <span>{props.title}</span>
         <span>count:{props.boxDatas.length}</span>
-        <div className=" flex items-end mr-2 mb-2">
+        <div className=" mr-2 mb-2 flex items-end">
           <Button onClick={props.onStart}> start</Button>
         </div>
       </div>
 
-      <div className="flex w-full flex-row items-end max-h-[94vh]">
+      <div className="flex max-h-[94vh] w-full flex-row items-end">
         {props.boxDatas.map((item, index) => (
           <SortBox key={index} height={item * 0.9} width={2} />
         ))}

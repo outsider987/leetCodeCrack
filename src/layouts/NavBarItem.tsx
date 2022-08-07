@@ -26,26 +26,26 @@ const NavBarItem: React.FC<Props> = ({
     <Link
       onClick={onClick}
       to={path}
-      className="flex flex-col justify-center relative
-    items-center"
+      className="relative flex flex-col items-center
+    justify-center"
     >
       <SvgICon
         name={iconName}
-        className={`justify-center relative ${
+        className={`relative justify-center ${
           isFocus ? 'text-white' : 'text-[#6A6A6A]'
         }`}
       >
         {isFocus && (
           <div
-            className="absolute  -right-[16.6%] -top-[20.83%] w-[22%] h-[22%]
-        bg-navBarUnFocusBlue rounded-full"
+            className="absolute  -right-[16.6%] -top-[20.83%] h-[22%] w-[22%]
+        rounded-full bg-navBarUnFocusBlue"
           />
         )}
       </SvgICon>
 
       <span
-        className="min-h-[18px] tracking-[0.4px] text-xs text-center
-        leading-[150%] text-white"
+        className="min-h-[18px] text-center text-xs leading-[150%]
+        tracking-[0.4px] text-white"
       >
         {text}
       </span>

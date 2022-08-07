@@ -5,7 +5,7 @@ type Props = {
 };
 const HomeWrapper: React.FC<Props> = ({ children }) => {
   return (
-    <div className="w-full bg-greyscale min-h-screen flex sm:flex-col lg:flex-row">
+    <div className="flex min-h-screen w-full bg-greyscale sm:flex-col lg:flex-row">
       {children}
     </div>
   );

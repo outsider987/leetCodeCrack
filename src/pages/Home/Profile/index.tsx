@@ -86,27 +86,27 @@ const Profile = () => {
   const content = {
     desktop: () => {
       return (
-        <div className="animate-fade_in flex flex-col space-y-4">
-          <div className="  justify-around flex items-center space-x-6 lg:max-w-[70vw]">
+        <div className="flex animate-fade_in flex-col space-y-4">
+          <div className="  flex items-center justify-around space-x-6 lg:max-w-[70vw]">
             <img
               className="w-[15vw] rounded-full"
               src={require('~/assets/img/me.jpg')}
             />
-            <div className="text-white h-full flex flex-col space-y-3">
+            <div className="flex h-full flex-col space-y-3 text-white">
               <h1 className="text-3xl font-bold">{name}</h1>
-              <div className=" leading-[1.5rem] tracking-wide font-light text-gray-400">
+              <div className=" font-light leading-[1.5rem] tracking-wide text-gray-400">
                 {contentDescr}
               </div>
               <div className="flex">
-                <a href='https://micro-react.herokuapp.com/'>
+                <a href="https://micro-react.herokuapp.com/">
                   <SvgICon name="story" />
                 </a>
               </div>
             </div>
           </div>
-          <div className="flex min-h-[50vh] flex-col space-y-6 overflow-auto max-h-[50vh] max-w-[75vw]">
-            <h1 className="text-white text-2xl font-bold"> EMPLOYMENT</h1>
-            <div className="grid grid-cols-2 gap-6 m-10">
+          <div className="flex max-h-[50vh] min-h-[50vh] max-w-[75vw] flex-col space-y-6 overflow-auto">
+            <h1 className="text-2xl font-bold text-white"> EMPLOYMENT</h1>
+            <div className="m-10 grid grid-cols-2 gap-6">
               {list.map((item) => (
                 <Employment {...item} />
               ))}
@@ -119,14 +119,14 @@ const Profile = () => {
       return (
         <div className="animate-fade_in overflow-auto opacity-100">
           <div className="flex flex-col space-y-4 sm:mr-2 ">
-            <div className=" justify-around flex flex-col items-center space-x-6 lg:max-w-[70vw]">
+            <div className=" flex flex-col items-center justify-around space-x-6 lg:max-w-[70vw]">
               <img
                 className="w-[15vw] rounded-full"
                 src={require('~/assets/img/me.jpg')}
               />
-              <div className="text-white h-full flex flex-col space-y-3">
-                <h1 className="text-xl font-bold text-center">{name}</h1>
-                <div className="leading-[1.5rem] tracking-wide font-light text-gray-400">
+              <div className="flex h-full flex-col space-y-3 text-white">
+                <h1 className="text-center text-xl font-bold">{name}</h1>
+                <div className="font-light leading-[1.5rem] tracking-wide text-gray-400">
                   {contentDescr}
                 </div>
                 <div className="flex">
@@ -137,7 +137,7 @@ const Profile = () => {
               </div>
             </div>
             <div className="flex min-h-[50vh] flex-col space-y-6 ">
-              <h1 className="text-white text-2xl font-bold"> EMPLOYMENT</h1>
+              <h1 className="text-2xl font-bold text-white"> EMPLOYMENT</h1>
               <div className="flex flex-col gap-6 ">
                 {list.map((item) => (
                   <Employment {...item} />

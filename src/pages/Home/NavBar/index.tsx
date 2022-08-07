@@ -27,10 +27,10 @@ const NavBar = () => {
   const layouts = {
     desktop: () => (
       <div
-        className="w-full min-h-screen bg-navbar
-        max-w-navbar_desktop_w hidden lg:block relative "
+        className="relative hidden min-h-screen
+        w-full max-w-navbar_desktop_w bg-navbar lg:block "
       >
-        <div className="w-[1px] absolute -right-[1px] bg-black bg-opacity-20" />
+        <div className="absolute -right-[1px] w-[1px] bg-black bg-opacity-20" />
         {/* desktop */}
         <div className="px-[1.66vw] py-[37px]">
           <div className="mb-[5vh]">
@@ -38,8 +38,8 @@ const NavBar = () => {
           </div>
 
           <div
-            className="hidden lg:flex flex-col
-        space-y-6 items-center"
+            className="hidden flex-col items-center
+        space-y-6 lg:flex"
           >
             {HomeRoute.children.map((item) => (
               <NavBarItem
@@ -57,13 +57,13 @@ const NavBar = () => {
     ),
     mobile: () => (
       <div>
-        <div className=" bg-navbar fixed h-m-navbar-desktop-h w-full">
+        <div className=" fixed h-m-navbar-desktop-h w-full bg-navbar">
           <SvgICon
             onClick={onMobileMenuClick}
-            className="text-white justify-end"
+            className="justify-end text-white"
             name="menu"
           />
-          <div className={`w-full bg-navbar space-y-3 ${mobildContentClass}`}>
+          <div className={`w-full space-y-3 bg-navbar ${mobildContentClass}`}>
             {HomeRoute.children.map((item) => (
               <NavBarItem
                 onClick={onMobileMenuClick}
