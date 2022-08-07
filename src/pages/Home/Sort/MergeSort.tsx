@@ -10,8 +10,8 @@ export interface BoxState {
 }
 
 const MergeSort = () => {
-    console.log('Merge Rerender');
-  const refArray = useRef<number[]>(getRandomNoDuplicateArray(99));
+  console.log('Merge Rerender');
+  const refArray = useRef<number[]>(getRandomNoDuplicateArray(80));
   const [tempArray, setTempArray] = useState(refArray.current);
 
   const merge = async (left: number[], right: number[]) => {
@@ -69,6 +69,7 @@ const MergeSort = () => {
   const content = {
     desktop: () => (
       <LayoutSort
+        title="MergeSort"
         isDesktop={true}
         boxDatas={refArray.current}
         onStart={onStart}
@@ -76,6 +77,7 @@ const MergeSort = () => {
     ),
     mobile: () => (
       <LayoutSort
+        title="MergeSort"
         isDesktop={false}
         boxDatas={refArray.current}
         onStart={onStart}

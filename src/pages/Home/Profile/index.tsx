@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import LayoutDivider from '~/components/LayoutDivider';
-import Employment, { Props } from './Employment';
+import SvgICon from '~/components/SvgIcon';
+import Employment, { Props } from '../../../components/Employment';
 
 const Profile = () => {
   const list = [
@@ -85,10 +86,7 @@ const Profile = () => {
   const content = {
     desktop: () => {
       return (
-
         <div className="animate-fade_in flex flex-col space-y-4">
-
-
           <div className="  justify-around flex items-center space-x-6 lg:max-w-[70vw]">
             <img
               className="w-[15vw] rounded-full"
@@ -98,6 +96,11 @@ const Profile = () => {
               <h1 className="text-3xl font-bold">{name}</h1>
               <div className=" leading-[1.5rem] tracking-wide font-light text-gray-400">
                 {contentDescr}
+              </div>
+              <div className="flex">
+                <a href='https://micro-react.herokuapp.com/'>
+                  <SvgICon name="story" />
+                </a>
               </div>
             </div>
           </div>
@@ -114,9 +117,7 @@ const Profile = () => {
     },
     mobile: () => {
       return (
-
         <div className="animate-fade_in overflow-auto opacity-100">
-
           <div className="flex flex-col space-y-4 sm:mr-2 ">
             <div className=" justify-around flex flex-col items-center space-x-6 lg:max-w-[70vw]">
               <img
@@ -127,6 +128,11 @@ const Profile = () => {
                 <h1 className="text-xl font-bold text-center">{name}</h1>
                 <div className="leading-[1.5rem] tracking-wide font-light text-gray-400">
                   {contentDescr}
+                </div>
+                <div className="flex">
+                  <a>
+                    <SvgICon name="story" />
+                  </a>
                 </div>
               </div>
             </div>

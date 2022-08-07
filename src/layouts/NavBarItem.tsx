@@ -24,7 +24,7 @@ const NavBarItem: React.FC<Props> = ({
   }
   return (
     <Link
-    onClick={onClick}
+      onClick={onClick}
       to={path}
       className="flex flex-col justify-center relative
     items-center"
@@ -47,7 +47,7 @@ const NavBarItem: React.FC<Props> = ({
         className="min-h-[18px] tracking-[0.4px] text-xs text-center
         leading-[150%] text-white"
       >
-        { text}
+        {text}
       </span>
     </Link>
   );

@@ -3328,12 +3328,13 @@ optionator@^0.9.1:
     type-check "^0.4.0"
     word-wrap "^1.2.3"
 
-outsiderreact@^1.1.5:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/outsiderreact/-/outsiderreact-1.1.5.tgz#c0b3915e67a03c662c0c15bd0198a796ad03a938"
-  integrity sha512-TWObePhc/Ny58Gkn9GI91UB6GucF/QMxtmBRA5pkal8zG6jNFdSQuGDAHuPn0JO2QpjsxHx0H94bya+G9RLc9A==
+outsiderreact@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/outsiderreact/-/outsiderreact-1.3.3.tgz#eb710e0052d9ba8d57e384d339baeb483c640931"
+  integrity sha512-uQ0EpAkqjKtH1+D8IUEhi7V7d1neyKvoyRaL1xc4iIKcG14+TigJ/0nqilGKc26tFhHurF6fcr4A5njhxBLreQ==
   dependencies:
     eslint-plugin-tailwindcss "^3.6.0"
+    express "^4.18.1"
 
 p-limit@^2.2.0:
   version "2.3.0"

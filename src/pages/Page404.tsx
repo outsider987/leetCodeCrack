@@ -1,19 +1,16 @@
 import React from 'react';
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
-import Wrapper from './Home/Wrapper';
-
-
+import HomeWrapper from '~/layouts/HomeWrapper';
 
 const Page404 = () => {
-  
   const contentContainer =
     location.pathname === '/tags'
       ? 'content_tags_container'
       : 'content_container';
   return (
-    <Wrapper>
+    <HomeWrapper>
       <div>404</div>
-    </Wrapper>
+    </HomeWrapper>
   );
 };
 export default Page404;

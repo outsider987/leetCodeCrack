@@ -4,11 +4,11 @@
 
 @layer components {
   .content_container {
-    @apply sm:h-full sm:p-3 sm:pt-m_navbar_desktop_h;
-    @apply lg:p-0 lg:pl-[9.09vw] lg:pt-[3vh]  w-full  lg:max-w-[730px];
+    @apply h-0 sm:pt-m-navbar-desktop-h sm:min-h-[calc(100vh-theme('spacing.m-navbar-desktop-h'))];
+    @apply w-full  lg:max-w-[70vw] mx-auto lg:pt-4 lg:min-h-[calc(100vh-theme('spacing.4'))];
   }
   .content_tags_container {
-    @apply m-auto sm:p-3 sm:pt-m_navbar_desktop_h;
+    @apply m-auto sm:p-3 sm:pt-m-navbar-desktop-h;
     @apply lg:ml-[9.09vw] lg:pt-20 w-full h-full flex;
   }
   .slide_group {

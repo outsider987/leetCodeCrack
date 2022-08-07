@@ -27,7 +27,9 @@ const Employment: React.FC<Props> = (props) => {
       <ul className="list-disc list-inside space-y-1  ">
         <li>
           Skill:
-          <span className="leading-6 text-blue-400 break-words">{props.skill}</span>
+          <span className="leading-6 text-blue-400 break-words">
+            {props.skill}
+          </span>
         </li>
         <li>
           Responsible:
@@ -35,7 +37,13 @@ const Employment: React.FC<Props> = (props) => {
             {props.responsible.map((item) => (
               <li className="text-gray-400 font-light">
                 {item.content}{' '}
-                <a target='blank' className=" text-blue-800 font-semibold" href={item.link}>{item.link!==`` && '(Link)'}</a>
+                <a
+                  target="blank"
+                  className=" text-blue-800 font-semibold"
+                  href={item.link}
+                >
+                  {item.link !== `` && '(Link)'}
+                </a>
               </li>
             ))}
           </ul>

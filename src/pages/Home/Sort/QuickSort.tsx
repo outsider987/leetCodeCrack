@@ -11,7 +11,7 @@ export interface BoxState {
 const MemoChild = memo(LayoutSort);
 const QuickSort = () => {
   console.log('QuickSort Rerender');
-  const refArray = useRef<number[]>(getRandomNoDuplicateArray(99));
+  const refArray = useRef<number[]>(getRandomNoDuplicateArray(80));
   const [tempArray, setTempArray] = useState(refArray.current);
   const BoxDatas = useCallback(() => refArray.current, [refArray.current]);
 
@@ -67,6 +67,7 @@ const QuickSort = () => {
   const content = {
     desktop: () => (
       <LayoutSort
+        title="QuickSort"
         isDesktop={true}
         boxDatas={refArray.current}
         onStart={onStart}
@@ -74,6 +75,7 @@ const QuickSort = () => {
     ),
     mobile: () => (
       <LayoutSort
+        title="QuickSort"
         isDesktop={false}
         boxDatas={refArray.current}
         onStart={onStart}

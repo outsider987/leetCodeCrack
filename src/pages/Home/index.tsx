@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
+import HomeWrapper from '~/layouts/HomeWrapper';
 import NavBar from './NavBar';
-import Wrapper from './Wrapper';
 
 const Home = () => {
   const contentContainer =
@@ -10,7 +10,7 @@ const Home = () => {
       : 'content_container';
   console.log(location.pathname);
   return (
-    <Wrapper>
+    <HomeWrapper>
       <NavBar></NavBar>
       <div className={contentContainer}>
         {useLocation().pathname !== '/' ? (
@@ -20,7 +20,7 @@ const Home = () => {
         )}
         {/* <Outlet /> */}
       </div>
-    </Wrapper>
+    </HomeWrapper>
   );
 };
 export default Home;

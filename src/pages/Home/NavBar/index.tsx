@@ -3,10 +3,10 @@ import { useLocation } from 'react-router-dom';
 import LayoutDivider from '~/components/LayoutDivider';
 import SvgICon from '~/components/SvgIcon';
 import { HomeRoute, routes } from '~/router';
-import NavBarItem from './NavBarItem';
+import NavBarItem from '../../../layouts/NavBarItem';
 
 const NavBar = () => {
-    console.log('NavBar Render');
+  console.log('NavBar Render');
   const [toggelMenu, setToggelMenu] = useState(false);
   const [mobildContentClass, setMobildContentClass] = useState('hidden');
 
@@ -21,11 +21,8 @@ const NavBar = () => {
     );
   }, [toggelMenu]);
   useEffect(() => {
-    setMobildContentClass(
-     'hidden'
-    );
+    setMobildContentClass('hidden');
   }, []);
-
 
   const layouts = {
     desktop: () => (
@@ -60,7 +57,7 @@ const NavBar = () => {
     ),
     mobile: () => (
       <div>
-        <div className=" bg-navbar fixed h-m_navbar_desktop_h w-full">
+        <div className=" bg-navbar fixed h-m-navbar-desktop-h w-full">
           <SvgICon
             onClick={onMobileMenuClick}
             className="text-white justify-end"

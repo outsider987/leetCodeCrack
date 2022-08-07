@@ -1,9 +1,9 @@
 import React, { Suspense } from 'react';
 import { useRoutes } from 'react-router-dom';
-import Home from '~/views/Home';
-import Sort from '~/views/Home/Sort';
-import QuickSort from '~/views/Home/Sort/QuickSort';
-import Page404 from '~/views/Page404';
+import Home from '~/pages/Home';
+import Sort from '~/pages/Home/Sort';
+import QuickSort from '~/pages/Home/Sort/QuickSort';
+import Page404 from '~/pages/Page404';
 
 QuickSort;
 
@@ -18,19 +18,19 @@ const lazyLoad = (
 };
 const HomeRoute = {
   path: '/',
-  element: lazyLoad(React.lazy(() => import('~/views/Home'))),
+  element: lazyLoad(React.lazy(() => import('~/pages/Home'))),
   icon: 'logo',
   children: [
     {
       path: '/profile',
-      element: lazyLoad(React.lazy(() => import('~/views/Home/Profile'))),
+      element: lazyLoad(React.lazy(() => import('~/pages/Home/Profile'))),
       icon: 'template',
       isShow: true,
       text: 'profile',
     },
     {
       path: '/sort',
-      element: lazyLoad(React.lazy(() => import('~/views/Home/Sort'))),
+      element: lazyLoad(React.lazy(() => import('~/pages/Home/Sort'))),
       icon: 'template',
       isShow: true,
       text: 'Sort',
@@ -38,7 +38,7 @@ const HomeRoute = {
         {
           path: '/sort/quicksort',
           element: lazyLoad(
-            React.lazy(() => import('~/views/Home/Sort/QuickSort'))
+            React.lazy(() => import('~/pages/Home/Sort/QuickSort'))
           ),
           icon: 'template',
           isShow: true,
@@ -47,7 +47,7 @@ const HomeRoute = {
         {
           path: '/sort/mergesort',
           element: lazyLoad(
-            React.lazy(() => import('~/views/Home/Sort/MergeSort'))
+            React.lazy(() => import('~/pages/Home/Sort/MergeSort'))
           ),
           icon: 'template',
           isShow: true,
@@ -56,12 +56,12 @@ const HomeRoute = {
       ],
     },
     {
-        path: '/member',
-        element: lazyLoad(React.lazy(() => import('~/views/Home/Member'))),
-        icon: 'template',
-        isShow: true,
-        text: 'member',
-      },
+      path: '/member',
+      element: lazyLoad(React.lazy(() => import('~/pages/Home/Member'))),
+      icon: 'template',
+      isShow: true,
+      text: 'member',
+    },
   ],
 };
 const routes = [

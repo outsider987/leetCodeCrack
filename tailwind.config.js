@@ -1,4 +1,3 @@
-const { join } = require('path');
 module.exports = {
   purge: ['./src/**/*.{js,jsx,ts,tsx}', 
   './public/index.html','./node_modules/outsiderreact/dist/**/*.{ts,js}'],
@@ -14,8 +13,8 @@ module.exports = {
         slider_bar_r: '#FFD25F',
       },
       spacing: {
-        navbar_desktop_w: '5rem',
-        m_navbar_desktop_h: '8vh',
+        'navbar-desktop-w': '5rem',
+        'm-navbar-desktop-h': '8vh',
       },
       maxWidth: {
         navbar_desktop_w: '5rem',
@@ -37,12 +36,12 @@ module.exports = {
         menu_collpase_on: {
           '0%': { height: '0vh', opacity: 0 },
           '100%': { height: '50vh',opacity: 100 },
-        //   '100%': { height: '50vh', opacity: 100 },
+        
         },
         menu_collpase_off: {
           '0%': { height: '50vh', opacity: 100 },
           '100%': { height: '0vh', opacity: 0 },
-        //   '100%': { height: '0vh', opacity: 0, display: 'none' },
+        
         },
       },
       animation: {
@@ -52,7 +51,6 @@ module.exports = {
       },
     },
   },
-  important: true,
   variants: {
     extend: {},
   },
