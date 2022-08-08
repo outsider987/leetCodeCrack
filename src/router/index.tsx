@@ -61,6 +61,17 @@ const HomeRoute = {
       icon: 'template',
       isShow: true,
       text: 'member',
+      children: [
+        {
+          path: '/member/register',
+          element: lazyLoad(
+            React.lazy(() => import('~/pages/Home/Member/Register'))
+          ),
+          icon: 'template',
+          isShow: true,
+          text: 'register',
+        },
+      ],
     },
   ],
 };

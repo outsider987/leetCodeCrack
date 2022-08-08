@@ -1,3 +1,4 @@
+const {keyFrames,animates} = require('outsiderreact/dist/configs/tailwindAnimate')
 module.exports = {
   purge: ['./src/**/*.{js,jsx,ts,tsx}', 
   './public/index.html','./node_modules/outsiderreact/dist/**/*.{ts,js}'],
@@ -29,6 +30,7 @@ module.exports = {
         sm: '280px',
       },
       keyframes: {
+        ...keyFrames,
         fade_in:{
             '0%': { opacity: 0 },
             '100%': { opacity: 100 },
@@ -45,6 +47,7 @@ module.exports = {
         },
       },
       animation: {
+        ...animates,
         menu_collpase_on: 'menu_collpase_on 1s ease-in ',
         menu_collpase_off: 'menu_collpase_off 1s ease-in ',
         fade_in:'fade_in 1s ease-in '

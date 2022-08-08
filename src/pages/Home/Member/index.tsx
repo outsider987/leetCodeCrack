@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-
 import Input from 'outsiderreact/dist/components/Input';
 import Button from 'outsiderreact/dist/components/Button';
+import { Link, Outlet, useLocation } from 'react-router-dom';
+
+import { HomeRoute } from '~/router';
 
 export interface MemberState {
   sort_index: number;
@@ -13,33 +15,43 @@ const Member = () => {
   const [account, setAccount] = useState();
   const [password, setPassword] = useState();
 
+  const isShow = useLocation().pathname === '/member';
   return (
-    <div className="flex h-full w-full ">
-      <form className="m-auto space-y-6">
-        <div className="flex flex-col space-y-5 ">
-          <Input
-            label="Account"
-            className=" w-[50vw] text-white"
-            type="text"
-            setInput={setAccount}
-            value={account}
-            placeholder="Account"
-          />
+    <>
+      {isShow ? (
+        <div className="flex h-full w-full ">
+          <form className="m-auto w-[50vw] space-y-6">
+            <div className="flex flex-col space-y-5 ">
+              <Input
+                label="Account"
+                className="text-white"
+                type="text"
+                setInput={setAccount}
+                value={account}
+                placeholder="Account"
+              />
 
-          <Input
-            label="Password"
-            className=" w-[50vw] text-white"
-            type="text"
-            setInput={setPassword}
-            value={password}
-            placeholder="Password"
-          />
+              <Input
+                label="Password"
+                className="text-white"
+                type="text"
+                setInput={setPassword}
+                value={password}
+                placeholder="Password"
+              />
+            </div>
+            <div className="flex font-bold text-orange-400">
+              <Link to="/member/register">Register?</Link>
+            </div>
+            <div className="flex w-full ">
+              <Button className="m-auto">Submit</Button>
+            </div>
+          </form>
         </div>
-        <div className="flex w-full ">
-          <Button className="m-auto">Submit</Button>
-        </div>
-      </form>
-    </div>
+      ) : (
+        <Outlet />
+      )}
+    </>
   );
 };
 export default Member;

@@ -23,7 +23,7 @@
     "dependencies": {
         "axios": "^0.27.2",
         "express": "^4.18.1",
-        "outsiderreact": "^1.3.3",
+        "outsiderreact": "^1.3.5",
         "path": "^0.12.7",
         "prettier": "^2.6.2"
     },

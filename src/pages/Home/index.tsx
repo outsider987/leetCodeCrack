@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import HomeWrapper from '~/layouts/HomeWrapper';
-import NavBar from './NavBar';
+import NavBar from '../../layouts/NavBar';
 
 const Home = () => {
   const contentContainer =

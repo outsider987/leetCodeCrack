@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import LayoutDivider from '~/components/LayoutDivider';
 import SvgICon from '~/components/SvgIcon';
-import { HomeRoute, routes } from '~/router';
-import NavBarItem from '../../../layouts/NavBarItem';
+import { HomeRoute } from '~/router';
+import NavBarItem from '../NavBarItem';
 
 const NavBar = () => {
   console.log('NavBar Render');
