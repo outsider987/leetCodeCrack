@@ -9,32 +9,61 @@ export interface MemberState {
 }
 
 const Register = () => {
-  const inputChange = () => {};
-  const [account, setAccount] = useState();
-  const [password, setPassword] = useState();
+  const RegisterInitial = {
+    email: '',
+    username: '',
+    password: '',
+    confirmPassword: '',
+  };
+  const [registerState, setRegisterState] = useState(RegisterInitial);
+
+
+  
+  useEffect(() => {
+    console.log(registerState);
+    
+  }, [registerState]);
 
   return (
     <div className="flex h-full w-full ">
       <form className="m-auto w-[50vw] space-y-6">
-        <div className="flex w-full flex-col space-y-5">
+        <div className="flex w-full flex-row space-x-3">
+       
           <Input
             label="@E-mail"
-            className="text-white"
+            className="w-full text-white"
             type="text"
-            setInput={setAccount}
-            value={account}
+            onChange={(e)=>setRegisterState({...registerState,email:e.target.value})}
+            value={registerState.email}
             placeholder="fill your mail"
           />
 
           <Input
-            label="Password"
-            className="text-white"
+            label="Username"
+            className="w-full text-white"
             type="text"
-            setInput={setPassword}
-            value={password}
-            placeholder="Password"
+            onChange={(e)=>setRegisterState({...registerState,username:e.target.value})}
+            value={registerState.username}
+            placeholder="username"
           />
         </div>
+        <Input
+          label="Password"
+          className="w-full text-white"
+          type="text"
+          onChange={(e)=>setRegisterState({...registerState,password:e.target.value})}
+          value={registerState.password}
+          placeholder="Password"
+        />
+        <Input
+          label="Conform Password"
+          className="w-full text-white"
+          type="text"
+          onChange={(e)=>setRegisterState({...registerState,confirmPassword:e.target.value})}
+          value={registerState.confirmPassword}
+          placeholder="Conform Password"
+        />
+
         <div className="flex font-bold text-orange-400">
           <Link to="/member">Login?</Link>
         </div>
