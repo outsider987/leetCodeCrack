@@ -26,7 +26,7 @@ const Member = () => {
                 label="Account"
                 className="text-white"
                 type="text"
-                onChange={(e)=>setAccount(e.target.value)}
+                onChange={(e) => setAccount(e.target.value)}
                 setValueCallBack={setAccount}
                 value={account}
                 placeholder="Account"
@@ -36,7 +36,7 @@ const Member = () => {
                 label="Password"
                 className="text-white"
                 type="text"
-                onChange={(e)=>setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 placeholder="Password"
               />

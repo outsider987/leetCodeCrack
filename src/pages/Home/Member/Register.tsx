@@ -17,23 +17,21 @@ const Register = () => {
   };
   const [registerState, setRegisterState] = useState(RegisterInitial);
 
-
-  
   useEffect(() => {
     console.log(registerState);
-    
   }, [registerState]);
 
   return (
     <div className="flex h-full w-full ">
       <form className="m-auto w-[50vw] space-y-6">
         <div className="flex w-full flex-row space-x-3">
-       
           <Input
             label="@E-mail"
             className="w-full text-white"
             type="text"
-            onChange={(e)=>setRegisterState({...registerState,email:e.target.value})}
+            onChange={(e) =>
+              setRegisterState({ ...registerState, email: e.target.value })
+            }
             value={registerState.email}
             placeholder="fill your mail"
           />
@@ -42,7 +40,9 @@ const Register = () => {
             label="Username"
             className="w-full text-white"
             type="text"
-            onChange={(e)=>setRegisterState({...registerState,username:e.target.value})}
+            onChange={(e) =>
+              setRegisterState({ ...registerState, username: e.target.value })
+            }
             value={registerState.username}
             placeholder="username"
           />
@@ -51,7 +51,9 @@ const Register = () => {
           label="Password"
           className="w-full text-white"
           type="text"
-          onChange={(e)=>setRegisterState({...registerState,password:e.target.value})}
+          onChange={(e) =>
+            setRegisterState({ ...registerState, password: e.target.value })
+          }
           value={registerState.password}
           placeholder="Password"
         />
@@ -59,7 +61,12 @@ const Register = () => {
           label="Conform Password"
           className="w-full text-white"
           type="text"
-          onChange={(e)=>setRegisterState({...registerState,confirmPassword:e.target.value})}
+          onChange={(e) =>
+            setRegisterState({
+              ...registerState,
+              confirmPassword: e.target.value,
+            })
+          }
           value={registerState.confirmPassword}
           placeholder="Conform Password"
         />

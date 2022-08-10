@@ -130,7 +130,7 @@ const Profile = () => {
                   {contentDescr}
                 </div>
                 <div className="flex">
-                  <a>
+                  <a href="https://micro-react.herokuapp.com/">
                     <SvgICon name="story" />
                   </a>
                 </div>
