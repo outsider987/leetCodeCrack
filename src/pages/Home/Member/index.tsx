@@ -27,7 +27,6 @@ const Member = () => {
                 className="text-white"
                 type="text"
                 onChange={(e) => setAccount(e.target.value)}
-                setValueCallBack={setAccount}
                 value={account}
                 placeholder="Account"
               />
