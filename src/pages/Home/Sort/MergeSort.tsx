@@ -3,6 +3,7 @@ import Button from '~/components/Button';
 import LayoutDivider from '~/components/LayoutDivider';
 import SortBox from '~/components/SortBox';
 import LayoutSort from '~/layouts/LayoutSort';
+import { getRandomNoDuplicateArray, sleep } from '~/utils/regular';
 
 export interface BoxState {
   sort_index: number;
@@ -89,14 +90,4 @@ const MergeSort = () => {
 };
 export default MergeSort;
 
-async function sleep(ms: number) {
-  return new Promise((r) => setTimeout(r, ms));
-}
-function getRandomNoDuplicateArray(maxValue: number): number[] {
-  let result: any = [];
-  while (result.length < maxValue) {
-    const randomValu = Math.floor(Math.random() * maxValue) + 1;
-    if (result.indexOf(randomValu) === -1) result.push(randomValu);
-  }
-  return result;
-}
+
