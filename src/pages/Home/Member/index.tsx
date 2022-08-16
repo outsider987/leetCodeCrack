@@ -14,6 +14,9 @@ const Member = () => {
   const inputChange = () => {};
   const [account, setAccount] = useState('');
   const [password, setPassword] = useState('');
+  const onSubmit = (e:React.FormEvent<HTMLButtonElement>)=>{
+    e.preventDefault();
+  }
 
   const isShow = useLocation().pathname === '/member';
   return (
@@ -44,7 +47,7 @@ const Member = () => {
               <Link to="/member/register">Register?</Link>
             </div>
             <div className="flex w-full ">
-              <Button className="m-auto">Submit</Button>
+              <Button onClick={onSubmit} className="m-auto">Submit</Button>
             </div>
           </form>
         </div>

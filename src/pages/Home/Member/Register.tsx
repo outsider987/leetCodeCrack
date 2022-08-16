@@ -4,6 +4,7 @@ import Button from 'outsiderreact/dist/components/Button';
 import { Link } from 'react-router-dom';
 import { validateRegexp, validateMethod } from '~/utils/validate';
 import { usePrevious } from '~/hooks/Previous';
+import { useForm } from '~/hooks/useForm';
 
 export interface MemberState {
   sort_index: number;
@@ -23,28 +24,24 @@ const Register = () => {
     password: '',
     confirmPassword: '',
   };
-  const [registerState, setRegisterState] = useState(RegisterInitial);
+  const {values, handleChange} = useForm<RegisterState>(RegisterInitial);
   const validator = {
     email: [validateRegexp.email],
-    username: [validateRegexp.require,/^([a-zA-Z\d]){15}/],
+    username: [validateRegexp.require, /^([a-zA-Z\d]){15}/],
     password: [validateRegexp.email],
-    confirmPassword: [(data:string)=>data===registerState.password],
+    confirmPassword: [(data: string) => data === values.password],
   };
+
   const [validatorState, setvalidatorState] = useState(RegisterInitial);
- const [test,setTest] = useState(true)
+  const [test, setTest] = useState(true);
 
-  const prevRegisterState = usePrevious(
-    registerState
-  ) as unknown as RegisterState;
 
-  const onSubmit = () => {
-    
-  };
+
+  const onSubmit = () => {};
 
   useEffect(() => {
-    setTest(!test);
-console.log(test);
-  }, [registerState]);
+    
+  }, [values]);
 
   return (
     <div className="flex h-full w-full ">
@@ -54,23 +51,22 @@ console.log(test);
             label="@E-mail"
             className="w-full text-white"
             type="text"
-            onChange={(e) =>
-              setRegisterState({ ...registerState, email: e.target.value })
+            name='email'
+            onChange={handleChange
             }
             pattern="^([a-z\d\.-])@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$"
-            value={registerState.email}
+            value={values.email}
             placeholder="fill your mail"
-            max={2}
           />
-{test &&'1212123'}
+
           <Input
             label="Username"
             className="w-full text-white"
             type="text"
-            onChange={(e) =>
-              setRegisterState({ ...registerState, username: e.target.value })
+            name='username'
+            onChange={handleChange
             }
-            value={registerState.username}
+            value={values.username}
             placeholder="username"
           />
         </div>
@@ -78,23 +74,20 @@ console.log(test);
           label="Password"
           className="w-full text-white"
           type="text"
-          onChange={(e) =>
-            setRegisterState({ ...registerState, password: e.target.value })
+          name='password'
+          onChange={handleChange
           }
-          value={registerState.password}
+          value={values.password}
           placeholder="Password"
         />
         <Input
           label="Conform Password"
           className="w-full text-white"
           type="text"
-          onChange={(e) =>
-            setRegisterState({
-              ...registerState,
-              confirmPassword: e.target.value,
-            })
+          name='confirmPassword'
+          onChange={handleChange
           }
-          value={registerState.confirmPassword}
+          value={values.confirmPassword}
           placeholder="Conform Password"
         />
 
