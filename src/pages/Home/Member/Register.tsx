@@ -10,13 +10,6 @@ export interface MemberState {
   sort_index: number;
   value: number;
 }
-interface RegisterState {
-  email: string;
-  username: string;
-  password: string;
-  confirmPassword: string;
-}
-
 const Register = () => {
   const RegisterInitial = {
     email: '',
@@ -31,28 +24,23 @@ const Register = () => {
       { validate: /^([a-zA-Z\d]){15}/.test, message: '' },
     ],
     password: [{ validate: validateRegexp.password, message: '' }],
-    confirmPassword: [
-        { validate: validateRegexp.require, message: '' },
-    ],
+    confirmPassword: [{ validate: (data:string)=>data===validator.values.password, message: '' }],
   };
 
-  const { validator ,handleSubmit} = useMyForm(RegisterInitial, validaList);
-  
-//   const { register, handleSubmit, formState } = useForm();
+  const { validator, handleSubmit } = useMyForm(RegisterInitial, validaList);
 
-  const onSubmit = handleSubmit((t) => {
-    alert(JSON.stringify(t));
+  const onSubmit = handleSubmit((data) => {
+      alert(JSON.stringify(data));
+      
   });
-    // const onSubmit = (e: React.FormEvent<HTMLElement>) => {
-    //   e.preventDefault();
-    // };
+
 
   return (
     <div className="flex h-full w-full ">
       <form onSubmit={onSubmit} className="m-auto w-[50vw] space-y-6">
         <div className="flex w-full sm:flex-col sm:space-x-0 lg:flex-row lg:space-x-3">
           <Input
-            // {...register('email')}
+         
             label="@E-mail"
             className="w-full text-white"
             type="text"
