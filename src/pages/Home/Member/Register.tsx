@@ -2,9 +2,9 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Input from 'outsiderreact/dist/components/Input';
 import Button from 'outsiderreact/dist/components/Button';
 import { Link } from 'react-router-dom';
-import { validateRegexp, validateMethod } from '~/utils/validate';
-import { usePrevious } from '~/hooks/Previous';
-import { useForm } from '~/hooks/useForm';
+import { validateRegexp } from '~/utils/validate';
+import { useForm } from 'react-hook-form';
+import { useMyForm, ValidateType, ErrorType } from '~/hooks/useMyForm';
 
 export interface MemberState {
   sort_index: number;
@@ -24,38 +24,41 @@ const Register = () => {
     password: '',
     confirmPassword: '',
   };
-  const {values, handleChange} = useForm<RegisterState>(RegisterInitial);
-  const validator = {
-    email: [validateRegexp.email],
-    username: [validateRegexp.require, /^([a-zA-Z\d]){15}/],
-    password: [validateRegexp.email],
-    confirmPassword: [(data: string) => data === values.password],
+  const validaList = {
+    email: [{ validate: validateRegexp.email, message: '' }],
+    username: [
+      { validate: validateRegexp.require, message: '' },
+      { validate: /^([a-zA-Z\d]){15}/.test, message: '' },
+    ],
+    password: [{ validate: validateRegexp.password, message: '' }],
+    confirmPassword: [
+        { validate: validateRegexp.require, message: '' },
+    ],
   };
 
-  const [validatorState, setvalidatorState] = useState(RegisterInitial);
-  const [test, setTest] = useState(true);
+  const { validator ,handleSubmit} = useMyForm(RegisterInitial, validaList);
+  
+//   const { register, handleSubmit, formState } = useForm();
 
-
-
-  const onSubmit = () => {};
-
-  useEffect(() => {
-    
-  }, [values]);
+  const onSubmit = handleSubmit((t) => {
+    alert(JSON.stringify(t));
+  });
+    // const onSubmit = (e: React.FormEvent<HTMLElement>) => {
+    //   e.preventDefault();
+    // };
 
   return (
     <div className="flex h-full w-full ">
-      <form className="m-auto w-[50vw] space-y-6">
+      <form onSubmit={onSubmit} className="m-auto w-[50vw] space-y-6">
         <div className="flex w-full sm:flex-col sm:space-x-0 lg:flex-row lg:space-x-3">
           <Input
+            // {...register('email')}
             label="@E-mail"
             className="w-full text-white"
             type="text"
-            name='email'
-            onChange={handleChange
-            }
-            pattern="^([a-z\d\.-])@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$"
-            value={values.email}
+            name="email"
+            onChange={validator.handleChange}
+            value={validator.values.email}
             placeholder="fill your mail"
           />
 
@@ -63,10 +66,9 @@ const Register = () => {
             label="Username"
             className="w-full text-white"
             type="text"
-            name='username'
-            onChange={handleChange
-            }
-            value={values.username}
+            name="username"
+            onChange={validator.handleChange}
+            value={validator.values.username}
             placeholder="username"
           />
         </div>
@@ -74,20 +76,18 @@ const Register = () => {
           label="Password"
           className="w-full text-white"
           type="text"
-          name='password'
-          onChange={handleChange
-          }
-          value={values.password}
+          name="password"
+          onChange={validator.handleChange}
+          value={validator.values.password}
           placeholder="Password"
         />
         <Input
           label="Conform Password"
           className="w-full text-white"
           type="text"
-          name='confirmPassword'
-          onChange={handleChange
-          }
-          value={values.confirmPassword}
+          name="confirmPassword"
+          onChange={validator.handleChange}
+          value={validator.values.confirmPassword}
           placeholder="Conform Password"
         />
 
@@ -95,7 +95,7 @@ const Register = () => {
           <Link to="/member">Login?</Link>
         </div>
         <div className="flex w-full ">
-          <Button onClick={onSubmit} className="m-auto">
+          <Button type="submit" className="m-auto">
             Submit
           </Button>
         </div>

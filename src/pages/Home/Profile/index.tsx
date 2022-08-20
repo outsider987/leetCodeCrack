@@ -139,8 +139,8 @@ const Profile = () => {
             <div className="flex min-h-[50vh] flex-col space-y-6 ">
               <h1 className="text-2xl font-bold text-white"> EMPLOYMENT</h1>
               <div className="flex flex-col gap-6 ">
-                {list.map((item) => (
-                  <Employment {...item} />
+                {list.map((item,index) => (
+                  <Employment key={index} {...item} />
                 ))}
               </div>
             </div>

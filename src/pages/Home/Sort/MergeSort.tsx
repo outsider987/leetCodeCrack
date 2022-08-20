@@ -89,5 +89,3 @@ const MergeSort = () => {
   return <LayoutDivider {...content} />;
 };
 export default MergeSort;
-
-
