@@ -10,8 +10,6 @@ interface Props {
 }
 
 const LayoutSort: React.FC<Props> = (props) => {
-  console.log(props.isDesktop);
-
   if (props.isDesktop) {
     return (
       <div className="flex h-[90vh]  flex-row">

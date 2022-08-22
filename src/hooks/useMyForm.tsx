@@ -1,8 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-} from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { usePrevious } from './Previous';
 export interface validate {
   validate: (string: string) => boolean;
@@ -22,45 +18,52 @@ export type ErrorType<T> = {
 
 export const useForm = <T extends Record<any, any>, K extends keyof any>(
   initialStates: T,
-  validateList?: ValidateType<T>
+  validateList?: ValidateType<T>,
+  isStrean: boolean = true
 ) => {
   const isSubmitted = useRef(false);
   const [values, setValues] = useState(initialStates);
-  const initializeErrors: ErrorType<T> =
-    initialStates as unknown as ErrorType<T>;
+  const initializeErrors: ErrorType<T> = initialStates ;
   const [errors, setErrors] = useState(initializeErrors);
-
-  useEffect(() => {}, [errors, isSubmitted]);
+  const refErrors = useRef(errors);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
-    setValues({ ...values, [name]: value });
+    
+    setValues({ ...values, [name]: value.replace(/\s/g, '') });
   };
 
-  useEffect(() => {}, [errors]);
-
-  const handleSubmit = (data: (data?: T) => void) => {
+  const validating = () => {
     if (isSubmitted.current) {
-      isSubmitted.current = false;
-    }
-
-    if (validateList) {
-      for (const [key, vList] of Object.entries(validateList)) {
-        // v.validate(values);
-          for (let v of vList) {
-            //   v.validate(values[key]);
-            
-            console.log(`${key}${typeof(v.validate)}`);
-            console.log(v.validate(values[key]));
-            // console.log(v.validate(values[key]))
-         
+      if (validateList) {
+        for (const [key, vList] of Object.entries(validateList)) {
+          for (const v of vList) {
+            v.validate(values[key])
+              ? (refErrors.current = {
+                  ...refErrors.current,
+                  [key]: { pass: v.validate(values[key]), message: '' },
+                })
+              : (refErrors.current = {
+                  ...refErrors.current,
+                  [key]: { pass: v.validate(values[key]), message: v.message },
+                });
+          }
         }
+        setErrors(refErrors.current);
+        isStrean ? (isSubmitted.current = true) : (isSubmitted.current = false);
       }
     }
+  };
 
+  useEffect(() => {
+    validating();
+  }, [values]);
+
+  const handleSubmit = (data: (data?: T) => void) => {
     return (event: React.FormEvent<HTMLElement>) => {
       event.preventDefault();
       isSubmitted.current = true;
+      validating();
       data(values);
     };
   };

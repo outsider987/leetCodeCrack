@@ -8,7 +8,7 @@ const Home = () => {
     useLocation().pathname === '/profile'
       ? 'content_tags_container'
       : 'content_container';
-  console.log(location.pathname);
+
   return (
     <HomeWrapper>
       <NavBar></NavBar>

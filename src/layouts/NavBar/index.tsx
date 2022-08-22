@@ -6,7 +6,6 @@ import { HomeRoute } from '~/router';
 import NavBarItem from '../NavBarItem';
 
 const NavBar = () => {
-  console.log('NavBar Render');
   const [toggelMenu, setToggelMenu] = useState(false);
   const [mobildContentClass, setMobildContentClass] = useState('hidden');
 
@@ -64,10 +63,10 @@ const NavBar = () => {
             name="menu"
           />
           <div className={`w-full space-y-3 bg-navbar ${mobildContentClass}`}>
-            {HomeRoute.children.map((item) => (
+            {HomeRoute.children.map((item, index) => (
               <NavBarItem
                 onClick={onMobileMenuClick}
-                key={item.path}
+                key={index}
                 isShow={item.isShow}
                 iconName={item.icon}
                 path={item.path}

@@ -12,8 +12,8 @@ const Button: React.FC<Props> = ({
   children,
   className,
   onClick,
-  isRounded,
-  isWhite,
+  isRounded = true,
+  isWhite = true,
 }) => {
   const whiteClass = `bg-white 
    text-[#121212] hover:bg-[#121212] hover:text-white`;

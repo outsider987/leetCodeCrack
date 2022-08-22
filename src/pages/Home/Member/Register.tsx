@@ -17,19 +17,21 @@ const Register = () => {
     confirmPassword: '',
   };
   const validaList = {
-    email: [{ validate: validateRegexp.email, message: '' }],
+    email: [{ validate: validateRegexp.email, message: 'wrong format' }],
     username: [
-      { validate: validateRegexp.require, message: '' },
+      { validate: validateRegexp.require, message: 'need value' },
       {
-        validate: RegexpBindFactory(/^([a-zA-Z\d]){15}/),
-        message: '',
+        validate: RegexpBindFactory(/^([a-zA-Z\d]){2,15}/),
+        message: 'nee 15 ',
       },
     ],
-    password: [{ validate: validateRegexp.password, message: '' }],
+    password: [
+      { validate: validateRegexp.password, message: 'password wong format' },
+    ],
     confirmPassword: [
       {
         validate: (data: string) => data === validator.values.password,
-        message: '',
+        message: 'not same pasword',
       },
     ],
   };
@@ -44,25 +46,31 @@ const Register = () => {
     <div className="flex h-full w-full ">
       <form onSubmit={onSubmit} className="m-auto w-[50vw] space-y-6">
         <div className="flex w-full sm:flex-col sm:space-x-0 lg:flex-row lg:space-x-3">
-          <Input
-            label="@E-mail"
-            className="w-full text-white"
-            type="text"
-            name="email"
-            onChange={validator.handleChange}
-            value={validator.values.email}
-            placeholder="fill your mail"
-          />
-
-          <Input
-            label="Username"
-            className="w-full text-white"
-            type="text"
-            name="username"
-            onChange={validator.handleChange}
-            value={validator.values.username}
-            placeholder="username"
-          />
+          <div className="flex w-full flex-col">
+            <Input
+              label="@E-mail"
+              className="w-full text-white"
+              type="text"
+              name="email"
+              onChange={validator.handleChange}
+              value={validator.values.email}
+              placeholder="fill your mail"
+            />
+             <span className=' text-orange-500'> {validator.errors.email.message}</span>
+          </div>
+          <div className="flex w-full flex-col">
+            <Input
+              label="Username"
+              className="w-full text-white"
+              type="text"
+              name="username"
+              onChange={validator.handleChange}
+              value={validator.values.username}
+              placeholder="username"
+            />
+              <span className=' text-orange-500'> {validator.errors.username.message}</span>
+          </div>
+        
         </div>
         <Input
           label="Password"
@@ -73,7 +81,9 @@ const Register = () => {
           value={validator.values.password}
           placeholder="Password"
         />
+        <span className=' text-orange-500'> {validator.errors.password.message}</span>
         <Input
+        // onInput={(e)=>e.currentTarget.value.replace(/\s/g, '')}
           label="Conform Password"
           className="w-full text-white"
           type="text"
@@ -82,7 +92,7 @@ const Register = () => {
           value={validator.values.confirmPassword}
           placeholder="Conform Password"
         />
-
+        <span className=' text-orange-500'> {validator.errors.confirmPassword.message}</span>
         <div className="flex font-bold text-orange-400">
           <Link to="/member">Login?</Link>
         </div>

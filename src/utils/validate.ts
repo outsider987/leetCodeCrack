@@ -1,6 +1,6 @@
 export const validateRegexp = {
   email: RegexpBindFactory(
-    /^([a-z\d\.-])@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/
+    /^\w+((-\w+)|(\.\w+))*\@\w+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/
   ),
   require: RegexpBindFactory(/\w+/),
   password: RegexpBindFactory(/(?=.*\d)(?=.*[a-z])(?=.*\[A-Z]).{6,15}$/),
