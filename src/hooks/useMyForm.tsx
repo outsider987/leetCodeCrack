@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { usePrevious } from './Previous';
 export interface validate {
-  validate: (d: string) => boolean;
+  validate: (string: string) => boolean;
   message: string;
 }
 export interface errors {
@@ -47,11 +47,15 @@ export const useMyForm = <T extends Record<any, any>, K extends keyof any>(
     }
 
     if (validateList) {
-      for (const [index, vList] of Object.entries(validateList)) {
+      for (const [key, vList] of Object.entries(validateList)) {
         // v.validate(values);
           for (let v of vList) {
-            //   v.validate(values['email']);
-              console.log(values['email'])
+            //   v.validate(values[key]);
+            
+            console.log(`${key}${typeof(v.validate)}`);
+            console.log(v.validate(values[key]));
+            // console.log(v.validate(values[key]))
+         
         }
       }
     }
