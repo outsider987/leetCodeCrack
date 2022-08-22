@@ -2,9 +2,8 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Input from 'outsiderreact/dist/components/Input';
 import Button from 'outsiderreact/dist/components/Button';
 import { Link } from 'react-router-dom';
-import { validateRegexp } from '~/utils/validate';
-import { useForm } from 'react-hook-form';
-import { useMyForm, ValidateType, ErrorType } from '~/hooks/useMyForm';
+import { validateRegexp, RegexpBindFactory } from '~/utils/validate';
+import { useForm } from '~/hooks/useMyForm';
 
 export interface MemberState {
   sort_index: number;
@@ -22,7 +21,7 @@ const Register = () => {
     username: [
       { validate: validateRegexp.require, message: '' },
       {
-        validate: /^([a-zA-Z\d]){15}/.test.bind(/^([a-zA-Z\d]){15}/),
+        validate: RegexpBindFactory(/^([a-zA-Z\d]){15}/),
         message: '',
       },
     ],
@@ -35,7 +34,7 @@ const Register = () => {
     ],
   };
 
-  const { validator, handleSubmit } = useMyForm(RegisterInitial, validaList);
+  const { validator, handleSubmit } = useForm(RegisterInitial, validaList);
 
   const onSubmit = handleSubmit((data) => {
     alert(JSON.stringify(data));

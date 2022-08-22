@@ -1,8 +1,6 @@
 import React, {
-  useCallback,
   useEffect,
   useState,
-  useMemo,
   useRef,
 } from 'react';
 import { usePrevious } from './Previous';
@@ -22,7 +20,7 @@ export type ErrorType<T> = {
   [P in keyof T]: errors;
 };
 
-export const useMyForm = <T extends Record<any, any>, K extends keyof any>(
+export const useForm = <T extends Record<any, any>, K extends keyof any>(
   initialStates: T,
   validateList?: ValidateType<T>
 ) => {

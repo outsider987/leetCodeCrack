@@ -1,9 +1,11 @@
 export const validateRegexp = {
-  email: /^([a-z\d\.-])@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/.test.bind(
+  email: RegexpBindFactory(
     /^([a-z\d\.-])@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/
   ),
-  require: /\w+/.test.bind(/\w+/),
-  password: /(?=.*\d)(?=.*[a-z])(?=.*\[A-Z]).{6,15}$/.test.bind(
-    /(?=.*\d)(?=.*[a-z])(?=.*\[A-Z]).{6,15}$/
-  ),
+  require: RegexpBindFactory(/\w+/),
+  password: RegexpBindFactory(/(?=.*\d)(?=.*[a-z])(?=.*\[A-Z]).{6,15}$/),
 };
+
+export function RegexpBindFactory(regexp: RegExp) {
+  return regexp.test.bind(regexp);
+}
