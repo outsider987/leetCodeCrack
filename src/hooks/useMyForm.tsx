@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { usePrevious } from './Previous';
 export interface validate {
   validate: (string: string) => boolean;
-  message: string;
+  message?: string;
 }
 export interface errors {
   pass: boolean;
