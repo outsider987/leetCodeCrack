@@ -4,18 +4,16 @@ import Button from 'outsiderreact/dist/components/Button';
 import { Link } from 'react-router-dom';
 import { validateRegexp, RegexpBindFactory } from '~/utils/validate';
 import { useForm } from '~/hooks/useMyForm';
+import useAuthApi from '~/api/auth';
 
-export interface MemberState {
-  sort_index: number;
-  value: number;
-}
+export const RegisterInitial = {
+  email: '',
+  username: '',
+  password: '',
+  confirmPassword: '',
+};
+
 const Register = () => {
-  const RegisterInitial = {
-    email: '',
-    username: '',
-    password: '',
-    confirmPassword: '',
-  };
   const validaList = {
     email: [{ validate: validateRegexp.email, message: 'wrong format' }],
     username: [
@@ -39,7 +37,8 @@ const Register = () => {
   const { validator, handleSubmit } = useForm(RegisterInitial, validaList);
 
   const onSubmit = handleSubmit((data) => {
-    
+    const { POST_REGISTER } = useAuthApi();
+    if (data) POST_REGISTER(data);
   });
 
   return (
