@@ -22,7 +22,7 @@ const Register = () => {
       { validate: validateRegexp.require, message: 'need value' },
       {
         validate: RegexpBindFactory(/^([a-zA-Z\d]){2,15}/),
-        message: 'nee 15 ',
+        message: 'need 15 ',
       },
     ],
     password: [
@@ -39,7 +39,7 @@ const Register = () => {
   const { validator, handleSubmit } = useForm(RegisterInitial, validaList);
 
   const onSubmit = handleSubmit((data) => {
-    alert(JSON.stringify(data));
+    
   });
 
   return (
@@ -56,7 +56,9 @@ const Register = () => {
               value={validator.values.email}
               placeholder="fill your mail"
             />
-             <span className=' text-orange-500'> {validator.errors.email.message}</span>
+            <span className=" text-orange-500">
+              {validator.errors.email.message}
+            </span>
           </div>
           <div className="flex w-full flex-col">
             <Input
@@ -68,34 +70,40 @@ const Register = () => {
               value={validator.values.username}
               placeholder="username"
             />
-              <span className=' text-orange-500'> {validator.errors.username.message}</span>
+            <span className=" text-orange-500">
+              {validator.errors.username.message}
+            </span>
           </div>
-        
         </div>
         <Input
           label="Password"
           className="w-full text-white"
-          type="text"
+          type="password"
           name="password"
           onChange={validator.handleChange}
           value={validator.values.password}
           placeholder="Password"
         />
-        <span className=' text-orange-500'> {validator.errors.password.message}</span>
+        <span className=" text-orange-500">
+          {validator.errors.password.message}
+        </span>
         <Input
-        // onInput={(e)=>e.currentTarget.value.replace(/\s/g, '')}
           label="Conform Password"
           className="w-full text-white"
-          type="text"
+          type="password"
           name="confirmPassword"
           onChange={validator.handleChange}
           value={validator.values.confirmPassword}
           placeholder="Conform Password"
         />
-        <span className=' text-orange-500'> {validator.errors.confirmPassword.message}</span>
-        <div className="flex font-bold text-orange-400">
-          <Link to="/member">Login?</Link>
-        </div>
+        <span className=" text-orange-500">
+          {validator.errors.confirmPassword.message}
+        </span>
+
+        <Link className="flex font-bold text-orange-400" to="/member">
+          Login?
+        </Link>
+
         <div className="flex w-full ">
           <Button type="submit" className="m-auto">
             Submit

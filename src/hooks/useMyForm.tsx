@@ -23,13 +23,13 @@ export const useForm = <T extends Record<any, any>, K extends keyof any>(
 ) => {
   const isSubmitted = useRef(false);
   const [values, setValues] = useState(initialStates);
-  const initializeErrors: ErrorType<T> = initialStates ;
+  const initializeErrors: ErrorType<T> = initialStates;
   const [errors, setErrors] = useState(initializeErrors);
   const refErrors = useRef(errors);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
-    
+
     setValues({ ...values, [name]: value.replace(/\s/g, '') });
   };
 
@@ -38,7 +38,8 @@ export const useForm = <T extends Record<any, any>, K extends keyof any>(
       if (validateList) {
         for (const [key, vList] of Object.entries(validateList)) {
           for (const v of vList) {
-            v.validate(values[key])
+            const isPass = v.validate(values[key]);
+            isPass
               ? (refErrors.current = {
                   ...refErrors.current,
                   [key]: { pass: v.validate(values[key]), message: '' },
@@ -47,6 +48,8 @@ export const useForm = <T extends Record<any, any>, K extends keyof any>(
                   ...refErrors.current,
                   [key]: { pass: v.validate(values[key]), message: v.message },
                 });
+
+            if (!isPass) break;
           }
         }
         setErrors(refErrors.current);
