@@ -1,5 +1,5 @@
 import React from 'react';
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   name: string;
   className?: string;
   onClick?: () => void;
@@ -161,7 +161,7 @@ const SvgICon: React.FC<Props> = (props: Props) => {
     }
   };
   return (
-    <span onClick={props.onClick} className={`flex ${props.className} `}>
+    <span {...props}>
       {renderSVG()}
       {props.children}
     </span>

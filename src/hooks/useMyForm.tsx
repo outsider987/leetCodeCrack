@@ -1,5 +1,12 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  createContext,
+} from 'react';
 import { usePrevious } from './Previous';
+
 export interface validate {
   validate: (string: string) => boolean;
   message?: string;
@@ -25,21 +32,30 @@ export const useForm = <T extends Record<any, any>, K extends keyof any>(
   const [values, setValues] = useState(initialStates);
   const initializeErrors: ErrorType<T> = initialStates;
   const [errors, setErrors] = useState(initializeErrors);
+  const isPassRef = useRef(false);
   const refErrors = useRef(errors);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
+    setValues({ ...values, [name]: value });
+  };
+
+  function noWhiteSpaceChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { value, name } = e.target;
 
     setValues({ ...values, [name]: value.replace(/\s/g, '') });
-  };
+  }
 
   const validating = () => {
     if (isSubmitted.current) {
+      let isPassed = true;
+
       if (validateList) {
         for (const [key, vList] of Object.entries(validateList)) {
           for (const v of vList) {
-            const isPass = v.validate(values[key]);
-            isPass
+            const validateIspass = v.validate(values[key]);
+            if (isPassed) isPassed = isPassRef.current = validateIspass;
+            validateIspass
               ? (refErrors.current = {
                   ...refErrors.current,
                   [key]: { pass: v.validate(values[key]), message: '' },
@@ -49,7 +65,7 @@ export const useForm = <T extends Record<any, any>, K extends keyof any>(
                   [key]: { pass: v.validate(values[key]), message: v.message },
                 });
 
-            if (!isPass) break;
+            if (!validateIspass) break;
           }
         }
         setErrors(refErrors.current);
@@ -62,15 +78,21 @@ export const useForm = <T extends Record<any, any>, K extends keyof any>(
     validating();
   }, [values]);
 
-  const handleSubmit = (data: (data?: T) => void) => {
+  const handleSubmit = (data: (data?: T, ispass?: boolean) => void) => {
     return (event: React.FormEvent<HTMLElement>) => {
       event.preventDefault();
       isSubmitted.current = true;
       validating();
-      data(values);
+      data(values, isPassRef.current);
     };
   };
 
-  const validator = { values, errors, handleChange };
+  const validator = {
+    values,
+    errors,
+    handleChange,
+    noWhiteSpaceChange,
+    isPass: isPassRef.current,
+  };
   return { handleSubmit, validator };
 };

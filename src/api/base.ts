@@ -1,8 +1,9 @@
 import axios from 'axios';
 
+//  `https://avl-frontend-exam.herokuapp.com/api/${subPath}`
 const api = (subPath: string = '') => {
   const api = axios.create({
-    baseURL: `https://avl-frontend-exam.herokuapp.com/api/${subPath}`,
+    baseURL: `${process.env.API_URL}${subPath}`,
     headers: { 'Content-Type': 'application/json' },
   });
 
@@ -14,14 +15,19 @@ const api = (subPath: string = '') => {
       return Promise.reject(error);
     }
   );
-  api.interceptors.response.use(
-    (response) => {
-      return response;
-    },
-    (error) => {
-      return Promise.reject(error);
-    }
-  );
+  try {
+    api.interceptors.response.use(
+      (response) => {
+        return response;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
+  } catch (error) {
+    alert(error);
+  }
+
   return api;
 };
 

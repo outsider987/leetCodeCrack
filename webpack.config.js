@@ -6,9 +6,13 @@ const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const tailwindcss = require('tailwindcss');
+require('dotenv').config(); 
+const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
+
 module.exports = {
   mode: 'development',
-  entry: path.join(__dirname, 'src', 'index.tsx'),
+  entry: path.join(__dirname, 'src', 'app.tsx'),
   // watch: true,
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -64,12 +68,20 @@ module.exports = {
     alias: {
       '~': path.resolve(__dirname, 'src/'),
     },
+    fallback: {
+            "fs": false,
+            "os": require.resolve("os-browserify/browser") 
+        },
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin(),
     new CleanWebpackPlugin({
       verbose: true,
     }),
+    // new Dotenv(),
+    new webpack.DefinePlugin({
+        'process.env': JSON.stringify(process.env)
+     }),
     // new BundleAnalyzerPlugin({
     //     "openAnalyzer": false,analyzerMode: 'static'
     // }),

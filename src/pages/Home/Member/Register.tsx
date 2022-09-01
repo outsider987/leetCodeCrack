@@ -7,10 +7,10 @@ import { useForm } from '~/hooks/useMyForm';
 import useAuthApi from '~/api/auth';
 
 export const RegisterInitial = {
-  email: '',
-  username: '',
-  password: '',
-  confirmPassword: '',
+  email: 't7902195204@gmail.com',
+  username: 'T5204t5204-',
+  password: 'T5204t5204-',
+  confirmPassword: 'T5204t5204-',
 };
 
 const Register = () => {
@@ -36,9 +36,18 @@ const Register = () => {
 
   const { validator, handleSubmit } = useForm(RegisterInitial, validaList);
 
-  const onSubmit = handleSubmit((data) => {
-    const { POST_REGISTER } = useAuthApi();
-    if (data) POST_REGISTER(data);
+  const onSubmit = handleSubmit(async (data, ispass) => {
+    if (ispass) {
+      const { POST_REGISTER } = useAuthApi();
+      if (data) {
+        console.log(data);
+        console.log(validator.values);
+        const res = await POST_REGISTER(data);
+        console.log(res);
+      }
+    } else {
+      alert(JSON.stringify(validator.errors));
+    }
   });
 
   return (
@@ -51,7 +60,7 @@ const Register = () => {
               className="w-full text-white"
               type="text"
               name="email"
-              onChange={validator.handleChange}
+              onChange={validator.noWhiteSpaceChange}
               value={validator.values.email}
               placeholder="fill your mail"
             />
@@ -65,7 +74,7 @@ const Register = () => {
               className="w-full text-white"
               type="text"
               name="username"
-              onChange={validator.handleChange}
+              onChange={validator.noWhiteSpaceChange}
               value={validator.values.username}
               placeholder="username"
             />
@@ -79,7 +88,7 @@ const Register = () => {
           className="w-full text-white"
           type="password"
           name="password"
-          onChange={validator.handleChange}
+          onChange={validator.noWhiteSpaceChange}
           value={validator.values.password}
           placeholder="Password"
         />
@@ -91,7 +100,7 @@ const Register = () => {
           className="w-full text-white"
           type="password"
           name="confirmPassword"
-          onChange={validator.handleChange}
+          onChange={validator.noWhiteSpaceChange}
           value={validator.values.confirmPassword}
           placeholder="Conform Password"
         />
@@ -104,7 +113,7 @@ const Register = () => {
         </Link>
 
         <div className="flex w-full ">
-          <Button type="submit" className="m-auto">
+          <Button isWhite={validator.isPass} type="submit" className="m-auto">
             Submit
           </Button>
         </div>

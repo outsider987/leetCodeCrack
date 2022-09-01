@@ -7,11 +7,15 @@ const useAuthApi = () => {
   const authApi = api(subPath);
 
   const POST_REGISTER = async (userDate: typeof RegisterInitial) => {
-    const resp = await authApi.post('register', {
-      ...userDate,
-    });
+    try {
+      const resp = await authApi.post('register', {
+        ...userDate,
+      });
 
-    return await resp;
+      return await resp;
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return { POST_REGISTER };
