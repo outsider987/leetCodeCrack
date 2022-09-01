@@ -20,7 +20,7 @@ const Employment: React.FC<Props> = (props) => {
         <div className="text-gray-400">
           {props.startYeat}-{props.endYear}
         </div>
-        <div className="block w-1 bg-white bg-opacity-60"></div>
+        <div className="block w-1 bg-white/60"></div>
         <div>{props.company_name}</div>
       </div>
       <div> {props.title}</div>

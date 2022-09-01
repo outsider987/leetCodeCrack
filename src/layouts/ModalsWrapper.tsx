@@ -16,11 +16,9 @@ const ModalsWrapper = (props: Props) => {
       <ErrorDialog
         toggle={globalSelector.alertDialog.show}
         msg={globalSelector.alertDialog.msg}
-        onClick={() =>
+        backdrop={() =>
           dispatch(
-            setAlertDialog({
-              alertDialog: { ...globalSelector.alertDialog, show: false },
-            })
+            setAlertDialog({ ...globalSelector.alertDialog, show: false })
           )
         }
       />

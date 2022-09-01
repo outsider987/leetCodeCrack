@@ -1,14 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-export interface CounterState {
-  alertDialog: {
-    show: boolean;
-    msg: string;
-  };
-}
-
-const initialState: CounterState = {
+const initialState = {
   alertDialog: {
     show: false,
     msg: '',
@@ -19,8 +12,14 @@ export const globalSlice = createSlice({
   name: 'global',
   initialState,
   reducers: {
-    setAlertDialog: (state, action: PayloadAction<CounterState>) => {
-      state.alertDialog = action.payload.alertDialog;
+    setAlertDialog: (
+      state,
+      action: PayloadAction<typeof initialState.alertDialog>
+    ) => {
+      const { alertDialog } = state;
+      const { msg, show } = action.payload;
+
+      state.alertDialog = { ...alertDialog, show, msg };
     },
   },
 });

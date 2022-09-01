@@ -37,7 +37,7 @@ const NavBarItem: React.FC<Props> = ({
       >
         {isFocus && (
           <div
-            className="absolute  -right-[16.6%] -top-[20.83%] h-[22%] w-[22%]
+            className="absolute  right-[-16.6%] top-[-20.83%] h-[22%] w-[22%]
         rounded-full bg-navBarUnFocusBlue"
           />
         )}

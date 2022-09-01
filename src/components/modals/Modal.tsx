@@ -1,21 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
   toggle: boolean;
-  backdrop?: void;
+  backdrop?: () => void;
 }
 const Modal: React.FC<ModalProps> = (props) => {
+  const [toggle, setToggle] = useState(props.toggle);
   if (props.toggle) {
     return (
       <div
         {...props}
-        className={`absolute inset-0  ${props.toggle ? 'fadeIn ' : 'fadeOut '}
-        bottom-0 top-0 right-0 left-0
-        z-50
-        flex
-        h-full
+        onClick={props.backdrop}
+        className={`absolute inset-0 z-50
+        m-auto flex h-full animate-fade_in
+        items-center
+        justify-center
         overflow-hidden
-        bg-gray-800
-        bg-opacity-50 transition-all delay-150 ease-in-out`}
+        bg-gray-800/50
+        `}
       >
         {props.children}
       </div>

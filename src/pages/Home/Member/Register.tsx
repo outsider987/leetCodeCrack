@@ -5,9 +5,11 @@ import { Link } from 'react-router-dom';
 import { validateRegexp, RegexpBindFactory } from '~/utils/validate';
 import { useForm } from '~/hooks/useMyForm';
 import useAuthApi from '~/api/auth';
+import { setAlertDialog } from '~/store/global';
+import { store } from '~/store';
 
 export const RegisterInitial = {
-  email: 't7902195204@gmail.com',
+  email: 't978798@gmail.com',
   username: 'T5204t5204-',
   password: 'T5204t5204-',
   confirmPassword: 'T5204t5204-',
@@ -40,13 +42,12 @@ const Register = () => {
     if (ispass) {
       const { POST_REGISTER } = useAuthApi();
       if (data) {
-        console.log(data);
-        console.log(validator.values);
         const res = await POST_REGISTER(data);
-        console.log(res);
       }
     } else {
-      alert(JSON.stringify(validator.errors));
+      store.dispatch(
+        setAlertDialog({ show: true, msg: JSON.stringify(validator.errors) })
+      );
     }
   });
 

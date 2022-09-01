@@ -29,7 +29,7 @@ const NavBar = () => {
         className="relative hidden min-h-screen
         w-full max-w-navbar_desktop_w bg-navbar lg:block "
       >
-        <div className="absolute -right-[1px] w-[1px] bg-black bg-opacity-20" />
+        <div className="absolute right-[-1px] w-[1px] bg-black/20 " />
         {/* desktop */}
         <div className="px-[1.66vw] py-[37px]">
           <div className="mb-[5vh]">
