@@ -5,10 +5,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const tailwindcss = require('tailwindcss');
 require('dotenv').config(); 
 const webpack = require('webpack');
-const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   mode: 'development',
@@ -68,17 +66,17 @@ module.exports = {
     alias: {
       '~': path.resolve(__dirname, 'src/'),
     },
-    fallback: {
-            "fs": false,
-            "os": require.resolve("os-browserify/browser") 
-        },
+    // fallback: {
+    //         "fs": false,
+    //         "os": require.resolve("os-browserify/browser") 
+    //     },
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin(),
     new CleanWebpackPlugin({
       verbose: true,
     }),
-    // new Dotenv(),
+
     new webpack.DefinePlugin({
         'process.env': JSON.stringify(process.env)
      }),
