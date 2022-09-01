@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 //  `https://avl-frontend-exam.herokuapp.com/api/${subPath}`
 const api = (subPath: string = '') => {
@@ -32,3 +32,16 @@ const api = (subPath: string = '') => {
 };
 
 export default api;
+
+async function checkErrorCdoe(response: AxiosResponse<any, any>) {
+  switch (response.data.status) {
+    case 0:
+      break;
+    case 1:
+        
+      break;
+
+    default:
+      break;
+  }
+}
