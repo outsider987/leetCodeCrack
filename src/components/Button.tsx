@@ -8,6 +8,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const Button: React.FC<Props> = (props) => {
+  const { isRounded, isWhite } = props;
   const whiteClass = `bg-white 
    text-[#121212] hover:bg-[#121212] hover:text-white`;
   const darkClass = `bg-[#121212]  
@@ -19,9 +20,8 @@ const Button: React.FC<Props> = (props) => {
       className={`flex items-center justify-center border border-solid
        border-black py-[0.8125rem]
     px-[0.625rem] font-bold leading-[100%] ${
-      props.isRounded ? 'rounded-full' : 'rounded'
-    } ${props.isWhite ? whiteClass : darkClass} ${props.className}`}
-      onClick={props.onClick}
+      isRounded ? 'rounded-full' : 'rounded'
+    } ${isWhite ? whiteClass : darkClass} `}
     >
       {props.children}
     </button>
