@@ -21,13 +21,12 @@ const api = (subPath: string = '') => {
 
   api.interceptors.response.use(
     (response) => {
+        checkErrorCdoe(response)
       return response;
     },
     (error) => {
-      store.dispatch(
-        setAlertDialog({ show: true, msg: JSON.stringify(error) })
-      );
-      return Promise.reject(error);
+        checkErrorCdoe(error.response)
+      return error.response;
     }
   );
 

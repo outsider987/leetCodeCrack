@@ -1,6 +1,16 @@
 import React from 'react';
+
+const Names = {
+    logo:'logo',
+    template:'template',
+    edit:'edit',
+    spin:'spin',
+    arrow:'arrow',
+    menu:'menu',
+    story:'story'
+}
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
-  name: string;
+  name: keyof typeof Names| string;
   className?: string;
   onClick?: () => void;
   children?: React.ReactNode;
@@ -8,7 +18,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 const SvgICon: React.FC<Props> = (props: Props) => {
   const renderSVG = () => {
     switch (props.name) {
-      case 'logo':
+      case Names.logo:
         return (
           <svg
             width="35"
@@ -37,7 +47,7 @@ const SvgICon: React.FC<Props> = (props: Props) => {
           </svg>
         );
 
-      case 'template':
+      case Names.template:
         return (
           <svg
             width="24"
@@ -127,7 +137,8 @@ const SvgICon: React.FC<Props> = (props: Props) => {
         );
       case 'story':
         return (
-          <svg
+            <div>
+<svg
             width="26"
             height="26"
             viewBox="0 0 256 319"
@@ -154,6 +165,8 @@ const SvgICon: React.FC<Props> = (props: Props) => {
               ></path>
             </g>
           </svg>
+            </div>
+          
         );
 
       default:
@@ -161,7 +174,7 @@ const SvgICon: React.FC<Props> = (props: Props) => {
     }
   };
   return (
-    <span {...props}>
+    <span {...props} >
       {renderSVG()}
       {props.children}
     </span>
