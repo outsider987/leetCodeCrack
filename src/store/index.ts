@@ -5,7 +5,7 @@ import authReducer from './auth';
 export const store = configureStore({
   reducer: {
     global: globalReducer,
-    auth:authReducer
+    auth: authReducer,
   },
 });
 
@@ -15,3 +15,4 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 export const selectGlobal = (state: RootState) => state.global;
+export const selectAuth = (state: RootState) => state.auth;

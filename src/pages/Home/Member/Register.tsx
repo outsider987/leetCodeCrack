@@ -6,9 +6,10 @@ import { validateRegexp, RegexpBindFactory } from '~/utils/validate';
 import { useForm } from '~/hooks/useMyForm';
 import useAuthApi from '~/api/auth';
 import { setAlertDialog } from '~/store/global';
-import { store } from '~/store';
+import { selectAuth, store } from '~/store';
 import SvgICon from '~/components/SvgIcon';
 import { setToken } from '~/store/auth';
+import { useSelector } from 'react-redux';
 
 export const RegisterInitial = {
   email: 't790219520@gmail.com',
@@ -18,7 +19,9 @@ export const RegisterInitial = {
 };
 
 const Register = () => {
-    const [isLoading,setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const authSelector = useSelector(selectAuth);
+
   const validaList = {
     email: [{ validate: validateRegexp.email, message: 'wrong format' }],
     username: [
@@ -47,16 +50,13 @@ const Register = () => {
       if (data) {
         setLoading(true);
         const res = await POST_REGISTER(data);
-        console.log(res)
+
         await setLoading(false);
-        if(!res.data.status)
-        {
-            // console.log('987')
-            return 
+        if (!res.data.status) {
+          return;
         }
-        
-        store.dispatch(setToken(res.data))
-        
+
+        store.dispatch(setToken(res.data.data));
       }
     } else {
       store.dispatch(
@@ -128,11 +128,9 @@ const Register = () => {
         </Link>
 
         <div className="flex w-full ">
- 
           <Button isWhite={validator.isPass} type="submit" className="m-auto">
-            { isLoading?       <SvgICon className='w-4' name="spin" />:'Submit'}
+            {isLoading ? <SvgICon className="w-4" name="spin" /> : 'Submit'}
           </Button>
-          {/* <SvgICon className='w-4' name="spin" /> */}
         </div>
       </form>
     </div>

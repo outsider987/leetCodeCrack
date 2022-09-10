@@ -4,19 +4,38 @@ import Button from 'outsiderreact/dist/components/Button';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 
 import { HomeRoute } from '~/router';
+import useAuthApi from '~/api/auth';
+import { useForm, ValidateType } from '~/hooks/useMyForm';
+import { RegexpBindFactory, validateRegexp } from '~/utils/validate';
 
 export interface MemberState {
   sort_index: number;
   value: number;
 }
+export const LoginInitial = {
+  email: 't790219520@gmail.com',
+  password: 'T5204t5204-',
+};
 
 const Member = () => {
-  const inputChange = () => {};
-  const [account, setAccount] = useState('');
-  const [password, setPassword] = useState('');
-  const onSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const rules: ValidateType<typeof LoginInitial> = {
+    email: [
+      { validate: validateRegexp.email, message: 'wrong mail formate' },
+      { validate: validateRegexp.require, message: 'need value' },
+    ],
+    password: [
+      { validate: validateRegexp.require, message: 'need value' },
+      { validate: validateRegexp.password,message:'wrong ' },
+    ],
   };
+  const { validator, handleSubmit } = useForm(LoginInitial,rules);
+
+  const { POST_LOGIN } = useAuthApi();
+  const onSubmit = handleSubmit(async (data) => {
+    if (!data) throw 'submit failed';
+    const res = await POST_LOGIN(data);
+    res.data.data;
+  });
 
   const isShow = useLocation().pathname === '/member';
   return (
@@ -26,22 +45,30 @@ const Member = () => {
           <form className="m-auto w-[50vw] space-y-6 ">
             <div className="flex flex-col space-y-5 ">
               <Input
+              name='email'
                 label="Account"
                 className="text-white"
                 type="text"
-                onChange={(e) => setAccount(e.target.value)}
-                value={account}
+                onChange={validator.noWhiteSpaceChange}
+                value={validator.values.email}
                 placeholder="Account"
               />
+               <span className=" text-orange-500">
+              {validator.errors.email.message}
+            </span>
 
               <Input
+               name='password'
                 label="Password"
                 className="text-white"
                 type="text"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
+                onChange={validator.noWhiteSpaceChange}
+                value={validator.values.password}
                 placeholder="Password"
               />
+                  <span className=" text-orange-500">
+              {validator.errors.password.message}
+            </span>
             </div>
             <div className="flex font-bold text-orange-400">
               <Link to="/member/register">Register?</Link>

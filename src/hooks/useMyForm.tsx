@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { usePrevious } from './Previous';
 
-export interface validate {
+export interface validateRuleType {
   validate: (string: string) => boolean;
   message?: string;
 }
@@ -17,7 +17,7 @@ export interface errors {
 }
 
 export type ValidateType<T> = {
-  [P in keyof T]: validate[];
+  [P in keyof T]: validateRuleType[];
 };
 export type ErrorType<T> = {
   [P in keyof T]: errors;
