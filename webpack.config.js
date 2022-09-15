@@ -18,14 +18,12 @@ module.exports = {
     chunkFilename: '[chunkhash].js',
     sourceMapFilename: 'js/[file].map',
     clean: true,
+    assetModuleFilename: '[path][name].[hash][ext][query]'
     // publicPath: '/webpack-demo/'
   },
   module: {
     rules: [
-        // {
-        //     test: /\.node$/,
-        //     loader: "node-loader",
-        //   },
+
       {
         test: /\.(css|scss)?$/,
         include: path.resolve(__dirname, 'src'),
@@ -41,6 +39,9 @@ module.exports = {
       {
         test: /\.(png|jpg|jpeg|gif|svg)$/i,
         type: 'asset/resource',
+        generator: {
+            filename: '[path][name].[hash][ext][query]'
+        }
       },
 
       //   { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
