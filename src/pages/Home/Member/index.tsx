@@ -34,7 +34,7 @@ const Member = () => {
   const onSubmit = handleSubmit(async (data) => {
     if (!data) throw 'submit failed';
     const res = await POST_LOGIN(data);
-    res.data.data;
+    
   });
 
   const isShow = useLocation().pathname === '/member';

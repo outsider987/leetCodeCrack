@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { useSelector } from 'react-redux';
-import { getTokenStorage } from '~/configs/storage';
+import { getTokenStorage } from '~/utils/storage';
 import { store } from '~/store';
 import { setAlertDialog } from '~/store/global';
 
