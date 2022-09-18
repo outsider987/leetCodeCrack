@@ -46,7 +46,12 @@ const useAuthApi = () => {
     return resp;
   };
 
-  return { POST_REGISTER, GET_REFRESH ,POST_LOGIN};
+  const GET_TokenTest = async () => {
+    const resp = await privateAuthApi.get('test' );
+    return resp;
+  };
+
+  return { POST_REGISTER, GET_REFRESH ,POST_LOGIN,GET_TokenTest};
 };
 
 export default useAuthApi;

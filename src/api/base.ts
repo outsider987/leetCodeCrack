@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { useSelector } from 'react-redux';
-import { getTokenStorage } from '~/utils/storage';
+import { getTokenStorage,setTokenStorage } from '~/utils/storage';
 import { store } from '~/store';
 import { setAlertDialog } from '~/store/global';
 
@@ -42,7 +42,7 @@ export default (subPath: string = '') => {
 
 export const privateApi = (subPath: string = '') => {
   const api = axios.create({
-    withCredentials: true,
+    // withCredentials: true,
     baseURL: `${process.env.API_URL}${subPath}`,
     headers: { 'Content-Type': 'application/json' },
   });
@@ -50,7 +50,7 @@ export const privateApi = (subPath: string = '') => {
   api.interceptors.request.use(
     async (config) => {
       const token = getTokenStorage();
-      if (config.headers) config.headers.authorization = `Bearer ${token}`;
+      if (config.headers) config.headers.authorization = `Bearer ${token.accessToken}`;
       return config;
     },
     (error) => {
@@ -59,31 +59,29 @@ export const privateApi = (subPath: string = '') => {
   );
 
   api.interceptors.response.use(
-    (response: AxiosResponse<APIResponse, any>) => {
+    async (response: AxiosResponse<APIResponse, any>) => {
       checkErrorCdoe(response);
       return response;
     },
     async (error) => {
+        console.log(error);
       checkErrorCdoe(error.response);
       if (error.response) {
         // Access Token was expired
         if (
-          error.response.status === 401 &&
-          error.response.data.message === 'jwt expired'
+          error.response.status === 401 
         ) {
-          const storedToken = JSON.parse(getTokenStorage());
+          const storedToken = getTokenStorage();
           
           try {
-            const rs = await axios.post(`${process.env.API_URL}/auth/refresh`, {
+            console.log(storedToken);
+            const rs = await axios.post(`${process.env.API_URL}auth/refresh`, {
               refresh_token: storedToken.refresh_token,
-            });
-
-            const { token, user } = rs.data;
-
-            localStorage.setItem('token', JSON.stringify(token));
-            localStorage.setItem('user', JSON.stringify(user));
-
-            return;
+              
+            },{headers:{authorization:`Bearer ${storedToken.refreshToken}`}});
+            checkErrorCdoe(rs);
+            setTokenStorage(rs.data.data)
+            return rs;
           } catch (_error) {
             return Promise.reject(_error);
           }

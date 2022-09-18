@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef, useCallback, HTMLInputTypeAttribute } from 'react';
 import Input from 'outsiderreact/dist/components/Input';
 import Button from 'outsiderreact/dist/components/Button';
 import { Link, Outlet, useLocation } from 'react-router-dom';
@@ -18,6 +18,7 @@ export const LoginInitial = {
 };
 
 const Member = () => {
+    const [token,setToken] = useState('');
   const rules: ValidateType<typeof LoginInitial> = {
     email: [
       { validate: validateRegexp.email, message: 'wrong mail formate' },
@@ -30,12 +31,17 @@ const Member = () => {
   };
   const { validator, handleSubmit } = useForm(LoginInitial,rules);
 
-  const { POST_LOGIN } = useAuthApi();
+  const { POST_LOGIN ,GET_TokenTest} = useAuthApi();
   const onSubmit = handleSubmit(async (data) => {
     if (!data) throw 'submit failed';
     const res = await POST_LOGIN(data);
-    
+    setToken(JSON.stringify(res.data.data))
   });
+  const onTestToken = (e:React.FormEvent<HTMLElement>)=>{
+    e.preventDefault()
+    const t =  GET_TokenTest();
+    // alert(t);
+  }
 
   const isShow = useLocation().pathname === '/member';
   return (
@@ -77,6 +83,12 @@ const Member = () => {
               <Button onClick={onSubmit} className="m-auto">
                 Submit
               </Button>
+            </div>
+            <div className="flex w-full ">
+              <Button onClick={onTestToken} className="m-auto">
+                TokenTest
+              </Button>
+              {token}
             </div>
           </form>
         </div>
