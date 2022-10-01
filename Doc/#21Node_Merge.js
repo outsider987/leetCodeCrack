@@ -56,6 +56,4 @@ const hashMap = new Map();
 console.log(hashMap.size);
 hashMap.clear();
 console.log(hashMap.size);
-let nums = []
-const t = new Set();
-t.
+
