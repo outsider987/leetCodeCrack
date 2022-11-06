@@ -4,23 +4,19 @@
  */
  var generateParenthesis = function(n) {
     let result = [];
-    function dfs(i,n,slate,oCount,cCount){
-        if(oCount>n)return ;
-        if(cCount>oCount) return ;
-        
-        if(i===n*2){
-            result.push(slate.join(''));
+    function dfs(cur,left,right){
+        if(cur.length===2*n ){
+            result.push(cur);
             return ;
         }
-        
-        slate.push('(');
-        dfs(i+1,n,slate,oCount+1,cCount);
-        slate.pop();
-        
-        slate.push(')');
-        dfs(i+1,n,slate,oCount,cCount+1);
-        slate.pop();
+        if(left<n){
+            dfs(cur+'(',left+1,right)
+        }
+        if(right<left){
+            dfs(cur+')',left,right+1)
+        }
+  
     }
-    dfs(0,n,[],0,0);
+    dfs('',0,0);
     return result;
 };
