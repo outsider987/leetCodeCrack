@@ -3,7 +3,7 @@ import Input from 'outsiderreact/dist/components/Input';
 import Button from '~/components/Button';
 import { Link } from 'react-router-dom';
 import { validateRegexp, RegexpBindFactory } from '~/utils/validate';
-import { useForm,ValidateType } from '~/hooks/useMyForm';
+import { useForm, ValidateType } from '~/hooks/useMyForm';
 import useAuthApi from '~/api/auth';
 import { setAlertDialog } from '~/store/global';
 import { selectAuth, store } from '~/store';
@@ -22,7 +22,7 @@ const Register = () => {
   const [isLoading, setLoading] = useState(false);
   const authSelector = useSelector(selectAuth);
 
-  const validaList:ValidateType<typeof RegisterInitial > = {
+  const validaList: ValidateType<typeof RegisterInitial> = {
     email: [{ validate: validateRegexp.email, message: 'wrong format' }],
     username: [
       { validate: validateRegexp.require, message: 'need value' },

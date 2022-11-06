@@ -1,16 +1,22 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useSelector } from 'react-redux';
-import { getTokenStorage,setTokenStorage } from '~/utils/storage';
+import { getTokenStorage, setTokenStorage } from '~/utils/storage';
 import { store } from '~/store';
 import { setAlertDialog } from '~/store/global';
 
 //  `https://avl-frontend-exam.herokuapp.com/api/${subPath}`
 
 export interface APIResponse<T = any> {
-  data: T;
-  message: string;
-  status: boolean;
+  data?: T;
+  message?: string;
+  status?: boolean;
 }
+export interface APIEorrorResponse<T = any> {
+  error?: T;
+  message?: string;
+  status?: boolean;
+}
+
 export default (subPath: string = '') => {
   const api = axios.create({
     baseURL: `${process.env.API_URL}${subPath}`,
@@ -50,7 +56,8 @@ export const privateApi = (subPath: string = '') => {
   api.interceptors.request.use(
     async (config) => {
       const token = getTokenStorage();
-      if (config.headers) config.headers.authorization = `Bearer ${token.accessToken}`;
+      if (config.headers)
+        config.headers.authorization = `Bearer ${token.accessToken}`;
       return config;
     },
     (error) => {
@@ -63,26 +70,35 @@ export const privateApi = (subPath: string = '') => {
       checkErrorCdoe(response);
       return response;
     },
-    async (error) => {
-        console.log(error);
-      checkErrorCdoe(error.response);
+    async (error: AxiosError) => {
       if (error.response) {
         // Access Token was expired
-        if (
-          error.response.status === 401 
-        ) {
+        console.log(error);
+        if (error.response.status === 401) {
           const storedToken = getTokenStorage();
-          
+
           try {
-            console.log(storedToken);
-            const rs = await axios.post(`${process.env.API_URL}auth/refresh`, {
-              refresh_token: storedToken.refresh_token,
-              
-            },{headers:{authorization:`Bearer ${storedToken.refreshToken}`}});
-            checkErrorCdoe(rs);
-            setTokenStorage(rs.data.data)
-            return rs;
-          } catch (_error) {
+            const rs = await axios.post(
+              `${process.env.API_URL}auth/refresh`,
+              {
+                refresh_token: storedToken.refresh_token,
+              },
+              {
+                headers: {
+                  authorization: `Bearer ${storedToken.refreshToken}`,
+                },
+              }
+            );
+            if (rs.status === 401) {
+              checkErrorCdoe(rs);
+              return rs;
+            }
+            setTokenStorage(rs.data.data);
+            
+            return api(error.config);
+          } catch (_error:any) {
+            checkErrorCdoe(_error.response);
+            
             return Promise.reject(_error);
           }
         }

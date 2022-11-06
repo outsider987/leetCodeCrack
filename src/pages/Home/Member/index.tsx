@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback, HTMLInputTypeAttribute } from 'react';
+import React, { useState } from 'react';
 import Input from 'outsiderreact/dist/components/Input';
 import Button from 'outsiderreact/dist/components/Button';
 import { Link, Outlet, useLocation } from 'react-router-dom';
@@ -18,7 +18,7 @@ export const LoginInitial = {
 };
 
 const Member = () => {
-    const [token,setToken] = useState('');
+  const [token, setToken] = useState('');
   const rules: ValidateType<typeof LoginInitial> = {
     email: [
       { validate: validateRegexp.email, message: 'wrong mail formate' },
@@ -26,22 +26,22 @@ const Member = () => {
     ],
     password: [
       { validate: validateRegexp.require, message: 'need value' },
-      { validate: validateRegexp.password,message:'wrong ' },
+      { validate: validateRegexp.password, message: 'wrong ' },
     ],
   };
-  const { validator, handleSubmit } = useForm(LoginInitial,rules);
+  const { validator, handleSubmit } = useForm(LoginInitial, rules);
 
-  const { POST_LOGIN ,GET_TokenTest} = useAuthApi();
+  const { POST_LOGIN, GET_TokenTest } = useAuthApi();
   const onSubmit = handleSubmit(async (data) => {
     if (!data) throw 'submit failed';
     const res = await POST_LOGIN(data);
-    setToken(JSON.stringify(res.data.data))
+    setToken(JSON.stringify(res.data.data));
   });
-  const onTestToken = (e:React.FormEvent<HTMLElement>)=>{
-    e.preventDefault()
-    const t =  GET_TokenTest();
+  const onTestToken = (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    const t = GET_TokenTest();
     // alert(t);
-  }
+  };
 
   const isShow = useLocation().pathname === '/member';
   return (
@@ -51,7 +51,7 @@ const Member = () => {
           <form className="m-auto w-[50vw] space-y-6 ">
             <div className="flex flex-col space-y-5 ">
               <Input
-              name='email'
+                name="email"
                 label="Account"
                 className="text-white"
                 type="text"
@@ -59,12 +59,12 @@ const Member = () => {
                 value={validator.values.email}
                 placeholder="Account"
               />
-               <span className=" text-orange-500">
-              {validator.errors.email.message}
-            </span>
+              <span className=" text-orange-500">
+                {validator.errors.email.message}
+              </span>
 
               <Input
-               name='password'
+                name="password"
                 label="Password"
                 className="text-white"
                 type="text"
@@ -72,9 +72,9 @@ const Member = () => {
                 value={validator.values.password}
                 placeholder="Password"
               />
-                  <span className=" text-orange-500">
-              {validator.errors.password.message}
-            </span>
+              <span className=" text-orange-500">
+                {validator.errors.password.message}
+              </span>
             </div>
             <div className="flex font-bold text-orange-400">
               <Link to="/member/register">Register?</Link>

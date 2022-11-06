@@ -15,10 +15,8 @@ const useAuthApi = () => {
     const resp = await authApi.post<APIResponse>('register', {
       ...userDate,
     });
-    if(resp.data.data)
-        setTokenStorage(resp.data.data);
+    if (resp.data.data) setTokenStorage(resp.data.data);
 
-        
     return resp;
   };
 
@@ -26,13 +24,8 @@ const useAuthApi = () => {
     const resp = await authApi.post<APIResponse>('login', {
       ...userDate,
     });
-    if(resp.data.data)
-    {
-        setTokenStorage(resp.data.data);
-    }
-      
+    if (resp.data.data) setTokenStorage(resp.data.data);
 
-    
     return resp;
   };
 
@@ -47,11 +40,11 @@ const useAuthApi = () => {
   };
 
   const GET_TokenTest = async () => {
-    const resp = await privateAuthApi.get('test' );
+    const resp = await privateAuthApi.get('test');
     return resp;
   };
 
-  return { POST_REGISTER, GET_REFRESH ,POST_LOGIN,GET_TokenTest};
+  return { POST_REGISTER, GET_REFRESH, POST_LOGIN, GET_TokenTest };
 };
 
 export default useAuthApi;
