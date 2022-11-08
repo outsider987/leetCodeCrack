@@ -55,7 +55,7 @@ const rootElement = document.getElementById('root');
 const root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(rootElement);
 root.render(react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().StrictMode), null,
     react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_redux__WEBPACK_IMPORTED_MODULE_6__.Provider, { store: _store__WEBPACK_IMPORTED_MODULE_5__.store },
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.HashRouter, null,
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.BrowserRouter, null,
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_layouts_ModalsWrapper__WEBPACK_IMPORTED_MODULE_7__["default"], null,
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_router__WEBPACK_IMPORTED_MODULE_2__.MYRoutes, null))))));
 
