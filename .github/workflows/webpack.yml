@@ -35,7 +35,7 @@ jobs:
         npm run build
 
     - name: Commit dist to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@3.5.9
+      uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
         GITHUB_TOKEN: ${{ secrets.COMMIT }}
         BRANCH: gh-pages
