@@ -20,7 +20,9 @@ export interface APIEorrorResponse<T = any> {
 export default (subPath: string = '') => {
   const api = axios.create({
     baseURL: `${process.env.API_URL}${subPath}`,
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 
   api.interceptors.request.use(
@@ -29,7 +31,7 @@ export default (subPath: string = '') => {
     },
     (error) => {
       return Promise.reject(error);
-    }
+    },
   );
 
   api.interceptors.response.use(
@@ -40,7 +42,7 @@ export default (subPath: string = '') => {
     (error) => {
       checkErrorCdoe(error.response);
       return error.response;
-    }
+    },
   );
 
   return api;
@@ -56,13 +58,12 @@ export const privateApi = (subPath: string = '') => {
   api.interceptors.request.use(
     async (config) => {
       const token = getTokenStorage();
-      if (config.headers)
-        config.headers.authorization = `Bearer ${token.accessToken}`;
+      if (config.headers) config.headers.authorization = `Bearer ${token.accessToken}`;
       return config;
     },
     (error) => {
       return Promise.reject(error);
-    }
+    },
   );
 
   api.interceptors.response.use(
@@ -73,7 +74,6 @@ export const privateApi = (subPath: string = '') => {
     async (error: AxiosError) => {
       if (error.response) {
         // Access Token was expired
-        console.log(error);
         if (error.response.status === 401) {
           const storedToken = getTokenStorage();
 
@@ -87,36 +87,42 @@ export const privateApi = (subPath: string = '') => {
                 headers: {
                   authorization: `Bearer ${storedToken.refreshToken}`,
                 },
-              }
+              },
             );
             if (rs.status === 401) {
               checkErrorCdoe(rs);
               return rs;
             }
             setTokenStorage(rs.data.data);
-            
+
             return api(error.config);
-          } catch (_error:any) {
-            checkErrorCdoe(_error.response);
-            
+          } catch (_error: any) {
+            checkErrorCdoe(_error, _error);
+
             return Promise.reject(_error);
           }
         }
       }
       return Promise.reject(error);
-    }
+    },
   );
 
   return api;
 };
 
-async function checkErrorCdoe(response: AxiosResponse<APIResponse, any>) {
+async function checkErrorCdoe(response: AxiosResponse<APIResponse, any>, catchError: any = 'good') {
+  if (catchError.code === 'ERR_BAD_REQUEST') {
+    store.dispatch(
+      setAlertDialog({ show: true, msg: JSON.stringify({ code: catchError.code, status: catchError.status }) }),
+    );
+    return;
+  }
+
   switch (response.data.status) {
     case false:
-      store.dispatch(
-        setAlertDialog({ show: true, msg: JSON.stringify(response.data) })
-      );
+      store.dispatch(setAlertDialog({ show: true, msg: JSON.stringify(response.data) }));
       break;
+
     case true:
       break;
 

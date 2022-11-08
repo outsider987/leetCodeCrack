@@ -20,5 +20,5 @@ root.render(
         </ModalsWrapper>
       </HashRouter>
     </Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

@@ -6,7 +6,6 @@ import api, { APIResponse, privateApi } from './base';
 import { store } from '~/store';
 
 const subPath = 'auth';
-// AxiosResponse<APIResponse<any>, any>
 const useAuthApi = () => {
   const authApi = api(subPath);
   const privateAuthApi = privateApi(subPath);
@@ -30,9 +29,7 @@ const useAuthApi = () => {
   };
 
   const GET_REFRESH = async () => {
-    const resp = await privateAuthApi.get<
-      APIResponse<{ accessToken: string; refreshToken: string }>
-    >('refresh', {
+    const resp = await privateAuthApi.get<APIResponse<{ accessToken: string; refreshToken: string }>>('refresh', {
       withCredentials: true,
     });
 
