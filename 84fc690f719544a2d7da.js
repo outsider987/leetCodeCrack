@@ -44,11 +44,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var outsiderreact_dist_components_Input__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! outsiderreact/dist/components/Input */ "./node_modules/outsiderreact/dist/components/Input/index.js");
 /* harmony import */ var outsiderreact_dist_components_Button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! outsiderreact/dist/components/Button */ "./node_modules/outsiderreact/dist/components/Button/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 /* harmony import */ var _api_auth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ~/api/auth */ "./src/api/auth.ts");
 /* harmony import */ var _hooks_useMyForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ~/hooks/useMyForm */ "./src/hooks/useMyForm.tsx");
 /* harmony import */ var _utils_validate__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ~/utils/validate */ "./src/utils/validate.ts");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ~/store */ "./src/store/index.ts");
+/* harmony import */ var _store_global__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ~/store/global */ "./src/store/global.ts");
+
+
 
 
 
@@ -57,7 +61,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const LoginInitial = {
-    email: 't790219520@gmail.com',
+    email: 'test.com',
     password: 'T5204t5204-',
 };
 const Member = () => {
@@ -82,10 +86,11 @@ const Member = () => {
     });
     const onTestToken = (e) => {
         e.preventDefault();
-        const t = GET_TokenTest();
-        // alert(t);
+        GET_TokenTest().then((res) => {
+            _store__WEBPACK_IMPORTED_MODULE_6__.store.dispatch((0,_store_global__WEBPACK_IMPORTED_MODULE_7__.setAlertDialog)({ show: true, msg: 'test work' }));
+        });
     };
-    const isShow = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_6__.useLocation)().pathname === '/member';
+    const isShow = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useLocation)().pathname === '/member';
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, isShow ? (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex h-full w-full " },
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", { className: "m-auto w-[50vw] space-y-6 " },
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col space-y-5 " },
@@ -94,12 +99,12 @@ const Member = () => {
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement(outsiderreact_dist_components_Input__WEBPACK_IMPORTED_MODULE_1__["default"], { name: "password", label: "Password", className: "text-white", type: "text", onChange: validator.noWhiteSpaceChange, value: validator.values.password, placeholder: "Password" }),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: " text-orange-500" }, validator.errors.password.message)),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex font-bold text-orange-400" },
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Link, { to: "/member/register" }, "Register?")),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Link, { to: "/member/register" }, "Register?")),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-full " },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement(outsiderreact_dist_components_Button__WEBPACK_IMPORTED_MODULE_2__["default"], { onClick: onSubmit, className: "m-auto" }, "Submit")),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-full " },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement(outsiderreact_dist_components_Button__WEBPACK_IMPORTED_MODULE_2__["default"], { onClick: onTestToken, className: "m-auto" }, "TokenTest"),
-                token)))) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Outlet, null))));
+                token)))) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Outlet, null))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Member);
 
@@ -107,4 +112,4 @@ const Member = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/0b3da8644b6cfb2f665f.js.map
+//# sourceMappingURL=js/84fc690f719544a2d7da.js.map

@@ -38,7 +38,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const RegisterInitial = {
-    email: 't790219520@gmail.com',
+    email: 'test@gmail.com',
     username: 'Victor',
     password: 'T5204t5204-',
     confirmPassword: 'T5204t5204-',
@@ -55,9 +55,7 @@ const Register = () => {
                 message: 'need 15 ',
             },
         ],
-        password: [
-            { validate: _utils_validate__WEBPACK_IMPORTED_MODULE_3__.validateRegexp.password, message: 'password wong format' },
-        ],
+        password: [{ validate: _utils_validate__WEBPACK_IMPORTED_MODULE_3__.validateRegexp.password, message: 'password wong format' }],
         confirmPassword: [
             {
                 validate: (data) => data === validator.values.password,
@@ -106,4 +104,4 @@ const Register = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/8d8cd0e7e7668f06353f.js.map
+//# sourceMappingURL=js/2fdaa237809c63897eda.js.map
