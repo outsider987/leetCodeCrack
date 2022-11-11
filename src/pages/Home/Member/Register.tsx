@@ -12,7 +12,7 @@ import { setToken } from '~/store/auth';
 import { useSelector } from 'react-redux';
 
 export const RegisterInitial = {
-  email: 't790219520@gmail.com',
+  email: 'test@gmail.com',
   username: 'Victor',
   password: 'T5204t5204-',
   confirmPassword: 'T5204t5204-',
@@ -31,9 +31,7 @@ const Register = () => {
         message: 'need 15 ',
       },
     ],
-    password: [
-      { validate: validateRegexp.password, message: 'password wong format' },
-    ],
+    password: [{ validate: validateRegexp.password, message: 'password wong format' }],
     confirmPassword: [
       {
         validate: (data: string) => data === validator.values.password,
@@ -59,9 +57,7 @@ const Register = () => {
         store.dispatch(setToken(res.data.data));
       }
     } else {
-      store.dispatch(
-        setAlertDialog({ show: true, msg: JSON.stringify(validator.errors) })
-      );
+      store.dispatch(setAlertDialog({ show: true, msg: JSON.stringify(validator.errors) }));
     }
   });
 
@@ -79,9 +75,7 @@ const Register = () => {
               value={validator.values.email}
               placeholder="fill your mail"
             />
-            <span className=" text-orange-500">
-              {validator.errors.email.message}
-            </span>
+            <span className=" text-orange-500">{validator.errors.email.message}</span>
           </div>
           <div className="flex w-full flex-col">
             <Input
@@ -93,9 +87,7 @@ const Register = () => {
               value={validator.values.username}
               placeholder="username"
             />
-            <span className=" text-orange-500">
-              {validator.errors.username.message}
-            </span>
+            <span className=" text-orange-500">{validator.errors.username.message}</span>
           </div>
         </div>
         <Input
@@ -107,9 +99,7 @@ const Register = () => {
           value={validator.values.password}
           placeholder="Password"
         />
-        <span className=" text-orange-500">
-          {validator.errors.password.message}
-        </span>
+        <span className=" text-orange-500">{validator.errors.password.message}</span>
         <Input
           label="Conform Password"
           className="w-full text-white"
@@ -119,9 +109,7 @@ const Register = () => {
           value={validator.values.confirmPassword}
           placeholder="Conform Password"
         />
-        <span className=" text-orange-500">
-          {validator.errors.confirmPassword.message}
-        </span>
+        <span className=" text-orange-500">{validator.errors.confirmPassword.message}</span>
 
         <Link className="flex font-bold text-orange-400" to="/member">
           Login?

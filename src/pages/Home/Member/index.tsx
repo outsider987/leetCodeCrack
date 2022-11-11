@@ -7,13 +7,15 @@ import { HomeRoute } from '~/router';
 import useAuthApi from '~/api/auth';
 import { useForm, ValidateType } from '~/hooks/useMyForm';
 import { RegexpBindFactory, validateRegexp } from '~/utils/validate';
+import { store } from '~/store';
+import { setAlertDialog } from '~/store/global';
 
 export interface MemberState {
   sort_index: number;
   value: number;
 }
 export const LoginInitial = {
-  email: 't790219520@gmail.com',
+  email: 'test.com',
   password: 'T5204t5204-',
 };
 
@@ -39,8 +41,9 @@ const Member = () => {
   });
   const onTestToken = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    const t = GET_TokenTest();
-    // alert(t);
+    GET_TokenTest().then((res) => {
+      store.dispatch(setAlertDialog({ show: true, msg: 'test work' }));
+    });
   };
 
   const isShow = useLocation().pathname === '/member';
@@ -59,9 +62,7 @@ const Member = () => {
                 value={validator.values.email}
                 placeholder="Account"
               />
-              <span className=" text-orange-500">
-                {validator.errors.email.message}
-              </span>
+              <span className=" text-orange-500">{validator.errors.email.message}</span>
 
               <Input
                 name="password"
@@ -72,9 +73,7 @@ const Member = () => {
                 value={validator.values.password}
                 placeholder="Password"
               />
-              <span className=" text-orange-500">
-                {validator.errors.password.message}
-              </span>
+              <span className=" text-orange-500">{validator.errors.password.message}</span>
             </div>
             <div className="flex font-bold text-orange-400">
               <Link to="/member/register">Register?</Link>
