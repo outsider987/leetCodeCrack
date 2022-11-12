@@ -14,8 +14,8 @@ import { useSelector } from 'react-redux';
 export const RegisterInitial = {
   email: 'test@gmail.com',
   username: 'Victor',
-  password: 'T5204t5204-',
-  confirmPassword: 'T5204t5204-',
+  password: 'ASD123!',
+  confirmPassword: 'ASD123!',
 };
 
 const Register = () => {

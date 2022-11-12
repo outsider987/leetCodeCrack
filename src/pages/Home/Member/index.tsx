@@ -15,8 +15,8 @@ export interface MemberState {
   value: number;
 }
 export const LoginInitial = {
-  email: 'test.com',
-  password: 'T5204t5204-',
+  email: 'test@gmail.com',
+  password: 'ASD123!',
 };
 
 const Member = () => {
