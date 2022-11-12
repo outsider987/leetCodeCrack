@@ -40,8 +40,8 @@ __webpack_require__.r(__webpack_exports__);
 const RegisterInitial = {
     email: 'test@gmail.com',
     username: 'Victor',
-    password: 'T5204t5204-',
-    confirmPassword: 'T5204t5204-',
+    password: 'ASD123!',
+    confirmPassword: 'ASD123!',
 };
 const Register = () => {
     const [isLoading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
@@ -104,4 +104,4 @@ const Register = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/2fdaa237809c63897eda.js.map
+//# sourceMappingURL=js/fb264a8f1415db6f2f78.js.map

@@ -61,8 +61,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const LoginInitial = {
-    email: 'test.com',
-    password: 'T5204t5204-',
+    email: 'test@gmail.com',
+    password: 'ASD123!',
 };
 const Member = () => {
     const [token, setToken] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
@@ -112,4 +112,4 @@ const Member = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/84fc690f719544a2d7da.js.map
+//# sourceMappingURL=js/2f312d3a4d01f10086bb.js.map
