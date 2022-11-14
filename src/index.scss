@@ -4,23 +4,23 @@
 
 @layer components {
   .content_container {
-    @apply h-0 sm:pt-m-navbar-desktop-h sm:min-h-[calc(100vh-theme('spacing.m-navbar-desktop-h'))];
-    @apply w-full  lg:max-w-[70vw] mx-auto lg:pt-4 lg:min-h-[calc(100vh-theme('spacing.4'))];
+    @apply h-0 sm:min-h-[calc(100vh-theme('spacing.m-navbar-desktop-h'))] sm:pt-m-navbar-desktop-h;
+    @apply mx-auto max-h-screen  w-full overflow-auto lg:min-h-[calc(100vh-theme('spacing.4'))] lg:max-w-[70vw];
   }
   .content_tags_container {
     @apply m-auto sm:p-3 sm:pt-m-navbar-desktop-h;
-    @apply lg:ml-[9.09vw] lg:pt-20 w-full h-full flex;
+    @apply flex h-full w-full lg:ml-[9.09vw] lg:pt-20;
   }
   .slide_group {
     input[type='range'] {
-      @apply w-full  appearance-none  h-2 pr-[-8px]  relative;
+      @apply relative  h-2  w-full appearance-none  pr-[-8px];
       background: #5d5d5d;
       border-radius: 5px;
       background-image: linear-gradient(to right, #ff5c01, #ffd25f);
       background-repeat: no-repeat;
     }
     input[type='range']::-webkit-slider-thumb {
-      @apply appearance-none w-[20px] h-[20px] z-40  bg-greyscale relative rounded-full;
+      @apply relative z-40 h-[20px] w-[20px]  appearance-none rounded-full bg-greyscale;
       width: 26px;
       height: 26px;
       background: #181818;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Input from 'outsiderreact/dist/components/Input';
 import Button from 'outsiderreact/dist/components/Button';
 import { Link, Outlet, useLocation } from 'react-router-dom';
@@ -16,11 +16,14 @@ export interface MemberState {
 }
 export const LoginInitial = {
   email: 'test@gmail.com',
-  password: 'ASD123!',
+  password: 'Asd123!',
 };
 
 const Member = () => {
   const [token, setToken] = useState('');
+  const [accessCount, setAccessCountToken] = useState(11);
+  const [tokenType, settokenType] = useState(['access', 'refresh']);
+
   const rules: ValidateType<typeof LoginInitial> = {
     email: [
       { validate: validateRegexp.email, message: 'wrong mail formate' },
@@ -37,8 +40,18 @@ const Member = () => {
   const onSubmit = handleSubmit(async (data) => {
     if (!data) throw 'submit failed';
     const res = await POST_LOGIN(data);
-    setToken(JSON.stringify(res.data.data));
+    if (res.data.status) {
+      setToken(JSON.stringify(res.data.data));
+    }
   });
+
+  useEffect(() => {
+    if (accessCount === 0 && tokenType[0] === 'access') {
+      settokenType(tokenType.reverse().map((item) => item));
+      setAccessCountToken(11);
+    }
+    accessCount > 0 && setTimeout(() => setAccessCountToken(accessCount - 1), 1000);
+  }, [accessCount]);
   const onTestToken = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
     GET_TokenTest().then((res) => {
@@ -83,11 +96,16 @@ const Member = () => {
                 Submit
               </Button>
             </div>
-            <div className="flex w-full ">
+            <div className="flex w-full flex-col">
               <Button onClick={onTestToken} className="m-auto">
                 TokenTest
               </Button>
-              {token}
+              <div className="grid grid-cols-2">
+                <span className="max-w-xs break-all text-white">{token} </span>
+                {token !== '' && (
+                  <span className="text-xl font-bold text-white">{`${tokenType[0]} expired at ${accessCount}`}</span>
+                )}
+              </div>
             </div>
           </form>
         </div>

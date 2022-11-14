@@ -12,18 +12,14 @@ const ModalsWrapper = (props: Props) => {
   const globalSelector = useSelector(selectGlobal);
   const dispatch = useDispatch();
   return (
-    <div>
+    <>
       <ErrorDialog
         toggle={globalSelector.alertDialog.show}
         msg={globalSelector.alertDialog.msg}
-        backdrop={() =>
-          dispatch(
-            setAlertDialog({ ...globalSelector.alertDialog, show: false })
-          )
-        }
+        backdrop={() => dispatch(setAlertDialog({ ...globalSelector.alertDialog, show: false }))}
       />
       {props.children}
-    </div>
+    </>
   );
 };
 export default ModalsWrapper;

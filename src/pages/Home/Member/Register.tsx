@@ -14,8 +14,8 @@ import { useSelector } from 'react-redux';
 export const RegisterInitial = {
   email: 'test@gmail.com',
   username: 'Victor',
-  password: 'ASD123!',
-  confirmPassword: 'ASD123!',
+  password: 'Asd123!',
+  confirmPassword: 'Asd123!',
 };
 
 const Register = () => {
@@ -116,7 +116,7 @@ const Register = () => {
         </Link>
 
         <div className="flex w-full ">
-          <Button isWhite={validator.isPass} type="submit" className="m-auto">
+          <Button isWhite={validator.isPass} type="submit" className={`m-auto ${isLoading ? 'text-stone-900' : ''}`}>
             {isLoading ? <SvgICon className="w-4" name="spin" /> : 'Submit'}
           </Button>
         </div>
