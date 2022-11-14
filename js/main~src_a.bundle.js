@@ -219,7 +219,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
 const HomeWrapper = ({ children }) => {
-    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex min-h-screen w-full bg-greyscale sm:flex-col lg:flex-row" }, children));
+    return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex min-h-screen w-full bg-greyscale sm:flex-col lg:flex-row" }, children);
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HomeWrapper);
 
@@ -294,7 +294,7 @@ __webpack_require__.r(__webpack_exports__);
 const ModalsWrapper = (props) => {
     const globalSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(_store__WEBPACK_IMPORTED_MODULE_3__.selectGlobal);
     const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useDispatch)();
-    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null,
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_modals_ErrorDialog__WEBPACK_IMPORTED_MODULE_2__["default"], { toggle: globalSelector.alertDialog.show, msg: globalSelector.alertDialog.msg, backdrop: () => dispatch((0,_store_global__WEBPACK_IMPORTED_MODULE_4__.setAlertDialog)({ ...globalSelector.alertDialog, show: false })) }),
         props.children));
 };

@@ -62,10 +62,12 @@ __webpack_require__.r(__webpack_exports__);
 
 const LoginInitial = {
     email: 'test@gmail.com',
-    password: 'ASD123!',
+    password: 'Asd123!',
 };
 const Member = () => {
     const [token, setToken] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+    const [accessCount, setAccessCountToken] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(11);
+    const [tokenType, settokenType] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(['access', 'refresh']);
     const rules = {
         email: [
             { validate: _utils_validate__WEBPACK_IMPORTED_MODULE_5__.validateRegexp.email, message: 'wrong mail formate' },
@@ -82,8 +84,17 @@ const Member = () => {
         if (!data)
             throw 'submit failed';
         const res = await POST_LOGIN(data);
-        setToken(JSON.stringify(res.data.data));
+        if (res.data.status) {
+            setToken(JSON.stringify(res.data.data));
+        }
     });
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        if (accessCount === 0 && tokenType[0] === 'access') {
+            settokenType(tokenType.reverse().map((item) => item));
+            setAccessCountToken(11);
+        }
+        accessCount > 0 && setTimeout(() => setAccessCountToken(accessCount - 1), 1000);
+    }, [accessCount]);
     const onTestToken = (e) => {
         e.preventDefault();
         GET_TokenTest().then((res) => {
@@ -102,9 +113,13 @@ const Member = () => {
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Link, { to: "/member/register" }, "Register?")),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-full " },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement(outsiderreact_dist_components_Button__WEBPACK_IMPORTED_MODULE_2__["default"], { onClick: onSubmit, className: "m-auto" }, "Submit")),
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-full " },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-full flex-col" },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement(outsiderreact_dist_components_Button__WEBPACK_IMPORTED_MODULE_2__["default"], { onClick: onTestToken, className: "m-auto" }, "TokenTest"),
-                token)))) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Outlet, null))));
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "grid grid-cols-2" },
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "max-w-xs break-all text-white" },
+                        token,
+                        " "),
+                    token !== '' && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "text-xl font-bold text-white" }, `${tokenType[0]} expired at ${accessCount}`))))))) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Outlet, null))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Member);
 
@@ -112,4 +127,4 @@ const Member = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/2f312d3a4d01f10086bb.js.map
+//# sourceMappingURL=js/5e809087e914d2c4f081.js.map

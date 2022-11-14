@@ -40,8 +40,8 @@ __webpack_require__.r(__webpack_exports__);
 const RegisterInitial = {
     email: 'test@gmail.com',
     username: 'Victor',
-    password: 'ASD123!',
-    confirmPassword: 'ASD123!',
+    password: 'Asd123!',
+    confirmPassword: 'Asd123!',
 };
 const Register = () => {
     const [isLoading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
@@ -96,7 +96,7 @@ const Register = () => {
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: " text-orange-500" }, validator.errors.confirmPassword.message),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Link, { className: "flex font-bold text-orange-400", to: "/member" }, "Login?"),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-full " },
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Button__WEBPACK_IMPORTED_MODULE_2__["default"], { isWhite: validator.isPass, type: "submit", className: "m-auto" }, isLoading ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SvgIcon__WEBPACK_IMPORTED_MODULE_8__["default"], { className: "w-4", name: "spin" }) : 'Submit')))));
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Button__WEBPACK_IMPORTED_MODULE_2__["default"], { isWhite: validator.isPass, type: "submit", className: `m-auto ${isLoading ? 'text-stone-900' : ''}` }, isLoading ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SvgIcon__WEBPACK_IMPORTED_MODULE_8__["default"], { className: "w-4", name: "spin" }) : 'Submit')))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Register);
 
@@ -104,4 +104,4 @@ const Register = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/fb264a8f1415db6f2f78.js.map
+//# sourceMappingURL=js/11ac0bb5ceca48a71ab1.js.map
