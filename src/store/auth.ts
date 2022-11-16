@@ -6,6 +6,10 @@ const initialState = {
     accessToken: '',
     refreshToken: '',
   },
+  // tokenConfig: {
+  //   tokenExpiredTime: 10,
+  //   tokeType: 'access',
+  // },
 };
 
 export const globalSlice = createSlice({
@@ -18,6 +22,14 @@ export const globalSlice = createSlice({
 
       state.user = { ...user, accessToken, refreshToken };
     },
+    // setTokenConfig: (state, action: PayloadAction<typeof initialState.tokenConfig>) => {
+    //   // const { tokenExpiredTime } = state.tokenConfig;
+    //   // state.tokenConfig = {
+    //   //   ...state.tokenConfig,
+    //   //   tokenExpiredTime: action.payload.tokenExpiredTime,
+    //   //   tokeType: action.payload.tokeType,
+    //   // };
+    // },
   },
 });
 

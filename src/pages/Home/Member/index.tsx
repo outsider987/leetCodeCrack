@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Input from 'outsiderreact/dist/components/Input';
 import Button from 'outsiderreact/dist/components/Button';
 import { Link, Outlet, useLocation } from 'react-router-dom';
@@ -7,8 +7,10 @@ import { HomeRoute } from '~/router';
 import useAuthApi from '~/api/auth';
 import { useForm, ValidateType } from '~/hooks/useMyForm';
 import { RegexpBindFactory, validateRegexp } from '~/utils/validate';
-import { store } from '~/store';
+import { selectAuth, store } from '~/store';
 import { setAlertDialog } from '~/store/global';
+import { useDispatch, useSelector } from 'react-redux';
+import { setToken } from '~/store/auth';
 
 export interface MemberState {
   sort_index: number;
@@ -20,9 +22,14 @@ export const LoginInitial = {
 };
 
 const Member = () => {
-  const [token, setToken] = useState('');
-  const [accessCount, setAccessCountToken] = useState(11);
-  const [tokenType, settokenType] = useState(['access', 'refresh']);
+  const authSelector = useSelector(selectAuth);
+  const dispatch = useDispatch();
+  const [accessCount, setAccessCountToken] = useState(10);
+  const [tokeType, setTokeType] = useState('access');
+  const firstRender = useRef(false);
+  const intervalId = useRef<any>(0);
+  const countTime = useRef(10);
+  const tokeTypeRef = useRef('access');
 
   const rules: ValidateType<typeof LoginInitial> = {
     email: [
@@ -41,17 +48,36 @@ const Member = () => {
     if (!data) throw 'submit failed';
     const res = await POST_LOGIN(data);
     if (res.data.status) {
-      setToken(JSON.stringify(res.data.data));
+      firstRender.current = true;
+      countTime.current = 10;
     }
   });
 
   useEffect(() => {
-    if (accessCount === 0 && tokenType[0] === 'access') {
-      settokenType(tokenType.reverse().map((item) => item));
-      setAccessCountToken(11);
+    clearInterval(intervalId.current);
+    tokeTypeRef.current = 'access';
+    setTokeType(tokeTypeRef.current);
+    countTime.current = 10;
+    setAccessCountToken(countTime.current);
+
+    if (authSelector.user.accessToken !== '') {
+      intervalId.current =
+        countTime.current > 0 &&
+        setInterval(() => {
+          setAccessCountToken(--countTime.current);
+          if (countTime.current === 0 && tokeTypeRef.current === 'access') {
+            tokeTypeRef.current = 'refresh';
+            setTokeType(tokeTypeRef.current);
+            countTime.current = 10;
+            setAccessCountToken(10);
+            // clearInterval(intervalId.current as any);
+          }
+          if (countTime.current === 0 && tokeTypeRef.current === 'refresh') {
+            clearInterval(intervalId.current as any);
+          }
+        }, 1000);
     }
-    accessCount > 0 && setTimeout(() => setAccessCountToken(accessCount - 1), 1000);
-  }, [accessCount]);
+  }, [authSelector.user.accessToken]);
   const onTestToken = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
     GET_TokenTest().then((res) => {
@@ -101,9 +127,13 @@ const Member = () => {
                 TokenTest
               </Button>
               <div className="grid grid-cols-2">
-                <span className="max-w-xs break-all text-white">{token} </span>
-                {token !== '' && (
-                  <span className="text-xl font-bold text-white">{`${tokenType[0]} expired at ${accessCount}`}</span>
+                <span className="max-w-xs break-all text-white">
+                  {tokeType === 'refresh'
+                    ? `refresh:${authSelector.user.refreshToken}`
+                    : `access:${authSelector.user.accessToken}`}
+                </span>
+                {authSelector.user.accessToken !== '' && (
+                  <span className="text-xl font-bold text-white">{`${tokeType} expired at ${accessCount}`}</span>
                 )}
               </div>
             </div>

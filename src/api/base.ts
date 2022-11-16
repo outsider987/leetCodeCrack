@@ -4,8 +4,6 @@ import { getTokenStorage, setTokenStorage } from '~/utils/storage';
 import { store } from '~/store';
 import { setAlertDialog } from '~/store/global';
 
-//  `https://avl-frontend-exam.herokuapp.com/api/${subPath}`
-
 export interface APIResponse<T = any> {
   data?: T;
   message?: string;
