@@ -513,6 +513,10 @@ const initialState = {
         accessToken: '',
         refreshToken: '',
     },
+    // tokenConfig: {
+    //   tokenExpiredTime: 10,
+    //   tokeType: 'access',
+    // },
 };
 const globalSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
     name: 'global',
@@ -523,6 +527,14 @@ const globalSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice
             const { accessToken, refreshToken } = action.payload;
             state.user = { ...user, accessToken, refreshToken };
         },
+        // setTokenConfig: (state, action: PayloadAction<typeof initialState.tokenConfig>) => {
+        //   // const { tokenExpiredTime } = state.tokenConfig;
+        //   // state.tokenConfig = {
+        //   //   ...state.tokenConfig,
+        //   //   tokenExpiredTime: action.payload.tokenExpiredTime,
+        //   //   tokeType: action.payload.tokeType,
+        //   // };
+        // },
     },
 });
 // Action creators are generated for each case reducer function

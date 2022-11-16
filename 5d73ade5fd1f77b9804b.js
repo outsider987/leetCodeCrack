@@ -44,13 +44,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var outsiderreact_dist_components_Input__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! outsiderreact/dist/components/Input */ "./node_modules/outsiderreact/dist/components/Input/index.js");
 /* harmony import */ var outsiderreact_dist_components_Button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! outsiderreact/dist/components/Button */ "./node_modules/outsiderreact/dist/components/Button/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 /* harmony import */ var _api_auth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ~/api/auth */ "./src/api/auth.ts");
 /* harmony import */ var _hooks_useMyForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ~/hooks/useMyForm */ "./src/hooks/useMyForm.tsx");
 /* harmony import */ var _utils_validate__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ~/utils/validate */ "./src/utils/validate.ts");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ~/store */ "./src/store/index.ts");
 /* harmony import */ var _store_global__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ~/store/global */ "./src/store/global.ts");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
 
 
 
@@ -65,9 +67,14 @@ const LoginInitial = {
     password: 'Asd123!',
 };
 const Member = () => {
-    const [token, setToken] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
-    const [accessCount, setAccessCountToken] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(11);
-    const [tokenType, settokenType] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(['access', 'refresh']);
+    const authSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_8__.useSelector)(_store__WEBPACK_IMPORTED_MODULE_6__.selectAuth);
+    const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_8__.useDispatch)();
+    const [accessCount, setAccessCountToken] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(10);
+    const [tokeType, setTokeType] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('access');
+    const firstRender = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(false);
+    const intervalId = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(0);
+    const countTime = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(10);
+    const tokeTypeRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)('access');
     const rules = {
         email: [
             { validate: _utils_validate__WEBPACK_IMPORTED_MODULE_5__.validateRegexp.email, message: 'wrong mail formate' },
@@ -85,23 +92,41 @@ const Member = () => {
             throw 'submit failed';
         const res = await POST_LOGIN(data);
         if (res.data.status) {
-            setToken(JSON.stringify(res.data.data));
+            firstRender.current = true;
+            countTime.current = 10;
         }
     });
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        if (accessCount === 0 && tokenType[0] === 'access') {
-            settokenType(tokenType.reverse().map((item) => item));
-            setAccessCountToken(11);
+        clearInterval(intervalId.current);
+        tokeTypeRef.current = 'access';
+        setTokeType(tokeTypeRef.current);
+        countTime.current = 10;
+        setAccessCountToken(countTime.current);
+        if (authSelector.user.accessToken !== '') {
+            intervalId.current =
+                countTime.current > 0 &&
+                    setInterval(() => {
+                        setAccessCountToken(--countTime.current);
+                        if (countTime.current === 0 && tokeTypeRef.current === 'access') {
+                            tokeTypeRef.current = 'refresh';
+                            setTokeType(tokeTypeRef.current);
+                            countTime.current = 10;
+                            setAccessCountToken(10);
+                            // clearInterval(intervalId.current as any);
+                        }
+                        if (countTime.current === 0 && tokeTypeRef.current === 'refresh') {
+                            clearInterval(intervalId.current);
+                        }
+                    }, 1000);
         }
-        accessCount > 0 && setTimeout(() => setAccessCountToken(accessCount - 1), 1000);
-    }, [accessCount]);
+    }, [authSelector.user.accessToken]);
     const onTestToken = (e) => {
         e.preventDefault();
         GET_TokenTest().then((res) => {
             _store__WEBPACK_IMPORTED_MODULE_6__.store.dispatch((0,_store_global__WEBPACK_IMPORTED_MODULE_7__.setAlertDialog)({ show: true, msg: 'test work' }));
         });
     };
-    const isShow = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useLocation)().pathname === '/member';
+    const isShow = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useLocation)().pathname === '/member';
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, isShow ? (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex h-full w-full " },
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", { className: "m-auto w-[50vw] space-y-6 " },
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col space-y-5 " },
@@ -110,16 +135,16 @@ const Member = () => {
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement(outsiderreact_dist_components_Input__WEBPACK_IMPORTED_MODULE_1__["default"], { name: "password", label: "Password", className: "text-white", type: "text", onChange: validator.noWhiteSpaceChange, value: validator.values.password, placeholder: "Password" }),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: " text-orange-500" }, validator.errors.password.message)),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex font-bold text-orange-400" },
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Link, { to: "/member/register" }, "Register?")),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Link, { to: "/member/register" }, "Register?")),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-full " },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement(outsiderreact_dist_components_Button__WEBPACK_IMPORTED_MODULE_2__["default"], { onClick: onSubmit, className: "m-auto" }, "Submit")),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-full flex-col" },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement(outsiderreact_dist_components_Button__WEBPACK_IMPORTED_MODULE_2__["default"], { onClick: onTestToken, className: "m-auto" }, "TokenTest"),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "grid grid-cols-2" },
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "max-w-xs break-all text-white" },
-                        token,
-                        " "),
-                    token !== '' && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "text-xl font-bold text-white" }, `${tokenType[0]} expired at ${accessCount}`))))))) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Outlet, null))));
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "max-w-xs break-all text-white" }, tokeType === 'refresh'
+                        ? `refresh:${authSelector.user.refreshToken}`
+                        : `access:${authSelector.user.accessToken}`),
+                    authSelector.user.accessToken !== '' && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "text-xl font-bold text-white" }, `${tokeType} expired at ${accessCount}`))))))) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Outlet, null))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Member);
 
@@ -127,4 +152,4 @@ const Member = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/5e809087e914d2c4f081.js.map
+//# sourceMappingURL=js/5d73ade5fd1f77b9804b.js.map
