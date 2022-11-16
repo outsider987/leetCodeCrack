@@ -1,9 +1,7 @@
 import { setTokenStorage } from '~/utils/storage';
 import { LoginInitial } from '~/pages/Home/Member';
 import { RegisterInitial } from '~/pages/Home/Member/Register';
-
 import api, { APIResponse, privateApi } from './base';
-import { store } from '~/store';
 
 const subPath = 'auth';
 const useAuthApi = () => {
