@@ -14,9 +14,7 @@ const NavBar = () => {
   };
   useEffect(() => {
     setMobildContentClass(
-      toggelMenu
-        ? 'h-[50vh] animate-menu_collpase_on '
-        : 'opacity-0 pointer-events-none animate-menu_collpase_off '
+      toggelMenu ? 'h-[50vh] animate-menu_collpase_on ' : 'opacity-0 pointer-events-none animate-menu_collpase_off ',
     );
   }, [toggelMenu]);
   useEffect(() => {
@@ -36,10 +34,7 @@ const NavBar = () => {
             <SvgICon name="logo" />
           </div>
 
-          <div
-            className="hidden flex-col items-center
-        space-y-6 lg:flex"
-          >
+          <div className="relative hidden flex-col items-center space-y-6 lg:flex">
             {HomeRoute.children.map((item) => (
               <NavBarItem
                 key={item.path}
@@ -47,6 +42,7 @@ const NavBar = () => {
                 iconName={item.icon}
                 path={item.path}
                 text={item.text}
+                children={item.children}
                 isFocus={useLocation().pathname === `${item.path}`}
               />
             ))}
@@ -57,11 +53,7 @@ const NavBar = () => {
     mobile: () => (
       <div>
         <div className=" fixed h-m-navbar-desktop-h w-full bg-navbar">
-          <SvgICon
-            onClick={onMobileMenuClick}
-            className="justify-end text-white"
-            name="menu"
-          />
+          <SvgICon onClick={onMobileMenuClick} className="justify-end text-white" name="menu" />
           <div className={`w-full space-y-3 bg-navbar ${mobildContentClass}`}>
             {HomeRoute.children.map((item, index) => (
               <NavBarItem
@@ -71,6 +63,7 @@ const NavBar = () => {
                 iconName={item.icon}
                 path={item.path}
                 text={item.text}
+                // children={item.children}
                 isFocus={useLocation().pathname === `${item.path}`}
               />
             ))}

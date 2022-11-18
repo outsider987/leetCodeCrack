@@ -18,7 +18,7 @@ module.exports = {
         'm-navbar-desktop-h': '8vh',
       },
       maxWidth: {
-        navbar_desktop_w: '5rem',
+        navbar_desktop_w: '15rem',
       },
       screens: {
         follower: '1440px',

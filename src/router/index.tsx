@@ -7,9 +7,7 @@ import Page404 from '~/pages/Page404';
 
 QuickSort;
 
-const lazyLoad = (
-  Comp: React.LazyExoticComponent<React.ComponentType<any>>
-) => {
+const lazyLoad = (Comp: React.LazyExoticComponent<React.ComponentType<any>>) => {
   return (
     <Suspense fallback={<>加载中...</>}>
       <Comp />
@@ -37,21 +35,26 @@ const HomeRoute = {
       children: [
         {
           path: '/sort/quicksort',
-          element: lazyLoad(
-            React.lazy(() => import('~/pages/Home/Sort/QuickSort'))
-          ),
+          element: lazyLoad(React.lazy(() => import('~/pages/Home/Sort/QuickSort'))),
           icon: 'template',
           isShow: true,
           text: 'QuickSort',
         },
         {
           path: '/sort/mergesort',
-          element: lazyLoad(
-            React.lazy(() => import('~/pages/Home/Sort/MergeSort'))
-          ),
+          element: lazyLoad(React.lazy(() => import('~/pages/Home/Sort/MergeSort'))),
           icon: 'template',
           isShow: true,
           text: 'MergeSort',
+          // children: [
+          //   {
+          //     path: '/sort/mergesort',
+          //     element: lazyLoad(React.lazy(() => import('~/pages/Home/Sort/MergeSort'))),
+          //     icon: 'template',
+          //     isShow: true,
+          //     text: 'test',
+          //   },
+          // ],
         },
       ],
     },
@@ -64,12 +67,17 @@ const HomeRoute = {
       children: [
         {
           path: '/member/register',
-          element: lazyLoad(
-            React.lazy(() => import('~/pages/Home/Member/Register'))
-          ),
+          element: lazyLoad(React.lazy(() => import('~/pages/Home/Member/Register'))),
           icon: 'template',
           isShow: true,
           text: 'register',
+        },
+        {
+          path: '/member',
+          element: lazyLoad(React.lazy(() => import('~/pages/Home/Member'))),
+          icon: 'template',
+          isShow: true,
+          text: 'login',
         },
       ],
     },
