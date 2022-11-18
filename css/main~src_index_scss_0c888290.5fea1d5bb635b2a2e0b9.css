@@ -533,6 +533,7 @@ video {
   .content_container {
     min-height: calc(100vh - 1rem);
     max-width: 70vw;
+    padding-top: 6vh;
   }
 }
 .content_tags_container {
@@ -707,13 +708,17 @@ video {
   max-width: 90vw;
 }
 .max-w-navbar_desktop_w {
-  max-width: 5rem;
+  max-width: 15rem;
 }
 .max-w-xs {
   max-width: 20rem;
 }
 .max-w-\[75vw\] {
   max-width: 75vw;
+}
+.rotate-\[270deg\] {
+  --tw-rotate: 270deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 @-webkit-keyframes spin {
 
@@ -1324,4 +1329,4 @@ video {
 }
 
 
-/*# sourceMappingURL=../js/css/main~src_index_scss_0c888290.40a605636ffcb5e4c578.css.map*/
+/*# sourceMappingURL=../js/css/main~src_index_scss_0c888290.5fea1d5bb635b2a2e0b9.css.map*/
