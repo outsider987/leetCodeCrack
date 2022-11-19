@@ -10,20 +10,33 @@ const Profile = () => {
       endYear: 'Still',
       startYeat: '2022.02',
       responsible: [
+        { content: `from scratch build CI/CD achieve auto deployment`, link: `` },
+        {
+          content: `refactor React class to functional `,
+          link: ``,
+        },
+        {
+          content: `revamp and maintenance clinic CMS system`,
+          link: ``,
+        },
+        { content: `refactor project and optimize api loading`, link: `` },
+        {
+          content: ` user upload files categeory by user id in S3`,
+          link: ``,
+        },
+        {
+          content: ` maintenance wordpress`,
+          link: ``,
+        },
+        {
+          content: ` review code and maintenance code quality`,
+          link: ``,
+        },
+
         {
           content: `maintenance landing page "standardlife"`,
           link: `https://member.mediconcen.com/en`,
         },
-        { content: `maintenance official`, link: `https://mediconcen.com/` },
-        {
-          content: `build up smart wallet from scratch (apple ,google) `,
-          link: ``,
-        },
-        {
-          content: `write tech document for coworker and share tech`,
-          link: ``,
-        },
-        { content: `maintenance CMS system`, link: `` },
       ],
       company_name: `MEDICONCEN`,
       title: `Full Stack`,
@@ -88,15 +101,10 @@ const Profile = () => {
       return (
         <div className="flex animate-fade_in flex-col space-y-4">
           <div className="  flex items-center justify-around space-x-6 lg:max-w-[70vw]">
-            <img
-              className="w-[15vw] rounded-full"
-              src={require('~/assets/img/me.jpg')}
-            />
+            <img className="w-[15vw] rounded-full" src={require('~/assets/img/me.jpg')} />
             <div className="flex h-full flex-col space-y-3 text-white">
               <h1 className="text-3xl font-bold">{name}</h1>
-              <div className=" font-light leading-[1.5rem] tracking-wide text-gray-400">
-                {contentDescr}
-              </div>
+              <div className=" font-light leading-[1.5rem] tracking-wide text-gray-400">{contentDescr}</div>
               <div className="flex">
                 <a href="https://micro-react.herokuapp.com/">
                   <SvgICon name="story" />
@@ -120,15 +128,10 @@ const Profile = () => {
         <div className="animate-fade_in overflow-auto opacity-100">
           <div className="flex flex-col space-y-4 sm:mr-2 ">
             <div className=" flex flex-col items-center justify-around space-x-6 lg:max-w-[70vw]">
-              <img
-                className="w-[15vw] rounded-full"
-                src={require('~/assets/img/me.jpg')}
-              />
+              <img className="w-[15vw] rounded-full" src={require('~/assets/img/me.jpg')} />
               <div className="flex h-full flex-col space-y-3 text-white">
                 <h1 className="text-center text-xl font-bold">{name}</h1>
-                <div className="font-light leading-[1.5rem] tracking-wide text-gray-400">
-                  {contentDescr}
-                </div>
+                <div className="font-light leading-[1.5rem] tracking-wide text-gray-400">{contentDescr}</div>
                 <div className="flex">
                   <a href="https://micro-react.herokuapp.com/">
                     <SvgICon name="story" />

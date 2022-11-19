@@ -53,6 +53,15 @@ const HomeRoute = {
           //     icon: 'template',
           //     isShow: true,
           //     text: 'test',
+          //     children: [
+          //       {
+          //         path: '/sort/mergesort/2',
+          //         element: lazyLoad(React.lazy(() => import('~/pages/Home/Sort/MergeSort'))),
+          //         icon: 'template',
+          //         isShow: true,
+          //         text: 'test',
+          //       },
+          //     ],
           //   },
           // ],
         },
