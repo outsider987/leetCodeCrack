@@ -597,6 +597,9 @@ video {
 .left-0 {
   left: 0px;
 }
+.z-\[99\] {
+  z-index: 99;
+}
 .z-50 {
   z-index: 50;
 }
@@ -715,6 +718,10 @@ video {
 }
 .max-w-\[75vw\] {
   max-width: 75vw;
+}
+.rotate-90 {
+  --tw-rotate: 90deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 .rotate-\[270deg\] {
   --tw-rotate: 270deg;
@@ -843,6 +850,9 @@ video {
 .animate-menu_collpase_off {
   -webkit-animation: menu_collpase_off 0.5s ease-in;
           animation: menu_collpase_off 0.5s ease-in;
+}
+.cursor-pointer {
+  cursor: pointer;
 }
 .resize {
   resize: both;
@@ -991,6 +1001,13 @@ video {
 .bg-navBarUnFocusBlue {
   --tw-bg-opacity: 1;
   background-color: rgb(0 209 255 / var(--tw-bg-opacity));
+}
+.bg-orange-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(249 115 22 / var(--tw-bg-opacity));
+}
+.bg-greyscale\/50 {
+  background-color: rgb(24 24 24 / 0.5);
 }
 .bg-gray-800\/50 {
   background-color: rgb(31 41 55 / 0.5);
@@ -1161,6 +1178,10 @@ video {
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
+.blur-md {
+  --tw-blur: blur(12px);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
 .transition {
   transition-property: color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
@@ -1249,6 +1270,11 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-slate-300:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(203 213 225 / var(--tw-bg-opacity));
+}
+
 .hover\:text-white:hover {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
@@ -1329,4 +1355,4 @@ video {
 }
 
 
-/*# sourceMappingURL=../js/css/main~src_index_scss_0c888290.5fea1d5bb635b2a2e0b9.css.map*/
+/*# sourceMappingURL=../js/css/main~src_index_scss_0c888290.35990a06edeae849857a.css.map*/

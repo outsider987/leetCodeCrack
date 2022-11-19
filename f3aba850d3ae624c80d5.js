@@ -68,20 +68,32 @@ const Profile = () => {
             endYear: 'Still',
             startYeat: '2022.02',
             responsible: [
+                { content: `from scratch build CI/CD achieve auto deployment`, link: `` },
+                {
+                    content: `refactor React class to functional `,
+                    link: ``,
+                },
+                {
+                    content: `revamp and maintenance clinic CMS system`,
+                    link: ``,
+                },
+                { content: `refactor project and optimize api loading`, link: `` },
+                {
+                    content: ` user upload files categeory by user id in S3`,
+                    link: ``,
+                },
+                {
+                    content: ` maintenance wordpress`,
+                    link: ``,
+                },
+                {
+                    content: ` review code and maintenance code quality`,
+                    link: ``,
+                },
                 {
                     content: `maintenance landing page "standardlife"`,
                     link: `https://member.mediconcen.com/en`,
                 },
-                { content: `maintenance official`, link: `https://mediconcen.com/` },
-                {
-                    content: `build up smart wallet from scratch (apple ,google) `,
-                    link: ``,
-                },
-                {
-                    content: `write tech document for coworker and share tech`,
-                    link: ``,
-                },
-                { content: `maintenance CMS system`, link: `` },
             ],
             company_name: `MEDICONCEN`,
             title: `Full Stack`,
@@ -189,4 +201,4 @@ module.exports = __webpack_require__.p + "src/assets/img/me.af2f25858a0ff2c5b2b6
 /***/ })
 
 }]);
-//# sourceMappingURL=js/18e64471e942cc761a65.js.map
+//# sourceMappingURL=js/f3aba850d3ae624c80d5.js.map

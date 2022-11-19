@@ -74,10 +74,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const NavBarItem = ({ children, iconName, path, isShow, isFocus, text, onClick }) => {
+const NavBarItem = ({ level = 0, children, iconName, path, isShow, isFocus, text, onClick }) => {
     if (!isShow) {
         return react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null);
     }
+    level++;
     //  mobile
     //   <Link onClick={onClick} to={path} className="relative flex flex-col items-center justify-center">
     //   <SvgICon name={iconName} className={`relative justify-center ${isFocus ? 'text-white' : 'text-[#6A6A6A]'}`}>
@@ -90,20 +91,22 @@ const NavBarItem = ({ children, iconName, path, isShow, isFocus, text, onClick }
     const [isOpen, setIsOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
     const renderRootItem = () => {
         if (children) {
-            return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { onClick: () => setIsOpen(!isOpen), className: "relative flex flex-row items-center justify-around" },
+            return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { onClick: () => setIsOpen(!isOpen), className: "relative flex cursor-pointer flex-row items-center justify-between" },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SvgIcon__WEBPACK_IMPORTED_MODULE_1__["default"], { name: iconName, className: `relative justify-center ${isFocus ? 'text-white' : 'text-[#6A6A6A]'}` }, isFocus && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "absolute right-[-16.6%] top-[-20.83%] h-[22%] w-[22%] rounded-full bg-navBarUnFocusBlue" }))),
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "min-h-[18px] text-center text-lg leading-[150%] tracking-[0.4px] text-white" }, text),
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SvgIcon__WEBPACK_IMPORTED_MODULE_1__["default"], { name: "arrow", className: " rotate-[270deg] " })));
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: `absolute inset-0 m-auto min-h-[18px] text-center ${level > 1 ? 'text-xs' : 'text-lg'} leading-[150%] tracking-[0.4px] text-white` }, text),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SvgIcon__WEBPACK_IMPORTED_MODULE_1__["default"], { name: "arrow", className: isOpen ? 'rotate-90' : 'rotate-[270deg]' })));
         }
         else {
             return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, { onClick: onClick, to: path, className: "relative flex flex-col items-center justify-center" },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SvgIcon__WEBPACK_IMPORTED_MODULE_1__["default"], { name: iconName, className: `relative justify-center ${isFocus ? 'text-white' : 'text-[#6A6A6A]'}` }, isFocus && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "absolute right-[-16.6%] top-[-20.83%] h-[22%] w-[22%] rounded-full bg-navBarUnFocusBlue" }))),
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "min-h-[18px] text-center text-xs leading-[150%] tracking-[0.4px] text-white" }, text)));
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "min-h-[18px] text-center text-xs leading-[150%] tracking-[0.4px] text-white hover:bg-slate-300" }, text)));
         }
     };
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative flex w-full flex-col" },
         renderRootItem(),
-        children && isOpen && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", { className: "flex flex-col space-y-2" }, children.map((subItem, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(NavBarItem, { key: index, ...subItem })))))));
+        children && isOpen && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", { className: "relative flex flex-col space-y-2  bg-orange-500 " },
+            children.map((subItem, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(NavBarItem, { className: "z-[99]", key: index, ...subItem, level: level }))),
+            ' '))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NavBarItem);
 
@@ -143,4 +146,4 @@ const Home = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/806971ee0eedf8a16241.js.map
+//# sourceMappingURL=js/c91e98a6b1d849a79b7c.js.map
