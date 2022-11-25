@@ -44,7 +44,7 @@ const NavBar = () => {
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SvgIcon__WEBPACK_IMPORTED_MODULE_2__["default"], { name: "logo" })),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative hidden flex-col items-center space-y-6 lg:flex" }, _router__WEBPACK_IMPORTED_MODULE_3__.HomeRoute.children.map((item) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_NavBarItem__WEBPACK_IMPORTED_MODULE_4__["default"], { key: item.path, isShow: item.isShow, iconName: item.icon, path: item.path, text: item.text, children: item.children, isFocus: (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useLocation)().pathname === `${item.path}` }))))))),
         mobile: () => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " fixed h-m-navbar-desktop-h w-full bg-navbar" },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " fixed h-m-navbar-desktop-h w-full bg-navbar opacity-80" },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SvgIcon__WEBPACK_IMPORTED_MODULE_2__["default"], { onClick: onMobileMenuClick, className: "justify-end text-white", name: "menu" }),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: `w-full space-y-3 bg-navbar ${mobildContentClass}` }, _router__WEBPACK_IMPORTED_MODULE_3__.HomeRoute.children.map((item, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_NavBarItem__WEBPACK_IMPORTED_MODULE_4__["default"], { onClick: onMobileMenuClick, key: index, isShow: item.isShow, iconName: item.icon, path: item.path, text: item.text, 
                     // children={item.children}
@@ -146,4 +146,4 @@ const Home = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/c91e98a6b1d849a79b7c.js.map
+//# sourceMappingURL=js/7f43a7d444932825b45d.js.map

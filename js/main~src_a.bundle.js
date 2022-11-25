@@ -489,18 +489,18 @@ const HomeRoute = {
             text: 'member',
             children: [
                 {
+                    path: '/member/login',
+                    element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_axios_index_js-node_modules_axios_lib_adapters_xhr_js"), __webpack_require__.e("vendors-node_modules_axios_lib_cancel_CancelToken_js-node_modules_axios_lib_core_Axios_js-nod-ea0872"), __webpack_require__.e("vendors-node_modules_axios_lib_helpers_bind_js-node_modules_axios_lib_helpers_buildURL_js-nod-316a2f"), __webpack_require__.e("vendors-node_modules_axios_lib_utils_js"), __webpack_require__.e("node_modules_outsiderreact_dist_components_Input_index_js-src_api_auth_ts-src_hooks_useMyForm-226379"), __webpack_require__.e("src_pages_Home_Member_Login_tsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Member/Login */ "./src/pages/Home/Member/Login.tsx")))),
+                    icon: 'template',
+                    isShow: true,
+                    text: 'login',
+                },
+                {
                     path: '/member/register',
                     element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_axios_index_js-node_modules_axios_lib_adapters_xhr_js"), __webpack_require__.e("vendors-node_modules_axios_lib_cancel_CancelToken_js-node_modules_axios_lib_core_Axios_js-nod-ea0872"), __webpack_require__.e("vendors-node_modules_axios_lib_helpers_bind_js-node_modules_axios_lib_helpers_buildURL_js-nod-316a2f"), __webpack_require__.e("vendors-node_modules_axios_lib_utils_js"), __webpack_require__.e("src_components_SvgIcon_tsx"), __webpack_require__.e("node_modules_outsiderreact_dist_components_Input_index_js-src_api_auth_ts-src_hooks_useMyForm-226379"), __webpack_require__.e("src_pages_Home_Member_Register_tsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Member/Register */ "./src/pages/Home/Member/Register.tsx")))),
                     icon: 'template',
                     isShow: true,
                     text: 'register',
-                },
-                {
-                    path: '/member',
-                    element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_axios_index_js-node_modules_axios_lib_adapters_xhr_js"), __webpack_require__.e("vendors-node_modules_axios_lib_cancel_CancelToken_js-node_modules_axios_lib_core_Axios_js-nod-ea0872"), __webpack_require__.e("vendors-node_modules_axios_lib_helpers_bind_js-node_modules_axios_lib_helpers_buildURL_js-nod-316a2f"), __webpack_require__.e("vendors-node_modules_axios_lib_utils_js"), __webpack_require__.e("node_modules_outsiderreact_dist_components_Input_index_js-src_api_auth_ts-src_hooks_useMyForm-226379"), __webpack_require__.e("src_pages_Home_Member_index_tsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Member */ "./src/pages/Home/Member/index.tsx")))),
-                    icon: 'template',
-                    isShow: true,
-                    text: 'login',
                 },
             ],
         },

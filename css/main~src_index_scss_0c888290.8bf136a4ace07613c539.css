@@ -609,6 +609,10 @@ video {
 .m-10 {
   margin: 2.5rem;
 }
+.my-5 {
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+}
 .mt-1 {
   margin-top: 0.25rem;
 }
@@ -633,14 +637,20 @@ video {
 .hidden {
   display: none;
 }
+.h-full {
+  height: 100%;
+}
+.h-9 {
+  height: 2.25rem;
+}
+.h-auto {
+  height: auto;
+}
 .h-\[90vh\] {
   height: 90vh;
 }
 .h-\[22\%\] {
   height: 22%;
-}
-.h-full {
-  height: 100%;
 }
 .h-\[50vh\] {
   height: 50vh;
@@ -651,11 +661,17 @@ video {
 .h-1\/2 {
   height: 50%;
 }
+.max-h-\[75\%\] {
+  max-height: 75%;
+}
 .max-h-\[94vh\] {
   max-height: 94vh;
 }
 .max-h-\[50vh\] {
   max-height: 50vh;
+}
+.min-h-\[125px\] {
+  min-height: 125px;
 }
 .min-h-screen {
   min-height: 100vh;
@@ -671,6 +687,9 @@ video {
 }
 .w-1 {
   width: 0.25rem;
+}
+.w-\[150px\] {
+  width: 150px;
 }
 .w-\[22\%\] {
   width: 22%;
@@ -903,6 +922,11 @@ video {
   margin-top: calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(0.25rem * var(--tw-space-y-reverse));
 }
+.space-x-3 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(0.75rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
+}
 .space-y-2 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
@@ -928,16 +952,14 @@ video {
   margin-right: calc(1.5rem * var(--tw-space-x-reverse));
   margin-left: calc(1.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
-.space-x-3 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-x-reverse: 0;
-  margin-right: calc(0.75rem * var(--tw-space-x-reverse));
-  margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
-}
 .overflow-auto {
   overflow: auto;
 }
 .overflow-hidden {
   overflow: hidden;
+}
+.text-ellipsis {
+  text-overflow: ellipsis;
 }
 .break-words {
   overflow-wrap: break-word;
@@ -966,8 +988,14 @@ video {
 .border-\[0px\] {
   border-width: 0px;
 }
+.border-0 {
+  border-width: 0px;
+}
 .border-2 {
   border-width: 2px;
+}
+.border-b {
+  border-bottom-width: 1px;
 }
 .border-solid {
   border-style: solid;
@@ -975,6 +1003,10 @@ video {
 .border-black {
   --tw-border-opacity: 1;
   border-color: rgb(0 0 0 / var(--tw-border-opacity));
+}
+.border-\[\#7C4A99\] {
+  --tw-border-opacity: 1;
+  border-color: rgb(124 74 153 / var(--tw-border-opacity));
 }
 .border-opacity-50 {
   --tw-border-opacity: 0.5;
@@ -989,6 +1021,10 @@ video {
 }
 .bg-white\/60 {
   background-color: rgb(255 255 255 / 0.6);
+}
+.bg-\[\#F2F2F2\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(242 242 242 / var(--tw-bg-opacity));
 }
 .bg-gray-300 {
   --tw-bg-opacity: 1;
@@ -1036,6 +1072,12 @@ video {
 .bg-opacity-75 {
   --tw-bg-opacity: 0.75;
 }
+.p-5 {
+  padding: 1.25rem;
+}
+.p-4 {
+  padding: 1rem;
+}
 .p-\[1\%\] {
   padding: 1%;
 }
@@ -1068,6 +1110,10 @@ video {
 .text-center {
   text-align: center;
 }
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem;
@@ -1087,10 +1133,6 @@ video {
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
-}
-.text-sm {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
 }
 .font-bold {
   font-weight: 700;
@@ -1142,6 +1184,14 @@ video {
   --tw-text-opacity: 1;
   color: rgb(30 64 175 / var(--tw-text-opacity));
 }
+.text-\[\#7C4A99\] {
+  --tw-text-opacity: 1;
+  color: rgb(124 74 153 / var(--tw-text-opacity));
+}
+.text-\[\#1D7E3C\] {
+  --tw-text-opacity: 1;
+  color: rgb(29 126 60 / var(--tw-text-opacity));
+}
 .text-\[\#6A6A6A\] {
   --tw-text-opacity: 1;
   color: rgb(106 106 106 / var(--tw-text-opacity));
@@ -1160,6 +1210,9 @@ video {
 }
 .opacity-0 {
   opacity: 0;
+}
+.opacity-80 {
+  opacity: 0.8;
 }
 .opacity-100 {
   opacity: 1;
@@ -1180,6 +1233,9 @@ video {
 }
 .blur-md {
   --tw-blur: blur(12px);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+.filter {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 .transition {
@@ -1355,4 +1411,4 @@ video {
 }
 
 
-/*# sourceMappingURL=../js/css/main~src_index_scss_0c888290.54ce18e6e10d3f3fae37.css.map*/
+/*# sourceMappingURL=../js/css/main~src_index_scss_0c888290.8bf136a4ace07613c539.css.map*/
