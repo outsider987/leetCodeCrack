@@ -90,6 +90,30 @@ const HomeRoute = {
         },
       ],
     },
+
+    {
+      path: '/performance',
+      element: lazyLoad(React.lazy(() => import('~/pages/Home/Performance'))),
+      icon: 'template',
+      isShow: true,
+      text: 'performance',
+      children: [
+        {
+          path: '/performance/infinite',
+          element: lazyLoad(React.lazy(() => import('~/pages/Home/Performance/InfiniteScroll'))),
+          icon: 'template',
+          isShow: true,
+          text: 'infinite',
+        },
+        {
+          path: '/performance/react-query',
+          element: lazyLoad(React.lazy(() => import('~/pages/Home/Performance/ReactQuery'))),
+          icon: 'template',
+          isShow: true,
+          text: 'ReactQuery',
+        },
+      ],
+    },
   ],
 };
 const routes = [
