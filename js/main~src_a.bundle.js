@@ -35,13 +35,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./router */ "./src/router/index.tsx");
 /* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index.scss */ "./src/index.scss");
 /* harmony import */ var _reset_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./reset.scss */ "./src/reset.scss");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store */ "./src/store/index.ts");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _layouts_ModalsWrapper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./layouts/ModalsWrapper */ "./src/layouts/ModalsWrapper.tsx");
+/* harmony import */ var react_query__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-query */ "./node_modules/react-query/es/index.js");
 
 
 
@@ -53,11 +54,14 @@ __webpack_require__.r(__webpack_exports__);
 
 const rootElement = document.getElementById('root');
 const root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(rootElement);
+
+const queryClient = new react_query__WEBPACK_IMPORTED_MODULE_8__.QueryClient();
 root.render(react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().StrictMode), null,
     react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_redux__WEBPACK_IMPORTED_MODULE_6__.Provider, { store: _store__WEBPACK_IMPORTED_MODULE_5__.store },
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.HashRouter, null,
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_layouts_ModalsWrapper__WEBPACK_IMPORTED_MODULE_7__["default"], null,
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_router__WEBPACK_IMPORTED_MODULE_2__.MYRoutes, null))))));
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.HashRouter, null,
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_query__WEBPACK_IMPORTED_MODULE_8__.QueryClientProvider, { client: queryClient },
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_layouts_ModalsWrapper__WEBPACK_IMPORTED_MODULE_7__["default"], null,
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_router__WEBPACK_IMPORTED_MODULE_2__.MYRoutes, null)))))));
 
 
 /***/ }),
@@ -479,24 +483,47 @@ const HomeRoute = {
         },
         {
             path: '/member',
-            element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_axios_index_js-node_modules_axios_lib_adapters_xhr_js"), __webpack_require__.e("vendors-node_modules_axios_lib_cancel_CancelToken_js-node_modules_axios_lib_core_Axios_js-nod-ea0872"), __webpack_require__.e("vendors-node_modules_axios_lib_helpers_bind_js-node_modules_axios_lib_helpers_buildURL_js-nod-316a2f"), __webpack_require__.e("vendors-node_modules_axios_lib_utils_js-node_modules_outsiderreact_dist_components_Input_index_js"), __webpack_require__.e("src_api_auth_ts-src_hooks_useMyForm_tsx-src_utils_validate_ts"), __webpack_require__.e("src_pages_Home_Member_index_tsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Member */ "./src/pages/Home/Member/index.tsx")))),
+            element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_axios_index_js-node_modules_axios_lib_adapters_xhr_js"), __webpack_require__.e("vendors-node_modules_axios_lib_cancel_CancelToken_js-node_modules_axios_lib_core_Axios_js-nod-ea0872"), __webpack_require__.e("vendors-node_modules_axios_lib_helpers_bind_js-node_modules_axios_lib_helpers_buildURL_js-nod-316a2f"), __webpack_require__.e("vendors-node_modules_axios_lib_utils_js"), __webpack_require__.e("node_modules_outsiderreact_dist_components_Input_index_js-src_api_auth_ts-src_hooks_useMyForm-226379"), __webpack_require__.e("src_pages_Home_Member_index_tsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Member */ "./src/pages/Home/Member/index.tsx")))),
             icon: 'template',
             isShow: true,
             text: 'member',
             children: [
                 {
                     path: '/member/register',
-                    element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_axios_index_js-node_modules_axios_lib_adapters_xhr_js"), __webpack_require__.e("vendors-node_modules_axios_lib_cancel_CancelToken_js-node_modules_axios_lib_core_Axios_js-nod-ea0872"), __webpack_require__.e("vendors-node_modules_axios_lib_helpers_bind_js-node_modules_axios_lib_helpers_buildURL_js-nod-316a2f"), __webpack_require__.e("vendors-node_modules_axios_lib_utils_js-node_modules_outsiderreact_dist_components_Input_index_js"), __webpack_require__.e("src_components_SvgIcon_tsx"), __webpack_require__.e("src_api_auth_ts-src_hooks_useMyForm_tsx-src_utils_validate_ts"), __webpack_require__.e("src_pages_Home_Member_Register_tsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Member/Register */ "./src/pages/Home/Member/Register.tsx")))),
+                    element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_axios_index_js-node_modules_axios_lib_adapters_xhr_js"), __webpack_require__.e("vendors-node_modules_axios_lib_cancel_CancelToken_js-node_modules_axios_lib_core_Axios_js-nod-ea0872"), __webpack_require__.e("vendors-node_modules_axios_lib_helpers_bind_js-node_modules_axios_lib_helpers_buildURL_js-nod-316a2f"), __webpack_require__.e("vendors-node_modules_axios_lib_utils_js"), __webpack_require__.e("src_components_SvgIcon_tsx"), __webpack_require__.e("node_modules_outsiderreact_dist_components_Input_index_js-src_api_auth_ts-src_hooks_useMyForm-226379"), __webpack_require__.e("src_pages_Home_Member_Register_tsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Member/Register */ "./src/pages/Home/Member/Register.tsx")))),
                     icon: 'template',
                     isShow: true,
                     text: 'register',
                 },
                 {
                     path: '/member',
-                    element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_axios_index_js-node_modules_axios_lib_adapters_xhr_js"), __webpack_require__.e("vendors-node_modules_axios_lib_cancel_CancelToken_js-node_modules_axios_lib_core_Axios_js-nod-ea0872"), __webpack_require__.e("vendors-node_modules_axios_lib_helpers_bind_js-node_modules_axios_lib_helpers_buildURL_js-nod-316a2f"), __webpack_require__.e("vendors-node_modules_axios_lib_utils_js-node_modules_outsiderreact_dist_components_Input_index_js"), __webpack_require__.e("src_api_auth_ts-src_hooks_useMyForm_tsx-src_utils_validate_ts"), __webpack_require__.e("src_pages_Home_Member_index_tsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Member */ "./src/pages/Home/Member/index.tsx")))),
+                    element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_axios_index_js-node_modules_axios_lib_adapters_xhr_js"), __webpack_require__.e("vendors-node_modules_axios_lib_cancel_CancelToken_js-node_modules_axios_lib_core_Axios_js-nod-ea0872"), __webpack_require__.e("vendors-node_modules_axios_lib_helpers_bind_js-node_modules_axios_lib_helpers_buildURL_js-nod-316a2f"), __webpack_require__.e("vendors-node_modules_axios_lib_utils_js"), __webpack_require__.e("node_modules_outsiderreact_dist_components_Input_index_js-src_api_auth_ts-src_hooks_useMyForm-226379"), __webpack_require__.e("src_pages_Home_Member_index_tsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Member */ "./src/pages/Home/Member/index.tsx")))),
                     icon: 'template',
                     isShow: true,
                     text: 'login',
+                },
+            ],
+        },
+        {
+            path: '/performance',
+            element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_axios_index_js-node_modules_axios_lib_adapters_xhr_js"), __webpack_require__.e("vendors-node_modules_axios_lib_cancel_CancelToken_js-node_modules_axios_lib_core_Axios_js-nod-ea0872"), __webpack_require__.e("vendors-node_modules_axios_lib_helpers_bind_js-node_modules_axios_lib_helpers_buildURL_js-nod-316a2f"), __webpack_require__.e("vendors-node_modules_axios_lib_utils_js"), __webpack_require__.e("src_api_post_ts"), __webpack_require__.e("src_pages_Home_Performance_index_tsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Performance */ "./src/pages/Home/Performance/index.tsx")))),
+            icon: 'template',
+            isShow: true,
+            text: 'performance',
+            children: [
+                {
+                    path: '/performance/infinite',
+                    element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_axios_index_js-node_modules_axios_lib_adapters_xhr_js"), __webpack_require__.e("vendors-node_modules_axios_lib_cancel_CancelToken_js-node_modules_axios_lib_core_Axios_js-nod-ea0872"), __webpack_require__.e("vendors-node_modules_axios_lib_helpers_bind_js-node_modules_axios_lib_helpers_buildURL_js-nod-316a2f"), __webpack_require__.e("vendors-node_modules_axios_lib_utils_js"), __webpack_require__.e("src_api_post_ts"), __webpack_require__.e("src_pages_Home_Performance_InfiniteScroll_tsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Performance/InfiniteScroll */ "./src/pages/Home/Performance/InfiniteScroll.tsx")))),
+                    icon: 'template',
+                    isShow: true,
+                    text: 'infinite',
+                },
+                {
+                    path: '/performance/react-query',
+                    element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_axios_index_js-node_modules_axios_lib_adapters_xhr_js"), __webpack_require__.e("vendors-node_modules_axios_lib_cancel_CancelToken_js-node_modules_axios_lib_core_Axios_js-nod-ea0872"), __webpack_require__.e("vendors-node_modules_axios_lib_helpers_bind_js-node_modules_axios_lib_helpers_buildURL_js-nod-316a2f"), __webpack_require__.e("vendors-node_modules_axios_lib_utils_js"), __webpack_require__.e("src_api_post_ts"), __webpack_require__.e("src_pages_Home_Performance_ReactQuery_tsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Performance/ReactQuery */ "./src/pages/Home/Performance/ReactQuery.tsx")))),
+                    icon: 'template',
+                    isShow: true,
+                    text: 'ReactQuery',
                 },
             ],
         },
