@@ -14,6 +14,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _api_post__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/api/post */ "./src/api/post.ts");
+/* harmony import */ var _components_SvgIcon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ~/components/SvgIcon */ "./src/components/SvgIcon.tsx");
+
 
 
 const Performance = () => {
@@ -55,7 +57,9 @@ const Performance = () => {
         isSuccess &&
             data.pages.flat().map((post) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "result", key: post?.id },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", { src: post?.image })))),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "loader", ref: observerElem }, isFetchingNextPage && hasNextPage ? 'Loading...' : 'No search left')));
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " text-white", ref: observerElem },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SvgIcon__WEBPACK_IMPORTED_MODULE_2__["default"], { className: "w-5", name: "spin" }),
+            isFetchingNextPage && hasNextPage ? 'Loading...' : 'No search left')));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Performance);
 
@@ -63,4 +67,4 @@ const Performance = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/ff0003ae8924ea1a2bb1.js.map
+//# sourceMappingURL=js/3f05bbddc2bfcc827237.js.map

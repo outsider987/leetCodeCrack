@@ -687,6 +687,9 @@ video {
 .w-4 {
   width: 1rem;
 }
+.w-5 {
+  width: 1.25rem;
+}
 .w-\[15vw\] {
   width: 15vw;
 }
@@ -698,9 +701,6 @@ video {
 }
 .w-1\/12 {
   width: 8.333333%;
-}
-.w-5 {
-  width: 1.25rem;
 }
 .w-fit {
   width: -webkit-fit-content;
@@ -1355,4 +1355,4 @@ video {
 }
 
 
-/*# sourceMappingURL=../js/css/main~src_index_scss_0c888290.cba1885bab86f49b13ba.css.map*/
+/*# sourceMappingURL=../js/css/main~src_index_scss_0c888290.54ce18e6e10d3f3fae37.css.map*/
