@@ -41,7 +41,7 @@ const Register = () => {
   };
 
   const { validator, handleSubmit } = useForm(RegisterInitial, validaList);
-
+  
   const onSubmit = handleSubmit(async (data, ispass) => {
     if (ispass) {
       const { POST_REGISTER } = useAuthApi();

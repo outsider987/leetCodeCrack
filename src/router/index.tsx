@@ -75,18 +75,18 @@ const HomeRoute = {
       text: 'member',
       children: [
         {
+          path: '/member/login',
+          element: lazyLoad(React.lazy(() => import('~/pages/Home/Member/Login'))),
+          icon: 'template',
+          isShow: true,
+          text: 'login',
+        },
+        {
           path: '/member/register',
           element: lazyLoad(React.lazy(() => import('~/pages/Home/Member/Register'))),
           icon: 'template',
           isShow: true,
           text: 'register',
-        },
-        {
-          path: '/member',
-          element: lazyLoad(React.lazy(() => import('~/pages/Home/Member'))),
-          icon: 'template',
-          isShow: true,
-          text: 'login',
         },
       ],
     },

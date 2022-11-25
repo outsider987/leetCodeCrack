@@ -21,7 +21,7 @@ export const LoginInitial = {
   password: 'Asd123!',
 };
 
-const Member = () => {
+const Login = () => {
   const authSelector = useSelector(selectAuth);
   const dispatch = useDispatch();
   const [accessCount, setAccessCountToken] = useState(10);
@@ -42,7 +42,7 @@ const Member = () => {
     ],
   };
   const { validator, handleSubmit } = useForm(LoginInitial, rules);
-  
+
   const { POST_LOGIN, GET_TokenTest } = useAuthApi();
   const onSubmit = handleSubmit(async (data) => {
     if (!data) throw 'submit failed';
@@ -88,7 +88,7 @@ const Member = () => {
   const isShow = useLocation().pathname === '/member';
   return (
     <>
-      {isShow ? (
+      {
         <div className="flex h-full w-full ">
           <form className="m-auto w-[50vw] space-y-6 ">
             <div className="flex flex-col space-y-5 ">
@@ -139,10 +139,8 @@ const Member = () => {
             </div>
           </form>
         </div>
-      ) : (
-        <Outlet />
-      )}
+      }
     </>
   );
 };
-export default Member;
+export default Login;
