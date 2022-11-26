@@ -27,6 +27,7 @@ __webpack_require__.r(__webpack_exports__);
 const NavBar = () => {
     const [toggelMenu, setToggelMenu] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
     const [mobildContentClass, setMobildContentClass] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('hidden');
+    const location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useLocation)();
     const onMobileMenuClick = () => {
         setToggelMenu(!toggelMenu);
     };
@@ -36,6 +37,9 @@ const NavBar = () => {
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         setMobildContentClass('hidden');
     }, []);
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        setToggelMenu(false);
+    }, [location]);
     const layouts = {
         desktop: () => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative hidden min-h-screen\n        w-full max-w-navbar_desktop_w bg-navbar lg:block " },
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "absolute right-[-1px] w-[1px] bg-black/20 " }),
@@ -44,11 +48,9 @@ const NavBar = () => {
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SvgIcon__WEBPACK_IMPORTED_MODULE_2__["default"], { name: "logo" })),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative hidden flex-col items-center space-y-6 lg:flex" }, _router__WEBPACK_IMPORTED_MODULE_3__.HomeRoute.children.map((item) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_NavBarItem__WEBPACK_IMPORTED_MODULE_4__["default"], { key: item.path, isShow: item.isShow, iconName: item.icon, path: item.path, text: item.text, children: item.children, isFocus: (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useLocation)().pathname === `${item.path}` }))))))),
         mobile: () => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " fixed h-m-navbar-desktop-h w-full bg-navbar opacity-80" },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: `fixed h-m-navbar-desktop-h w-full bg-navbar ${toggelMenu ? 'opacity-100' : 'opacity-80'}` },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SvgIcon__WEBPACK_IMPORTED_MODULE_2__["default"], { onClick: onMobileMenuClick, className: "justify-end text-white", name: "menu" }),
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: `w-full space-y-3 bg-navbar ${mobildContentClass}` }, _router__WEBPACK_IMPORTED_MODULE_3__.HomeRoute.children.map((item, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_NavBarItem__WEBPACK_IMPORTED_MODULE_4__["default"], { onClick: onMobileMenuClick, key: index, isShow: item.isShow, iconName: item.icon, path: item.path, text: item.text, 
-                    // children={item.children}
-                    isFocus: (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useLocation)().pathname === `${item.path}` }))))))),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: `w-full space-y-3 bg-navbar ${mobildContentClass}` }, _router__WEBPACK_IMPORTED_MODULE_3__.HomeRoute.children.map((item, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_NavBarItem__WEBPACK_IMPORTED_MODULE_4__["default"], { onClick: onMobileMenuClick, key: index, isShow: item.isShow, iconName: item.icon, path: item.path, text: item.text, children: item.children, isFocus: (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useLocation)().pathname === `${item.path}` }))))))),
     };
     return react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_LayoutDivider__WEBPACK_IMPORTED_MODULE_1__["default"], { ...layouts });
 };
@@ -79,15 +81,6 @@ const NavBarItem = ({ level = 0, children, iconName, path, isShow, isFocus, text
         return react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null);
     }
     level++;
-    //  mobile
-    //   <Link onClick={onClick} to={path} className="relative flex flex-col items-center justify-center">
-    //   <SvgICon name={iconName} className={`relative justify-center ${isFocus ? 'text-white' : 'text-[#6A6A6A]'}`}>
-    //     {isFocus && (
-    //       <div className="absolute right-[-16.6%] top-[-20.83%] h-[22%] w-[22%] rounded-full bg-navBarUnFocusBlue" />
-    //     )}
-    //   </SvgICon>
-    //   <span className="min-h-[18px] text-center text-xs leading-[150%] tracking-[0.4px] text-white">{text}</span>
-    // </Link>
     const [isOpen, setIsOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
     const renderRootItem = () => {
         if (children) {
@@ -97,15 +90,15 @@ const NavBarItem = ({ level = 0, children, iconName, path, isShow, isFocus, text
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SvgIcon__WEBPACK_IMPORTED_MODULE_1__["default"], { name: "arrow", className: isOpen ? 'rotate-90' : 'rotate-[270deg]' })));
         }
         else {
-            return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, { onClick: onClick, to: path, className: "relative flex flex-col items-center justify-center" },
+            return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, { onClick: onClick, to: path, className: "relative flex flex-col items-center justify-center hover:bg-greyscale/20 " },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SvgIcon__WEBPACK_IMPORTED_MODULE_1__["default"], { name: iconName, className: `relative justify-center ${isFocus ? 'text-white' : 'text-[#6A6A6A]'}` }, isFocus && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "absolute right-[-16.6%] top-[-20.83%] h-[22%] w-[22%] rounded-full bg-navBarUnFocusBlue" }))),
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "min-h-[18px] text-center text-xs leading-[150%] tracking-[0.4px] text-white hover:bg-slate-300" }, text)));
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "min-h-[18px] text-center text-xs leading-[150%] tracking-[0.4px] text-white " }, text)));
         }
     };
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative flex w-full flex-col" },
         renderRootItem(),
         children && isOpen && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", { className: "relative flex flex-col space-y-2  bg-orange-500 " },
-            children.map((subItem, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(NavBarItem, { className: "z-[99]", key: index, ...subItem, level: level }))),
+            children.map((subItem, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(NavBarItem, { className: "z-[99] ", key: index, ...subItem, level: level }))),
             ' '))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NavBarItem);
@@ -146,4 +139,4 @@ const Home = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/7f43a7d444932825b45d.js.map
+//# sourceMappingURL=js/6ddd1062e8495bcea76a.js.map

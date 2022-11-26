@@ -57,7 +57,7 @@ const Performance = () => {
         isSuccess &&
             data.pages.flat().map((post) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "result", key: post?.id },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", { src: post?.image })))),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " text-white", ref: observerElem },
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " flex text-white ", ref: observerElem },
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SvgIcon__WEBPACK_IMPORTED_MODULE_2__["default"], { className: "w-5", name: "spin" }),
             isFetchingNextPage && hasNextPage ? 'Loading...' : 'No search left')));
 };
@@ -67,4 +67,4 @@ const Performance = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/3f05bbddc2bfcc827237.js.map
+//# sourceMappingURL=js/193a70041886c9edbd8f.js.map

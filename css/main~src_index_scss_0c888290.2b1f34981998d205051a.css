@@ -1211,11 +1211,11 @@ video {
 .opacity-0 {
   opacity: 0;
 }
-.opacity-80 {
-  opacity: 0.8;
-}
 .opacity-100 {
   opacity: 1;
+}
+.opacity-80 {
+  opacity: 0.8;
 }
 .shadow-2xl {
   --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
@@ -1326,9 +1326,8 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-slate-300:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(203 213 225 / var(--tw-bg-opacity));
+.hover\:bg-greyscale\/20:hover {
+  background-color: rgb(24 24 24 / 0.2);
 }
 
 .hover\:text-white:hover {
@@ -1411,4 +1410,4 @@ video {
 }
 
 
-/*# sourceMappingURL=../js/css/main~src_index_scss_0c888290.8bf136a4ace07613c539.css.map*/
+/*# sourceMappingURL=../js/css/main~src_index_scss_0c888290.2b1f34981998d205051a.css.map*/
