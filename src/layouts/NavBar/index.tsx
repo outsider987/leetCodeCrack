@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Router, useLocation } from 'react-router-dom';
 import LayoutDivider from '~/components/LayoutDivider';
 import SvgICon from '~/components/SvgIcon';
 import { HomeRoute } from '~/router';
@@ -8,7 +8,7 @@ import NavBarItem from '../NavBarItem';
 const NavBar = () => {
   const [toggelMenu, setToggelMenu] = useState(false);
   const [mobildContentClass, setMobildContentClass] = useState('hidden');
-
+  const location = useLocation();
   const onMobileMenuClick = () => {
     setToggelMenu(!toggelMenu);
   };
@@ -20,6 +20,9 @@ const NavBar = () => {
   useEffect(() => {
     setMobildContentClass('hidden');
   }, []);
+  useEffect(() => {
+    setToggelMenu(false);
+  }, [location]);
 
   const layouts = {
     desktop: () => (
@@ -52,7 +55,7 @@ const NavBar = () => {
     ),
     mobile: () => (
       <div>
-        <div className=" fixed h-m-navbar-desktop-h w-full bg-navbar opacity-80">
+        <div className={`fixed h-m-navbar-desktop-h w-full bg-navbar ${toggelMenu ? 'opacity-100' : 'opacity-80'}`}>
           <SvgICon onClick={onMobileMenuClick} className="justify-end text-white" name="menu" />
           <div className={`w-full space-y-3 bg-navbar ${mobildContentClass}`}>
             {HomeRoute.children.map((item, index) => (
@@ -63,7 +66,7 @@ const NavBar = () => {
                 iconName={item.icon}
                 path={item.path}
                 text={item.text}
-                // children={item.children}
+                children={item.children}
                 isFocus={useLocation().pathname === `${item.path}`}
               />
             ))}

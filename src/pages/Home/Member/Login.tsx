@@ -11,6 +11,7 @@ import { selectAuth, store } from '~/store';
 import { setAlertDialog } from '~/store/global';
 import { useDispatch, useSelector } from 'react-redux';
 import { setToken } from '~/store/auth';
+import { publicApi } from '~/api/fetchBase';
 
 export interface MemberState {
   sort_index: number;
@@ -85,7 +86,6 @@ const Login = () => {
     });
   };
 
-  const isShow = useLocation().pathname === '/member';
   return (
     <>
       {

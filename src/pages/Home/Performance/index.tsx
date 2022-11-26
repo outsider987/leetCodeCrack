@@ -28,7 +28,7 @@ const Performance = () => {
   }, [fetchNextPage, hasNextPage]);
 
   const handleObserver = useCallback(
-    (entries: any) => {
+    (entries: IntersectionObserverEntry[]) => {
       const [target] = entries;
       if (target.isIntersecting) {
         fetchNextPage();
@@ -56,7 +56,7 @@ const Performance = () => {
             <img src={post?.image} />
           </div>
         ))}
-      <div className=" text-white" ref={observerElem}>
+      <div className=" flex text-white " ref={observerElem}>
         <SvgICon className="w-5" name="spin" />
         {isFetchingNextPage && hasNextPage ? 'Loading...' : 'No search left'}
       </div>
