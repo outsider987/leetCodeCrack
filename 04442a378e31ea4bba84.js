@@ -35,7 +35,7 @@ const Carousel = (props) => {
         return `-translate-x-full ${ZindexRef.current}`;
     };
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative min-h-[30vh] min-w-[30vw] text-white" },
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative h-56 overflow-hidden rounded-lg  md:h-96" }, props.images.map((image, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { key: `${index + image}-img`, className: `${onAimatedCondition(index)} absolute top-0 h-full w-full transition duration-700
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative h-56 overflow-hidden rounded-lg  md:h-96" }, props.images.map((image, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { key: `${index + image}-img`, className: `${onAimatedCondition(index)} absolute  top-0 h-full w-full transform transition duration-700
             ease-in-out` },
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", { className: " absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2 ", alt: "...", src: image }))))),
         currentIndex,
@@ -85,4 +85,4 @@ const ReactQuery = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/ee1d4503ffe536f2f765.js.map
+//# sourceMappingURL=js/04442a378e31ea4bba84.js.map
