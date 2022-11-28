@@ -38,7 +38,7 @@ const Carousel = (props: Props) => {
         {props.images.map((image, index) => (
           <div
             key={`${index + image}-img`}
-            className={`${onAimatedCondition(index)} absolute top-0 h-full w-full transition duration-700
+            className={`${onAimatedCondition(index)} absolute  top-0 h-full w-full transform transition duration-700
             ease-in-out`}
           >
             <img
