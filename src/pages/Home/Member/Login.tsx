@@ -12,6 +12,7 @@ import { setAlertDialog } from '~/store/global';
 import { useDispatch, useSelector } from 'react-redux';
 import { setToken } from '~/store/auth';
 import { publicApi } from '~/api/fetchBase';
+import Carousel from '~/components/Carousel';
 
 export interface MemberState {
   sort_index: number;

@@ -55,7 +55,9 @@ const NavBar = () => {
     ),
     mobile: () => (
       <div>
-        <div className={`fixed h-m-navbar-desktop-h w-full bg-navbar ${toggelMenu ? 'opacity-100' : 'opacity-80'}`}>
+        <div
+          className={`fixed z-50 h-m-navbar-desktop-h w-full bg-navbar ${toggelMenu ? 'opacity-100' : 'opacity-80'}`}
+        >
           <SvgICon onClick={onMobileMenuClick} className="justify-end text-white" name="menu" />
           <div className={`w-full space-y-3 bg-navbar ${mobildContentClass}`}>
             {HomeRoute.children.map((item, index) => (

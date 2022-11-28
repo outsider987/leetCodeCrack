@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import usePostsApi from '~/api/post';
+import SvgICon from '~/components/SvgIcon';
 import HomeWrapper from '~/layouts/HomeWrapper';
 
 const InfiniteScroll = () => {
@@ -55,7 +56,8 @@ const InfiniteScroll = () => {
             <img src={post?.image} />
           </div>
         ))}
-      <div className="loader" ref={observerElem}>
+      <div className="flex text-white" ref={observerElem}>
+        <SvgICon name="spin" className="w-5" />
         {isFetchingNextPage && hasNextPage ? 'Loading...' : 'No search left'}
       </div>
     </div>

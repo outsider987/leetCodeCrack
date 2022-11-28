@@ -48,7 +48,6 @@ const Register = () => {
       if (data) {
         setLoading(true);
         const res = await POST_REGISTER(data);
-
         await setLoading(false);
         if (!res.data.status) {
           return;
