@@ -24,12 +24,12 @@ const Carousel = (props: Props) => {
     ZindexRef.current = 'z-[0]';
   };
   const onAimatedCondition = (index: number) => {
-    if (index === currentIndex) return 'translate-x-0 z-[2]';
+    if (index === currentIndex) return 'transform  translate-x-0 z-[2]';
 
     if (index === currentIndex + 1 || (props.images.length - 1 === currentIndex && index === 0))
-      return 'translate-x-full z-[1] ';
+      return 'transform  translate-x-full z-[1] ';
 
-    return `-translate-x-full ${ZindexRef.current}`;
+    return `transform  -translate-x-full ${ZindexRef.current}`;
   };
 
   return (
