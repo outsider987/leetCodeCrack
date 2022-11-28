@@ -29,10 +29,10 @@ const Carousel = (props) => {
     };
     const onAimatedCondition = (index) => {
         if (index === currentIndex)
-            return 'translate-x-0 z-[2]';
+            return 'transform  translate-x-0 z-[2]';
         if (index === currentIndex + 1 || (props.images.length - 1 === currentIndex && index === 0))
-            return 'translate-x-full z-[1] ';
-        return `-translate-x-full ${ZindexRef.current}`;
+            return 'transform  translate-x-full z-[1] ';
+        return `transform  -translate-x-full ${ZindexRef.current}`;
     };
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative min-h-[30vh] min-w-[30vw] text-white" },
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative h-56 overflow-hidden rounded-lg  md:h-96" }, props.images.map((image, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { key: `${index + image}-img`, className: `${onAimatedCondition(index)} absolute  top-0 h-full w-full transform transition duration-700
@@ -85,4 +85,4 @@ const ReactQuery = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/04442a378e31ea4bba84.js.map
+//# sourceMappingURL=js/2ed2f6e348f7048ef169.js.map
