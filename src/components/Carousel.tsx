@@ -64,6 +64,10 @@ const Carousel = (props: Props) => {
       <div className="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 space-x-3">
         {props.images.map((image, index) => (
           <button
+            onClick={() => {
+              currentIndexRef.current = index;
+              setCurrentIndex(currentIndexRef.current);
+            }}
             key={`${index}-slider`}
             type="button"
             className={`h-3 w-3 rounded-full  ${index !== currentIndexRef.current ? 'bg-white/30' : 'bg-white'} `}
