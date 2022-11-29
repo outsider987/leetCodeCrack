@@ -435,7 +435,7 @@ const HomeRoute = {
     children: [
         {
             path: '/profile',
-            element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("src_components_SvgIcon_tsx"), __webpack_require__.e("src_pages_Home_Profile_index_tsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Profile */ "./src/pages/Home/Profile/index.tsx")))),
+            element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => __webpack_require__.e(/*! import() */ "src_pages_Home_Profile_index_tsx").then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Profile */ "./src/pages/Home/Profile/index.tsx")))),
             icon: 'template',
             isShow: true,
             text: 'profile',

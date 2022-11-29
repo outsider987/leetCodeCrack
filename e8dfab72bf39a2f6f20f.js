@@ -55,9 +55,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_LayoutDivider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/components/LayoutDivider */ "./src/components/LayoutDivider.tsx");
-/* harmony import */ var _components_SvgIcon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ~/components/SvgIcon */ "./src/components/SvgIcon.tsx");
-/* harmony import */ var _components_Employment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../components/Employment */ "./src/components/Employment.tsx");
-
+/* harmony import */ var _components_Employment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../components/Employment */ "./src/components/Employment.tsx");
 
 
 
@@ -161,11 +159,10 @@ const Profile = () => {
                         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "text-3xl font-bold" }, name),
                         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " font-light leading-[1.5rem] tracking-wide text-gray-400" }, contentDescr),
                         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex" },
-                            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", { href: "https://micro-react.herokuapp.com/" },
-                                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SvgIcon__WEBPACK_IMPORTED_MODULE_2__["default"], { name: "story" }))))),
+                            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", { href: "https://micro-react.herokuapp.com/" })))),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex max-h-[50vh] min-h-[50vh] max-w-[75vw] flex-col space-y-6 overflow-auto" },
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "text-2xl font-bold text-white" }, " EMPLOYMENT"),
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "m-10 grid grid-cols-2 gap-6" }, list.map((item) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Employment__WEBPACK_IMPORTED_MODULE_3__["default"], { ...item })))))));
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "m-10 grid grid-cols-2 gap-6" }, list.map((item) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Employment__WEBPACK_IMPORTED_MODULE_2__["default"], { ...item })))))));
         },
         mobile: () => {
             return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "animate-fade_in overflow-auto opacity-100" },
@@ -176,11 +173,10 @@ const Profile = () => {
                             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "text-center text-xl font-bold" }, name),
                             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "font-light leading-[1.5rem] tracking-wide text-gray-400" }, contentDescr),
                             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex" },
-                                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", { href: "https://micro-react.herokuapp.com/" },
-                                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SvgIcon__WEBPACK_IMPORTED_MODULE_2__["default"], { name: "story" }))))),
+                                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", { href: "https://micro-react.herokuapp.com/" })))),
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex min-h-[50vh] flex-col space-y-6 " },
                         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "text-2xl font-bold text-white" }, " EMPLOYMENT"),
-                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col gap-6 " }, list.map((item, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Employment__WEBPACK_IMPORTED_MODULE_3__["default"], { key: index, ...item }))))))));
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col gap-6 " }, list.map((item, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Employment__WEBPACK_IMPORTED_MODULE_2__["default"], { key: index, ...item }))))))));
         },
     };
     return react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_LayoutDivider__WEBPACK_IMPORTED_MODULE_1__["default"], { ...content });
@@ -201,4 +197,4 @@ module.exports = __webpack_require__.p + "src/assets/img/me.af2f25858a0ff2c5b2b6
 /***/ })
 
 }]);
-//# sourceMappingURL=js/f3aba850d3ae624c80d5.js.map
+//# sourceMappingURL=js/e8dfab72bf39a2f6f20f.js.map
