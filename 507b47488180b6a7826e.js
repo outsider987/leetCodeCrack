@@ -37,7 +37,7 @@ const Carousel = (props) => {
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative min-h-[30vh] min-w-[30vw] text-white" },
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative h-56 overflow-hidden rounded-lg  md:h-96" }, props.images.map((image, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { key: `${index + image}-img`, className: `${onAimatedCondition(index)} absolute  top-0 h-full w-full transform transition duration-700
             ease-in-out` },
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", { className: " absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2 ", alt: "...", src: image }))))),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", { className: " absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2 transform ", alt: "...", src: image }))))),
         currentIndex,
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { onClick: onPrev, type: "button", className: "group absolute top-0 left-0 z-20  flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none", "data-carousel-prev": true },
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/30 text-orange-500 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white dark:bg-gray-800/30 dark:group-hover:bg-gray-800/60 dark:group-focus:ring-gray-800/70" },
@@ -85,4 +85,4 @@ const ReactQuery = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/2ed2f6e348f7048ef169.js.map
+//# sourceMappingURL=js/507b47488180b6a7826e.js.map
