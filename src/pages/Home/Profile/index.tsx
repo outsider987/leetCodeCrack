@@ -106,9 +106,7 @@ const Profile = () => {
               <h1 className="text-3xl font-bold">{name}</h1>
               <div className=" font-light leading-[1.5rem] tracking-wide text-gray-400">{contentDescr}</div>
               <div className="flex">
-                <a href="https://micro-react.herokuapp.com/">
-                  <SvgICon name="story" />
-                </a>
+                <a href="https://micro-react.herokuapp.com/">{/* <SvgICon name="story" /> */}</a>
               </div>
             </div>
           </div>
@@ -133,9 +131,7 @@ const Profile = () => {
                 <h1 className="text-center text-xl font-bold">{name}</h1>
                 <div className="font-light leading-[1.5rem] tracking-wide text-gray-400">{contentDescr}</div>
                 <div className="flex">
-                  <a href="https://micro-react.herokuapp.com/">
-                    <SvgICon name="story" />
-                  </a>
+                  <a href="https://micro-react.herokuapp.com/">{/* <SvgICon name="story" /> */}</a>
                 </div>
               </div>
             </div>
