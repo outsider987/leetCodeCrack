@@ -16,29 +16,38 @@ __webpack_require__.r(__webpack_exports__);
 
 const Carousel = (props) => {
     const [currentIndex, setCurrentIndex] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
+    const currentIndexRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(0);
+    const isHoverImage = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(false);
     const ZindexRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)('z-[3]');
     const onNext = () => {
-        const nextIndex = currentIndex === props.images.length - 1 ? 0 : currentIndex + 1;
-        setCurrentIndex(nextIndex);
+        const nextIndex = currentIndexRef.current === props.images.length - 1 ? 0 : currentIndexRef.current + 1;
+        currentIndexRef.current = nextIndex;
+        setCurrentIndex(currentIndexRef.current);
         ZindexRef.current = 'z-[3]';
     };
     const onPrev = () => {
-        const nextIndex = currentIndex === 0 ? props.images.length - 1 : currentIndex - 1;
-        setCurrentIndex(nextIndex);
+        const nextIndex = currentIndexRef.current === 0 ? props.images.length - 1 : currentIndexRef.current - 1;
+        currentIndexRef.current = nextIndex;
+        setCurrentIndex(currentIndexRef.current);
         ZindexRef.current = 'z-[0]';
     };
     const onAimatedCondition = (index) => {
-        if (index === currentIndex)
+        if (index === currentIndexRef.current)
             return 'transform  translate-x-0 z-[2]';
-        if (index === currentIndex + 1 || (props.images.length - 1 === currentIndex && index === 0))
+        if (index === currentIndexRef.current + 1 || (props.images.length - 1 === currentIndexRef.current && index === 0))
             return 'transform  translate-x-full z-[1] ';
         return `transform  -translate-x-full ${ZindexRef.current}`;
     };
-    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative min-h-[30vh] min-w-[30vw] text-white" },
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative h-56 overflow-hidden rounded-lg  md:h-96" }, props.images.map((image, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { key: `${index + image}-img`, className: `${onAimatedCondition(index)} absolute  top-0 h-full w-full transform transition duration-700
-            ease-in-out` },
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", { className: " absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2 transform ", alt: "...", src: image }))))),
-        currentIndex,
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        const interval = setInterval(() => {
+            !isHoverImage.current && onNext();
+        }, 2800);
+        return () => clearInterval(interval);
+    }, []);
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative min-h-[30vh] min-w-[30vw] text-white ", onMouseEnter: () => (isHoverImage.current = true), onMouseLeave: () => (isHoverImage.current = false) },
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative h-56 overflow-hidden rounded-lg  md:h-96" }, props.images.map((image, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { key: `${index + image}-img`, className: `${onAimatedCondition(index)} absolute  top-0 h-full w-full transition duration-700 ease-in-out` },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", { className: " absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2 ", alt: "...", src: image }))))),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 space-x-3" }, props.images.map((image, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { key: `${index}-slider`, type: "button", className: `h-3 w-3 rounded-full  ${index !== currentIndexRef.current ? 'bg-white/30' : 'bg-white'} `, "aria-current": "true", "aria-label": "Slide 1", "data-carousel-slide-to": "0" })))),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { onClick: onPrev, type: "button", className: "group absolute top-0 left-0 z-20  flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none", "data-carousel-prev": true },
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/30 text-orange-500 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white dark:bg-gray-800/30 dark:group-hover:bg-gray-800/60 dark:group-focus:ring-gray-800/70" },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("svg", { "aria-hidden": "true", className: "h-6 w-6 ", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg" },
@@ -85,4 +94,4 @@ const ReactQuery = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/507b47488180b6a7826e.js.map
+//# sourceMappingURL=js/7ec8500fd460637bc6b5.js.map
