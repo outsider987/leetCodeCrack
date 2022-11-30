@@ -48,6 +48,7 @@ const Carousel = (props) => {
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative h-56 overflow-hidden rounded-lg  md:h-96" }, props.images.map((image, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { key: `${index + image}-img`, className: `${onAimatedCondition(index)} absolute  top-0 h-full w-full transition duration-700 ease-in-out` },
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", { className: " absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2 ", alt: "...", src: image }))))),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 space-x-3" }, props.images.map((image, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { onClick: () => {
+                currentIndexRef.current < index ? (ZindexRef.current = 'z-[3]') : (ZindexRef.current = 'z-[0]');
                 currentIndexRef.current = index;
                 setCurrentIndex(currentIndexRef.current);
             }, key: `${index}-slider`, type: "button", className: `h-3 w-3 rounded-full  ${index !== currentIndexRef.current ? 'bg-white/30' : 'bg-white'} `, "aria-current": "true", "aria-label": "Slide 1", "data-carousel-slide-to": "0" })))),
@@ -87,6 +88,7 @@ const ReactQuery = () => {
         'https://images.unsplash.com/photo-1506501139174-099022df5260?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1351&q=80',
         'https://images.unsplash.com/photo-1523438097201-512ae7d59c44?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80',
         'https://previews.agefotostock.com/previewimage/medibigoff/7180821159c21ff4602393b1d5dc30a8/oth-233-58225.jpg',
+        'https://icrvb3jy.xinmedia.com/solomo/article/183550/924E2BF3-D838-ED32-EC6C-1548EC044128.jpeg',
     ];
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Carousel__WEBPACK_IMPORTED_MODULE_1__["default"], { images: images })));
@@ -97,4 +99,4 @@ const ReactQuery = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/88ba5c2b35257bc44564.js.map
+//# sourceMappingURL=js/1a433af553ac0fcbbcf3.js.map
