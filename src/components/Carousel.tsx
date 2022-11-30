@@ -65,6 +65,7 @@ const Carousel = (props: Props) => {
         {props.images.map((image, index) => (
           <button
             onClick={() => {
+              currentIndexRef.current < index ? (ZindexRef.current = 'z-[3]') : (ZindexRef.current = 'z-[0]');
               currentIndexRef.current = index;
               setCurrentIndex(currentIndexRef.current);
             }}
