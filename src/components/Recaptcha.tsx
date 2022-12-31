@@ -1,5 +1,4 @@
-import React from 'react';
-import { CanvasHTMLAttributes, MutableRefObject, useEffect, useRef } from 'react';
+import React, { CanvasHTMLAttributes, MutableRefObject, useEffect, useRef } from 'react';
 
 export const randomNum = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min) + min);
