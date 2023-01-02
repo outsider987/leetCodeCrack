@@ -1,14 +1,22 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
-import usePostsApi from '~/api/post';
+import useRandPostsApi from '~/api/randPost';
 import SvgICon from '~/components/SvgIcon';
+import { useRandPostsDatas } from '~/data/randPost';
 import HomeWrapper from '~/layouts/HomeWrapper';
 
 const InfiniteScroll = () => {
   const page = useRef(1);
-  const { GET_POSTS } = usePostsApi();
-  const { data, isSuccess, isFetchingNextPage, fetchNextPage, fetchPreviousPage, hasNextPage, hasPreviousPage } =
-    GET_POSTS(1);
+  const {
+    data,
+    isSuccess,
+    isLoading,
+    isFetchingNextPage,
+    fetchNextPage,
+    fetchPreviousPage,
+    hasNextPage,
+    hasPreviousPage,
+  } = useRandPostsDatas(1);
   const observerElem = useRef<any>(null);
 
   useEffect(() => {

@@ -1,11 +1,11 @@
 import { setTokenStorage } from '~/utils/storage';
 import { LoginInitial } from '~/pages/Home/Member';
 import { RegisterInitial } from '~/pages/Home/Member/Register';
-import api, { APIResponse, privateApi } from './base';
+import { APIResponse, privateApi, publicApi } from './base';
 
 const subPath = 'auth';
 const useAuthApi = () => {
-  const authApi = api(subPath);
+  const authApi = publicApi(subPath);
   const privateAuthApi = privateApi(subPath);
 
   const POST_REGISTER = async (userDate: typeof RegisterInitial) => {

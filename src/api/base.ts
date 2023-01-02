@@ -15,7 +15,7 @@ export interface APIEorrorResponse<T = any> {
   status?: boolean;
 }
 
-export default (subPath: string = '', isDummyData?: boolean) => {
+export const publicApi = (subPath: string = '', isDummyData: boolean = false) => {
   const url = isDummyData ? 'https://dummyapi.io/data/v1/' : `${process.env.API_URL}${subPath}`;
   const api = axios.create({
     baseURL: url,

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
-import usePostsApi from '~/api/post';
+import useRandPostsApi from '~/api/randPost';
 import SvgICon from '~/components/SvgIcon';
 import HomeWrapper from '~/layouts/HomeWrapper';
 
