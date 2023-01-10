@@ -35,7 +35,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./router */ "./src/router/index.tsx");
 /* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index.scss */ "./src/index.scss");
 /* harmony import */ var _reset_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./reset.scss */ "./src/reset.scss");
@@ -416,7 +416,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _pages_Home_Sort_QuickSort__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/pages/Home/Sort/QuickSort */ "./src/pages/Home/Sort/QuickSort.tsx");
 /* harmony import */ var _pages_Page404__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ~/pages/Page404 */ "./src/pages/Page404.tsx");
 
@@ -523,7 +523,14 @@ const HomeRoute = {
                     element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => __webpack_require__.e(/*! import() */ "src_pages_Home_Performance_Carousel_tsx").then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Performance/Carousel */ "./src/pages/Home/Performance/Carousel.tsx")))),
                     icon: 'template',
                     isShow: true,
-                    text: 'carousel ',
+                    text: 'carousel',
+                },
+                {
+                    path: '/performance/debounce',
+                    element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_axios_index_js-node_modules_axios_lib_adapters_xhr_js"), __webpack_require__.e("vendors-node_modules_axios_lib_cancel_CancelToken_js-node_modules_axios_lib_core_Axios_js-nod-ea0872"), __webpack_require__.e("vendors-node_modules_axios_lib_helpers_bind_js-node_modules_axios_lib_helpers_buildURL_js-nod-316a2f"), __webpack_require__.e("vendors-node_modules_axios_lib_utils_js"), __webpack_require__.e("src_components_SvgIcon_tsx"), __webpack_require__.e("src_pages_Home_Performance_Debounce_tsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Performance/Debounce */ "./src/pages/Home/Performance/Debounce.tsx")))),
+                    icon: 'template',
+                    isShow: true,
+                    text: 'debounce',
                 },
             ],
         },
