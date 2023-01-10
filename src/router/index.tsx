@@ -121,6 +121,22 @@ const HomeRoute = {
         },
       ],
     },
+    {
+      path: '/canvas',
+      element: lazyLoad(React.lazy(() => import('~/pages/Home/Performance'))),
+      icon: 'template',
+      isShow: true,
+      text: 'canvas',
+      children: [
+        {
+          path: '/canvas/three.js',
+          element: lazyLoad(React.lazy(() => import('~/pages/Home/Canvas/Three'))),
+          icon: 'template',
+          isShow: true,
+          text: 'three.js',
+        },
+      ],
+    },
   ],
 };
 const routes = [
