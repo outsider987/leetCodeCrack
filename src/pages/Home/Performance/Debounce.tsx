@@ -7,8 +7,9 @@ import useDebounce from '~/hooks/useDebounce';
 const Debounce = () => {
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 1000);
-  const { data, isLoading } = usePostDatas(debouncedSearch);
+  const { data, isLoading, isError } = usePostDatas(debouncedSearch);
   useEffect(() => {}, [debouncedSearch]);
+
   return (
     <div>
       <Input value={search} onChange={(e) => setSearch(e.target.value)}></Input>
@@ -19,14 +20,27 @@ const Debounce = () => {
         </>
       )}
       {!isLoading && (
-        <div>
-          {data.map((post) => (
-            <>
-              <div className="text-white">title: {post.title}</div>
-              <div className="text-white">body: {post.body}</div>
-            </>
-          ))}
-        </div>
+        <table className="space-y-2 text-center">
+          <thead className="border-b bg-gray-800 text-white">
+            <th>name</th>
+
+            <th>year</th>
+            <th>writer</th>
+            <th>description</th>
+          </thead>
+          <tbody className="max-h-96 ">
+            {data.map((post) => (
+              <>
+                <tr className="border-b border-solid border-white text-white">
+                  <td> {post.comic_name}</td>
+                  <td> {post.active_years}</td>
+                  <td> {post.writer}</td>
+                  <td> {post.issue_description}</td>
+                </tr>
+              </>
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   );

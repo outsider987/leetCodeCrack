@@ -2,10 +2,9 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const BundleAnalyzerPlugin =
-  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-require('dotenv').config(); 
+require('dotenv').config();
 const webpack = require('webpack');
 
 module.exports = {
@@ -18,12 +17,11 @@ module.exports = {
     chunkFilename: '[chunkhash].js',
     sourceMapFilename: 'js/[file].map',
     clean: true,
-    assetModuleFilename: '[path][name].[hash][ext][query]'
+    assetModuleFilename: '[path][name].[hash][ext][query]',
     // publicPath: '/webpack-demo/'
   },
   module: {
     rules: [
-
       {
         test: /\.(css|scss)?$/,
         include: path.resolve(__dirname, 'src'),
@@ -32,7 +30,7 @@ module.exports = {
           'css-loader',
           'postcss-loader',
           'sass-loader',
-        //   'style-loader'
+          //   'style-loader'
         ],
       },
 
@@ -40,8 +38,8 @@ module.exports = {
         test: /\.(png|jpg|jpeg|gif|svg)$/i,
         type: 'asset/resource',
         generator: {
-            filename: '[path][name].[hash][ext][query]'
-        }
+          filename: '[path][name].[hash][ext][query]',
+        },
       },
 
       //   { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
@@ -69,7 +67,7 @@ module.exports = {
     },
     // fallback: {
     //         "fs": false,
-    //         "os": require.resolve("os-browserify/browser") 
+    //         "os": require.resolve("os-browserify/browser")
     //     },
   },
   plugins: [
@@ -79,8 +77,8 @@ module.exports = {
     }),
 
     new webpack.DefinePlugin({
-        'process.env': JSON.stringify(process.env)
-     }),
+      'process.env': JSON.stringify(process.env),
+    }),
     // new BundleAnalyzerPlugin({
     //     "openAnalyzer": false,analyzerMode: 'static'
     // }),
@@ -97,12 +95,12 @@ module.exports = {
 
   devServer: {
     static: {
-        directory: path.resolve(__dirname, './dist')
-      },
-      allowedHosts: 'all',
+      directory: path.resolve(__dirname, './dist'),
+    },
+    allowedHosts: 'all',
     compress: true,
     hot: true,
-    historyApiFallback: { index: "/", disableDotRule: true },
+    historyApiFallback: { index: '/', disableDotRule: true },
     // static: path.join(__dirname, 'dist'),
     open: true,
     port: 8080,
