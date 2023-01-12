@@ -21,6 +21,8 @@
     },
     "homepage": "https://github.com/outsider987/leetCodeCrack",
     "dependencies": {
+        "@react-three/cannon": "^6.5.2",
+        "@react-three/drei": "^9.51.24",
         "@react-three/fiber": "^8.10.0",
         "@types/three": "^0.148.0",
         "axios": "^0.27.2",

@@ -129,11 +129,25 @@ const HomeRoute = {
       text: 'canvas',
       children: [
         {
-          path: '/canvas/three.js',
-          element: lazyLoad(React.lazy(() => import('~/pages/Home/Canvas/Three'))),
+          path: '/canvas/game',
+          element: lazyLoad(React.lazy(() => import('~/pages/Home/Canvas/Game'))),
           icon: 'template',
           isShow: true,
-          text: 'three.js',
+          text: 'Demo Game',
+        },
+        {
+          path: '/canvas/box',
+          element: lazyLoad(React.lazy(() => import('~/pages/Home/Canvas/Box'))),
+          icon: 'template',
+          isShow: true,
+          text: 'Box Demo',
+        },
+        {
+          path: '/canvas/chart',
+          element: lazyLoad(React.lazy(() => import('~/pages/Home/Canvas/Chart'))),
+          icon: 'template',
+          isShow: true,
+          text: 'Chart',
         },
       ],
     },

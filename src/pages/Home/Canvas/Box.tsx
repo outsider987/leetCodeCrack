@@ -5,7 +5,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Mesh } from 'three';
 import React from 'react';
 
-const ThreeJs = () => {
+const BoxPage = () => {
   const isShow = useLocation().pathname === '/canvas';
 
   function Box(props) {
@@ -46,4 +46,4 @@ const ThreeJs = () => {
     </>
   );
 };
-export default ThreeJs;
+export default BoxPage;
