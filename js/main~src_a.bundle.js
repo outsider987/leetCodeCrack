@@ -542,11 +542,25 @@ const HomeRoute = {
             text: 'canvas',
             children: [
                 {
-                    path: '/canvas/three.js',
-                    element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_debounce_index_js-node_modules_its-fine_dist_index_js"), __webpack_require__.e("vendors-node_modules_react-reconciler_constants_js-node_modules_react-reconciler_index_js-nod-4f8830"), __webpack_require__.e("vendors-node_modules_react-reconciler_cjs_react-reconciler_development_js"), __webpack_require__.e("vendors-node_modules_react-three_fiber_dist_index-27a1523b_esm_js"), __webpack_require__.e("vendors-node_modules_react-three_fiber_dist_react-three-fiber_esm_js"), __webpack_require__.e("vendors-node_modules_react-three_fiber_node_modules_scheduler_index_js"), __webpack_require__.e("vendors-node_modules_react-use-measure_dist_web_js"), __webpack_require__.e("vendors-node_modules_suspend-react_dist_index_js-node_modules_zustand_esm_index_js"), __webpack_require__.e("vendors-node_modules_three_build_three_module_js"), __webpack_require__.e("src_pages_Home_Canvas_Three_tsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Canvas/Three */ "./src/pages/Home/Canvas/Three.tsx")))),
+                    path: '/canvas/game',
+                    element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_debounce_index_js-node_modules_its-fine_dist_index_js"), __webpack_require__.e("vendors-node_modules_react-reconciler_constants_js-node_modules_react-reconciler_index_js-nod-4f8830"), __webpack_require__.e("vendors-node_modules_react-reconciler_cjs_react-reconciler_development_js"), __webpack_require__.e("vendors-node_modules_react-three_fiber_dist_index-27a1523b_esm_js"), __webpack_require__.e("vendors-node_modules_react-three_fiber_dist_react-three-fiber_esm_js"), __webpack_require__.e("vendors-node_modules_react-three_fiber_node_modules_scheduler_index_js"), __webpack_require__.e("vendors-node_modules_react-use-measure_dist_web_js"), __webpack_require__.e("vendors-node_modules_suspend-react_dist_index_js-node_modules_zustand_esm_index_js"), __webpack_require__.e("vendors-node_modules_three_build_three_module_js"), __webpack_require__.e("src_pages_Home_Canvas_Game_tsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Canvas/Game */ "./src/pages/Home/Canvas/Game.tsx")))),
                     icon: 'template',
                     isShow: true,
-                    text: 'three.js',
+                    text: 'Demo Game',
+                },
+                {
+                    path: '/canvas/box',
+                    element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_debounce_index_js-node_modules_its-fine_dist_index_js"), __webpack_require__.e("vendors-node_modules_react-reconciler_constants_js-node_modules_react-reconciler_index_js-nod-4f8830"), __webpack_require__.e("vendors-node_modules_react-reconciler_cjs_react-reconciler_development_js"), __webpack_require__.e("vendors-node_modules_react-three_fiber_dist_index-27a1523b_esm_js"), __webpack_require__.e("vendors-node_modules_react-three_fiber_dist_react-three-fiber_esm_js"), __webpack_require__.e("vendors-node_modules_react-three_fiber_node_modules_scheduler_index_js"), __webpack_require__.e("vendors-node_modules_react-use-measure_dist_web_js"), __webpack_require__.e("vendors-node_modules_suspend-react_dist_index_js-node_modules_zustand_esm_index_js"), __webpack_require__.e("vendors-node_modules_three_build_three_module_js"), __webpack_require__.e("src_pages_Home_Canvas_Box_tsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Canvas/Box */ "./src/pages/Home/Canvas/Box.tsx")))),
+                    icon: 'template',
+                    isShow: true,
+                    text: 'Box Demo',
+                },
+                {
+                    path: '/canvas/chart',
+                    element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => __webpack_require__.e(/*! import() */ "src_pages_Home_Canvas_Chart_tsx").then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Canvas/Chart */ "./src/pages/Home/Canvas/Chart.tsx")))),
+                    icon: 'template',
+                    isShow: true,
+                    text: 'Chart',
                 },
             ],
         },

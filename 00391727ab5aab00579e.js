@@ -1,10 +1,10 @@
 "use strict";
-(self["webpackChunkleetcodecrack"] = self["webpackChunkleetcodecrack"] || []).push([["src_pages_Home_Canvas_Three_tsx"],{
+(self["webpackChunkleetcodecrack"] = self["webpackChunkleetcodecrack"] || []).push([["src_pages_Home_Canvas_Box_tsx"],{
 
-/***/ "./src/pages/Home/Canvas/Three.tsx":
-/*!*****************************************!*\
-  !*** ./src/pages/Home/Canvas/Three.tsx ***!
-  \*****************************************/
+/***/ "./src/pages/Home/Canvas/Box.tsx":
+/*!***************************************!*\
+  !*** ./src/pages/Home/Canvas/Box.tsx ***!
+  \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -20,7 +20,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const ThreeJs = () => {
+const BoxPage = () => {
     const isShow = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_1__.useLocation)().pathname === '/canvas';
     function Box(props) {
         // This reference gives us direct access to the THREE.Mesh object
@@ -44,10 +44,10 @@ const ThreeJs = () => {
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Box, { position: [1.2, 0, 0] })),
             ",")));
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ThreeJs);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BoxPage);
 
 
 /***/ })
 
 }]);
-//# sourceMappingURL=js/e4567ecfdbfe20b5e281.js.map
+//# sourceMappingURL=js/00391727ab5aab00579e.js.map
