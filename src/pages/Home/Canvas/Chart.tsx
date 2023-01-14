@@ -4,7 +4,11 @@ import Canvas from '~/components/Canvas';
 import HomeWrapper from '~/layouts/HomeWrapper';
 
 const Chart = () => {
-  return <Canvas />;
+  return (
+    <div className="m-auto flex justify-center">
+      <Canvas />
+    </div>
+  );
 };
 
 export default Chart;
