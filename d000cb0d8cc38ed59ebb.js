@@ -23,36 +23,35 @@ const Canvas = (props) => {
         { mood: 'Happy', total: 478, color: '#960A2C' },
         { mood: 'Melancholic', total: 332, color: '#332E2E' },
         { mood: 'Gloomy', total: 195, color: '#F73809' },
-        { mood: 'Test', total: 195, color: 'pink' },
+        { mood: 'Gloomy', total: 195, color: 'pink' },
     ];
     let totalNumber = results.reduce((sum, { total }) => sum + total, 0);
     let lastValue = 0;
     const datas = results.map((result) => {
-        const lastPercentage = (lastValue / totalNumber) * 100;
-        const percentage = (0,_utils_canvas__WEBPACK_IMPORTED_MODULE_1__.getEndAngleOfPercentage)(result.total, lastPercentage, totalNumber);
+        const lastPercentage = Math.ceil((lastValue / totalNumber) * 100);
+        const accumlatePercentage = (0,_utils_canvas__WEBPACK_IMPORTED_MODULE_1__.accumlateOfPercentange)(result.total, lastPercentage, totalNumber);
         lastValue += result.total;
         return {
-            percentage,
+            accumlatePercentage: accumlatePercentage,
+            percentage: Math.round((result.total / totalNumber) * 100),
             data: result.total,
             color: result.color,
-            startAngle: (0,_utils_canvas__WEBPACK_IMPORTED_MODULE_1__.getStartAngleOfPercentage)(lastPercentage),
+            startAngle: (0,_utils_canvas__WEBPACK_IMPORTED_MODULE_1__.getAngleOfPercentage)(lastPercentage),
         };
     });
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        let currentAngle = 0;
         if (canvasRef.current) {
             const canvas = canvasRef.current;
             const ctx = canvas.getContext('2d');
-            var cw = canvas.width;
-            var ch = canvas.height;
-            var nextTime = 0;
-            var duration = 1000;
-            var endingPct = 100;
-            var pct = 0;
-            var increment = duration / pct;
-            var cx = cw / 2;
-            var cy = ch / 2;
-            var img = new Image();
+            let cw = (canvas.width = canvasRef.current.clientWidth);
+            let ch = (canvas.height = canvasRef.current.clientHeight);
+            // ctx.fillStyle = 'white';
+            // ctx.fillRect(0, 0, canvas.width, canvas.height);
+            let endingPct = 100;
+            let pct = 0;
+            let cx = Math.ceil(cw / 2);
+            let cy = Math.ceil(ch / 2);
+            let img = new Image();
             img.onload = start;
             img.src = __webpack_require__(/*! ~/assets/img/me.jpg */ "./src/assets/img/me.jpg");
             function start() {
@@ -69,7 +68,7 @@ const Canvas = (props) => {
                 var endRadians = -Math.PI / 2 + (Math.PI * 2 * pct) / 100;
                 for (const [index, moodValue] of datas.entries()) {
                     ctx.fillStyle = moodValue.color;
-                    if (endRadians >= moodValue.startAngle && pct <= moodValue.percentage) {
+                    if (endRadians >= moodValue.startAngle && pct <= moodValue.accumlatePercentage) {
                         if (moodValue.color === '#0a9627') {
                             // debugger;
                         }
@@ -78,12 +77,10 @@ const Canvas = (props) => {
                             cx,
                             cy,
                             startAngle: moodValue.startAngle,
-                            endAngle: (0,_utils_canvas__WEBPACK_IMPORTED_MODULE_1__.getStartAngleOfPercentage)(moodValue.percentage),
+                            endAngle: (0,_utils_canvas__WEBPACK_IMPORTED_MODULE_1__.getAngleOfPercentage)(moodValue.accumlatePercentage),
                             radius: endingPct,
-                            percentage: moodValue.percentage,
-                            text: String(datas[index - 1] === undefined
-                                ? datas[index].percentage
-                                : datas[index].percentage - datas[index - 1].percentage),
+                            percentage: moodValue.accumlatePercentage,
+                            text: String(moodValue.percentage),
                         });
                     }
                 }
@@ -92,89 +89,7 @@ const Canvas = (props) => {
     }, []);
     return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { ...props, ref: canvasRef });
 };
-Canvas.defaultProps = {
-    width: window.innerWidth / 2,
-    height: window.innerHeight / 2,
-};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Canvas);
-// import React, { useRef, useEffect } from 'react';
-// interface CanvasProps extends React.HTMLAttributes<HTMLCanvasElement> {}
-// const Canvas = (props: CanvasProps) => {
-//   const canvasRef = useRef<HTMLCanvasElement>(null);
-//   const results = [
-//     { mood: 'Angry', total: 1499, shade: '#0a9627' },
-//     { mood: 'Happy', total: 478, shade: '#960A2C' },
-//     { mood: 'Melancholic', total: 332, shade: '#332E2E' },
-//     { mood: 'Gloomy', total: 195, shade: '#F73809' },
-//   ];
-//   let totalNumberOfPeople = results.reduce((sum, { total }) => sum + total, 0);
-//   useEffect(() => {
-//     let currentAngle = 0;
-//     if (canvasRef.current) {
-//       const canvas = canvasRef.current;
-//       const ctx = canvas.getContext('2d');
-//       var cw = canvas.width;
-//       var ch = canvas.height;
-//       var nextTime = 0;
-//       var duration = 1000;
-//       var endingPct = 75;
-//       var pct = 0;
-//       var increment = duration / pct;
-//       var cx = cw / 2;
-//       var cy = ch / 2;
-//       var img = new Image();
-//       img.onload = start;
-//       img.src = require('~/assets/img/me.jpg');
-//       function start() {
-//         requestAnimationFrame(animate);
-//       }
-//       function animate(time) {
-//         draw(pct);
-//         pct++;
-//         if (pct <= endingPct) {
-//           requestAnimationFrame(animate);
-//         }
-//       }
-//       function draw(pct) {
-//         // //
-//         // var endRadians = -Math.PI / 2 + (Math.PI * 2 * pct) / 100;
-//         // //
-//         // ctx.fillStyle = 'black';
-//         // ctx.fillRect(0, 0, cw, ch);
-//         // //
-//         // ctx.beginPath();
-//         // ctx.arc(cx, cy, 100, -Math.PI / 2, endRadians);
-//         // ctx.lineTo(cx, cy);
-//         // ctx.save();
-//         // ctx.clip();
-//         // ctx.drawImage(img, cx - img.width / 2, cx - img.height / 2);
-//         // ctx.restore();
-//         for (let moodValue of results) {
-//           //calculating the angle the slice (portion) will take in the chart
-//           let portionAngle = (moodValue.total / totalNumberOfPeople) * 2 * Math.PI;
-//           //drawing an arc and a line to the center to differentiate the slice from the rest
-//           ctx.beginPath();
-//           ctx.arc(100, 100, 100, currentAngle, currentAngle + portionAngle);
-//           currentAngle += portionAngle;
-//           ctx.lineTo(100, 100);
-//           ctx.save();
-//           ctx.clip();
-//           //filling the slices with the corresponding mood's color
-//           ctx.fillStyle = moodValue.shade;
-//           ctx.fill();
-//           ctx.restore();
-//         }
-//       }
-//       //   start();
-//     }
-//   }, []);
-//   return <canvas {...props} ref={canvasRef} />;
-// };
-// Canvas.defaultProps = {
-//   width: window.innerWidth / 2,
-//   height: window.innerHeight / 2,
-// };
-// export default Canvas;
 
 
 /***/ }),
@@ -196,7 +111,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const Chart = () => {
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "m-auto flex justify-center" },
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Canvas__WEBPACK_IMPORTED_MODULE_1__["default"], null)));
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Canvas__WEBPACK_IMPORTED_MODULE_1__["default"], { className: "h-[50vh] w-[50vh]" })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Chart);
 
@@ -211,40 +126,40 @@ const Chart = () => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "accumlateOfPercentange": () => (/* binding */ accumlateOfPercentange),
 /* harmony export */   "drawPie": () => (/* binding */ drawPie),
 /* harmony export */   "drawSegmentLabel": () => (/* binding */ drawSegmentLabel),
-/* harmony export */   "getEndAngleOfPercentage": () => (/* binding */ getEndAngleOfPercentage),
-/* harmony export */   "getStartAngleOfPercentage": () => (/* binding */ getStartAngleOfPercentage)
+/* harmony export */   "getAngleOfPercentage": () => (/* binding */ getAngleOfPercentage)
 /* harmony export */ });
 function drawSegmentLabel(ctx, dto) {
+    const centerDistance = 0.5;
     ctx.beginPath();
     ctx.font = '20px Arial';
     ctx.textAlign = 'center';
     ctx.fillStyle = 'white';
     let theta = (dto.startAngle + dto.endAngle) / 2;
-    let deltaY = Math.sin(theta) * 1.5 * 100;
-    let deltaX = Math.cos(theta) * 1.5 * 100;
+    let deltaY = Math.ceil(Math.sin(theta) * centerDistance * 100);
+    let deltaX = Math.ceil(Math.cos(theta) * centerDistance * 100);
     ctx.fillText(dto.text, deltaX + dto.cx, deltaY + dto.cy);
     ctx.closePath();
 }
 function drawPie(ctx, dto) {
     ctx.beginPath();
     ctx.arc(dto.cx, dto.cy, 100, dto.startAngle, dto.endAngle);
+    // ctx.stroke();
     ctx.lineTo(dto.cx, dto.cy);
-    ctx.stroke();
     ctx.save();
     ctx.clip();
     ctx.fillStyle = dto.color;
     ctx.fill();
     ctx.restore();
-    ctx.closePath;
     ctx.closePath();
 }
-const getStartAngleOfPercentage = (percentage) => {
-    return Math.round((-Math.PI / 2 + (Math.PI * 2 * percentage) / 100) * 100) / 100;
+const getAngleOfPercentage = (percentage) => {
+    return Math.ceil((-Math.PI / 2 + (Math.PI * 2 * percentage) / 100) * 100) / 100;
 };
-const getEndAngleOfPercentage = (data, percentage, totalNumber) => {
-    return Math.round(percentage + (data / totalNumber) * 100);
+const accumlateOfPercentange = (data, percentage, totalNumber) => {
+    return Math.ceil(percentage + (data / totalNumber) * 100);
 };
 
 
@@ -261,4 +176,4 @@ module.exports = __webpack_require__.p + "src/assets/img/me.af2f25858a0ff2c5b2b6
 /***/ })
 
 }]);
-//# sourceMappingURL=js/c2a79f001aab8a1fd340.js.map
+//# sourceMappingURL=js/d000cb0d8cc38ed59ebb.js.map
