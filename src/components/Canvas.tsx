@@ -17,7 +17,7 @@ const Canvas = (props: CanvasProps) => {
   let totalNumber = results.reduce((sum, { total }) => sum + total, 0);
   let lastValue = 0;
   const datas = results.map((result) => {
-    const lastPercentage = Math.ceil((lastValue / totalNumber) * 100);
+    const lastPercentage = (lastValue / totalNumber) * 100;
     const accumlatePercentage = accumlateOfPercentange(result.total, lastPercentage, totalNumber);
     lastValue += result.total;
 
@@ -42,6 +42,7 @@ const Canvas = (props: CanvasProps) => {
       // ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       let endingPct = 100;
+      let radius = canvasRef.current.clientWidth / 4;
       let pct = 0;
       let cx = Math.ceil(cw / 2);
       let cy = Math.ceil(ch / 2);
@@ -72,13 +73,20 @@ const Canvas = (props: CanvasProps) => {
             if (moodValue.color === '#0a9627') {
               // debugger;
             }
-            drawPie(ctx, { startAngle: moodValue.startAngle, endAngle: endRadians, cx, cy, color: moodValue.color });
+            drawPie(ctx, {
+              radius,
+              startAngle: moodValue.startAngle,
+              endAngle: endRadians,
+              cx,
+              cy,
+              color: moodValue.color,
+            });
             drawSegmentLabel(ctx, {
               cx,
               cy,
               startAngle: moodValue.startAngle,
               endAngle: getAngleOfPercentage(moodValue.accumlatePercentage),
-              radius: endingPct,
+              radius,
               percentage: moodValue.accumlatePercentage,
               text: String(moodValue.percentage),
             });

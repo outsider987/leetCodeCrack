@@ -18,8 +18,8 @@ export function drawSegmentLabel(
   ctx.fillStyle = 'white';
 
   let theta = (dto.startAngle + dto.endAngle) / 2;
-  let deltaY = Math.ceil(Math.sin(theta) * centerDistance * 100);
-  let deltaX = Math.ceil(Math.cos(theta) * centerDistance * 100);
+  let deltaY = Math.ceil(Math.sin(theta) * centerDistance * dto.radius);
+  let deltaX = Math.ceil(Math.cos(theta) * centerDistance * dto.radius);
 
   ctx.fillText(dto.text, deltaX + dto.cx, deltaY + dto.cy);
   ctx.closePath();
@@ -27,6 +27,7 @@ export function drawSegmentLabel(
 export function drawPie(
   ctx: CanvasRenderingContext2D,
   dto: {
+    radius: number;
     startAngle;
     endAngle;
     cx;
@@ -34,22 +35,28 @@ export function drawPie(
     color;
   },
 ) {
+  const strokeWidth = 2;
   ctx.beginPath();
 
-  ctx.arc(dto.cx, dto.cy, 100, dto.startAngle, dto.endAngle);
-  // ctx.stroke();
+  ctx.arc(dto.cx, dto.cy, dto.radius, dto.startAngle, dto.endAngle);
+  ctx.lineWidth = strokeWidth;
   ctx.lineTo(dto.cx, dto.cy);
+  ctx.closePath();
   ctx.save();
   ctx.clip();
   ctx.fillStyle = dto.color;
-  ctx.fill();
-  ctx.restore();
 
-  ctx.closePath();
+  ctx.fill();
+
+  ctx.lineWidth = strokeWidth;
+  ctx.strokeStyle = 'black';
+  ctx.stroke();
+
+  ctx.restore();
 }
 
 export const getAngleOfPercentage = (percentage) => {
-  return Math.ceil((-Math.PI / 2 + (Math.PI * 2 * percentage) / 100) * 100) / 100;
+  return -Math.PI / 2 + (Math.PI * 2 * percentage) / 100;
 };
 export const accumlateOfPercentange = (data, percentage, totalNumber) => {
   return Math.ceil(percentage + (data / totalNumber) * 100);
