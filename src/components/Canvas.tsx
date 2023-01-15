@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import { drawPie, drawSegmentLabel, getEndAngleOfPercentage, getStartAngleOfPercentage } from '~/utils/canvas';
 
 interface CanvasProps extends React.HTMLAttributes<HTMLCanvasElement> {}
 
@@ -17,13 +18,14 @@ const Canvas = (props: CanvasProps) => {
   let lastValue = 0;
   const datas = results.map((result) => {
     const lastPercentage = (lastValue / totalNumber) * 100;
-    const percentage = Math.round(lastPercentage + (result.total / totalNumber) * 100);
+    const percentage = getEndAngleOfPercentage(result.total, lastPercentage, totalNumber);
     lastValue += result.total;
 
     return {
       percentage,
+      data: result.total,
       color: result.color,
-      startAngle: Math.round((-Math.PI / 2 + (Math.PI * 2 * lastPercentage) / 100) * 100) / 100,
+      startAngle: getStartAngleOfPercentage(lastPercentage),
     };
   });
 
@@ -62,21 +64,27 @@ const Canvas = (props: CanvasProps) => {
       function draw(pct) {
         var endRadians = -Math.PI / 2 + (Math.PI * 2 * pct) / 100;
 
-        for (let moodValue of datas) {
+        for (const [index, moodValue] of datas.entries()) {
           ctx.fillStyle = moodValue.color;
 
           if (endRadians >= moodValue.startAngle && pct <= moodValue.percentage) {
             if (moodValue.color === '#0a9627') {
               // debugger;
             }
-            ctx.beginPath();
-            ctx.arc(cx, cy, 100, moodValue.startAngle, endRadians);
-            ctx.lineTo(cx, cy);
-            ctx.save();
-            ctx.clip();
-            ctx.fillStyle = moodValue.color;
-            ctx.fill();
-            ctx.restore();
+            drawPie(ctx, { startAngle: moodValue.startAngle, endAngle: endRadians, cx, cy, color: moodValue.color });
+            drawSegmentLabel(ctx, {
+              cx,
+              cy,
+              startAngle: moodValue.startAngle,
+              endAngle: getStartAngleOfPercentage(moodValue.percentage),
+              radius: endingPct,
+              percentage: moodValue.percentage,
+              text: String(
+                datas[index - 1] === undefined
+                  ? datas[index].percentage
+                  : datas[index].percentage - datas[index - 1].percentage,
+              ),
+            });
           }
         }
       }
