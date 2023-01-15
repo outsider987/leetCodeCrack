@@ -13,6 +13,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utils_canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/utils/canvas */ "./src/utils/canvas.ts");
+
 
 const Canvas = (props) => {
     const canvasRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
@@ -27,12 +29,13 @@ const Canvas = (props) => {
     let lastValue = 0;
     const datas = results.map((result) => {
         const lastPercentage = (lastValue / totalNumber) * 100;
-        const percentage = Math.round(lastPercentage + (result.total / totalNumber) * 100);
+        const percentage = (0,_utils_canvas__WEBPACK_IMPORTED_MODULE_1__.getEndAngleOfPercentage)(result.total, lastPercentage, totalNumber);
         lastValue += result.total;
         return {
             percentage,
+            data: result.total,
             color: result.color,
-            startAngle: Math.round((-Math.PI / 2 + (Math.PI * 2 * lastPercentage) / 100) * 100) / 100,
+            startAngle: (0,_utils_canvas__WEBPACK_IMPORTED_MODULE_1__.getStartAngleOfPercentage)(lastPercentage),
         };
     });
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -64,20 +67,24 @@ const Canvas = (props) => {
             }
             function draw(pct) {
                 var endRadians = -Math.PI / 2 + (Math.PI * 2 * pct) / 100;
-                for (let moodValue of datas) {
+                for (const [index, moodValue] of datas.entries()) {
                     ctx.fillStyle = moodValue.color;
                     if (endRadians >= moodValue.startAngle && pct <= moodValue.percentage) {
                         if (moodValue.color === '#0a9627') {
                             // debugger;
                         }
-                        ctx.beginPath();
-                        ctx.arc(cx, cy, 100, moodValue.startAngle, endRadians);
-                        ctx.lineTo(cx, cy);
-                        ctx.save();
-                        ctx.clip();
-                        ctx.fillStyle = moodValue.color;
-                        ctx.fill();
-                        ctx.restore();
+                        (0,_utils_canvas__WEBPACK_IMPORTED_MODULE_1__.drawPie)(ctx, { startAngle: moodValue.startAngle, endAngle: endRadians, cx, cy, color: moodValue.color });
+                        (0,_utils_canvas__WEBPACK_IMPORTED_MODULE_1__.drawSegmentLabel)(ctx, {
+                            cx,
+                            cy,
+                            startAngle: moodValue.startAngle,
+                            endAngle: (0,_utils_canvas__WEBPACK_IMPORTED_MODULE_1__.getStartAngleOfPercentage)(moodValue.percentage),
+                            radius: endingPct,
+                            percentage: moodValue.percentage,
+                            text: String(datas[index - 1] === undefined
+                                ? datas[index].percentage
+                                : datas[index].percentage - datas[index - 1].percentage),
+                        });
                     }
                 }
             }
@@ -196,6 +203,53 @@ const Chart = () => {
 
 /***/ }),
 
+/***/ "./src/utils/canvas.ts":
+/*!*****************************!*\
+  !*** ./src/utils/canvas.ts ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "drawPie": () => (/* binding */ drawPie),
+/* harmony export */   "drawSegmentLabel": () => (/* binding */ drawSegmentLabel),
+/* harmony export */   "getEndAngleOfPercentage": () => (/* binding */ getEndAngleOfPercentage),
+/* harmony export */   "getStartAngleOfPercentage": () => (/* binding */ getStartAngleOfPercentage)
+/* harmony export */ });
+function drawSegmentLabel(ctx, dto) {
+    ctx.beginPath();
+    ctx.font = '20px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'white';
+    let theta = (dto.startAngle + dto.endAngle) / 2;
+    let deltaY = Math.sin(theta) * 1.5 * 100;
+    let deltaX = Math.cos(theta) * 1.5 * 100;
+    ctx.fillText(dto.text, deltaX + dto.cx, deltaY + dto.cy);
+    ctx.closePath();
+}
+function drawPie(ctx, dto) {
+    ctx.beginPath();
+    ctx.arc(dto.cx, dto.cy, 100, dto.startAngle, dto.endAngle);
+    ctx.lineTo(dto.cx, dto.cy);
+    ctx.stroke();
+    ctx.save();
+    ctx.clip();
+    ctx.fillStyle = dto.color;
+    ctx.fill();
+    ctx.restore();
+    ctx.closePath;
+    ctx.closePath();
+}
+const getStartAngleOfPercentage = (percentage) => {
+    return Math.round((-Math.PI / 2 + (Math.PI * 2 * percentage) / 100) * 100) / 100;
+};
+const getEndAngleOfPercentage = (data, percentage, totalNumber) => {
+    return Math.round(percentage + (data / totalNumber) * 100);
+};
+
+
+/***/ }),
+
 /***/ "./src/assets/img/me.jpg":
 /*!*******************************!*\
   !*** ./src/assets/img/me.jpg ***!
@@ -207,4 +261,4 @@ module.exports = __webpack_require__.p + "src/assets/img/me.af2f25858a0ff2c5b2b6
 /***/ })
 
 }]);
-//# sourceMappingURL=js/eb0a0aa070a09c7d9314.js.map
+//# sourceMappingURL=js/c2a79f001aab8a1fd340.js.map
