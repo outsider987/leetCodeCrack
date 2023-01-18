@@ -55,6 +55,23 @@ export function drawPie(
   ctx.restore();
 }
 
+export function drawLine(ctx, startX, startY, endX, endY, color) {
+  ctx.save();
+  ctx.strokeStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(startX, startY);
+  ctx.lineTo(endX, endY);
+  ctx.stroke();
+  ctx.restore();
+}
+
+export function drawBar(ctx, upperLeftCornerX, upperLeftCornerY, width, height, color) {
+  ctx.save();
+  ctx.fillStyle = color;
+  ctx.fillRect(upperLeftCornerX, upperLeftCornerY, width, height);
+  ctx.restore();
+}
+
 export const getAngleOfPercentage = (percentage) => {
   return -Math.PI / 2 + (Math.PI * 2 * percentage) / 100;
 };

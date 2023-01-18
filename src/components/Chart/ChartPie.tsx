@@ -3,7 +3,7 @@ import { drawPie, drawSegmentLabel, accumlateOfPercentange, getAngleOfPercentage
 
 interface CanvasProps extends React.HTMLAttributes<HTMLCanvasElement> {}
 
-const Canvas = (props: CanvasProps) => {
+const ChartPie = (props: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const results = [
@@ -47,9 +47,9 @@ const Canvas = (props: CanvasProps) => {
       let cx = Math.ceil(cw / 2);
       let cy = Math.ceil(ch / 2);
 
-      let img = new Image();
-      img.onload = start;
-      img.src = require('~/assets/img/me.jpg');
+      // let img = new Image();
+      // img.onload = start;
+      // img.src = require('~/assets/img/me.jpg');
 
       function start() {
         requestAnimationFrame(animate);
@@ -93,10 +93,11 @@ const Canvas = (props: CanvasProps) => {
           }
         }
       }
+      start();
     }
   }, []);
 
   return <canvas {...props} ref={canvasRef} />;
 };
 
-export default Canvas;
+export default ChartPie;
