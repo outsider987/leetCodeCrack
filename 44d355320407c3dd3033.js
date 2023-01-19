@@ -76,13 +76,15 @@ const ChartBar = (props) => {
                 let canvasActualHeight = ch - options.padding * 2;
                 let barIndex = 0;
                 let numberOfBars = Object.keys(options.data).length;
-                let barSize = canvasActualWidth / numberOfBars / options.spaceScale;
-                let space = barSize / options.spaceScale;
+                let baseBarSize = canvasActualWidth / numberOfBars / options.spaceScale;
+                let barSize = baseBarSize;
+                let space = barSize / 2;
                 let values = Object.values(options.data);
                 for (const [i, val] of values.entries()) {
                     let barHeight = Math.round((canvasActualHeight * val.data) / maxValue);
-                    console.log(i);
-                    (0,_utils_canvas__WEBPACK_IMPORTED_MODULE_1__.drawBar)(ctx, options.padding + barIndex * barSize + i * space, canvas.height - barHeight - options.padding, barSize, barHeight, val.color);
+                    let leftSpace = space * (i + 1);
+                    let rightSpace = space * i;
+                    (0,_utils_canvas__WEBPACK_IMPORTED_MODULE_1__.drawBar)(ctx, options.padding + barIndex * barSize + leftSpace + rightSpace, canvas.height - barHeight - options.padding, barSize, barHeight, val.color);
                     barIndex++;
                 }
             }
@@ -295,4 +297,4 @@ const accumlateOfPercentange = (data, percentage, totalNumber) => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/ceeef0b1e14aa649038e.js.map
+//# sourceMappingURL=js/44d355320407c3dd3033.js.map
