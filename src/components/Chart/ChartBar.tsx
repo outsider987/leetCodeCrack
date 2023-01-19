@@ -84,18 +84,19 @@ const ChartBar = (props: CanvasProps) => {
         let canvasActualHeight = ch - options.padding * 2;
         let barIndex = 0;
         let numberOfBars = Object.keys(options.data).length;
-        let barSize = canvasActualWidth / numberOfBars / options.spaceScale;
-        let space = barSize / options.spaceScale;
+        let baseBarSize = canvasActualWidth / numberOfBars / options.spaceScale;
+        let barSize = baseBarSize;
+        let space = barSize / 2;
 
         let values = Object.values(options.data);
 
         for (const [i, val] of values.entries()) {
           let barHeight = Math.round((canvasActualHeight * val.data) / maxValue);
-          console.log(i);
-
+          let leftSpace = space * (i + 1);
+          let rightSpace = space * i;
           drawBar(
             ctx,
-            options.padding + barIndex * barSize + i * space,
+            options.padding + barIndex * barSize + leftSpace + rightSpace,
             canvas.height - barHeight - options.padding,
             barSize,
             barHeight,
