@@ -21,7 +21,7 @@ export const RegisterInitial = {
 const Register = () => {
   const [isLoading, setLoading] = useState(false);
   const authSelector = useSelector(selectAuth);
-
+  const { POST_REGISTER, GET_GoogleLogin } = useAuthApi();
   const validaList: ValidateType<typeof RegisterInitial> = {
     email: [{ validate: validateRegexp.email, message: 'wrong format' }],
     username: [
@@ -41,10 +41,9 @@ const Register = () => {
   };
 
   const { validator, handleSubmit } = useForm(RegisterInitial, validaList);
-  
+
   const onSubmit = handleSubmit(async (data, ispass) => {
     if (ispass) {
-      const { POST_REGISTER } = useAuthApi();
       if (data) {
         setLoading(true);
         const res = await POST_REGISTER(data);

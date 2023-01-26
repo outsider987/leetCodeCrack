@@ -18,7 +18,7 @@ const factorResponse = async (res: Response) => {
   try {
     if (res.status === 401) {
       const storedToken = getTokenStorage();
-      const rs = await fetch(`${process.env.API_URL}auth/refresh`, {
+      const rs = await fetch(`${process.env.API_URL}/auth/refresh`, {
         headers: {
           authorization: `Bearer ${storedToken.refreshToken}`,
         },
@@ -43,7 +43,7 @@ const factorResponse = async (res: Response) => {
 };
 
 export const publicApi = (subPath: string = '', isDummyData?: boolean) => {
-  const baseURL = isDummyData ? 'https://dummyapi.io/data/v1/' : `${process.env.API_URL}${subPath}/`;
+  const baseURL = isDummyData ? 'https://dummyapi.io/data/v1/' : `${process.env.API_URL}/${subPath}/`;
   const instance = {
     get: (url: string, settings: typeof apiConfig = apiConfig, method: string = 'GET') =>
       fetch(`${baseURL}${url}`, { headers: settings.headers, method: 'GET' })
@@ -72,7 +72,7 @@ export const publicApi = (subPath: string = '', isDummyData?: boolean) => {
 };
 
 export const privateApi = (subPath: string = '', isDummyData?: boolean) => {
-  const baseURL = isDummyData ? 'https://dummyapi.io/data/v1/' : `${process.env.API_URL}${subPath}/`;
+  const baseURL = isDummyData ? 'https://dummyapi.io/data/v1/' : `${process.env.API_URL}/${subPath}/`;
   const instance = {
     get: (url: string, settings: typeof apiConfig = apiConfig, method: string = 'GET') =>
       fetch(`${baseURL}${url}`, { headers: settings.headers, method: 'GET' })

@@ -45,7 +45,7 @@ const Login = () => {
   };
   const { validator, handleSubmit } = useForm(LoginInitial, rules);
 
-  const { POST_LOGIN, GET_TokenTest } = useAuthApi();
+  const { POST_LOGIN, GET_TokenTest, GET_GoogleLogin, GET_USER } = useAuthApi();
   const onSubmit = handleSubmit(async (data) => {
     if (!data) throw 'submit failed';
     const res = await POST_LOGIN(data);
@@ -86,6 +86,16 @@ const Login = () => {
       store.dispatch(setAlertDialog({ show: true, msg: 'test work' }));
     });
   };
+
+  const onGoogleClick = async (event: React.FormEvent<HTMLElement>) => {
+    event.preventDefault();
+    // const res = await GET_GoogleLogin();
+    // console.log(res.data);
+    window.open(`${process.env.API_URL}/auth/google`, '_self');
+  };
+  useEffect(() => {
+    GET_USER().then((res) => console.log(res));
+  }, []);
 
   return (
     <>
@@ -136,6 +146,9 @@ const Login = () => {
                 {authSelector.user.accessToken !== '' && (
                   <span className="text-xl font-bold text-white">{`${tokeType} expired at ${accessCount}`}</span>
                 )}
+              </div>
+              <div className="text-white">
+                <button onClick={onGoogleClick}>Google Login</button>
               </div>
             </div>
           </form>

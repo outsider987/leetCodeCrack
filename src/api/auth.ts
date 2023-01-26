@@ -39,7 +39,20 @@ const useAuthApi = () => {
     return resp;
   };
 
-  return { POST_REGISTER, GET_REFRESH, POST_LOGIN, GET_TokenTest };
+  const GET_GoogleLogin = async () => {
+    const resp = await privateAuthApi.get('google');
+    return resp;
+  };
+
+  const GET_USER = async () => {
+    const resp = await authApi.get('login/success', {
+      //   headers: { 'Access-Control-Allow-Credentials': true },
+      withCredentials: true,
+    });
+    return resp;
+  };
+
+  return { POST_REGISTER, GET_REFRESH, POST_LOGIN, GET_TokenTest, GET_GoogleLogin, GET_USER };
 };
 
 export default useAuthApi;

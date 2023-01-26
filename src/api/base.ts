@@ -16,7 +16,7 @@ export interface APIEorrorResponse<T = any> {
 }
 
 export const publicApi = (subPath: string = '', isDummyData: boolean = false) => {
-  const url = isDummyData ? 'https://dummyapi.io/data/v1/' : `${process.env.API_URL}${subPath}`;
+  const url = isDummyData ? 'https://dummyapi.io/data/v1/' : `${process.env.API_URL}/${subPath}`;
   const api = axios.create({
     baseURL: url,
     headers: {
@@ -50,7 +50,7 @@ export const publicApi = (subPath: string = '', isDummyData: boolean = false) =>
 export const privateApi = (subPath: string = '') => {
   const api = axios.create({
     // withCredentials: true,
-    baseURL: `${process.env.API_URL}${subPath}`,
+    baseURL: `${process.env.API_URL}/${subPath}`,
     headers: { 'Content-Type': 'application/json' },
   });
 
