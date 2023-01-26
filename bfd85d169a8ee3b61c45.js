@@ -46,6 +46,7 @@ const RegisterInitial = {
 const Register = () => {
     const [isLoading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
     const authSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_10__.useSelector)(_store__WEBPACK_IMPORTED_MODULE_7__.selectAuth);
+    const { POST_REGISTER, GET_GoogleLogin } = (0,_api_auth__WEBPACK_IMPORTED_MODULE_5__["default"])();
     const validaList = {
         email: [{ validate: _utils_validate__WEBPACK_IMPORTED_MODULE_3__.validateRegexp.email, message: 'wrong format' }],
         username: [
@@ -66,7 +67,6 @@ const Register = () => {
     const { validator, handleSubmit } = (0,_hooks_useMyForm__WEBPACK_IMPORTED_MODULE_4__.useForm)(RegisterInitial, validaList);
     const onSubmit = handleSubmit(async (data, ispass) => {
         if (ispass) {
-            const { POST_REGISTER } = (0,_api_auth__WEBPACK_IMPORTED_MODULE_5__["default"])();
             if (data) {
                 setLoading(true);
                 const res = await POST_REGISTER(data);
@@ -104,4 +104,4 @@ const Register = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/82c511d74e8b9475c1eb.js.map
+//# sourceMappingURL=js/bfd85d169a8ee3b61c45.js.map
