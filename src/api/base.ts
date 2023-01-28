@@ -71,6 +71,7 @@ export const privateApi = (subPath: string = '') => {
       checkErrorCdoe(response);
       return response;
     },
+
     async (error: AxiosError) => {
       if (error.response) {
         // Access Token was expired
