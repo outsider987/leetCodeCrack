@@ -593,28 +593,45 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
 /* harmony export */   "globalSlice": () => (/* binding */ globalSlice),
+/* harmony export */   "initialState": () => (/* binding */ initialState),
 /* harmony export */   "setToken": () => (/* binding */ setToken)
 /* harmony export */ });
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+/* harmony import */ var jwt_decode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jwt-decode */ "./node_modules/jwt-decode/build/jwt-decode.esm.js");
+
 
 const initialState = {
     user: {
         accessToken: '',
         refreshToken: '',
+        userInformation: {
+            email: '',
+            exp: 0,
+            iat: 0,
+            user_id: 0,
+            username: '',
+        },
     },
     // tokenConfig: {
     //   tokenExpiredTime: 10,
     //   tokeType: 'access',
     // },
 };
-const globalSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
+const globalSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
     name: 'global',
     initialState,
     reducers: {
         setToken: (state, action) => {
             const { user } = state;
             const { accessToken, refreshToken } = action.payload;
-            state.user = { ...user, accessToken, refreshToken };
+            if (accessToken === '') {
+                state.user = { ...action.payload, userInformation: initialState.user.userInformation };
+                return;
+            }
+            else {
+                const jwtUser = (0,jwt_decode__WEBPACK_IMPORTED_MODULE_0__["default"])(accessToken);
+                state.user = { ...user, accessToken, refreshToken, userInformation: jwtUser };
+            }
         },
         // setTokenConfig: (state, action: PayloadAction<typeof initialState.tokenConfig>) => {
         //   // const { tokenExpiredTime } = state.tokenConfig;
