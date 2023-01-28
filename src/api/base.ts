@@ -39,6 +39,7 @@ export const publicApi = (subPath: string = '', isDummyData: boolean = false) =>
       return response;
     },
     (error) => {
+      if (error.response.status === 401) return error.response;
       checkErrorCdoe(error.response);
       return error.response;
     },
@@ -78,9 +79,9 @@ export const privateApi = (subPath: string = '') => {
 
           try {
             const rs = await axios.post(
-              `${process.env.API_URL}auth/refresh`,
+              `${process.env.API_URL}/auth/refresh`,
               {
-                refresh_token: storedToken.refresh_token,
+                refreshToken: storedToken.refreshToken,
               },
               {
                 headers: {
