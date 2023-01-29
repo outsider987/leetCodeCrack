@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useSelector } from 'react-redux';
-import { getTokenStorage, setTokenStorage } from '~/utils/storage';
+import { cleanTokenStorage, getTokenStorage, setTokenStorage } from '~/utils/storage';
 import { store } from '~/store';
 import { setAlertDialog } from '~/store/global';
 
@@ -90,14 +90,15 @@ export const privateApi = (subPath: string = '') => {
                 },
               },
             );
-            if (rs.status === 401) {
-              checkErrorCdoe(rs);
-              return rs;
-            }
+
             setTokenStorage(rs.data.data);
 
             return api(error.config);
           } catch (_error: any) {
+            console.log(_error);
+            if (_error.response.status === 401) {
+              cleanTokenStorage();
+            }
             checkErrorCdoe(_error, _error);
 
             return Promise.reject(_error);
