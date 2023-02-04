@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useSelector } from 'react-redux';
-import { getTokenStorage, setTokenStorage } from '~/utils/storage';
+import { cleanTokenStorage, getTokenStorage, setTokenStorage } from '~/utils/storage';
 import { store } from '~/store';
 import { setAlertDialog } from '~/store/global';
 
@@ -39,6 +39,7 @@ export const publicApi = (subPath: string = '', isDummyData: boolean = false) =>
       return response;
     },
     (error) => {
+      if (error.response.status === 401) return error.response;
       checkErrorCdoe(error.response);
       return error.response;
     },
@@ -49,7 +50,6 @@ export const publicApi = (subPath: string = '', isDummyData: boolean = false) =>
 
 export const privateApi = (subPath: string = '') => {
   const api = axios.create({
-    // withCredentials: true,
     baseURL: `${process.env.API_URL}/${subPath}`,
     headers: { 'Content-Type': 'application/json' },
   });
@@ -70,6 +70,7 @@ export const privateApi = (subPath: string = '') => {
       checkErrorCdoe(response);
       return response;
     },
+
     async (error: AxiosError) => {
       if (error.response) {
         // Access Token was expired
@@ -78,9 +79,9 @@ export const privateApi = (subPath: string = '') => {
 
           try {
             const rs = await axios.post(
-              `${process.env.API_URL}auth/refresh`,
+              `${process.env.API_URL}/auth/refresh`,
               {
-                refresh_token: storedToken.refresh_token,
+                refreshToken: storedToken.refreshToken,
               },
               {
                 headers: {
@@ -88,15 +89,16 @@ export const privateApi = (subPath: string = '') => {
                 },
               },
             );
-            if (rs.status === 401) {
-              checkErrorCdoe(rs);
-              return rs;
-            }
+
             setTokenStorage(rs.data.data);
 
             return api(error.config);
           } catch (_error: any) {
-            checkErrorCdoe(_error, _error);
+            console.log(_error);
+            if (_error.response.status === 401) {
+              cleanTokenStorage();
+            }
+            checkErrorCdoe(_error.response, _error.response.status);
 
             return Promise.reject(_error);
           }
@@ -110,13 +112,6 @@ export const privateApi = (subPath: string = '') => {
 };
 
 async function checkErrorCdoe(response: AxiosResponse<APIResponse, any>, catchError: any = 'good') {
-  if (catchError.code === 'ERR_BAD_REQUEST') {
-    store.dispatch(
-      setAlertDialog({ show: true, msg: JSON.stringify({ code: catchError.code, status: catchError.status }) }),
-    );
-    return;
-  }
-
   switch (response.data.status) {
     case false:
       store.dispatch(setAlertDialog({ show: true, msg: JSON.stringify(response.data) }));

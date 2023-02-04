@@ -21,7 +21,7 @@ export const RegisterInitial = {
 const Register = () => {
   const [isLoading, setLoading] = useState(false);
   const authSelector = useSelector(selectAuth);
-  const { POST_REGISTER, GET_GoogleLogin } = useAuthApi();
+  const { POST_REGISTER } = useAuthApi();
   const validaList: ValidateType<typeof RegisterInitial> = {
     email: [{ validate: validateRegexp.email, message: 'wrong format' }],
     username: [

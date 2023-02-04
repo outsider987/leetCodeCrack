@@ -1,4 +1,4 @@
-import { setTokenStorage } from '~/utils/storage';
+import { cleanTokenStorage, setTokenStorage } from '~/utils/storage';
 import { LoginInitial } from '~/pages/Home/Member';
 import { RegisterInitial } from '~/pages/Home/Member/Register';
 import { APIResponse, privateApi, publicApi } from './base';
@@ -39,20 +39,24 @@ const useAuthApi = () => {
     return resp;
   };
 
-  const GET_GoogleLogin = async () => {
-    const resp = await privateAuthApi.get('google');
+  const GET_LOGOUT = async () => {
+    const resp = await authApi.get('logout', {
+      withCredentials: true,
+    });
+
+    if (resp.data.status) cleanTokenStorage();
     return resp;
   };
 
   const GET_USER = async () => {
     const resp = await authApi.get('login/success', {
-      //   headers: { 'Access-Control-Allow-Credentials': true },
       withCredentials: true,
     });
+    if (resp.data.data) setTokenStorage(resp.data.data);
     return resp;
   };
 
-  return { POST_REGISTER, GET_REFRESH, POST_LOGIN, GET_TokenTest, GET_GoogleLogin, GET_USER };
+  return { POST_REGISTER, GET_REFRESH, POST_LOGIN, GET_TokenTest, GET_USER, GET_LOGOUT };
 };
 
 export default useAuthApi;

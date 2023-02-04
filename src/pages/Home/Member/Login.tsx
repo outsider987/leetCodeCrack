@@ -2,17 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import Input from 'outsiderreact/dist/components/Input';
 import Button from 'outsiderreact/dist/components/Button';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-
-import { HomeRoute } from '~/router';
 import useAuthApi from '~/api/auth';
 import { useForm, ValidateType } from '~/hooks/useMyForm';
 import { RegexpBindFactory, validateRegexp } from '~/utils/validate';
 import { selectAuth, store } from '~/store';
 import { setAlertDialog } from '~/store/global';
 import { useDispatch, useSelector } from 'react-redux';
-import { setToken } from '~/store/auth';
-import { publicApi } from '~/api/fetchBase';
-import Carousel from '~/components/Carousel';
+import { getTokenStorage } from '~/utils/storage';
 
 export interface MemberState {
   sort_index: number;
@@ -45,7 +41,7 @@ const Login = () => {
   };
   const { validator, handleSubmit } = useForm(LoginInitial, rules);
 
-  const { POST_LOGIN, GET_TokenTest, GET_GoogleLogin, GET_USER } = useAuthApi();
+  const { POST_LOGIN, GET_TokenTest, GET_USER, GET_LOGOUT } = useAuthApi();
   const onSubmit = handleSubmit(async (data) => {
     if (!data) throw 'submit failed';
     const res = await POST_LOGIN(data);
@@ -101,6 +97,13 @@ const Login = () => {
     <>
       {
         <div className="flex h-full w-full ">
+          {authSelector.user.userInformation.username !== '' && (
+            <div className="flex flex-col text-white">
+              <span>name:{authSelector.user.userInformation.username}</span>
+              <button onClick={() => GET_LOGOUT()}>log out </button>
+            </div>
+          )}
+
           <form className="m-auto w-[50vw] space-y-6 ">
             <div className="flex flex-col space-y-5 ">
               <Input
@@ -135,7 +138,7 @@ const Login = () => {
             </div>
             <div className="flex w-full flex-col">
               <Button onClick={onTestToken} className="m-auto">
-                TokenTest
+                TokenTes
               </Button>
               <div className="grid grid-cols-2">
                 <span className="max-w-xs break-all text-white">
@@ -147,8 +150,9 @@ const Login = () => {
                   <span className="text-xl font-bold text-white">{`${tokeType} expired at ${accessCount}`}</span>
                 )}
               </div>
-              <div className="text-white">
-                <button onClick={onGoogleClick}>Google Login</button>
+              <div className="flex cursor-pointer space-x-1 text-white" onClick={onGoogleClick}>
+                <img src={require('~/assets/svg/btn_google_dark_normal_ios.svg')}></img>
+                <button>Google Login</button>
               </div>
             </div>
           </form>
