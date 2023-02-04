@@ -50,7 +50,6 @@ export const publicApi = (subPath: string = '', isDummyData: boolean = false) =>
 
 export const privateApi = (subPath: string = '') => {
   const api = axios.create({
-    // withCredentials: true,
     baseURL: `${process.env.API_URL}/${subPath}`,
     headers: { 'Content-Type': 'application/json' },
   });
@@ -99,7 +98,7 @@ export const privateApi = (subPath: string = '') => {
             if (_error.response.status === 401) {
               cleanTokenStorage();
             }
-            checkErrorCdoe(_error, _error);
+            checkErrorCdoe(_error.response, _error.response.status);
 
             return Promise.reject(_error);
           }
@@ -113,13 +112,6 @@ export const privateApi = (subPath: string = '') => {
 };
 
 async function checkErrorCdoe(response: AxiosResponse<APIResponse, any>, catchError: any = 'good') {
-  if (catchError.code === 'ERR_BAD_REQUEST') {
-    store.dispatch(
-      setAlertDialog({ show: true, msg: JSON.stringify({ code: catchError.code, status: catchError.status }) }),
-    );
-    return;
-  }
-
   switch (response.data.status) {
     case false:
       store.dispatch(setAlertDialog({ show: true, msg: JSON.stringify(response.data) }));
