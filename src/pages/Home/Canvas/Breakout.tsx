@@ -1,14 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import { Outlet, Navigate, useLocation } from 'react-router-dom';
-import ChartBar from '~/components/Chart/ChartBar';
-import ChartPie from '~/components/Chart/ChartPie';
-import HomeWrapper from '~/layouts/HomeWrapper';
+import BreakoutCanvas from '~/components/Chart/Breakout';
 
 const Breakout = () => {
   return (
     <div className="m-auto flex w-full flex-col items-center justify-center">
-      <ChartPie className="h-[50vh] w-[50vh]" />
-      <ChartBar className="h-[50vh] w-[50vh]" />
+      <BreakoutCanvas className="h-[50 vh] w-[65vw]" />
     </div>
   );
 };

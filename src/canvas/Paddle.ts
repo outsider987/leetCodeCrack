@@ -1,23 +1,26 @@
 import DrawObject from './DrawObject';
 
 class Paddle extends DrawObject {
-  protected width: number;
-  protected height: number;
-  constructor(x, y, width, height, color) {
+  public width: number;
+  public height: number;
+  constructor(ctx: CanvasRenderingContext2D, x, y, width, height, color) {
     super();
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
     this.color = color;
+    this.ctx = ctx;
   }
 
-  draw(ctx) {
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+  draw() {
+    this.ctx.fillStyle = this.color;
+    this.ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 
-  move(dx) {
-    this.x += dx;
+  update(dx) {
+    this.x = dx - this.width / 2;
   }
 }
+
+export default Paddle;

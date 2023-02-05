@@ -149,6 +149,13 @@ const HomeRoute = {
           isShow: true,
           text: 'Chart',
         },
+        {
+          path: '/canvas/breakout',
+          element: lazyLoad(React.lazy(() => import('~/pages/Home/Canvas/Breakout'))),
+          icon: 'template',
+          isShow: true,
+          text: 'Breakout',
+        },
       ],
     },
   ],
