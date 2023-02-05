@@ -734,6 +734,9 @@ video {
 .w-\[1px\] {
   width: 1px;
 }
+.w-\[65vw\] {
+  width: 65vw;
+}
 .w-\[50vh\] {
   width: 50vh;
 }
@@ -1479,4 +1482,4 @@ video {
   }
 }
 
-/*# sourceMappingURL=../js/css/main~src_index_scss_0c888290.db5f30c23f38868f62dc.css.map*/
+/*# sourceMappingURL=../js/css/main~src_index_scss_0c888290.21920f9216749bb21056.css.map*/

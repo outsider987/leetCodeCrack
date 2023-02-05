@@ -562,6 +562,13 @@ const HomeRoute = {
                     isShow: true,
                     text: 'Chart',
                 },
+                {
+                    path: '/canvas/breakout',
+                    element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => __webpack_require__.e(/*! import() */ "src_pages_Home_Canvas_Breakout_tsx").then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Canvas/Breakout */ "./src/pages/Home/Canvas/Breakout.tsx")))),
+                    icon: 'template',
+                    isShow: true,
+                    text: 'Breakout',
+                },
             ],
         },
     ],
