@@ -349,7 +349,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const Breakout = () => {
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "m-auto flex w-full flex-col items-center justify-center" },
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Chart_Breakout__WEBPACK_IMPORTED_MODULE_1__["default"], { className: "h-[50 vh] w-[65vw]" })));
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Chart_Breakout__WEBPACK_IMPORTED_MODULE_1__["default"], { className: "h-[50vh] w-[65vw]" })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Breakout);
 
@@ -357,4 +357,4 @@ const Breakout = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/79586532b5971d463250.js.map
+//# sourceMappingURL=js/1b2766956f6dc575e875.js.map
