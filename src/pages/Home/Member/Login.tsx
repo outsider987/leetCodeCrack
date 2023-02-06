@@ -106,7 +106,7 @@ const Login = () => {
               <button onClick={() => GET_LOGOUT()}>log out </button>
             </div>
           )}
-          {JSON.stringify(test)}
+          {/* {JSON.stringify(test)} */}
           <form className="m-auto w-[50vw] space-y-6 ">
             <div className="flex flex-col space-y-5 ">
               <Input
