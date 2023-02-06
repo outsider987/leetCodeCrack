@@ -219,8 +219,7 @@ class Game {
     }
     checkWin() {
         if (this.score === this.bricks.length) {
-            // alert('You win!');
-            document.location.reload();
+            window.location.reload();
         }
     }
     drawScore() {
@@ -357,4 +356,4 @@ const Breakout = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/1b2766956f6dc575e875.js.map
+//# sourceMappingURL=js/4b38353881b3bc9ac7c6.js.map
