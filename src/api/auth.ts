@@ -50,13 +50,13 @@ const useAuthApi = () => {
 
   const GET_USER = async () => {
     const resp = await (
-      await fetch('login/success', {
+      await fetch(`${process.env.API_URL}/auth/login/success`, {
         method: 'get',
         credentials: 'include',
       })
     ).json();
-
-    if (resp.data) setTokenStorage(resp.data.data);
+    console.log(resp);
+    if (resp.data) setTokenStorage(resp.data);
     return resp;
   };
   // const GET_USER = async () => {
