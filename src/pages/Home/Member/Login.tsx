@@ -91,7 +91,9 @@ const Login = () => {
     window.open(`${process.env.API_URL}/auth/google`, '_self');
   };
   useEffect(() => {
-    GET_USER().then((res) => console.log(setTest(res.data)));
+    GET_USER().then((res) => {
+      setTest(res.data);
+    });
   }, []);
 
   return (
