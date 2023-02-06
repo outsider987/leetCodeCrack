@@ -314,8 +314,11 @@ const Breakout = (props) => {
             function animate() {
                 game.draw();
                 game.update();
-                if (game.checkWin())
+                if (game.checkWin()) {
+                    alert('win');
+                    window.location.reload();
                     return false;
+                }
                 requestAnimationFrame(animate);
             }
             function start() {
@@ -356,4 +359,4 @@ const Breakout = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/8b27f3c74d291d74c53a.js.map
+//# sourceMappingURL=js/5cad830768dac9616d86.js.map
