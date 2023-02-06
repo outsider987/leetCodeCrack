@@ -49,12 +49,23 @@ const useAuthApi = () => {
   };
 
   const GET_USER = async () => {
-    const resp = await authApi.get('login/success', {
-      withCredentials: true,
-    });
-    if (resp.data.data) setTokenStorage(resp.data.data);
+    const resp = await (
+      await fetch('login/success', {
+        method: 'get',
+        credentials: 'include',
+      })
+    ).json();
+
+    if (resp.data) setTokenStorage(resp.data.data);
     return resp;
   };
+  // const GET_USER = async () => {
+  //   const resp = await authApi.get('login/success', {
+  //     withCredentials: true,
+  //   });
+  //   if (resp.data.data) setTokenStorage(resp.data.data);
+  //   return resp;
+  // };
 
   return { POST_REGISTER, GET_REFRESH, POST_LOGIN, GET_TokenTest, GET_USER, GET_LOGOUT };
 };
