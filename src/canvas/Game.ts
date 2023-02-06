@@ -75,8 +75,7 @@ class Game {
 
   checkWin() {
     if (this.score === this.bricks.length) {
-      // alert('You win!');
-      document.location.reload();
+      window.location.reload();
     }
   }
 

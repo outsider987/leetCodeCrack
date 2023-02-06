@@ -28,6 +28,7 @@ const Login = () => {
   const intervalId = useRef<any>(0);
   const countTime = useRef(10);
   const tokeTypeRef = useRef('access');
+  const [test, setTest] = useState('');
 
   const rules: ValidateType<typeof LoginInitial> = {
     email: [
@@ -90,7 +91,7 @@ const Login = () => {
     window.open(`${process.env.API_URL}/auth/google`, '_self');
   };
   useEffect(() => {
-    GET_USER().then((res) => console.log(res));
+    GET_USER().then((res) => console.log(setTest(res.data)));
   }, []);
 
   return (
@@ -103,7 +104,7 @@ const Login = () => {
               <button onClick={() => GET_LOGOUT()}>log out </button>
             </div>
           )}
-
+          {JSON.stringify(test)}
           <form className="m-auto w-[50vw] space-y-6 ">
             <div className="flex flex-col space-y-5 ">
               <Input
