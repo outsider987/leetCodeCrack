@@ -74,9 +74,7 @@ class Game {
   }
 
   checkWin() {
-    if (this.score === this.bricks.length) {
-      window.location.reload();
-    }
+    return this.score === this.bricks.length;
   }
 
   drawScore() {

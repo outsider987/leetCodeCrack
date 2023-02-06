@@ -19,6 +19,7 @@ const Breakout = (props: CanvasProps) => {
       function animate() {
         game.draw();
         game.update();
+        if (game.checkWin()) return false;
         requestAnimationFrame(animate);
       }
       function start() {
