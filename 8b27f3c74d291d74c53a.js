@@ -218,9 +218,7 @@ class Game {
         }
     }
     checkWin() {
-        if (this.score === this.bricks.length) {
-            window.location.reload();
-        }
+        return this.score === this.bricks.length;
     }
     drawScore() {
         this.ctx.font = '16px Arial';
@@ -316,6 +314,8 @@ const Breakout = (props) => {
             function animate() {
                 game.draw();
                 game.update();
+                if (game.checkWin())
+                    return false;
                 requestAnimationFrame(animate);
             }
             function start() {
@@ -356,4 +356,4 @@ const Breakout = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/4b38353881b3bc9ac7c6.js.map
+//# sourceMappingURL=js/8b27f3c74d291d74c53a.js.map
