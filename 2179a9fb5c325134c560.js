@@ -74,6 +74,8 @@ class Ball extends _DrawObject__WEBPACK_IMPORTED_MODULE_0__["default"] {
     reset() {
         this.x = this.resetX;
         this.y = this.resetY;
+        this.dx = 0;
+        this.dy = 0;
     }
     start() {
         this.dx = 5;
@@ -241,9 +243,6 @@ class Game {
         if (this.ball.y + this.ball.radius > this.canvas.height) {
             this.ball.reset();
             this.lives -= 1;
-            if (this.lives === 0) {
-                this.lives = 3;
-            }
             return true;
         }
     }
@@ -376,4 +375,4 @@ const Breakout = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/6921cbce55c8a541e80d.js.map
+//# sourceMappingURL=js/2179a9fb5c325134c560.js.map
