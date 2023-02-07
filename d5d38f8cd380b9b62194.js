@@ -207,17 +207,17 @@ class Game {
     }
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.drawScore();
+        this.drawLives();
         this.paddle.draw();
         this.ball.draw();
         this.bricks.forEach((brick) => !brick.destroyed && brick.draw());
-        this.drawScore();
-        this.drawLives();
     }
     update() {
-        this.ball.update();
+        this.checkeFail();
         this.checkCollision();
         this.ball.checkNeedSpeedUp(this.score, this.bricks.length);
-        this.checkeFail();
+        this.ball.update();
         this.checkWin();
     }
     checkCollision() {
@@ -253,6 +253,7 @@ class Game {
     }
     checkeFail() {
         if (this.ball.y + this.ball.radius > this.canvas.height) {
+            debugger;
             this.ball.reset();
             this.lives -= 1;
             return true;
@@ -345,12 +346,15 @@ const Breakout = (props) => {
             const ctx = canvas.getContext('2d');
             const game = new _canvas_Game__WEBPACK_IMPORTED_MODULE_1__["default"](ctx, canvas);
             function animate() {
-                game.draw();
-                game.update();
                 if (game.checkWin() || game.lives < 0) {
+                    debugger;
                     game.lives < 0 ? alert('faile game') : alert('you win');
                     game.score = 0;
                     game.reset();
+                }
+                else {
+                    game.draw();
+                    game.update();
                 }
                 requestAnimationFrame(animate);
             }
@@ -360,7 +364,7 @@ const Breakout = (props) => {
             start();
         }
     }, []);
-    return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { ...props, ref: canvasRef });
+    return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { className: "border border-solid border-white", ...props, ref: canvasRef });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Breakout);
 
@@ -384,7 +388,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const Breakout = () => {
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "m-auto flex w-full flex-col items-center justify-center" },
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Chart_Breakout__WEBPACK_IMPORTED_MODULE_1__["default"], { className: "h-[50vh] w-[65vw]" })));
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Chart_Breakout__WEBPACK_IMPORTED_MODULE_1__["default"], { className: "h-[50vh] w-[65vw] border border-solid border-white " })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Breakout);
 
@@ -392,4 +396,4 @@ const Breakout = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/619fbe085b87be34291b.js.map
+//# sourceMappingURL=js/d5d38f8cd380b9b62194.js.map
