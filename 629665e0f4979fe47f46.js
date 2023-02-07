@@ -209,25 +209,26 @@ class Game {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.drawScore();
         this.drawLives();
+        this.drawBallY();
         this.paddle.draw();
         this.ball.draw();
         this.bricks.forEach((brick) => !brick.destroyed && brick.draw());
     }
     update() {
         this.checkeFail();
-        this.checkCollision();
         this.ball.checkNeedSpeedUp(this.score, this.bricks.length);
         this.ball.update();
         this.checkWin();
+        this.checkCollision();
     }
     checkCollision() {
-        this.bricks.forEach((brick) => {
+        for (const brick of this.bricks) {
             if (this.ball.collide(brick) && !brick.destroyed) {
                 this.score++;
                 this.ball.dy = -this.ball.dy;
                 brick.destroyed = true;
             }
-        });
+        }
         if (this.ball.collide(this.paddle)) {
             this.ball.dy = -this.ball.dy;
         }
@@ -251,9 +252,13 @@ class Game {
         this.ctx.fillStyle = '#0095DD';
         this.ctx.fillText('Lives: ' + this.lives, this.canvas.width - 65, 20);
     }
+    drawBallY() {
+        this.ctx.font = '16px Arial';
+        this.ctx.fillStyle = '#0095DD';
+        this.ctx.fillText('Ball Y: ' + this.ball.y, this.canvas.width / 2, 20);
+    }
     checkeFail() {
         if (this.ball.y + this.ball.radius > this.canvas.height) {
-            debugger;
             this.ball.reset();
             this.lives -= 1;
             return true;
@@ -345,17 +350,22 @@ const Breakout = (props) => {
             const canvas = canvasRef.current;
             const ctx = canvas.getContext('2d');
             const game = new _canvas_Game__WEBPACK_IMPORTED_MODULE_1__["default"](ctx, canvas);
-            function animate() {
-                if (game.checkWin() || game.lives < 0) {
-                    debugger;
-                    game.lives < 0 ? alert('faile game') : alert('you win');
-                    game.score = 0;
-                    game.reset();
+            let lastTime = 0;
+            function animate(time) {
+                const delta = time - lastTime;
+                if (time > lastTime) {
+                    if (game.checkWin() || game.lives < 0) {
+                        lastTime = 0;
+                        game.lives < 0 ? alert('faile game') : alert('you win');
+                        game.score = 0;
+                        game.reset();
+                    }
+                    else {
+                        game.update();
+                        game.draw();
+                    }
                 }
-                else {
-                    game.draw();
-                    game.update();
-                }
+                lastTime = time;
                 requestAnimationFrame(animate);
             }
             function start() {
@@ -396,4 +406,4 @@ const Breakout = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/d5d38f8cd380b9b62194.js.map
+//# sourceMappingURL=js/629665e0f4979fe47f46.js.map
