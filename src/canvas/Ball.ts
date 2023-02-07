@@ -65,6 +65,8 @@ class Ball extends DrawObject {
   reset() {
     this.x = this.resetX;
     this.y = this.resetY;
+    this.dx = 0;
+    this.dy = 0;
   }
 
   start() {

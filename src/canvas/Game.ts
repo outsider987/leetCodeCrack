@@ -93,9 +93,7 @@ class Game {
     if (this.ball.y + this.ball.radius > this.canvas.height) {
       this.ball.reset();
       this.lives -= 1;
-      if (this.lives === 0) {
-        this.lives = 3;
-      }
+
       return true;
     }
   }
