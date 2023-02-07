@@ -45,6 +45,7 @@ class Ball extends DrawObject {
     }
   }
   checkNeedSpeedUp(count: number, brickLegth: number) {
+    if (this.dx === 0) return false;
     if (count > brickLegth / 5) {
       let speed = 8;
       if (this.dx > 0) this.dx = speed;
@@ -70,11 +71,13 @@ class Ball extends DrawObject {
   }
 
   start() {
-    this.dx = 5;
+    // random true or false to start
+
+    this.dx = Math.random() < 0.5 ? -5 : 5;
     this.dy = -5;
   }
 
-  collide(object: Paddle | Brick) {
+  collide(object: Paddle | Brick | { x: number; y: number; width: number; height: number }) {
     let xMin = object.x;
     let xMax = object.x + object.width;
     let yMin = object.y;

@@ -19,11 +19,10 @@ const Breakout = (props: CanvasProps) => {
       function animate() {
         game.draw();
         game.update();
-        if (game.checkWin() || game.checkeFail()) {
-          game.lives === 0 ? alert('faile game') : alert('you win');
-
-          window.location.reload();
-          return false;
+        if (game.checkWin() || game.lives < 0) {
+          game.lives < 0 ? alert('faile game') : alert('you win');
+          game.score = 0;
+          game.reset();
         }
         requestAnimationFrame(animate);
       }

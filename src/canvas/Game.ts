@@ -7,7 +7,7 @@ class Game {
   protected ball: Ball;
   protected paddle: Paddle;
   protected bricks: Brick[];
-  protected score: number;
+  public score: number;
   public lives: number;
   protected canvas: HTMLCanvasElement;
 
@@ -74,6 +74,13 @@ class Game {
     }
   }
 
+  reset() {
+    this.ball.reset();
+    this.score = 0;
+    this.lives = 3;
+    this.bricks.forEach((brick) => brick.reset());
+  }
+
   checkWin() {
     return this.score === this.bricks.length;
   }
@@ -104,15 +111,20 @@ class Game {
 
       paddle.update(mouseX);
     });
+    canvas.addEventListener('mousedown', function (e) {
+      if (ball.collide({ x: e.offsetX, y: e.offsetY, width: paddle.width, height: ball.radius })) ball.start();
+    });
     document.addEventListener('keydown', function (e) {
-      console.log(e);
       let val = 0;
       if (e.key === 'd') val = paddle.x + 1;
       else if (e.key === 'a') val = paddle.x - 1;
       if (e.code == 'Space') {
         ball.start();
       }
-      paddle.update(val);
+    });
+
+    canvas.addEventListener('touchmove', function (e) {
+      paddle.update(e.touches[0].clientX - paddle.width / 2);
     });
   }
 }

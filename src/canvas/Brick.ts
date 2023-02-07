@@ -24,6 +24,9 @@ class Brick extends DrawObject {
       this.ctx.closePath();
     }
   }
+  reset() {
+    this.destroyed = false;
+  }
 }
 
 export default Brick;
