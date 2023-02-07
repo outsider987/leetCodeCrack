@@ -225,7 +225,8 @@ class Game {
         }
     }
     checkWin() {
-        alert('win');
+        if (this.score === this.bricks.length)
+            alert('win ');
         return this.score === this.bricks.length;
     }
     drawScore() {
@@ -239,11 +240,13 @@ class Game {
         this.ctx.fillText('Lives: ' + this.lives, this.canvas.width - 65, 20);
     }
     checkeFail() {
-        if (this.ball.y + this.ball.radius / 2 > this.canvas.height) {
+        if (this.ball.y + this.ball.radius > this.canvas.height) {
             this.ball.reset();
             this.lives -= 1;
-            if (this.lives === 0)
+            if (this.lives === 0) {
                 alert('you failed the game');
+                this.lives = 3;
+            }
             return true;
         }
     }
@@ -331,8 +334,7 @@ const Breakout = (props) => {
             function animate() {
                 game.draw();
                 game.update();
-                if (game.checkWin()) {
-                    alert('win');
+                if (game.checkWin() || game.checkeFail()) {
                     window.location.reload();
                     return false;
                 }
@@ -376,4 +378,4 @@ const Breakout = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/5735bdd8d4a69262436f.js.map
+//# sourceMappingURL=js/5a9e911310e31e3418ee.js.map
