@@ -167,7 +167,7 @@ __webpack_require__.r(__webpack_exports__);
 const ErrorDialog = (props) => {
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Modal__WEBPACK_IMPORTED_MODULE_2__["default"], { toggle: props.toggle, backdrop: props.backdrop },
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { onClick: (e) => e.stopPropagation(), className: "flex min-h-[50vh] w-0 animate-pop flex-col rounded-xl bg-greyscale p-[1%] shadow-2xl sm:min-w-[90vw]  lg:min-w-[50vw]" },
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex justify-center space-y-2 text-3xl font-bold text-white" }, "Error"),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex justify-center space-y-2 text-3xl font-bold text-white" }, props.titile),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { style: { wordBreak: 'break-word' }, className: "m-auto flex h-full max-h-[50vh] max-w-[90vw] items-center overflow-auto text-orange-400" }, props.msg),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button__WEBPACK_IMPORTED_MODULE_1__["default"], { className: "border-[0px]", isWhite: false, onClick: props.backdrop }, "OK!"))));
 };
@@ -299,7 +299,7 @@ const ModalsWrapper = (props) => {
     const globalSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(_store__WEBPACK_IMPORTED_MODULE_3__.selectGlobal);
     const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useDispatch)();
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null,
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_modals_ErrorDialog__WEBPACK_IMPORTED_MODULE_2__["default"], { toggle: globalSelector.alertDialog.show, msg: globalSelector.alertDialog.msg, backdrop: () => dispatch((0,_store_global__WEBPACK_IMPORTED_MODULE_4__.setAlertDialog)({ ...globalSelector.alertDialog, show: false })) }),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_modals_ErrorDialog__WEBPACK_IMPORTED_MODULE_2__["default"], { toggle: globalSelector.alertDialog.show, msg: globalSelector.alertDialog.msg, backdrop: () => dispatch((0,_store_global__WEBPACK_IMPORTED_MODULE_4__.setAlertDialog)({ ...globalSelector.alertDialog, show: false })), titile: globalSelector.alertDialog.title }),
         props.children));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ModalsWrapper);
@@ -675,6 +675,7 @@ const initialState = {
     alertDialog: {
         show: false,
         msg: '',
+        title: 'error',
     },
 };
 const globalSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
@@ -683,8 +684,8 @@ const globalSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice
     reducers: {
         setAlertDialog: (state, action) => {
             const { alertDialog } = state;
-            const { msg, show } = action.payload;
-            state.alertDialog = { ...alertDialog, show, msg };
+            const { msg, show, title } = action.payload;
+            state.alertDialog = { ...alertDialog, show, msg, title };
         },
     },
 });

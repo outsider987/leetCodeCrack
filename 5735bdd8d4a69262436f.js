@@ -24,6 +24,8 @@ class Ball extends _DrawObject__WEBPACK_IMPORTED_MODULE_0__["default"] {
         this.dx = 0;
         this.dy = 0;
         this.canvas = canvas;
+        this.resetX = x;
+        this.resetY = y;
     }
     draw() {
         this.ctx.beginPath();
@@ -68,6 +70,10 @@ class Ball extends _DrawObject__WEBPACK_IMPORTED_MODULE_0__["default"] {
             else
                 this.dy = -speed;
         }
+    }
+    reset() {
+        this.x = this.resetX;
+        this.y = this.resetY;
     }
     start() {
         this.dx = 5;
@@ -200,9 +206,10 @@ class Game {
         this.drawLives();
     }
     update() {
+        this.ball.update();
         this.checkCollision();
         this.ball.checkNeedSpeedUp(this.score, this.bricks.length);
-        this.ball.update();
+        this.checkeFail();
         this.checkWin();
     }
     checkCollision() {
@@ -218,6 +225,7 @@ class Game {
         }
     }
     checkWin() {
+        alert('win');
         return this.score === this.bricks.length;
     }
     drawScore() {
@@ -229,6 +237,15 @@ class Game {
         this.ctx.font = '16px Arial';
         this.ctx.fillStyle = '#0095DD';
         this.ctx.fillText('Lives: ' + this.lives, this.canvas.width - 65, 20);
+    }
+    checkeFail() {
+        if (this.ball.y + this.ball.radius / 2 > this.canvas.height) {
+            this.ball.reset();
+            this.lives -= 1;
+            if (this.lives === 0)
+                alert('you failed the game');
+            return true;
+        }
     }
     registerEvent(canvas, ball, paddle) {
         canvas.addEventListener('mousemove', function (e) {
@@ -359,4 +376,4 @@ const Breakout = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/5cad830768dac9616d86.js.map
+//# sourceMappingURL=js/5735bdd8d4a69262436f.js.map

@@ -78,7 +78,7 @@ const Register = () => {
             }
         }
         else {
-            _store__WEBPACK_IMPORTED_MODULE_7__.store.dispatch((0,_store_global__WEBPACK_IMPORTED_MODULE_6__.setAlertDialog)({ show: true, msg: JSON.stringify(validator.errors) }));
+            _store__WEBPACK_IMPORTED_MODULE_7__.store.dispatch((0,_store_global__WEBPACK_IMPORTED_MODULE_6__.setAlertDialog)({ show: true, msg: JSON.stringify(validator.errors), title: 'Error' }));
         }
     });
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex h-full w-full " },
@@ -104,4 +104,4 @@ const Register = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/1c57413f1980e0772e21.js.map
+//# sourceMappingURL=js/03268ed886413267f484.js.map

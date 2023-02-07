@@ -123,7 +123,7 @@ const Member = () => {
     const onTestToken = (e) => {
         e.preventDefault();
         GET_TokenTest().then((res) => {
-            _store__WEBPACK_IMPORTED_MODULE_6__.store.dispatch((0,_store_global__WEBPACK_IMPORTED_MODULE_7__.setAlertDialog)({ show: true, msg: 'test work' }));
+            _store__WEBPACK_IMPORTED_MODULE_6__.store.dispatch((0,_store_global__WEBPACK_IMPORTED_MODULE_7__.setAlertDialog)({ show: true, msg: 'test work', title: 'test' }));
         });
     };
     const isShow = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useLocation)().pathname === '/member';
@@ -152,4 +152,4 @@ const Member = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/40a8999b3cbe24392ec6.js.map
+//# sourceMappingURL=js/6ded0c75a1fd51965da2.js.map
