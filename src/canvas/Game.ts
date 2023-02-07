@@ -45,18 +45,19 @@ class Game {
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.drawScore();
+    this.drawLives();
     this.paddle.draw();
     this.ball.draw();
     this.bricks.forEach((brick) => !brick.destroyed && brick.draw());
-    this.drawScore();
-    this.drawLives();
   }
 
   update() {
-    this.ball.update();
+    this.checkeFail();
     this.checkCollision();
     this.ball.checkNeedSpeedUp(this.score, this.bricks.length);
-    this.checkeFail();
+    this.ball.update();
+
     this.checkWin();
   }
 
@@ -98,6 +99,7 @@ class Game {
   }
   checkeFail() {
     if (this.ball.y + this.ball.radius > this.canvas.height) {
+      debugger;
       this.ball.reset();
       this.lives -= 1;
 

@@ -17,13 +17,16 @@ const Breakout = (props: CanvasProps) => {
       const game = new Game(ctx, canvas);
 
       function animate() {
-        game.draw();
-        game.update();
         if (game.checkWin() || game.lives < 0) {
+          debugger;
           game.lives < 0 ? alert('faile game') : alert('you win');
           game.score = 0;
           game.reset();
+        } else {
+          game.draw();
+          game.update();
         }
+
         requestAnimationFrame(animate);
       }
       function start() {
@@ -33,7 +36,7 @@ const Breakout = (props: CanvasProps) => {
     }
   }, []);
 
-  return <canvas {...props} ref={canvasRef} />;
+  return <canvas className="border border-solid border-white" {...props} ref={canvasRef} />;
 };
 
 export default Breakout;
