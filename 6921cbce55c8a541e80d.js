@@ -225,8 +225,6 @@ class Game {
         }
     }
     checkWin() {
-        if (this.score === this.bricks.length)
-            alert('win ');
         return this.score === this.bricks.length;
     }
     drawScore() {
@@ -244,7 +242,6 @@ class Game {
             this.ball.reset();
             this.lives -= 1;
             if (this.lives === 0) {
-                alert('you failed the game');
                 this.lives = 3;
             }
             return true;
@@ -335,6 +332,7 @@ const Breakout = (props) => {
                 game.draw();
                 game.update();
                 if (game.checkWin() || game.checkeFail()) {
+                    game.lives === 0 ? alert('faile game') : alert('you win');
                     window.location.reload();
                     return false;
                 }
@@ -378,4 +376,4 @@ const Breakout = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/5a9e911310e31e3418ee.js.map
+//# sourceMappingURL=js/6921cbce55c8a541e80d.js.map
