@@ -48,6 +48,8 @@ class Ball extends _DrawObject__WEBPACK_IMPORTED_MODULE_0__["default"] {
         }
     }
     checkNeedSpeedUp(count, brickLegth) {
+        if (this.dx === 0)
+            return false;
         if (count > brickLegth / 5) {
             let speed = 8;
             if (this.dx > 0)
@@ -78,7 +80,8 @@ class Ball extends _DrawObject__WEBPACK_IMPORTED_MODULE_0__["default"] {
         this.dy = 0;
     }
     start() {
-        this.dx = 5;
+        // random true or false to start
+        this.dx = Math.random() < 0.5 ? -5 : 5;
         this.dy = -5;
     }
     collide(object) {
@@ -132,6 +135,9 @@ class Brick extends _DrawObject__WEBPACK_IMPORTED_MODULE_0__["default"] {
             this.ctx.fill();
             this.ctx.closePath();
         }
+    }
+    reset() {
+        this.destroyed = false;
     }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Brick);
@@ -226,6 +232,12 @@ class Game {
             this.ball.dy = -this.ball.dy;
         }
     }
+    reset() {
+        this.ball.reset();
+        this.score = 0;
+        this.lives = 3;
+        this.bricks.forEach((brick) => brick.reset());
+    }
     checkWin() {
         return this.score === this.bricks.length;
     }
@@ -251,8 +263,11 @@ class Game {
             let mouseX = e.offsetX;
             paddle.update(mouseX);
         });
+        canvas.addEventListener('mousedown', function (e) {
+            if (ball.collide({ x: e.offsetX, y: e.offsetY, width: paddle.width, height: ball.radius }))
+                ball.start();
+        });
         document.addEventListener('keydown', function (e) {
-            console.log(e);
             let val = 0;
             if (e.key === 'd')
                 val = paddle.x + 1;
@@ -261,7 +276,9 @@ class Game {
             if (e.code == 'Space') {
                 ball.start();
             }
-            paddle.update(val);
+        });
+        canvas.addEventListener('touchmove', function (e) {
+            paddle.update(e.touches[0].clientX - paddle.width / 2);
         });
     }
 }
@@ -330,10 +347,10 @@ const Breakout = (props) => {
             function animate() {
                 game.draw();
                 game.update();
-                if (game.checkWin() || game.checkeFail()) {
-                    game.lives === 0 ? alert('faile game') : alert('you win');
-                    window.location.reload();
-                    return false;
+                if (game.checkWin() || game.lives < 0) {
+                    game.lives < 0 ? alert('faile game') : alert('you win');
+                    game.score = 0;
+                    game.reset();
                 }
                 requestAnimationFrame(animate);
             }
@@ -375,4 +392,4 @@ const Breakout = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/2179a9fb5c325134c560.js.map
+//# sourceMappingURL=js/619fbe085b87be34291b.js.map
