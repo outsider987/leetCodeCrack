@@ -8,7 +8,7 @@ class Game {
   protected paddle: Paddle;
   protected bricks: Brick[];
   protected score: number;
-  protected lives: number;
+  public lives: number;
   protected canvas: HTMLCanvasElement;
 
   constructor(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
@@ -75,7 +75,6 @@ class Game {
   }
 
   checkWin() {
-    if (this.score === this.bricks.length) alert('win ');
     return this.score === this.bricks.length;
   }
 
@@ -95,7 +94,6 @@ class Game {
       this.ball.reset();
       this.lives -= 1;
       if (this.lives === 0) {
-        alert('you failed the game');
         this.lives = 3;
       }
       return true;

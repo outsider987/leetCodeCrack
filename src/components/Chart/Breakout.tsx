@@ -20,6 +20,8 @@ const Breakout = (props: CanvasProps) => {
         game.draw();
         game.update();
         if (game.checkWin() || game.checkeFail()) {
+          game.lives === 0 ? alert('faile game') : alert('you win');
+
           window.location.reload();
           return false;
         }
