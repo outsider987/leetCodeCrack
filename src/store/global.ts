@@ -5,6 +5,7 @@ const initialState = {
   alertDialog: {
     show: false,
     msg: '',
+    title: 'error',
   },
 };
 
@@ -12,14 +13,11 @@ export const globalSlice = createSlice({
   name: 'global',
   initialState,
   reducers: {
-    setAlertDialog: (
-      state,
-      action: PayloadAction<typeof initialState.alertDialog>
-    ) => {
+    setAlertDialog: (state, action: PayloadAction<typeof initialState.alertDialog>) => {
       const { alertDialog } = state;
-      const { msg, show } = action.payload;
+      const { msg, show, title } = action.payload;
 
-      state.alertDialog = { ...alertDialog, show, msg };
+      state.alertDialog = { ...alertDialog, show, msg, title };
     },
   },
 });

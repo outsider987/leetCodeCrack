@@ -17,6 +17,7 @@ const ModalsWrapper = (props: Props) => {
         toggle={globalSelector.alertDialog.show}
         msg={globalSelector.alertDialog.msg}
         backdrop={() => dispatch(setAlertDialog({ ...globalSelector.alertDialog, show: false }))}
+        titile={globalSelector.alertDialog.title}
       />
       {props.children}
     </>

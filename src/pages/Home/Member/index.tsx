@@ -42,7 +42,7 @@ const Member = () => {
     ],
   };
   const { validator, handleSubmit } = useForm(LoginInitial, rules);
-  
+
   const { POST_LOGIN, GET_TokenTest } = useAuthApi();
   const onSubmit = handleSubmit(async (data) => {
     if (!data) throw 'submit failed';
@@ -81,7 +81,7 @@ const Member = () => {
   const onTestToken = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
     GET_TokenTest().then((res) => {
-      store.dispatch(setAlertDialog({ show: true, msg: 'test work' }));
+      store.dispatch(setAlertDialog({ show: true, msg: 'test work', title: 'test' }));
     });
   };
 

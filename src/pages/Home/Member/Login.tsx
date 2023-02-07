@@ -80,7 +80,7 @@ const Login = () => {
   const onTestToken = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
     GET_TokenTest().then((res) => {
-      store.dispatch(setAlertDialog({ show: true, msg: 'test work' }));
+      store.dispatch(setAlertDialog({ show: true, msg: 'test work', title: 'test' }));
     });
   };
 

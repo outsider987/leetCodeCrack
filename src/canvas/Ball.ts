@@ -6,7 +6,8 @@ class Ball extends DrawObject {
   public radius: number;
   public dx: number;
   public dy: number;
-
+  public resetX: number;
+  public resetY: number;
   constructor(ctx: CanvasRenderingContext2D, x: number, y: number, radius: number, color: string, canvas) {
     super();
     this.x = x;
@@ -17,6 +18,8 @@ class Ball extends DrawObject {
     this.dx = 0;
     this.dy = 0;
     this.canvas = canvas;
+    this.resetX = x;
+    this.resetY = y;
   }
 
   draw() {
@@ -58,6 +61,10 @@ class Ball extends DrawObject {
       if (this.dy > 0) this.dy = speed;
       else this.dy = -speed;
     }
+  }
+  reset() {
+    this.x = this.resetX;
+    this.y = this.resetY;
   }
 
   start() {

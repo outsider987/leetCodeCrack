@@ -55,7 +55,7 @@ const Register = () => {
         store.dispatch(setToken(res.data.data));
       }
     } else {
-      store.dispatch(setAlertDialog({ show: true, msg: JSON.stringify(validator.errors) }));
+      store.dispatch(setAlertDialog({ show: true, msg: JSON.stringify(validator.errors), title: 'Error' }));
     }
   });
 

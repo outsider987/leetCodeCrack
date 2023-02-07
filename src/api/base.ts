@@ -114,7 +114,7 @@ export const privateApi = (subPath: string = '') => {
 async function checkErrorCdoe(response: AxiosResponse<APIResponse, any>, catchError: any = 'good') {
   switch (response.data.status) {
     case false:
-      store.dispatch(setAlertDialog({ show: true, msg: JSON.stringify(response.data) }));
+      store.dispatch(setAlertDialog({ show: true, msg: JSON.stringify(response.data), title: 'Error' }));
       break;
 
     case true:

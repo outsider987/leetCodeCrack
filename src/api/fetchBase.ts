@@ -38,7 +38,7 @@ const factorResponse = async (res: Response) => {
     }
     return { ...(await res.json()) };
   } catch (error) {
-    store.dispatch(setAlertDialog({ show: true, msg: `unexpect error code:${res.status}` }));
+    store.dispatch(setAlertDialog({ show: true, msg: `unexpect error code:${res.status}`, title: 'Error' }));
   }
 };
 
@@ -102,13 +102,13 @@ export const privateApi = (subPath: string = '', isDummyData?: boolean) => {
 
 async function checkErrorCdoe(errorData: APIEorrorResponse, httpErrorCode?: number) {
   if (httpErrorCode === 400) {
-    store.dispatch(setAlertDialog({ show: true, msg: JSON.stringify({ code: httpErrorCode }) }));
+    store.dispatch(setAlertDialog({ show: true, msg: JSON.stringify({ code: httpErrorCode }), title: 'Error' }));
     return;
   }
 
   switch (errorData.status) {
     case false:
-      store.dispatch(setAlertDialog({ show: true, msg: JSON.stringify(errorData.error) }));
+      store.dispatch(setAlertDialog({ show: true, msg: JSON.stringify(errorData.error), title: 'Error' }));
       break;
 
     case true:

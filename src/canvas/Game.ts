@@ -53,9 +53,10 @@ class Game {
   }
 
   update() {
+    this.ball.update();
     this.checkCollision();
     this.ball.checkNeedSpeedUp(this.score, this.bricks.length);
-    this.ball.update();
+    this.checkeFail();
     this.checkWin();
   }
 
@@ -74,6 +75,7 @@ class Game {
   }
 
   checkWin() {
+    alert('win');
     return this.score === this.bricks.length;
   }
 
@@ -87,6 +89,14 @@ class Game {
     this.ctx.font = '16px Arial';
     this.ctx.fillStyle = '#0095DD';
     this.ctx.fillText('Lives: ' + this.lives, this.canvas.width - 65, 20);
+  }
+  checkeFail() {
+    if (this.ball.y + this.ball.radius / 2 > this.canvas.height) {
+      this.ball.reset();
+      this.lives -= 1;
+      if (this.lives === 0) alert('you failed the game');
+      return true;
+    }
   }
 
   registerEvent(canvas: HTMLCanvasElement, ball: Ball, paddle: Paddle) {
