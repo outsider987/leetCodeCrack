@@ -47,28 +47,30 @@ class Game {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.drawScore();
     this.drawLives();
+    this.drawBallY();
     this.paddle.draw();
     this.ball.draw();
+
     this.bricks.forEach((brick) => !brick.destroyed && brick.draw());
   }
 
   update() {
     this.checkeFail();
-    this.checkCollision();
     this.ball.checkNeedSpeedUp(this.score, this.bricks.length);
     this.ball.update();
 
     this.checkWin();
+    this.checkCollision();
   }
 
   checkCollision() {
-    this.bricks.forEach((brick) => {
+    for (const brick of this.bricks) {
       if (this.ball.collide(brick) && !brick.destroyed) {
         this.score++;
         this.ball.dy = -this.ball.dy;
         brick.destroyed = true;
       }
-    });
+    }
 
     if (this.ball.collide(this.paddle)) {
       this.ball.dy = -this.ball.dy;
@@ -97,9 +99,13 @@ class Game {
     this.ctx.fillStyle = '#0095DD';
     this.ctx.fillText('Lives: ' + this.lives, this.canvas.width - 65, 20);
   }
+  drawBallY() {
+    this.ctx.font = '16px Arial';
+    this.ctx.fillStyle = '#0095DD';
+    this.ctx.fillText('Ball Y: ' + this.ball.y, this.canvas.width / 2, 20);
+  }
   checkeFail() {
     if (this.ball.y + this.ball.radius > this.canvas.height) {
-      debugger;
       this.ball.reset();
       this.lives -= 1;
 

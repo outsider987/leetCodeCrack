@@ -16,17 +16,22 @@ const Breakout = (props: CanvasProps) => {
       const ctx = canvas.getContext('2d');
       const game = new Game(ctx, canvas);
 
-      function animate() {
-        if (game.checkWin() || game.lives < 0) {
-          debugger;
-          game.lives < 0 ? alert('faile game') : alert('you win');
-          game.score = 0;
-          game.reset();
-        } else {
-          game.draw();
-          game.update();
+      let lastTime = 0;
+      function animate(time) {
+        const delta = time - lastTime;
+        if (time > lastTime) {
+          if (game.checkWin() || game.lives < 0) {
+            lastTime = 0;
+            game.lives < 0 ? alert('faile game') : alert('you win');
+            game.score = 0;
+            game.reset();
+          } else {
+            game.update();
+            game.draw();
+          }
         }
 
+        lastTime = time;
         requestAnimationFrame(animate);
       }
       function start() {
