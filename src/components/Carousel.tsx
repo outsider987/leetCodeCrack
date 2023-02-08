@@ -1,10 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-// images must be an array of urls , if using Next JS this could something like
-// const images = ['/img/img1.png', '/img/img2.png', '/img/img3.png']
-// images must be an array of urls , if using Next JS this could something like
-// const images = ['/img/img1.png', '/img/img2.png', '/img/img3.png']
-
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   images: string[];
   children?: React.ReactNode;

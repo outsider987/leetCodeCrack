@@ -41,7 +41,7 @@ const Breakout = (props: CanvasProps) => {
     }
   }, []);
 
-  return <canvas className="border border-solid border-white" {...props} ref={canvasRef} />;
+  return <canvas className="border border-solid border-white" {...props} ref={canvasRef} width={1920} height={1080} />;
 };
 
 export default Breakout;
