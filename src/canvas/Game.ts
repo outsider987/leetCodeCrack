@@ -50,7 +50,7 @@ class Game {
     this.drawBallY();
     this.paddle.draw();
     this.ball.draw();
-
+    this.checkCollision();
     this.bricks.forEach((brick) => !brick.destroyed && brick.draw());
   }
 
@@ -60,7 +60,6 @@ class Game {
     this.ball.update();
 
     this.checkWin();
-    this.checkCollision();
   }
 
   checkCollision() {
