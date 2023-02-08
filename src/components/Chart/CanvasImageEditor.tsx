@@ -39,7 +39,7 @@ const CanvasImageEditor = (props: CanvasProps) => {
 
       // const canvas = canvasRef.current;
       // const ctx = canvasRef.current.getContext('2d');
-      const line = new modes[0](ctx, 0, 0, 'white', canvas) as Line;
+      const line = new modes[0](ctx, 'white', canvas) as Line;
     } else {
       const canvas = canvasRef.current;
       const ctx = canvasRef.current.getContext('2d');
@@ -67,7 +67,7 @@ const CanvasImageEditor = (props: CanvasProps) => {
           </div>
         )}
 
-        <canvas {...props} ref={canvasRef} width={1920} height={1080} />
+        <canvas {...props} ref={canvasRef} width={window.innerWidth * 0.6} height={window.innerHeight / 2} />
       </div>
       <div className="flex w-full space-x-3">
         <Button onClick={onDeleteFile}> delete File</Button>

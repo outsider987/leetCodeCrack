@@ -111,28 +111,37 @@ class Game {
       return true;
     }
   }
+  private touchMove(e) {
+    const { paddle, canvas } = this;
+    const rect = canvas.getBoundingClientRect();
+    paddle.update(e.touches[0].clientX - rect.left);
+  }
 
+  private keyDown(e) {
+    const { paddle, ball } = this;
+    let val = 0;
+    if (e.key === 'd') val = paddle.x + 1;
+    else if (e.key === 'a') val = paddle.x - 1;
+    if (e.code == 'Space') {
+      ball.start();
+    }
+  }
+
+  private mouseMove(e) {
+    const { paddle } = this;
+    let mouseX = e.offsetX;
+    paddle.update(mouseX);
+  }
+
+  private mouseDown(e) {
+    const { paddle, ball } = this;
+    if (ball.collide({ x: e.offsetX, y: e.offsetY, width: paddle.width, height: ball.radius })) ball.start();
+  }
   registerEvent(canvas: HTMLCanvasElement, ball: Ball, paddle: Paddle) {
-    canvas.addEventListener('mousemove', function (e) {
-      let mouseX = e.offsetX;
-
-      paddle.update(mouseX);
-    });
-    canvas.addEventListener('mousedown', function (e) {
-      if (ball.collide({ x: e.offsetX, y: e.offsetY, width: paddle.width, height: ball.radius })) ball.start();
-    });
-    document.addEventListener('keydown', function (e) {
-      let val = 0;
-      if (e.key === 'd') val = paddle.x + 1;
-      else if (e.key === 'a') val = paddle.x - 1;
-      if (e.code == 'Space') {
-        ball.start();
-      }
-    });
-
-    canvas.addEventListener('touchmove', function (e) {
-      paddle.update(e.touches[0].clientX - paddle.width / 2);
-    });
+    canvas.addEventListener('mousemove', this.mouseMove.bind(this));
+    canvas.addEventListener('mousedown', this.mouseDown.bind(this));
+    document.addEventListener('keydown', this.keyDown.bind(this));
+    canvas.addEventListener('touchmove', this.touchMove.bind(this));
   }
 }
 
