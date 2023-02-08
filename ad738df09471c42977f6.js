@@ -212,6 +212,7 @@ class Game {
         this.drawBallY();
         this.paddle.draw();
         this.ball.draw();
+        this.checkCollision();
         this.bricks.forEach((brick) => !brick.destroyed && brick.draw());
     }
     update() {
@@ -219,7 +220,6 @@ class Game {
         this.ball.checkNeedSpeedUp(this.score, this.bricks.length);
         this.ball.update();
         this.checkWin();
-        this.checkCollision();
     }
     checkCollision() {
         for (const brick of this.bricks) {
@@ -406,4 +406,4 @@ const Breakout = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/629665e0f4979fe47f46.js.map
+//# sourceMappingURL=js/ad738df09471c42977f6.js.map
