@@ -374,7 +374,7 @@ const Breakout = (props) => {
             start();
         }
     }, []);
-    return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { className: "border border-solid border-white", ...props, ref: canvasRef });
+    return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { className: "border border-solid border-white", ...props, ref: canvasRef, width: 1920, height: 1080 });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Breakout);
 
@@ -406,4 +406,4 @@ const Breakout = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/ad738df09471c42977f6.js.map
+//# sourceMappingURL=js/f3a3a5a2986dc1643e2b.js.map
