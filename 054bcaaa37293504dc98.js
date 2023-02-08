@@ -264,28 +264,37 @@ class Game {
             return true;
         }
     }
+    touchMove(e) {
+        const { paddle, canvas } = this;
+        const rect = canvas.getBoundingClientRect();
+        paddle.update(e.touches[0].clientX - rect.left);
+    }
+    keyDown(e) {
+        const { paddle, ball } = this;
+        let val = 0;
+        if (e.key === 'd')
+            val = paddle.x + 1;
+        else if (e.key === 'a')
+            val = paddle.x - 1;
+        if (e.code == 'Space') {
+            ball.start();
+        }
+    }
+    mouseMove(e) {
+        const { paddle } = this;
+        let mouseX = e.offsetX;
+        paddle.update(mouseX);
+    }
+    mouseDown(e) {
+        const { paddle, ball } = this;
+        if (ball.collide({ x: e.offsetX, y: e.offsetY, width: paddle.width, height: ball.radius }))
+            ball.start();
+    }
     registerEvent(canvas, ball, paddle) {
-        canvas.addEventListener('mousemove', function (e) {
-            let mouseX = e.offsetX;
-            paddle.update(mouseX);
-        });
-        canvas.addEventListener('mousedown', function (e) {
-            if (ball.collide({ x: e.offsetX, y: e.offsetY, width: paddle.width, height: ball.radius }))
-                ball.start();
-        });
-        document.addEventListener('keydown', function (e) {
-            let val = 0;
-            if (e.key === 'd')
-                val = paddle.x + 1;
-            else if (e.key === 'a')
-                val = paddle.x - 1;
-            if (e.code == 'Space') {
-                ball.start();
-            }
-        });
-        canvas.addEventListener('touchmove', function (e) {
-            paddle.update(e.touches[0].clientX - paddle.width / 2);
-        });
+        canvas.addEventListener('mousemove', this.mouseMove.bind(this));
+        canvas.addEventListener('mousedown', this.mouseDown.bind(this));
+        document.addEventListener('keydown', this.keyDown.bind(this));
+        canvas.addEventListener('touchmove', this.touchMove.bind(this));
     }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Game);
@@ -406,4 +415,4 @@ const Breakout = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/f3a3a5a2986dc1643e2b.js.map
+//# sourceMappingURL=js/054bcaaa37293504dc98.js.map

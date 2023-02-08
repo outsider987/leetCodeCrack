@@ -1,9 +1,89 @@
 "use strict";
 (self["webpackChunkleetcodecrack"] = self["webpackChunkleetcodecrack"] || []).push([["src_pages_Home_Canvas_ImageEditor_tsx"],{
 
-/***/ "./src/canvas/ImageEditor/Line.tsx":
+/***/ "./src/canvas/ImageEditor/Line.ts":
+/*!****************************************!*\
+  !*** ./src/canvas/ImageEditor/Line.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Point__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Point */ "./src/canvas/ImageEditor/Point.ts");
+
+class Line {
+    constructor(ctx, color, canvas) {
+        this.isDrawStart = false;
+        this.getClientOffset = (e) => {
+            const { canvas } = this;
+            const { pageX, pageY } = e.touches ? e.touches[0] : e;
+            const rect = canvas.getBoundingClientRect();
+            const x = pageX - rect.left;
+            const y = pageY - rect.top;
+            return {
+                x,
+                y,
+            };
+        };
+        this.mouseDown = (e) => {
+            const clientPoint = this.getClientOffset(e);
+            this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
+            this.isDrawStart = true;
+        };
+        this.mouseMove = (e) => {
+            if (!this.isDrawStart)
+                return;
+            this.draw(e);
+            // this.lineCoordinates = this.getClientOffset(event);
+            this.clearCanvas();
+        };
+        this.mouseUp = (event) => {
+            console.log();
+            this.isDrawStart = false;
+        };
+        this.clearCanvas = () => {
+            // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        };
+        this.ctx = ctx;
+        this.lastPoint = new _Point__WEBPACK_IMPORTED_MODULE_0__["default"](0, 0);
+        this.color = color;
+        this.canvas = canvas;
+        this.registerEvent(canvas);
+    }
+    draw(e) {
+        const { canvas, ctx } = this;
+        const { pageX, pageY } = e.touches ? e.touches[0] : e;
+        const rect = canvas.getBoundingClientRect();
+        const x = pageX - rect.left;
+        const y = pageY - rect.top;
+        ctx.beginPath();
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = 5;
+        ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        const clientPoint = this.getClientOffset(e);
+        this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
+    }
+    registerEvent(canvas) {
+        canvas.addEventListener('mousedown', this.mouseDown.bind(this));
+        canvas.addEventListener('mousemove', this.mouseMove.bind(this));
+        canvas.addEventListener('mouseup', this.mouseUp.bind(this));
+        canvas.addEventListener('touchstart', this.mouseDown.bind(this));
+        canvas.addEventListener('touchmove', this.mouseMove.bind(this));
+        canvas.addEventListener('touchend', this.mouseUp.bind(this));
+    }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Line);
+
+
+/***/ }),
+
+/***/ "./src/canvas/ImageEditor/Point.ts":
 /*!*****************************************!*\
-  !*** ./src/canvas/ImageEditor/Line.tsx ***!
+  !*** ./src/canvas/ImageEditor/Point.ts ***!
   \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -11,59 +91,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-class Line {
-    constructor(ctx, x, y, color, canvas) {
-        this.startPosition = { x: 0, y: 0 };
-        this.lineCoordinates = { x: 0, y: 0 };
-        this.isDrawStart = false;
-        this.getClientOffset = (event) => {
-            const { pageX, pageY } = event.touches ? event.touches[0] : event;
-            const x = pageX - this.canvas.offsetLeft;
-            const y = pageY - this.canvas.offsetTop;
-            return {
-                x,
-                y,
-            };
-        };
-        this.mouseDownListener = (event) => {
-            this.startPosition = this.getClientOffset(event);
-            this.isDrawStart = true;
-        };
-        this.mouseMoveListener = (event) => {
-            if (!this.isDrawStart)
-                return;
-            this.lineCoordinates = this.getClientOffset(event);
-            this.clearCanvas();
-            this.draw();
-        };
-        this.mouseupListener = (event) => {
-            this.isDrawStart = false;
-        };
-        this.clearCanvas = () => {
-            // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        };
-        this.ctx = ctx;
+class Point {
+    constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.color = color;
-        this.canvas = canvas;
-        this.registerEvent(canvas, this.mouseDownListener, this.mouseMoveListener, this.mouseupListener);
     }
-    draw() {
-        this.ctx.beginPath();
-        this.ctx.strokeStyle = this.color;
-        this.ctx.lineWidth = 5;
-        this.ctx.moveTo(this.startPosition.x, this.startPosition.y);
-        this.ctx.lineTo(this.lineCoordinates.x, this.lineCoordinates.y);
-        this.ctx.stroke();
-    }
-    registerEvent(canvas, mouseDownListener, mouseMoveListener, mouseupListener) {
-        canvas.addEventListener('mousedown', mouseDownListener);
-        canvas.addEventListener('mousemove', mouseMoveListener);
-        canvas.addEventListener('mousemove', mouseupListener);
+    setPoint(x, y) {
+        this.x = x;
+        this.y = y;
     }
 }
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Line);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Point);
 
 
 /***/ }),
@@ -81,7 +119,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Button */ "./src/components/Button.tsx");
-/* harmony import */ var _canvas_ImageEditor_Line__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ~/canvas/ImageEditor/Line */ "./src/canvas/ImageEditor/Line.tsx");
+/* harmony import */ var _canvas_ImageEditor_Line__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ~/canvas/ImageEditor/Line */ "./src/canvas/ImageEditor/Line.ts");
 
 
 
@@ -114,7 +152,7 @@ const CanvasImageEditor = (props) => {
             image.src = URL.createObjectURL(file);
             // const canvas = canvasRef.current;
             // const ctx = canvasRef.current.getContext('2d');
-            const line = new modes[0](ctx, 0, 0, 'white', canvas);
+            const line = new modes[0](ctx, 'white', canvas);
         }
         else {
             const canvas = canvasRef.current;
@@ -131,7 +169,7 @@ const CanvasImageEditor = (props) => {
             file === null && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "absolute inset-0 flex items-center justify-center" },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " text-white" }, "please click or drag file"),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { onChange: onClickFile, className: " absolute inset-0 z-10 cursor-pointer opacity-0", type: "file", accept: "image/*" }))),
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { ...props, ref: canvasRef, width: 1920, height: 1080 })),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { ...props, ref: canvasRef, width: window.innerWidth * 0.6, height: window.innerHeight / 2 })),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-full space-x-3" },
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button__WEBPACK_IMPORTED_MODULE_1__["default"], { onClick: onDeleteFile }, " delete File"),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button__WEBPACK_IMPORTED_MODULE_1__["default"], { onClick: onDraw }, " draw mode"))));
@@ -158,7 +196,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const ImageEditor = () => {
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "m-auto flex w-full flex-col items-center justify-center" },
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Chart_CanvasImageEditor__WEBPACK_IMPORTED_MODULE_1__["default"], { className: "h-[50vh] w-[65vw] border border-solid border-white " })));
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Chart_CanvasImageEditor__WEBPACK_IMPORTED_MODULE_1__["default"], { className: " border border-solid border-white " })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ImageEditor);
 
@@ -166,4 +204,4 @@ const ImageEditor = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/29ece6a4568715de6619.js.map
+//# sourceMappingURL=js/19a6577b61594ee954cf.js.map
