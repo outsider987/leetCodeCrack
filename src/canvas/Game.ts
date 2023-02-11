@@ -141,10 +141,10 @@ class Game {
     if (ball.collide({ x: e.offsetX, y: e.offsetY, width: paddle.width, height: ball.radius })) ball.start();
   }
   registerEvent(canvas: HTMLCanvasElement, ball: Ball, paddle: Paddle) {
-    canvas.addEventListener('mousemove', this.mouseMove);
-    canvas.addEventListener('mousedown', this.mouseDown);
-    document.addEventListener('keydown', this.keyDown);
-    canvas.addEventListener('touchmove', this.touchMove);
+    canvas.addEventListener('mousemove', this.mouseMove.bind(this));
+    canvas.addEventListener('mousedown', this.mouseDown.bind(this));
+    document.addEventListener('keydown', this.keyDown.bind(this));
+    canvas.addEventListener('touchmove', this.touchMove.bind(this));
   }
 }
 
