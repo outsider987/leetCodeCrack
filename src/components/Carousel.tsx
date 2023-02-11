@@ -9,14 +9,17 @@ const Carousel = (props: Props) => {
   const currentIndexRef = useRef(0);
   const isHoverImage = useRef(false);
   const ZindexRef = useRef('z-[3]');
-
-  const onNext = () => {
+  const [startX, setStartX] = useState(0);
+  const [endX, setEndX] = useState(0);
+  const onNext = (e?) => {
+    if (e) e.preventDefault();
     const nextIndex = currentIndexRef.current === props.images.length - 1 ? 0 : currentIndexRef.current + 1;
     currentIndexRef.current = nextIndex;
     setCurrentIndex(currentIndexRef.current);
     ZindexRef.current = 'z-[3]';
   };
-  const onPrev = () => {
+  const onPrev = (e?) => {
+    if (e) e.preventDefault();
     const nextIndex = currentIndexRef.current === 0 ? props.images.length - 1 : currentIndexRef.current - 1;
     currentIndexRef.current = nextIndex;
     setCurrentIndex(currentIndexRef.current);
@@ -28,6 +31,27 @@ const Carousel = (props: Props) => {
       return 'transform  translate-x-full z-[1] ';
     return `transform  -translate-x-full ${ZindexRef.current}`;
   };
+
+  const handleTouchStart = (e) => {
+    isHoverImage.current = true;
+    setStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setEndX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e) => {
+    isHoverImage.current = false;
+    const translateX = endX - startX;
+    if (endX === 0) return;
+    if (translateX > 0) {
+      onPrev(e);
+    } else {
+      onNext(e);
+    }
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       !isHoverImage.current && onNext();
@@ -35,27 +59,8 @@ const Carousel = (props: Props) => {
     return () => clearInterval(interval);
   }, []);
 
-  return (
-    <div
-      className="relative min-h-[30vh] min-w-[30vw] text-white "
-      onMouseEnter={() => (isHoverImage.current = true)}
-      onMouseLeave={() => (isHoverImage.current = false)}
-    >
-      <div className="relative h-56 overflow-hidden rounded-lg  md:h-96">
-        {props.images.map((image, index) => (
-          <div
-            key={`${index + image}-img`}
-            className={`${onAimatedCondition(index)} absolute  top-0 h-full w-full transition duration-700 ease-in-out`}
-          >
-            <img
-              className=" absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2 "
-              alt="..."
-              src={image}
-            />
-          </div>
-        ))}
-      </div>
-
+  const BottomItems = () => {
+    return (
       <div className="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 space-x-3">
         {props.images.map((image, index) => (
           <button
@@ -73,6 +78,33 @@ const Carousel = (props: Props) => {
           ></button>
         ))}
       </div>
+    );
+  };
+
+  return (
+    <div
+      className="relative min-h-[30vh] min-w-[30vw] text-white "
+      onMouseEnter={() => (isHoverImage.current = true)}
+      onMouseLeave={() => (isHoverImage.current = false)}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      <div className="relative h-56 overflow-hidden rounded-lg  md:h-96">
+        {props.images.map((image, index) => (
+          <div
+            key={`${index + image}-img`}
+            className={`${onAimatedCondition(index)} absolute  top-0 h-full w-full transition duration-700 ease-in-out`}
+          >
+            <img
+              className=" absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2 "
+              alt="..."
+              src={image}
+            />
+          </div>
+        ))}
+      </div>
+      <BottomItems />
 
       <button
         onClick={onPrev}
