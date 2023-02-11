@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { drawPie, drawSegmentLabel, accumlateOfPercentange, getAngleOfPercentage } from '~/utils/canvas';
+import { drawPie, drawSegmentLabel, accumlateOfPercentange, getAngleOfPercentage } from '~/utils/canvas/canvas';
 
 interface CanvasProps extends React.HTMLAttributes<HTMLCanvasElement> {}
 

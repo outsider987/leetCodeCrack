@@ -6,7 +6,7 @@ import {
   getAngleOfPercentage,
   drawLine,
   drawBar,
-} from '~/utils/canvas';
+} from '~/utils/canvas/canvas';
 
 interface CanvasProps extends React.HTMLAttributes<HTMLCanvasElement> {}
 
