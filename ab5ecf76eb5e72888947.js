@@ -294,10 +294,10 @@ class Game {
             ball.start();
     }
     registerEvent(canvas, ball, paddle) {
-        canvas.addEventListener('mousemove', this.mouseMove);
-        canvas.addEventListener('mousedown', this.mouseDown);
-        document.addEventListener('keydown', this.keyDown);
-        canvas.addEventListener('touchmove', this.touchMove);
+        canvas.addEventListener('mousemove', this.mouseMove.bind(this));
+        canvas.addEventListener('mousedown', this.mouseDown.bind(this));
+        document.addEventListener('keydown', this.keyDown.bind(this));
+        canvas.addEventListener('touchmove', this.touchMove.bind(this));
     }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Game);
@@ -418,4 +418,4 @@ const Breakout = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/7b5296e75138c1ab516e.js.map
+//# sourceMappingURL=js/ab5ecf76eb5e72888947.js.map
