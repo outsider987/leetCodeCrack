@@ -15,26 +15,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Point__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../Point */ "./src/canvas/ImageEditor/Point.ts");
 
 
-class CanvasPaint {
+class Views {
     constructor(ctx, canvas) {
         this.isDrawStart = false;
         this.lastView = null;
         this.mouseDown = (e) => {
-            e.preventDefault();
+            // e.preventDefault();
             const clientPoint = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getClientOffset)(e, this.canvas);
             this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
             this.isDrawStart = true;
         };
         this.mouseMove = (e) => {
-            e.preventDefault();
+            // e.preventDefault();
             if (!this.isDrawStart)
                 return;
-            this.draw(e);
+            this.loadFile(e);
             // this.lineCoordinates = this.getClientOffset(event);
             this.clearCanvas();
         };
         this.mouseUp = (e) => {
-            e.preventDefault();
+            // e.preventDefault();
             this.isDrawStart = false;
         };
         this.clearCanvas = () => {
@@ -43,10 +43,13 @@ class CanvasPaint {
         this.ctx = ctx;
         this.lastPoint = new _Point__WEBPACK_IMPORTED_MODULE_1__["default"](0, 0);
         this.canvas = canvas;
-        console.log();
+        this.bufferCanvas = document.createElement('canvas');
+        this.bufferCtx = this.bufferCanvas.getContext('2d');
+        this.drawCanvas = document.createElement('canvas');
+        this.drawCtx = this.drawCanvas.getContext('2d');
         this.registerEvent(this.canvas);
     }
-    draw(file) {
+    loadFile(file) {
         const image = new Image();
         const { ctx, canvas } = this;
         image.onload = function res() {
@@ -58,10 +61,11 @@ class CanvasPaint {
         };
         image.src = URL.createObjectURL(file);
     }
+    redraw() { }
     zoom(e) {
         const { canvas, ctx } = this;
         let zoom = 1;
-        e.preventDefault();
+        // e.preventDefault();
         const clientPoint = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getClientOffset)(e, canvas);
         if (e.deltaY < 0) {
             zoom *= 1.1;
@@ -70,12 +74,21 @@ class CanvasPaint {
             zoom *= 0.9;
         }
         // ctx.translate(clientPoint.x, clientPoint.y);
+        let backeupCanvas = document.createElement('canvas');
+        backeupCanvas.width = canvas.width;
+        backeupCanvas.height = canvas.height;
+        let newContext = backeupCanvas.getContext('2d');
+        const lastImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        newContext.putImageData(lastImageData, 0, 0);
         const lastView = ctx.getImageData(0, 0, canvas.width, canvas.height);
         ctx.scale(zoom, zoom);
         // ctx.setTransform(zoom, 0, 0, zoom, (1 - zoom) * clientPoint.x, (1 - zoom) * clientPoint.y);
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let ratio = Math.min(canvas.width / backeupCanvas.width, canvas.height / backeupCanvas.height);
+        let x = (canvas.width - backeupCanvas.width * ratio) / 2;
+        let y = (canvas.height - backeupCanvas.height * ratio) / 2;
         // ctx.setTransform(9, 9, 9, zoom, (1 - zoom) * clientPoint.x, (1 - zoom) * clientPoint.y);
-        ctx.putImageData(lastView, 0, 0);
+        ctx.drawImage(backeupCanvas, 0, 0, backeupCanvas.width, backeupCanvas.height, x, y, backeupCanvas.width * ratio, backeupCanvas.height * ratio);
         // ctx.translate(window.innerWidth / 2, window.innerHeight / 2);
         // ctx.scale(zoom, zoom);
         // ctx.translate(-window.innerWidth / 2 + clientPoint.x, -window.innerHeight / 2 + clientPoint.y);
@@ -106,7 +119,7 @@ class CanvasPaint {
         // draw();
     }
     registerEvent(canvas) {
-        canvas.addEventListener('mousedown', this.mouseDown);
+        // canvas.addEventListener('mousedown', this.mouseDown);
         canvas.addEventListener('mousemove', this.mouseMove);
         canvas.addEventListener('mouseup', this.mouseUp);
         canvas.addEventListener('touchstart', this.mouseDown);
@@ -115,16 +128,16 @@ class CanvasPaint {
         canvas.addEventListener('wheel', this.zoom.bind(this));
     }
     unRegisterEvent(canvas) {
-        canvas.removeEventListener('mousedown', this.mouseDown);
-        canvas.removeEventListener('mousemove', this.mouseMove);
-        canvas.removeEventListener('mouseup', this.mouseUp);
-        canvas.removeEventListener('touchstart', this.mouseDown);
-        canvas.removeEventListener('touchmove', this.mouseMove);
-        canvas.removeEventListener('touchend', this.mouseUp);
-        canvas.removeEventListener('wheel', this.zoom);
+        // canvas.removeEventListener('mousedown', this.mouseDown(this));
+        canvas.removeEventListener('mousemove', this.mouseMove(this));
+        canvas.removeEventListener('mouseup', this.mouseUp(this));
+        canvas.removeEventListener('touchstart', this.mouseDown(this));
+        canvas.removeEventListener('touchmove', this.mouseMove(this));
+        canvas.removeEventListener('touchend', this.mouseUp(this));
+        canvas.removeEventListener('wheel', this.zoom(this));
     }
 }
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CanvasPaint);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Views);
 
 
 /***/ }),
@@ -164,7 +177,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Point__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Point */ "./src/canvas/ImageEditor/Point.ts");
+/* harmony import */ var _utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ~/utils/canvas/coordinate */ "./src/utils/canvas/coordinate.ts");
+/* harmony import */ var _Point__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Point */ "./src/canvas/ImageEditor/Point.ts");
+
 
 class EraseTool {
     constructor(ctx, canvas) {
@@ -183,31 +198,39 @@ class EraseTool {
         this.mouseDown = (e) => {
             e.preventDefault();
             this.isDrawStart = true;
+            const clientPoint = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getClientOffset)(e, this.canvas);
+            this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
         };
         this.mouseMove = (e) => {
             e.preventDefault();
             if (!this.isDrawStart)
                 return;
             const clientPoint = this.getClientOffset(e);
-            const point = new _Point__WEBPACK_IMPORTED_MODULE_0__["default"](clientPoint.x, clientPoint.y);
+            const point = new _Point__WEBPACK_IMPORTED_MODULE_1__["default"](clientPoint.x, clientPoint.y);
             this.erase(point);
-            this.clearCanvas();
         };
         this.mouseUp = (e) => {
             e.preventDefault();
-            console.log();
+            const { ctx } = this;
+            ctx.globalCompositeOperation = 'source-over';
             this.isDrawStart = false;
-        };
-        this.clearCanvas = () => {
-            // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         };
         this.ctx = ctx;
         this.size = 5;
         this.canvas = canvas;
         this.registerEvent(canvas);
+        this.lastPoint = new _Point__WEBPACK_IMPORTED_MODULE_1__["default"](0, 0);
     }
     erase(point) {
-        this.ctx.clearRect(point.x, point.y, this.size, this.size);
+        const { ctx } = this;
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.beginPath();
+        ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
+        ctx.lineTo(point.x, point.y);
+        ctx.lineWidth = 20;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+        this.lastPoint.setPoint(point.x, point.y);
     }
     registerEvent(canvas) {
         canvas.addEventListener('mousedown', this.mouseDown);
@@ -264,16 +287,15 @@ class LineTool {
         };
         this.mouseDown = (e) => {
             e.preventDefault();
+            this.isDrawStart = true;
             const clientPoint = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getClientOffset)(e, this.canvas);
             this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
-            this.isDrawStart = true;
         };
         this.mouseMove = (e) => {
             e.preventDefault();
             if (!this.isDrawStart)
                 return;
             this.draw(e);
-            // this.lineCoordinates = this.getClientOffset(event);
             this.clearCanvas();
         };
         this.mouseUp = (e) => {
@@ -291,20 +313,16 @@ class LineTool {
         console.log('line');
     }
     draw(e) {
-        console.log(this);
         const { canvas, ctx } = this;
-        const { pageX, pageY } = e.touches ? e.touches[0] : e;
-        const clientPint = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getClientOffset)(e, canvas);
+        const clientPoint = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getClientOffset)(e, canvas);
         ctx.beginPath();
+        ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
+        ctx.lineTo(clientPoint.x, clientPoint.y);
         ctx.strokeStyle = this.color;
         ctx.lineWidth = 5;
-        ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
-        ctx.lineTo(clientPint.x, clientPint.y);
+        ctx.lineCap = 'round';
         ctx.stroke();
-        const clientPoint = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getClientOffset)(e, canvas);
         this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
-        const lastImageData2 = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        console.log(lastImageData2);
     }
     registerEvent(canvas) {
         canvas.addEventListener('mousedown', this.mouseDown);
@@ -393,9 +411,9 @@ const CanvasImageEditor = (props) => {
         if (canvasRef.current && file !== null) {
             const canvas = canvasRef.current;
             const ctx = canvasRef.current.getContext('2d');
-            const image = new Image();
+            // debugger;
             const main = new _canvas_ImageEditor_Canvas_Canvas__WEBPACK_IMPORTED_MODULE_3__["default"](ctx, canvas);
-            main.draw(file);
+            main.loadFile(file);
             // image.onload = () => {
             //   let ratio = Math.min(canvas.width / image.width, canvas.height / image.height);
             //   let x = (canvas.width - image.width * ratio) / 2;
@@ -509,4 +527,4 @@ function getClientOffset(e, canvas) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/7853357a0d3342506bd7.js.map
+//# sourceMappingURL=js/53c38ac85d8b0408addb.js.map
