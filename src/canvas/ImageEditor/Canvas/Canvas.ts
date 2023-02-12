@@ -1,22 +1,31 @@
 import { getClientOffset } from '~/utils/canvas/coordinate';
 import Point from './../Point';
 
-class CanvasPaint {
+class Views {
   ctx: CanvasRenderingContext2D;
   canvas: HTMLCanvasElement;
   lastPoint: Point;
   private isDrawStart: boolean = false;
+  bufferCanvas: HTMLCanvasElement;
+  bufferCtx: CanvasRenderingContext2D;
+  drawCanvas: HTMLCanvasElement;
+
+  drawCtx: CanvasRenderingContext2D;
 
   lastView = null;
   constructor(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
     this.ctx = ctx;
     this.lastPoint = new Point(0, 0);
     this.canvas = canvas;
-    console.log();
+
+    this.bufferCanvas = document.createElement('canvas');
+    this.bufferCtx = this.bufferCanvas.getContext('2d');
+    this.drawCanvas = document.createElement('canvas');
+    this.drawCtx = this.drawCanvas.getContext('2d');
 
     this.registerEvent(this.canvas);
   }
-  draw(file) {
+  loadFile(file) {
     const image = new Image();
     const { ctx, canvas } = this;
     image.onload = function res() {
@@ -29,11 +38,13 @@ class CanvasPaint {
     image.src = URL.createObjectURL(file);
   }
 
+  redraw() {}
+
   zoom(e) {
     const { canvas, ctx } = this;
 
     let zoom = 1;
-    e.preventDefault();
+    // e.preventDefault();
     const clientPoint = getClientOffset(e, canvas);
 
     if (e.deltaY < 0) {
@@ -43,15 +54,35 @@ class CanvasPaint {
     }
 
     // ctx.translate(clientPoint.x, clientPoint.y);
+    let backeupCanvas = document.createElement('canvas');
+    backeupCanvas.width = canvas.width;
+    backeupCanvas.height = canvas.height;
+    let newContext = backeupCanvas.getContext('2d');
+
+    const lastImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    newContext.putImageData(lastImageData, 0, 0);
 
     const lastView = ctx.getImageData(0, 0, canvas.width, canvas.height);
     ctx.scale(zoom, zoom);
 
     // ctx.setTransform(zoom, 0, 0, zoom, (1 - zoom) * clientPoint.x, (1 - zoom) * clientPoint.y);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    let ratio = Math.min(canvas.width / backeupCanvas.width, canvas.height / backeupCanvas.height);
+    let x = (canvas.width - backeupCanvas.width * ratio) / 2;
+    let y = (canvas.height - backeupCanvas.height * ratio) / 2;
     // ctx.setTransform(9, 9, 9, zoom, (1 - zoom) * clientPoint.x, (1 - zoom) * clientPoint.y);
-    ctx.putImageData(lastView, 0, 0);
+    ctx.drawImage(
+      backeupCanvas,
+      0,
+      0,
+      backeupCanvas.width,
+      backeupCanvas.height,
+      x,
+      y,
+      backeupCanvas.width * ratio,
+      backeupCanvas.height * ratio,
+    );
 
     // ctx.translate(window.innerWidth / 2, window.innerHeight / 2);
     // ctx.scale(zoom, zoom);
@@ -92,7 +123,7 @@ class CanvasPaint {
   }
 
   mouseDown = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     const clientPoint = getClientOffset(e, this.canvas);
     this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
 
@@ -100,16 +131,16 @@ class CanvasPaint {
   };
 
   mouseMove = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     if (!this.isDrawStart) return;
 
-    this.draw(e);
+    this.loadFile(e);
     // this.lineCoordinates = this.getClientOffset(event);
     this.clearCanvas();
   };
 
   mouseUp = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     this.isDrawStart = false;
   };
@@ -119,7 +150,7 @@ class CanvasPaint {
   };
 
   registerEvent(canvas) {
-    canvas.addEventListener('mousedown', this.mouseDown);
+    // canvas.addEventListener('mousedown', this.mouseDown);
     canvas.addEventListener('mousemove', this.mouseMove);
     canvas.addEventListener('mouseup', this.mouseUp);
     canvas.addEventListener('touchstart', this.mouseDown);
@@ -128,13 +159,13 @@ class CanvasPaint {
     canvas.addEventListener('wheel', this.zoom.bind(this));
   }
   unRegisterEvent(canvas) {
-    canvas.removeEventListener('mousedown', this.mouseDown);
-    canvas.removeEventListener('mousemove', this.mouseMove);
-    canvas.removeEventListener('mouseup', this.mouseUp);
-    canvas.removeEventListener('touchstart', this.mouseDown);
-    canvas.removeEventListener('touchmove', this.mouseMove);
-    canvas.removeEventListener('touchend', this.mouseUp);
-    canvas.removeEventListener('wheel', this.zoom);
+    // canvas.removeEventListener('mousedown', this.mouseDown(this));
+    canvas.removeEventListener('mousemove', this.mouseMove(this));
+    canvas.removeEventListener('mouseup', this.mouseUp(this));
+    canvas.removeEventListener('touchstart', this.mouseDown(this));
+    canvas.removeEventListener('touchmove', this.mouseMove(this));
+    canvas.removeEventListener('touchend', this.mouseUp(this));
+    canvas.removeEventListener('wheel', this.zoom(this));
   }
 }
-export default CanvasPaint;
+export default Views;

@@ -16,21 +16,18 @@ class LineTool {
     console.log('line');
   }
   draw(e) {
-    console.log(this);
     const { canvas, ctx } = this;
-    const { pageX, pageY } = e.touches ? e.touches[0] : e;
-    const clientPint = getClientOffset(e, canvas);
-
+    const clientPoint = getClientOffset(e, canvas);
     ctx.beginPath();
+
+    ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
+    ctx.lineTo(clientPoint.x, clientPoint.y);
     ctx.strokeStyle = this.color;
     ctx.lineWidth = 5;
-    ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
-    ctx.lineTo(clientPint.x, clientPint.y);
+    ctx.lineCap = 'round';
     ctx.stroke();
-    const clientPoint = getClientOffset(e, canvas);
+
     this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
-    const lastImageData2 = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    console.log(lastImageData2);
   }
 
   getClientOffset = (e) => {
@@ -51,10 +48,9 @@ class LineTool {
 
   mouseDown = (e) => {
     e.preventDefault();
+    this.isDrawStart = true;
     const clientPoint = getClientOffset(e, this.canvas);
     this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
-
-    this.isDrawStart = true;
   };
 
   mouseMove = (e) => {
@@ -62,7 +58,6 @@ class LineTool {
     if (!this.isDrawStart) return;
 
     this.draw(e);
-    // this.lineCoordinates = this.getClientOffset(event);
     this.clearCanvas();
   };
 

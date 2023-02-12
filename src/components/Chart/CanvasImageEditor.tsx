@@ -4,7 +4,7 @@ import Button from '../Button';
 import { cv } from 'react-opencv';
 import dynamicClass, { Tools } from '~/canvas/ImageEditor/Tool';
 import { getClientOffset } from '~/utils/canvas/coordinate';
-import CanvasPaint from '~/canvas/ImageEditor/Canvas/Canvas';
+import Views from '~/canvas/ImageEditor/Canvas/Canvas';
 
 interface CanvasProps extends React.HTMLAttributes<HTMLCanvasElement> {}
 
@@ -30,11 +30,10 @@ const CanvasImageEditor = (props: CanvasProps) => {
     if (canvasRef.current && file !== null) {
       const canvas = canvasRef.current;
       const ctx = canvasRef.current.getContext('2d');
+      // debugger;
+      const main = new Views(ctx, canvas);
 
-      const image = new Image();
-      const main = new CanvasPaint(ctx, canvas);
-
-      main.draw(file);
+      main.loadFile(file);
       // image.onload = () => {
       //   let ratio = Math.min(canvas.width / image.width, canvas.height / image.height);
       //   let x = (canvas.width - image.width * ratio) / 2;

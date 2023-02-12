@@ -1,19 +1,31 @@
+import { getClientOffset } from '~/utils/canvas/coordinate';
 import Point from '../Point';
 
 class EraseTool {
   ctx: CanvasRenderingContext2D;
   size: number;
   canvas: HTMLCanvasElement;
-
+  lastPoint: Point;
   private isDrawStart: boolean = false;
   constructor(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
     this.ctx = ctx;
     this.size = 5;
     this.canvas = canvas;
     this.registerEvent(canvas);
+    this.lastPoint = new Point(0, 0);
   }
   erase(point: Point) {
-    this.ctx.clearRect(point.x, point.y, this.size, this.size);
+    const { ctx } = this;
+    ctx.globalCompositeOperation = 'destination-out';
+
+    ctx.beginPath();
+
+    ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
+    ctx.lineTo(point.x, point.y);
+    ctx.lineWidth = 20;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+    this.lastPoint.setPoint(point.x, point.y);
   }
 
   getClientOffset = (e) => {
@@ -32,6 +44,8 @@ class EraseTool {
   mouseDown = (e) => {
     e.preventDefault();
     this.isDrawStart = true;
+    const clientPoint = getClientOffset(e, this.canvas);
+    this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
   };
 
   mouseMove = (e) => {
@@ -41,18 +55,14 @@ class EraseTool {
     const point = new Point(clientPoint.x, clientPoint.y);
 
     this.erase(point);
-
-    this.clearCanvas();
   };
 
   mouseUp = (e) => {
     e.preventDefault();
-    console.log();
-    this.isDrawStart = false;
-  };
+    const { ctx } = this;
+    ctx.globalCompositeOperation = 'source-over';
 
-  clearCanvas = () => {
-    // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.isDrawStart = false;
   };
 
   registerEvent(canvas) {
