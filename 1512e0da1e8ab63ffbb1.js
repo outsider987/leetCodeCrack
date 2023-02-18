@@ -18,6 +18,7 @@ class Views {
         this.isDrawStart = false;
         this.zoomLevel = 1;
         this.lastView = null;
+        this.layerArray = [];
         this.mouseDown = (e) => {
             // e.preventDefault();
             const clientPoint = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getClientOffset)(e, this.canvas);
@@ -42,6 +43,9 @@ class Views {
     initializeCanvas(canvas) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
+    }
+    addLayer(layer) {
+        this.layerArray.push(layer);
     }
     draw() { }
     zoom(e) {
@@ -544,6 +548,8 @@ __webpack_require__.r(__webpack_exports__);
 
 const CanvasImageEditor = (props) => {
     const canvasRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+    const bufferCanvasRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+    const paintCanvasRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
     const [file, setFile] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
     const [mode, setMode] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
     const ViewsRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(new _canvas_ImageEditor_Canvas_Canvas__WEBPACK_IMPORTED_MODULE_3__["default"]());
@@ -575,14 +581,15 @@ const CanvasImageEditor = (props) => {
         if (canvasRef.current && file !== null) {
             const canvas = canvasRef.current;
             const ctx = canvasRef.current.getContext('2d');
+            ViewsRef.current;
             const layer = new _canvas_ImageEditor_Layer_Layer__WEBPACK_IMPORTED_MODULE_4__["default"](ctx, canvas);
             layer.loadFile(file);
         }
     }, [file]);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         if (canvasRef.current && file !== null) {
-            const canvas = canvasRef.current;
-            const ctx = canvasRef.current.getContext('2d');
+            const canvas = paintCanvasRef.current;
+            const ctx = paintCanvasRef.current.getContext('2d');
             const ToolClass = (0,_canvas_ImageEditor_Tool__WEBPACK_IMPORTED_MODULE_2__["default"])(mode);
             let tool = new ToolClass(ctx, canvas);
             return () => {
@@ -600,7 +607,9 @@ const CanvasImageEditor = (props) => {
             file === null && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "absolute inset-0 flex items-center justify-center" },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " text-white" }, "please click or drag file"),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { onChange: onClickFile, className: " absolute inset-0 z-10 cursor-pointer opacity-0", type: "file", accept: "image/*" }))),
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { ...props, ref: canvasRef, width: window.innerWidth * 0.6, height: window.innerHeight / 2 })),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { ...props, ref: canvasRef, width: window.innerWidth * 0.6, height: window.innerHeight / 2 }),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { ...props, ref: bufferCanvasRef, width: window.innerWidth * 0.6, height: window.innerHeight / 2 }),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { ...props, ref: paintCanvasRef, width: window.innerWidth * 0.6, height: window.innerHeight / 2 })),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-full space-x-3" },
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button__WEBPACK_IMPORTED_MODULE_1__["default"], { onClick: onDeleteFile }, " delete File"),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button__WEBPACK_IMPORTED_MODULE_1__["default"], { onClick: onDraw }, " draw mode"),
@@ -660,4 +669,4 @@ function getClientOffset(e, canvas) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/75c2a995faa241e7e12c.js.map
+//# sourceMappingURL=js/1512e0da1e8ab63ffbb1.js.map
