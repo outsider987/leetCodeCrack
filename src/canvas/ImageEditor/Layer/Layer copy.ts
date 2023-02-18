@@ -1,8 +1,7 @@
 import { getClientOffset } from '~/utils/canvas/coordinate';
-import Layer from '../Layer/Layer';
 import Point from './../Point';
 
-class Views {
+class Layer {
   ctx: CanvasRenderingContext2D;
   canvas: HTMLCanvasElement;
   lastPoint: Point;
@@ -12,20 +11,41 @@ class Views {
   drawCanvas: HTMLCanvasElement;
   zoomLevel = 1;
   drawCtx: CanvasRenderingContext2D;
+
   lastView = null;
-  layerArray: Layer[] = [];
-  constructor() {}
-
-  initializeCanvas(canvas: HTMLCanvasElement) {
+  constructor(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
+    this.ctx = ctx;
+    this.lastPoint = new Point(0, 0);
     this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
+
+    this.bufferCanvas = document.createElement('canvas');
+    this.bufferCanvas.width = canvas.width;
+    this.bufferCanvas.height = canvas.height;
+    this.bufferCtx = this.bufferCanvas.getContext('2d');
+    this.drawCanvas = document.createElement('canvas');
+    this.drawCtx = this.drawCanvas.getContext('2d');
+
+    this.registerEvent(this.canvas);
+  }
+  loadFile(file) {
+    const { bufferCanvas, bufferCtx } = this;
+    const image = new Image();
+    const { ctx, canvas } = this;
+    image.onload = function res() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'white';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      let ratio = Math.min(canvas.width / image.width, canvas.height / image.height);
+      let x = (canvas.width - image.width * ratio) / 2;
+      let y = (canvas.height - image.height * ratio) / 2;
+      ctx.drawImage(image, 0, 0, image.width, image.height, x, y, image.width * ratio, image.height * ratio);
+
+      bufferCtx.drawImage(canvas, 0, 0);
+    };
+    image.src = URL.createObjectURL(file);
   }
 
-  addLayer(layer: Layer) {
-    this.layerArray.push(layer);
-  }
-
-  draw() {}
+  redraw() {}
 
   zoom(e) {
     // const { canvas, ctx, bufferCanvas } = this;
@@ -121,6 +141,10 @@ class Views {
     );
   }
 
+  getCanvas() {
+    return this.canvas;
+  }
+
   mouseDown = (e) => {
     // e.preventDefault();
     const clientPoint = getClientOffset(e, this.canvas);
@@ -133,6 +157,7 @@ class Views {
     // e.preventDefault();
     if (!this.isDrawStart) return;
 
+    // this.loadFile(e);
     // this.lineCoordinates = this.getClientOffset(event);
     this.clearCanvas();
   };
@@ -166,4 +191,4 @@ class Views {
     canvas.removeEventListener('wheel', this.zoom(this));
   }
 }
-export default Views;
+export default Layer;

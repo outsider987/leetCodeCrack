@@ -11,6 +11,8 @@ interface CanvasProps extends React.HTMLAttributes<HTMLCanvasElement> {}
 
 const CanvasImageEditor = (props: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const bufferCanvasRef = useRef<HTMLCanvasElement>(null);
+  const paintCanvasRef = useRef<HTMLCanvasElement>(null);
   const [file, setFile] = useState<File>(null);
   const [mode, setMode] = useState<keyof typeof Tools>(null);
   const ViewsRef = useRef(new Views());
@@ -45,6 +47,7 @@ const CanvasImageEditor = (props: CanvasProps) => {
     if (canvasRef.current && file !== null) {
       const canvas = canvasRef.current;
       const ctx = canvasRef.current.getContext('2d');
+      ViewsRef.current;
       const layer = new Layer(ctx, canvas);
       layer.loadFile(file);
     }
@@ -52,8 +55,8 @@ const CanvasImageEditor = (props: CanvasProps) => {
 
   useEffect(() => {
     if (canvasRef.current && file !== null) {
-      const canvas = canvasRef.current;
-      const ctx = canvasRef.current.getContext('2d');
+      const canvas = paintCanvasRef.current;
+      const ctx = paintCanvasRef.current.getContext('2d');
       const ToolClass = dynamicClass(mode);
       let tool = new ToolClass(ctx, canvas);
       return () => {
@@ -84,6 +87,8 @@ const CanvasImageEditor = (props: CanvasProps) => {
         )}
 
         <canvas {...props} ref={canvasRef} width={window.innerWidth * 0.6} height={window.innerHeight / 2} />
+        <canvas {...props} ref={bufferCanvasRef} width={window.innerWidth * 0.6} height={window.innerHeight / 2} />
+        <canvas {...props} ref={paintCanvasRef} width={window.innerWidth * 0.6} height={window.innerHeight / 2} />
       </div>
       <div className="flex w-full space-x-3">
         <Button onClick={onDeleteFile}> delete File</Button>
