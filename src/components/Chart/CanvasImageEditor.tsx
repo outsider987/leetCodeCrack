@@ -5,6 +5,7 @@ import { cv } from 'react-opencv';
 import dynamicClass, { Tools } from '~/canvas/ImageEditor/Tool';
 import { getClientOffset } from '~/utils/canvas/coordinate';
 import Views from '~/canvas/ImageEditor/Canvas/Canvas';
+import Layer from '~/canvas/ImageEditor/Layer/Layer';
 
 interface CanvasProps extends React.HTMLAttributes<HTMLCanvasElement> {}
 
@@ -12,6 +13,7 @@ const CanvasImageEditor = (props: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [file, setFile] = useState<File>(null);
   const [mode, setMode] = useState<keyof typeof Tools>(null);
+  const ViewsRef = useRef(new Views());
 
   const onClickFile = (e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files[0]);
@@ -26,55 +28,25 @@ const CanvasImageEditor = (props: CanvasProps) => {
     setMode('EraseTool');
   };
 
+  // useEffect(() => {
+  //   if (canvasRef.current && file !== null) {
+  //     const canvas = canvasRef.current;
+  //     const ctx = canvasRef.current.getContext('2d');
+  //     const main = new Views(ctx, canvas);
+  //     main.loadFile(file);
+  //   } else {
+  //     const canvas = canvasRef.current;
+  //     const ctx = canvasRef.current.getContext('2d');
+  //     ctx.clearRect(0, 0, canvas.width, canvas.height);
+  //   }
+  // }, [file]);
+
   useEffect(() => {
     if (canvasRef.current && file !== null) {
       const canvas = canvasRef.current;
       const ctx = canvasRef.current.getContext('2d');
-      // debugger;
-      const main = new Views(ctx, canvas);
-
-      main.loadFile(file);
-      // image.onload = () => {
-      //   let ratio = Math.min(canvas.width / image.width, canvas.height / image.height);
-      //   let x = (canvas.width - image.width * ratio) / 2;
-      //   let y = (canvas.height - image.height * ratio) / 2;
-      //   ctx.clearRect(0, 0, canvas.width, canvas.height);
-      //   ctx.drawImage(image, 0, 0, image.width, image.height, x, y, image.width * ratio, image.height * ratio);
-
-      //   const lastImageData2 = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      //   console.log(lastImageData2);
-      // };
-      // canvas.addEventListener('wheel', (e) => {
-      //   let zoom = 1;
-      //   e.preventDefault();
-      //   const clientPoint = getClientOffset(e, canvas);
-
-      //   if (e.deltaY < 0) {
-      //     zoom *= 1.1;
-      //   } else {
-      //     zoom *= 0.9;
-      //   }
-
-      //   // ctx.translate(clientPoint.x, clientPoint.y);
-
-      //   const lastView = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      //   ctx.scale(zoom, zoom);
-
-      //   // ctx.setTransform(zoom, 0, 0, zoom, (1 - zoom) * clientPoint.x, (1 - zoom) * clientPoint.y);
-      //   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      //   let ratio = Math.min(canvas.width / image.width, canvas.height / image.height);
-      //   let x = (canvas.width - image.width * ratio) / 2;
-      //   let y = (canvas.height - image.height * ratio) / 2;
-      //   ctx.clearRect(0, 0, canvas.width, canvas.height);
-      //   ctx.drawImage(image, 0, 0, image.width, image.height, x, y, image.width * ratio, image.height * ratio);
-      // });
-
-      // image.src = URL.createObjectURL(file);
-    } else {
-      const canvas = canvasRef.current;
-      const ctx = canvasRef.current.getContext('2d');
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const layer = new Layer(ctx, canvas);
+      layer.loadFile(file);
     }
   }, [file]);
 
@@ -82,16 +54,19 @@ const CanvasImageEditor = (props: CanvasProps) => {
     if (canvasRef.current && file !== null) {
       const canvas = canvasRef.current;
       const ctx = canvasRef.current.getContext('2d');
-
       const ToolClass = dynamicClass(mode);
-
       let tool = new ToolClass(ctx, canvas);
-
       return () => {
         tool.unRegisterEvent(canvas);
       };
     }
   }, [mode]);
+
+  useEffect(() => {
+    if (canvasRef.current) {
+      ViewsRef.current.initializeCanvas(canvasRef.current);
+    }
+  }, []);
 
   return (
     <>

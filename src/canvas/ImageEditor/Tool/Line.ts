@@ -13,7 +13,6 @@ class LineTool {
     this.setColor('white');
     this.canvas = canvas;
     this.registerEvent(canvas);
-    console.log('line');
   }
   draw(e) {
     const { canvas, ctx } = this;
