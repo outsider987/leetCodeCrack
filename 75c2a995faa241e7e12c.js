@@ -12,12 +12,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ~/utils/canvas/coordinate */ "./src/utils/canvas/coordinate.ts");
-/* harmony import */ var _Point__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../Point */ "./src/canvas/ImageEditor/Point.ts");
-
 
 class Views {
-    constructor(ctx, canvas) {
+    constructor() {
         this.isDrawStart = false;
+        this.zoomLevel = 1;
         this.lastView = null;
         this.mouseDown = (e) => {
             // e.preventDefault();
@@ -29,7 +28,6 @@ class Views {
             // e.preventDefault();
             if (!this.isDrawStart)
                 return;
-            this.loadFile(e);
             // this.lineCoordinates = this.getClientOffset(event);
             this.clearCanvas();
         };
@@ -40,83 +38,77 @@ class Views {
         this.clearCanvas = () => {
             // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         };
-        this.ctx = ctx;
-        this.lastPoint = new _Point__WEBPACK_IMPORTED_MODULE_1__["default"](0, 0);
+    }
+    initializeCanvas(canvas) {
         this.canvas = canvas;
-        this.bufferCanvas = document.createElement('canvas');
-        this.bufferCtx = this.bufferCanvas.getContext('2d');
-        this.drawCanvas = document.createElement('canvas');
-        this.drawCtx = this.drawCanvas.getContext('2d');
-        this.registerEvent(this.canvas);
+        this.ctx = canvas.getContext('2d');
     }
-    loadFile(file) {
-        const image = new Image();
-        const { ctx, canvas } = this;
-        image.onload = function res() {
-            let ratio = Math.min(canvas.width / image.width, canvas.height / image.height);
-            let x = (canvas.width - image.width * ratio) / 2;
-            let y = (canvas.height - image.height * ratio) / 2;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(image, 0, 0, image.width, image.height, x, y, image.width * ratio, image.height * ratio);
-        };
-        image.src = URL.createObjectURL(file);
-    }
-    redraw() { }
+    draw() { }
     zoom(e) {
-        const { canvas, ctx } = this;
-        let zoom = 1;
+        // const { canvas, ctx, bufferCanvas } = this;
+        // let zoom = 1;
+        // // e.preventDefault();
+        // const clientPoint = getClientOffset(e, canvas);
+        // if (e.deltaY < 0) {
+        //   zoom *= 1.1;
+        // } else {
+        //   zoom *= 0.9;
+        // }
+        const { canvas, ctx, bufferCanvas } = this;
+        let MAX_ZOOM = 5;
+        let MIN_ZOOM = 0.1;
+        let SCROLL_SENSITIVITY = 0.0005;
         // e.preventDefault();
         const clientPoint = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getClientOffset)(e, canvas);
-        if (e.deltaY < 0) {
-            zoom *= 1.1;
-        }
-        else {
-            zoom *= 0.9;
-        }
-        // ctx.translate(clientPoint.x, clientPoint.y);
+        const zoomAmount = SCROLL_SENSITIVITY * e.deltaY;
+        this.zoomLevel += zoomAmount;
+        this.zoomLevel = Math.min(this.zoomLevel, MAX_ZOOM);
+        this.zoomLevel = Math.max(this.zoomLevel, MIN_ZOOM);
+        console.log(this.zoomLevel);
+        // let backeupCanvas = document.createElement('canvas');
+        // backeupCanvas.width = canvas.width;
+        // backeupCanvas.height = canvas.height;
+        // let newContext = backeupCanvas.getContext('2d');
+        // const lastImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        // newContext.putImageData(lastImageData, 0, 0);
+        // const lastView = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        // ctx.scale(zoom, zoom);
+        // ctx.setTransform(zoom, 0, 0, zoom, (1 - zoom) * clientPoint.x, (1 - zoom) * clientPoint.y);
+        // // ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // let ratio = Math.min(canvas.width / backeupCanvas.width, canvas.height / backeupCanvas.height);
+        // let x = (canvas.width - backeupCanvas.width * ratio) / 2;
+        // let y = (canvas.height - backeupCanvas.height * ratio) / 2;
+        // // ctx.setTransform(9, 9, 9, zoom, (1 - zoom) * clientPoint.x, (1 - zoom) * clientPoint.y);
+        // ctx.drawImage(
+        //   backeupCanvas,
+        //   0,
+        //   0,
+        //   backeupCanvas.width,
+        //   backeupCanvas.height,
+        //   x,
+        //   y,
+        //   backeupCanvas.width * ratio,
+        //   backeupCanvas.height * ratio,
+        // );
+        // test test
         let backeupCanvas = document.createElement('canvas');
         backeupCanvas.width = canvas.width;
         backeupCanvas.height = canvas.height;
         let newContext = backeupCanvas.getContext('2d');
         const lastImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         newContext.putImageData(lastImageData, 0, 0);
-        const lastView = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        ctx.scale(zoom, zoom);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         // ctx.setTransform(zoom, 0, 0, zoom, (1 - zoom) * clientPoint.x, (1 - zoom) * clientPoint.y);
-        // ctx.clearRect(0, 0, canvas.width, canvas.height);
-        let ratio = Math.min(canvas.width / backeupCanvas.width, canvas.height / backeupCanvas.height);
-        let x = (canvas.width - backeupCanvas.width * ratio) / 2;
-        let y = (canvas.height - backeupCanvas.height * ratio) / 2;
+        ctx.translate(clientPoint.x, clientPoint.y);
+        ctx.scale(this.zoomLevel, this.zoomLevel);
+        ctx.translate(-clientPoint.x, -clientPoint.y);
+        // let ratio = Math.min(canvas.width / backeupCanvas.width, canvas.height / backeupCanvas.height);
+        // let x = (canvas.width - backeupCanvas.width * ratio) / 2;
+        // let y = (canvas.height - backeupCanvas.height * ratio) / 2;
         // ctx.setTransform(9, 9, 9, zoom, (1 - zoom) * clientPoint.x, (1 - zoom) * clientPoint.y);
-        ctx.drawImage(backeupCanvas, 0, 0, backeupCanvas.width, backeupCanvas.height, x, y, backeupCanvas.width * ratio, backeupCanvas.height * ratio);
-        // ctx.translate(window.innerWidth / 2, window.innerHeight / 2);
-        // ctx.scale(zoom, zoom);
-        // ctx.translate(-window.innerWidth / 2 + clientPoint.x, -window.innerHeight / 2 + clientPoint.y);
-        // const image = new Image();
-        // const file = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        // image.onload = () => {
-        //   let ratio = Math.min(canvas.width / image.width, canvas.height / image.height);
-        //   let x = (canvas.width - image.width * ratio) / 2;
-        //   let y = (canvas.height - image.height * ratio) / 2;
-        //   ctx.clearRect(0, 0, canvas.width, canvas.height);
-        //   // ctx.drawImage(image, 0, 0, image.width, image.height, x, y, image.width * ratio, image.height * ratio);
-        //   // let ratio = Math.min(canvas.width / image.width, canvas.height / image.height);
-        //   // let x = (canvas.width - image.width * ratio) / 2;
-        //   // let y = (canvas.height - image.height * ratio) / 2;
-        //   // ctx.clearRect(0, 0, canvas.width, canvas.height);
-        //   // ctx.drawImage(image, 0, 0, image.width, image.height, x, y, image.width * ratio, image.height * ratio);
-        // };
-        // let ratio = Math.min(canvas.width / image.width, canvas.height / image.height);
-        // let x = (canvas.width - image.width * ratio) / 2;
-        // let y = (canvas.height - image.height * ratio) / 2;
-        // const lastImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        // // console.log(lastImageData);
-        // ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // ctx.putImageData(lastImageData, 0, 0);
-        // ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // Redraw the content of the canvas
-        // draw();
+        ctx.drawImage(bufferCanvas, 0, 0);
     }
     registerEvent(canvas) {
         // canvas.addEventListener('mousedown', this.mouseDown);
@@ -138,6 +130,164 @@ class Views {
     }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Views);
+
+
+/***/ }),
+
+/***/ "./src/canvas/ImageEditor/Layer/Layer.ts":
+/*!***********************************************!*\
+  !*** ./src/canvas/ImageEditor/Layer/Layer.ts ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ~/utils/canvas/coordinate */ "./src/utils/canvas/coordinate.ts");
+/* harmony import */ var _Point__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../Point */ "./src/canvas/ImageEditor/Point.ts");
+
+
+class Layer {
+    constructor(ctx, canvas) {
+        this.isDrawStart = false;
+        this.zoomLevel = 1;
+        this.lastView = null;
+        this.mouseDown = (e) => {
+            // e.preventDefault();
+            const clientPoint = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getClientOffset)(e, this.canvas);
+            this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
+            this.isDrawStart = true;
+        };
+        this.mouseMove = (e) => {
+            // e.preventDefault();
+            if (!this.isDrawStart)
+                return;
+            // this.loadFile(e);
+            // this.lineCoordinates = this.getClientOffset(event);
+            this.clearCanvas();
+        };
+        this.mouseUp = (e) => {
+            // e.preventDefault();
+            this.isDrawStart = false;
+        };
+        this.clearCanvas = () => {
+            // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        };
+        this.ctx = ctx;
+        this.lastPoint = new _Point__WEBPACK_IMPORTED_MODULE_1__["default"](0, 0);
+        this.canvas = canvas;
+        this.bufferCanvas = document.createElement('canvas');
+        this.bufferCanvas.width = canvas.width;
+        this.bufferCanvas.height = canvas.height;
+        this.bufferCtx = this.bufferCanvas.getContext('2d');
+        this.drawCanvas = document.createElement('canvas');
+        this.drawCtx = this.drawCanvas.getContext('2d');
+        this.registerEvent(this.canvas);
+    }
+    loadFile(file) {
+        const { bufferCanvas, bufferCtx } = this;
+        const image = new Image();
+        const { ctx, canvas } = this;
+        image.onload = function res() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            let ratio = Math.min(canvas.width / image.width, canvas.height / image.height);
+            let x = (canvas.width - image.width * ratio) / 2;
+            let y = (canvas.height - image.height * ratio) / 2;
+            ctx.drawImage(image, 0, 0, image.width, image.height, x, y, image.width * ratio, image.height * ratio);
+            bufferCtx.drawImage(canvas, 0, 0);
+        };
+        image.src = URL.createObjectURL(file);
+    }
+    redraw() { }
+    zoom(e) {
+        // const { canvas, ctx, bufferCanvas } = this;
+        // let zoom = 1;
+        // // e.preventDefault();
+        // const clientPoint = getClientOffset(e, canvas);
+        // if (e.deltaY < 0) {
+        //   zoom *= 1.1;
+        // } else {
+        //   zoom *= 0.9;
+        // }
+        const { canvas, ctx, bufferCanvas } = this;
+        let MAX_ZOOM = 5;
+        let MIN_ZOOM = 0.1;
+        let SCROLL_SENSITIVITY = 0.0005;
+        // e.preventDefault();
+        const clientPoint = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getClientOffset)(e, canvas);
+        const zoomAmount = SCROLL_SENSITIVITY * e.deltaY;
+        this.zoomLevel += zoomAmount;
+        this.zoomLevel = Math.min(this.zoomLevel, MAX_ZOOM);
+        this.zoomLevel = Math.max(this.zoomLevel, MIN_ZOOM);
+        console.log(this.zoomLevel);
+        // let backeupCanvas = document.createElement('canvas');
+        // backeupCanvas.width = canvas.width;
+        // backeupCanvas.height = canvas.height;
+        // let newContext = backeupCanvas.getContext('2d');
+        // const lastImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        // newContext.putImageData(lastImageData, 0, 0);
+        // const lastView = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        // ctx.scale(zoom, zoom);
+        // ctx.setTransform(zoom, 0, 0, zoom, (1 - zoom) * clientPoint.x, (1 - zoom) * clientPoint.y);
+        // // ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // let ratio = Math.min(canvas.width / backeupCanvas.width, canvas.height / backeupCanvas.height);
+        // let x = (canvas.width - backeupCanvas.width * ratio) / 2;
+        // let y = (canvas.height - backeupCanvas.height * ratio) / 2;
+        // // ctx.setTransform(9, 9, 9, zoom, (1 - zoom) * clientPoint.x, (1 - zoom) * clientPoint.y);
+        // ctx.drawImage(
+        //   backeupCanvas,
+        //   0,
+        //   0,
+        //   backeupCanvas.width,
+        //   backeupCanvas.height,
+        //   x,
+        //   y,
+        //   backeupCanvas.width * ratio,
+        //   backeupCanvas.height * ratio,
+        // );
+        // test test
+        let backeupCanvas = document.createElement('canvas');
+        backeupCanvas.width = canvas.width;
+        backeupCanvas.height = canvas.height;
+        let newContext = backeupCanvas.getContext('2d');
+        const lastImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        newContext.putImageData(lastImageData, 0, 0);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // ctx.setTransform(zoom, 0, 0, zoom, (1 - zoom) * clientPoint.x, (1 - zoom) * clientPoint.y);
+        ctx.translate(clientPoint.x, clientPoint.y);
+        ctx.scale(this.zoomLevel, this.zoomLevel);
+        ctx.translate(-clientPoint.x, -clientPoint.y);
+        // let ratio = Math.min(canvas.width / backeupCanvas.width, canvas.height / backeupCanvas.height);
+        // let x = (canvas.width - backeupCanvas.width * ratio) / 2;
+        // let y = (canvas.height - backeupCanvas.height * ratio) / 2;
+        // ctx.setTransform(9, 9, 9, zoom, (1 - zoom) * clientPoint.x, (1 - zoom) * clientPoint.y);
+        ctx.drawImage(bufferCanvas, 0, 0);
+    }
+    registerEvent(canvas) {
+        // canvas.addEventListener('mousedown', this.mouseDown);
+        canvas.addEventListener('mousemove', this.mouseMove);
+        canvas.addEventListener('mouseup', this.mouseUp);
+        canvas.addEventListener('touchstart', this.mouseDown);
+        canvas.addEventListener('touchmove', this.mouseMove);
+        canvas.addEventListener('touchend', this.mouseUp);
+        canvas.addEventListener('wheel', this.zoom.bind(this));
+    }
+    unRegisterEvent(canvas) {
+        // canvas.removeEventListener('mousedown', this.mouseDown(this));
+        canvas.removeEventListener('mousemove', this.mouseMove(this));
+        canvas.removeEventListener('mouseup', this.mouseUp(this));
+        canvas.removeEventListener('touchstart', this.mouseDown(this));
+        canvas.removeEventListener('touchmove', this.mouseMove(this));
+        canvas.removeEventListener('touchend', this.mouseUp(this));
+        canvas.removeEventListener('wheel', this.zoom(this));
+    }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Layer);
 
 
 /***/ }),
@@ -310,7 +460,6 @@ class LineTool {
         this.setColor('white');
         this.canvas = canvas;
         this.registerEvent(canvas);
-        console.log('line');
     }
     draw(e) {
         const { canvas, ctx } = this;
@@ -387,6 +536,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Button */ "./src/components/Button.tsx");
 /* harmony import */ var _canvas_ImageEditor_Tool__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ~/canvas/ImageEditor/Tool */ "./src/canvas/ImageEditor/Tool/index.ts");
 /* harmony import */ var _canvas_ImageEditor_Canvas_Canvas__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ~/canvas/ImageEditor/Canvas/Canvas */ "./src/canvas/ImageEditor/Canvas/Canvas.ts");
+/* harmony import */ var _canvas_ImageEditor_Layer_Layer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ~/canvas/ImageEditor/Layer/Layer */ "./src/canvas/ImageEditor/Layer/Layer.ts");
+
 
 
 
@@ -395,6 +546,7 @@ const CanvasImageEditor = (props) => {
     const canvasRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
     const [file, setFile] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
     const [mode, setMode] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+    const ViewsRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(new _canvas_ImageEditor_Canvas_Canvas__WEBPACK_IMPORTED_MODULE_3__["default"]());
     const onClickFile = (e) => {
         setFile(e.target.files[0]);
     };
@@ -407,48 +559,24 @@ const CanvasImageEditor = (props) => {
     const onErase = () => {
         setMode('EraseTool');
     };
+    // useEffect(() => {
+    //   if (canvasRef.current && file !== null) {
+    //     const canvas = canvasRef.current;
+    //     const ctx = canvasRef.current.getContext('2d');
+    //     const main = new Views(ctx, canvas);
+    //     main.loadFile(file);
+    //   } else {
+    //     const canvas = canvasRef.current;
+    //     const ctx = canvasRef.current.getContext('2d');
+    //     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    //   }
+    // }, [file]);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         if (canvasRef.current && file !== null) {
             const canvas = canvasRef.current;
             const ctx = canvasRef.current.getContext('2d');
-            // debugger;
-            const main = new _canvas_ImageEditor_Canvas_Canvas__WEBPACK_IMPORTED_MODULE_3__["default"](ctx, canvas);
-            main.loadFile(file);
-            // image.onload = () => {
-            //   let ratio = Math.min(canvas.width / image.width, canvas.height / image.height);
-            //   let x = (canvas.width - image.width * ratio) / 2;
-            //   let y = (canvas.height - image.height * ratio) / 2;
-            //   ctx.clearRect(0, 0, canvas.width, canvas.height);
-            //   ctx.drawImage(image, 0, 0, image.width, image.height, x, y, image.width * ratio, image.height * ratio);
-            //   const lastImageData2 = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            //   console.log(lastImageData2);
-            // };
-            // canvas.addEventListener('wheel', (e) => {
-            //   let zoom = 1;
-            //   e.preventDefault();
-            //   const clientPoint = getClientOffset(e, canvas);
-            //   if (e.deltaY < 0) {
-            //     zoom *= 1.1;
-            //   } else {
-            //     zoom *= 0.9;
-            //   }
-            //   // ctx.translate(clientPoint.x, clientPoint.y);
-            //   const lastView = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            //   ctx.scale(zoom, zoom);
-            //   // ctx.setTransform(zoom, 0, 0, zoom, (1 - zoom) * clientPoint.x, (1 - zoom) * clientPoint.y);
-            //   ctx.clearRect(0, 0, canvas.width, canvas.height);
-            //   let ratio = Math.min(canvas.width / image.width, canvas.height / image.height);
-            //   let x = (canvas.width - image.width * ratio) / 2;
-            //   let y = (canvas.height - image.height * ratio) / 2;
-            //   ctx.clearRect(0, 0, canvas.width, canvas.height);
-            //   ctx.drawImage(image, 0, 0, image.width, image.height, x, y, image.width * ratio, image.height * ratio);
-            // });
-            // image.src = URL.createObjectURL(file);
-        }
-        else {
-            const canvas = canvasRef.current;
-            const ctx = canvasRef.current.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const layer = new _canvas_ImageEditor_Layer_Layer__WEBPACK_IMPORTED_MODULE_4__["default"](ctx, canvas);
+            layer.loadFile(file);
         }
     }, [file]);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -462,6 +590,11 @@ const CanvasImageEditor = (props) => {
             };
         }
     }, [mode]);
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        if (canvasRef.current) {
+            ViewsRef.current.initializeCanvas(canvasRef.current);
+        }
+    }, []);
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null,
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: ` relative border-solid border-yellow-400` },
             file === null && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "absolute inset-0 flex items-center justify-center" },
@@ -527,4 +660,4 @@ function getClientOffset(e, canvas) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/53c38ac85d8b0408addb.js.map
+//# sourceMappingURL=js/75c2a995faa241e7e12c.js.map
