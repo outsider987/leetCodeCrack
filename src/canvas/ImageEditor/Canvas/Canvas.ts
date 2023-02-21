@@ -10,116 +10,124 @@ class Views {
   bufferCanvas: HTMLCanvasElement;
   bufferCtx: CanvasRenderingContext2D;
   drawCanvas: HTMLCanvasElement;
-  zoomLevel = 1;
   drawCtx: CanvasRenderingContext2D;
+  zoomLevel = 1;
   lastView = null;
   layerArray: Layer[] = [];
   constructor() {}
 
-  initializeCanvas(canvas: HTMLCanvasElement) {
+  initializeCanvas(canvas: HTMLCanvasElement, bufferCanvasRef: HTMLCanvasElement, paintCanvasRef: HTMLCanvasElement) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
+    // this.bufferCanvas = document.createElement('canvas');
+    this.bufferCanvas = bufferCanvasRef;
+    this.bufferCanvas.width = canvas.width;
+    this.bufferCanvas.height = canvas.height;
+    this.bufferCtx = this.bufferCanvas.getContext('2d');
+
+    // this.drawCanvas = document.createElement('canvas');
+    this.drawCanvas = paintCanvasRef;
+    this.drawCanvas.width = canvas.width;
+    this.drawCanvas.height = canvas.height;
+    this.drawCtx = this.drawCanvas.getContext('2d');
+    this.registerEvent(this.bufferCanvas);
   }
 
-  addLayer(layer: Layer) {
+  async loadFile(file: File) {
+    const { bufferCanvas, bufferCtx } = this;
+    const layer = new Layer(bufferCtx, bufferCanvas);
     this.layerArray.push(layer);
+    await layer.loadFile(file);
+    this.draw();
   }
 
-  draw() {}
+  draw() {
+    const { ctx, bufferCanvas, drawCanvas } = this;
+
+    ctx.drawImage(bufferCanvas, 0, 0);
+    ctx.drawImage(drawCanvas, 0, 0);
+  }
 
   zoom(e) {
-    // const { canvas, ctx, bufferCanvas } = this;
-
-    // let zoom = 1;
-    // // e.preventDefault();
-    // const clientPoint = getClientOffset(e, canvas);
-
-    // if (e.deltaY < 0) {
-    //   zoom *= 1.1;
-    // } else {
-    //   zoom *= 0.9;
-    // }
-
-    const { canvas, ctx, bufferCanvas } = this;
+    const { canvas, ctx, bufferCanvas, bufferCtx } = this;
     let MAX_ZOOM = 5;
     let MIN_ZOOM = 0.1;
     let SCROLL_SENSITIVITY = 0.0005;
 
-    // e.preventDefault();
     const clientPoint = getClientOffset(e, canvas);
     const zoomAmount = SCROLL_SENSITIVITY * e.deltaY;
     this.zoomLevel += zoomAmount;
     this.zoomLevel = Math.min(this.zoomLevel, MAX_ZOOM);
     this.zoomLevel = Math.max(this.zoomLevel, MIN_ZOOM);
-    console.log(this.zoomLevel);
 
     // let backeupCanvas = document.createElement('canvas');
     // backeupCanvas.width = canvas.width;
     // backeupCanvas.height = canvas.height;
     // let newContext = backeupCanvas.getContext('2d');
-
     // const lastImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    // newContext.putImageData(lastImageData, 0, 0);
+    // newContext.putImageData(lastImageData, 0, 0
 
-    // const lastView = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    // ctx.scale(zoom, zoom);
-
-    // ctx.setTransform(zoom, 0, 0, zoom, (1 - zoom) * clientPoint.x, (1 - zoom) * clientPoint.y);
-    // // ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // let ratio = Math.min(canvas.width / backeupCanvas.width, canvas.height / backeupCanvas.height);
-    // let x = (canvas.width - backeupCanvas.width * ratio) / 2;
-    // let y = (canvas.height - backeupCanvas.height * ratio) / 2;
-
-    // // ctx.setTransform(9, 9, 9, zoom, (1 - zoom) * clientPoint.x, (1 - zoom) * clientPoint.y);
-    // ctx.drawImage(
-    //   backeupCanvas,
-    //   0,
-    //   0,
-    //   backeupCanvas.width,
-    //   backeupCanvas.height,
-    //   x,
-    //   y,
-    //   backeupCanvas.width * ratio,
-    //   backeupCanvas.height * ratio,
-    // );
-
-    // test test
-
-    let backeupCanvas = document.createElement('canvas');
-    backeupCanvas.width = canvas.width;
-    backeupCanvas.height = canvas.height;
-    let newContext = backeupCanvas.getContext('2d');
-
-    const lastImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    newContext.putImageData(lastImageData, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // ctx.setTransform(zoom, 0, 0, zoom, (1 - zoom) * clientPoint.x, (1 - zoom) * clientPoint.y);
-
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.translate(clientPoint.x, clientPoint.y);
     ctx.scale(this.zoomLevel, this.zoomLevel);
     ctx.translate(-clientPoint.x, -clientPoint.y);
 
-    // let ratio = Math.min(canvas.width / backeupCanvas.width, canvas.height / backeupCanvas.height);
-    // let x = (canvas.width - backeupCanvas.width * ratio) / 2;
-    // let y = (canvas.height - backeupCanvas.height * ratio) / 2;
-
-    // ctx.setTransform(9, 9, 9, zoom, (1 - zoom) * clientPoint.x, (1 - zoom) * clientPoint.y);
-    ctx.drawImage(
-      bufferCanvas,
-      0,
-      0,
-      // backeupCanvas.width,
-      // backeupCanvas.height,
-      // x,
-      // y,
-      // backeupCanvas.width * ratio,
-      // backeupCanvas.height * ratio,
-    );
+    // ctx.drawImage(
+    //   bufferCanvas,
+    //   0,
+    //   0,
+    //   // backeupCanvas.width,
+    //   // backeupCanvas.height,
+    //   // x,
+    //   // y,
+    //   // backeupCanvas.width * ratio,
+    //   // backeupCanvas.height * ratio,
+    // );
+    this.draw();
   }
+  // zoom(e) {
+  //   const { canvas, ctx, bufferCanvas, bufferCtx } = this;
+  //   let MAX_ZOOM = 5;
+  //   let MIN_ZOOM = 0.1;
+  //   let SCROLL_SENSITIVITY = 0.0005;
+
+  //   const clientPoint = getClientOffset(e, canvas);
+  //   const zoomAmount = SCROLL_SENSITIVITY * e.deltaY;
+  //   this.zoomLevel += zoomAmount;
+  //   this.zoomLevel = Math.min(this.zoomLevel, MAX_ZOOM);
+  //   this.zoomLevel = Math.max(this.zoomLevel, MIN_ZOOM);
+
+  //   let backeupCanvas = document.createElement('canvas');
+  //   backeupCanvas.width = canvas.width;
+  //   backeupCanvas.height = canvas.height;
+  //   let newContext = backeupCanvas.getContext('2d');
+
+  //   const lastImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  //   newContext.putImageData(lastImageData, 0, 0);
+  //   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  //   ctx.fillStyle = 'white';
+  //   ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  //   ctx.translate(clientPoint.x, clientPoint.y);
+  //   ctx.scale(this.zoomLevel, this.zoomLevel);
+  //   ctx.translate(-clientPoint.x, -clientPoint.y);
+
+  //   ctx.drawImage(
+  //     bufferCanvas,
+  //     0,
+  //     0,
+  //     // backeupCanvas.width,
+  //     // backeupCanvas.height,
+  //     // x,
+  //     // y,
+  //     // backeupCanvas.width * ratio,
+  //     // backeupCanvas.height * ratio,
+  //   );
+  // }
 
   mouseDown = (e) => {
     // e.preventDefault();

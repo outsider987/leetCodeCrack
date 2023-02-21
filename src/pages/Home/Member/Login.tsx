@@ -141,7 +141,7 @@ const Login = () => {
             </div>
             <div className="flex w-full flex-col">
               <Button onClick={onTestToken} className="m-auto">
-                TokenTes
+                TokenTest
               </Button>
               <div className="grid grid-cols-2">
                 <span className="max-w-xs break-all text-white">
