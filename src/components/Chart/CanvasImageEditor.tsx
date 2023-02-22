@@ -56,14 +56,14 @@ const CanvasImageEditor = (props: CanvasProps) => {
       const ToolClass = dynamicClass(mode);
       let tool = new ToolClass(ViewsRef.current);
       return () => {
-        tool.unRegisterEvent(paintCanvasRef.current);
+        tool.unRegisterEvent(ViewsRef.current.canvas);
       };
     }
   }, [mode]);
 
   useEffect(() => {
     if (canvasRef.current) {
-      ViewsRef.current.initializeCanvas(canvasRef.current, bufferCanvasRef.current);
+      ViewsRef.current.initializeCanvas(canvasRef.current);
       // requestRef.current = requestAnimationFrame(ViewsRef.current.draw);
       // return () => cancelAnimationFrame(requestRef.current);
       // function start() {
@@ -94,8 +94,14 @@ const CanvasImageEditor = (props: CanvasProps) => {
         )}
 
         <canvas {...props} ref={canvasRef} width={window.innerWidth * 0.6} height={window.innerHeight / 2} />
-        {/* <canvas {...props} ref={bufferCanvasRef} width={window.innerWidth * 0.6} height={window.innerHeight / 2} />
         <canvas
+          {...props}
+          id="buffer"
+          ref={bufferCanvasRef}
+          width={window.innerWidth * 0.6}
+          height={window.innerHeight / 2}
+        />
+        {/* <canvas
           {...props}
           id="paint"
           ref={paintCanvasRef}

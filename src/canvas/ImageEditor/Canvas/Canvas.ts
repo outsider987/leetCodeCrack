@@ -16,11 +16,13 @@ class Views {
   layerArray: Layer[] = [];
   constructor() {}
 
-  initializeCanvas(canvas: HTMLCanvasElement, bufferCanvasRef: HTMLCanvasElement) {
+  initializeCanvas(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     // this.bufferCanvas = document.createElement('canvas');
     // this.bufferCanvas = bufferCanvasRef;
+
+    // this.drawCanvas = document.getElementById('buffer') as HTMLCanvasElement;
     this.bufferCanvas = document.createElement('canvas');
     this.bufferCanvas.width = canvas.width;
     this.bufferCanvas.height = canvas.height;
@@ -45,7 +47,6 @@ class Views {
 
   draw() {
     const { ctx, bufferCanvas, drawCanvas } = this;
-
     ctx.drawImage(bufferCanvas, 0, 0);
     ctx.drawImage(drawCanvas, 0, 0);
   }
@@ -61,13 +62,6 @@ class Views {
     this.zoomLevel += zoomAmount;
     this.zoomLevel = Math.min(this.zoomLevel, MAX_ZOOM);
     this.zoomLevel = Math.max(this.zoomLevel, MIN_ZOOM);
-
-    // let backeupCanvas = document.createElement('canvas');
-    // backeupCanvas.width = canvas.width;
-    // backeupCanvas.height = canvas.height;
-    // let newContext = backeupCanvas.getContext('2d');
-    // const lastImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    // newContext.putImageData(lastImageData, 0, 0
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = 'white';

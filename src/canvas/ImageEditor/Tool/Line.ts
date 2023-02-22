@@ -10,11 +10,11 @@ class LineTool {
   private isDrawStart: boolean = false;
   views: Views;
   constructor(views: Views) {
-    debugger;
+    this.canvas = views.drawCanvas;
     this.ctx = views.drawCtx;
     this.lastPoint = new Point(0, 0);
     this.setColor('white');
-    this.canvas = views.drawCanvas;
+
     this.views = views;
     this.registerEvent(views.canvas);
   }
@@ -55,17 +55,12 @@ class LineTool {
     if (!this.isDrawStart) return;
 
     this.draw(e);
-    this.clearCanvas();
   };
 
   mouseUp = (e) => {
     e.preventDefault();
 
     this.isDrawStart = false;
-  };
-
-  clearCanvas = () => {
-    // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   };
 
   registerEvent(canvas) {

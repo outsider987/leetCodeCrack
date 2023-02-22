@@ -10,15 +10,15 @@ class EraseTool {
   private isDrawStart: boolean = false;
   views: Views;
   constructor(views: Views) {
-    this.ctx = views.ctx;
-    this.size = 5;
-    this.canvas = views.canvas;
-    this.registerEvent(views.canvas);
+    this.canvas = views.bufferCanvas;
+    this.ctx = views.bufferCtx;
     this.lastPoint = new Point(0, 0);
     this.views = views;
+    this.registerEvent(views.canvas);
   }
   erase(point: Point) {
-    const { ctx } = this;
+    const { ctx, views } = this;
+
     ctx.globalCompositeOperation = 'destination-out';
 
     ctx.beginPath();
@@ -29,19 +29,22 @@ class EraseTool {
     ctx.lineCap = 'round';
     ctx.stroke();
     this.lastPoint.setPoint(point.x, point.y);
+    views.draw();
   }
 
   mouseDown = (e) => {
     e.preventDefault();
     this.isDrawStart = true;
-    const clientPoint = getClientOffset(e, this.canvas);
+    const { canvas, views } = this;
+    const clientPoint = getClientOffset(e, views.canvas, views.zoomLevel);
     this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
   };
 
   mouseMove = (e) => {
+    const { canvas, ctx, views } = this;
     e.preventDefault();
     if (!this.isDrawStart) return;
-    const clientPoint = getClientOffset(e, this.canvas);
+    const clientPoint = getClientOffset(e, views.canvas, views.zoomLevel);
     const point = new Point(clientPoint.x, clientPoint.y);
 
     this.erase(point);
@@ -49,9 +52,9 @@ class EraseTool {
 
   mouseUp = (e) => {
     e.preventDefault();
-    const { ctx } = this;
+    const { ctx, views } = this;
     ctx.globalCompositeOperation = 'source-over';
-
+    views.draw();
     this.isDrawStart = false;
   };
 
