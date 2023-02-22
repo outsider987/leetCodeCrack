@@ -1,5 +1,6 @@
 import { getClientOffset } from '~/utils/canvas/coordinate';
 import Point from '../Point';
+import Views from '../Canvas/Canvas';
 
 class EraseTool {
   ctx: CanvasRenderingContext2D;
@@ -7,12 +8,14 @@ class EraseTool {
   canvas: HTMLCanvasElement;
   lastPoint: Point;
   private isDrawStart: boolean = false;
-  constructor(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
-    this.ctx = ctx;
+  views: Views;
+  constructor(views: Views) {
+    this.ctx = views.ctx;
     this.size = 5;
-    this.canvas = canvas;
-    this.registerEvent(canvas);
+    this.canvas = views.canvas;
+    this.registerEvent(views.canvas);
     this.lastPoint = new Point(0, 0);
+    this.views = views;
   }
   erase(point: Point) {
     const { ctx } = this;
@@ -28,19 +31,6 @@ class EraseTool {
     this.lastPoint.setPoint(point.x, point.y);
   }
 
-  getClientOffset = (e) => {
-    const { canvas } = this;
-    const { pageX, pageY } = e.touches ? e.touches[0] : e;
-    const rect = canvas.getBoundingClientRect();
-    const x = pageX - rect.left;
-    const y = pageY - rect.top;
-
-    return {
-      x,
-      y,
-    };
-  };
-
   mouseDown = (e) => {
     e.preventDefault();
     this.isDrawStart = true;
@@ -51,7 +41,7 @@ class EraseTool {
   mouseMove = (e) => {
     e.preventDefault();
     if (!this.isDrawStart) return;
-    const clientPoint = this.getClientOffset(e);
+    const clientPoint = getClientOffset(e, this.canvas);
     const point = new Point(clientPoint.x, clientPoint.y);
 
     this.erase(point);

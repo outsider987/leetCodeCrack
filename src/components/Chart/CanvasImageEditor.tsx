@@ -52,19 +52,18 @@ const CanvasImageEditor = (props: CanvasProps) => {
 
   useEffect(() => {
     if (canvasRef.current && file !== null) {
-      const canvas = paintCanvasRef.current;
-      const ctx = paintCanvasRef.current.getContext('2d');
+      // const ctx = paintCanvasRef.current.getContext('2d');
       const ToolClass = dynamicClass(mode);
-      let tool = new ToolClass(ctx, canvas);
+      let tool = new ToolClass(ViewsRef.current);
       return () => {
-        tool.unRegisterEvent(canvas);
+        tool.unRegisterEvent(paintCanvasRef.current);
       };
     }
   }, [mode]);
 
   useEffect(() => {
     if (canvasRef.current) {
-      ViewsRef.current.initializeCanvas(canvasRef.current, bufferCanvasRef.current, paintCanvasRef.current);
+      ViewsRef.current.initializeCanvas(canvasRef.current, bufferCanvasRef.current);
       // requestRef.current = requestAnimationFrame(ViewsRef.current.draw);
       // return () => cancelAnimationFrame(requestRef.current);
       // function start() {
@@ -95,8 +94,14 @@ const CanvasImageEditor = (props: CanvasProps) => {
         )}
 
         <canvas {...props} ref={canvasRef} width={window.innerWidth * 0.6} height={window.innerHeight / 2} />
-        <canvas {...props} ref={bufferCanvasRef} width={window.innerWidth * 0.6} height={window.innerHeight / 2} />
-        <canvas {...props} ref={paintCanvasRef} width={window.innerWidth * 0.6} height={window.innerHeight / 2} />
+        {/* <canvas {...props} ref={bufferCanvasRef} width={window.innerWidth * 0.6} height={window.innerHeight / 2} />
+        <canvas
+          {...props}
+          id="paint"
+          ref={paintCanvasRef}
+          width={window.innerWidth * 0.6}
+          height={window.innerHeight / 2}
+        /> */}
       </div>
       <div className="flex w-full space-x-3">
         <Button onClick={onDeleteFile}> delete File</Button>

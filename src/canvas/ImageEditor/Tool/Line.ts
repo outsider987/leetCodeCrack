@@ -1,5 +1,6 @@
 import { getClientOffset } from '~/utils/canvas/coordinate';
 import Point from './../Point';
+import Views from '../Canvas/Canvas';
 
 class LineTool {
   ctx: CanvasRenderingContext2D;
@@ -7,16 +8,21 @@ class LineTool {
   canvas: HTMLCanvasElement;
   lastPoint: Point;
   private isDrawStart: boolean = false;
-  constructor(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
-    this.ctx = ctx;
+  views: Views;
+  constructor(views: Views) {
+    debugger;
+    this.ctx = views.drawCtx;
     this.lastPoint = new Point(0, 0);
     this.setColor('white');
-    this.canvas = canvas;
-    this.registerEvent(canvas);
+    this.canvas = views.drawCanvas;
+    this.views = views;
+    this.registerEvent(views.canvas);
   }
   draw(e) {
-    const { canvas, ctx } = this;
-    const clientPoint = getClientOffset(e, canvas);
+    const { canvas, ctx, views } = this;
+
+    const clientPoint = getClientOffset(e, views.canvas, views.zoomLevel);
+    console.log(clientPoint);
     ctx.beginPath();
 
     ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
@@ -27,20 +33,9 @@ class LineTool {
     ctx.stroke();
 
     this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
+    this.views.draw();
   }
 
-  getClientOffset = (e) => {
-    const { canvas } = this;
-    const { pageX, pageY } = e.touches ? e.touches[0] : e;
-    const rect = canvas.getBoundingClientRect();
-    const x = pageX - rect.left;
-    const y = pageY - rect.top;
-
-    return {
-      x,
-      y,
-    };
-  };
   setColor = (color) => {
     this.color = color;
   };
@@ -48,7 +43,10 @@ class LineTool {
   mouseDown = (e) => {
     e.preventDefault();
     this.isDrawStart = true;
-    const clientPoint = getClientOffset(e, this.canvas);
+    const { canvas, views } = this;
+    console.log(views.zoomLevel);
+    const clientPoint = getClientOffset(e, views.canvas, views.zoomLevel);
+
     this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
   };
 
