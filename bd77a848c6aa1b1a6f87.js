@@ -21,40 +21,6 @@ class Views {
         this.zoomLevel = 1;
         this.lastView = null;
         this.layerArray = [];
-        // zoom(e) {
-        //   const { canvas, ctx, bufferCanvas, bufferCtx } = this;
-        //   let MAX_ZOOM = 5;
-        //   let MIN_ZOOM = 0.1;
-        //   let SCROLL_SENSITIVITY = 0.0005;
-        //   const clientPoint = getClientOffset(e, canvas);
-        //   const zoomAmount = SCROLL_SENSITIVITY * e.deltaY;
-        //   this.zoomLevel += zoomAmount;
-        //   this.zoomLevel = Math.min(this.zoomLevel, MAX_ZOOM);
-        //   this.zoomLevel = Math.max(this.zoomLevel, MIN_ZOOM);
-        //   let backeupCanvas = document.createElement('canvas');
-        //   backeupCanvas.width = canvas.width;
-        //   backeupCanvas.height = canvas.height;
-        //   let newContext = backeupCanvas.getContext('2d');
-        //   const lastImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        //   newContext.putImageData(lastImageData, 0, 0);
-        //   ctx.clearRect(0, 0, canvas.width, canvas.height);
-        //   ctx.fillStyle = 'white';
-        //   ctx.fillRect(0, 0, canvas.width, canvas.height);
-        //   ctx.translate(clientPoint.x, clientPoint.y);
-        //   ctx.scale(this.zoomLevel, this.zoomLevel);
-        //   ctx.translate(-clientPoint.x, -clientPoint.y);
-        //   ctx.drawImage(
-        //     bufferCanvas,
-        //     0,
-        //     0,
-        //     // backeupCanvas.width,
-        //     // backeupCanvas.height,
-        //     // x,
-        //     // y,
-        //     // backeupCanvas.width * ratio,
-        //     // backeupCanvas.height * ratio,
-        //   );
-        // }
         this.mouseDown = (e) => {
             // e.preventDefault();
             const clientPoint = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getClientOffset)(e, this.canvas);
@@ -71,25 +37,28 @@ class Views {
         this.mouseUp = (e) => {
             // e.preventDefault();
             this.isDrawStart = false;
+            this.draw();
         };
         this.clearCanvas = () => {
             // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         };
     }
-    initializeCanvas(canvas, bufferCanvasRef, paintCanvasRef) {
+    initializeCanvas(canvas, bufferCanvasRef) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         // this.bufferCanvas = document.createElement('canvas');
-        this.bufferCanvas = bufferCanvasRef;
+        // this.bufferCanvas = bufferCanvasRef;
+        this.bufferCanvas = document.createElement('canvas');
         this.bufferCanvas.width = canvas.width;
         this.bufferCanvas.height = canvas.height;
         this.bufferCtx = this.bufferCanvas.getContext('2d');
-        // this.drawCanvas = document.createElement('canvas');
-        this.drawCanvas = paintCanvasRef;
+        // this.drawCanvas = document.getElementById('paint') as HTMLCanvasElement;
+        this.drawCanvas = document.createElement('canvas');
         this.drawCanvas.width = canvas.width;
         this.drawCanvas.height = canvas.height;
         this.drawCtx = this.drawCanvas.getContext('2d');
-        this.registerEvent(this.bufferCanvas);
+        this.zoomLevel = 1;
+        this.registerEvent(this.canvas);
     }
     async loadFile(file) {
         const { bufferCanvas, bufferCtx } = this;
@@ -126,17 +95,6 @@ class Views {
         ctx.translate(clientPoint.x, clientPoint.y);
         ctx.scale(this.zoomLevel, this.zoomLevel);
         ctx.translate(-clientPoint.x, -clientPoint.y);
-        // ctx.drawImage(
-        //   bufferCanvas,
-        //   0,
-        //   0,
-        //   // backeupCanvas.width,
-        //   // backeupCanvas.height,
-        //   // x,
-        //   // y,
-        //   // backeupCanvas.width * ratio,
-        //   // backeupCanvas.height * ratio,
-        // );
         this.draw();
     }
     registerEvent(canvas) {
@@ -259,19 +217,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class EraseTool {
-    constructor(ctx, canvas) {
+    constructor(views) {
         this.isDrawStart = false;
-        this.getClientOffset = (e) => {
-            const { canvas } = this;
-            const { pageX, pageY } = e.touches ? e.touches[0] : e;
-            const rect = canvas.getBoundingClientRect();
-            const x = pageX - rect.left;
-            const y = pageY - rect.top;
-            return {
-                x,
-                y,
-            };
-        };
         this.mouseDown = (e) => {
             e.preventDefault();
             this.isDrawStart = true;
@@ -282,7 +229,7 @@ class EraseTool {
             e.preventDefault();
             if (!this.isDrawStart)
                 return;
-            const clientPoint = this.getClientOffset(e);
+            const clientPoint = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getClientOffset)(e, this.canvas);
             const point = new _Point__WEBPACK_IMPORTED_MODULE_1__["default"](clientPoint.x, clientPoint.y);
             this.erase(point);
         };
@@ -292,11 +239,12 @@ class EraseTool {
             ctx.globalCompositeOperation = 'source-over';
             this.isDrawStart = false;
         };
-        this.ctx = ctx;
+        this.ctx = views.ctx;
         this.size = 5;
-        this.canvas = canvas;
-        this.registerEvent(canvas);
+        this.canvas = views.canvas;
+        this.registerEvent(views.canvas);
         this.lastPoint = new _Point__WEBPACK_IMPORTED_MODULE_1__["default"](0, 0);
+        this.views = views;
     }
     erase(point) {
         const { ctx } = this;
@@ -346,26 +294,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class LineTool {
-    constructor(ctx, canvas) {
+    constructor(views) {
         this.isDrawStart = false;
-        this.getClientOffset = (e) => {
-            const { canvas } = this;
-            const { pageX, pageY } = e.touches ? e.touches[0] : e;
-            const rect = canvas.getBoundingClientRect();
-            const x = pageX - rect.left;
-            const y = pageY - rect.top;
-            return {
-                x,
-                y,
-            };
-        };
         this.setColor = (color) => {
             this.color = color;
         };
         this.mouseDown = (e) => {
             e.preventDefault();
             this.isDrawStart = true;
-            const clientPoint = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getClientOffset)(e, this.canvas);
+            const { canvas, views } = this;
+            console.log(views.zoomLevel);
+            const clientPoint = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getClientOffset)(e, views.canvas, views.zoomLevel);
             this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
         };
         this.mouseMove = (e) => {
@@ -382,15 +321,18 @@ class LineTool {
         this.clearCanvas = () => {
             // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         };
-        this.ctx = ctx;
+        debugger;
+        this.ctx = views.drawCtx;
         this.lastPoint = new _Point__WEBPACK_IMPORTED_MODULE_1__["default"](0, 0);
         this.setColor('white');
-        this.canvas = canvas;
-        this.registerEvent(canvas);
+        this.canvas = views.drawCanvas;
+        this.views = views;
+        this.registerEvent(views.canvas);
     }
     draw(e) {
-        const { canvas, ctx } = this;
-        const clientPoint = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getClientOffset)(e, canvas);
+        const { canvas, ctx, views } = this;
+        const clientPoint = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getClientOffset)(e, views.canvas, views.zoomLevel);
+        console.log(clientPoint);
         ctx.beginPath();
         ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
         ctx.lineTo(clientPoint.x, clientPoint.y);
@@ -399,6 +341,7 @@ class LineTool {
         ctx.lineCap = 'round';
         ctx.stroke();
         this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
+        this.views.draw();
     }
     registerEvent(canvas) {
         canvas.addEventListener('mousedown', this.mouseDown);
@@ -506,18 +449,17 @@ const CanvasImageEditor = (props) => {
     }, [file]);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         if (canvasRef.current && file !== null) {
-            const canvas = paintCanvasRef.current;
-            const ctx = paintCanvasRef.current.getContext('2d');
+            // const ctx = paintCanvasRef.current.getContext('2d');
             const ToolClass = (0,_canvas_ImageEditor_Tool__WEBPACK_IMPORTED_MODULE_2__["default"])(mode);
-            let tool = new ToolClass(ctx, canvas);
+            let tool = new ToolClass(ViewsRef.current);
             return () => {
-                tool.unRegisterEvent(canvas);
+                tool.unRegisterEvent(paintCanvasRef.current);
             };
         }
     }, [mode]);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         if (canvasRef.current) {
-            ViewsRef.current.initializeCanvas(canvasRef.current, bufferCanvasRef.current, paintCanvasRef.current);
+            ViewsRef.current.initializeCanvas(canvasRef.current, bufferCanvasRef.current);
             // requestRef.current = requestAnimationFrame(ViewsRef.current.draw);
             // return () => cancelAnimationFrame(requestRef.current);
             // function start() {
@@ -535,9 +477,7 @@ const CanvasImageEditor = (props) => {
             file === null && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "absolute inset-0 flex items-center justify-center" },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " text-white" }, "please click or drag file"),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { onChange: onClickFile, className: " absolute inset-0 z-10 cursor-pointer opacity-0", type: "file", accept: "image/*" }))),
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { ...props, ref: canvasRef, width: window.innerWidth * 0.6, height: window.innerHeight / 2 }),
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { ...props, ref: bufferCanvasRef, width: window.innerWidth * 0.6, height: window.innerHeight / 2 }),
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { ...props, ref: paintCanvasRef, width: window.innerWidth * 0.6, height: window.innerHeight / 2 })),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { ...props, ref: canvasRef, width: window.innerWidth * 0.6, height: window.innerHeight / 2 })),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-full space-x-3" },
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button__WEBPACK_IMPORTED_MODULE_1__["default"], { onClick: onDeleteFile }, " delete File"),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button__WEBPACK_IMPORTED_MODULE_1__["default"], { onClick: onDraw }, " draw mode"),
@@ -582,11 +522,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getClientOffset": () => (/* binding */ getClientOffset)
 /* harmony export */ });
-function getClientOffset(e, canvas) {
+function getClientOffset(e, canvas, scale = 1) {
     const { pageX, pageY } = e.touches ? e.touches[0] : e;
     const rect = canvas.getBoundingClientRect();
-    const x = pageX - rect.left;
-    const y = pageY - rect.top;
+    const x = (pageX - rect.left) / scale;
+    const y = (pageY - rect.top) / scale;
     return {
         x,
         y,
@@ -597,4 +537,4 @@ function getClientOffset(e, canvas) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/ae9bf7463ba1df6d33b1.js.map
+//# sourceMappingURL=js/bd77a848c6aa1b1a6f87.js.map
