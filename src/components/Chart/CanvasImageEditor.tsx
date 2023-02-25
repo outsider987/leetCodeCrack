@@ -48,6 +48,7 @@ const CanvasImageEditor = (props: CanvasProps) => {
     if (canvasRef.current && file !== null) {
       ViewsRef.current.loadFile(file);
     }
+    return () => ViewsRef.current.cleanCanvas();
   }, [file]);
 
   useEffect(() => {
@@ -94,13 +95,13 @@ const CanvasImageEditor = (props: CanvasProps) => {
         )}
 
         <canvas {...props} ref={canvasRef} width={window.innerWidth * 0.6} height={window.innerHeight / 2} />
-        <canvas
+        {/* <canvas
           {...props}
           id="buffer"
           ref={bufferCanvasRef}
           width={window.innerWidth * 0.6}
           height={window.innerHeight / 2}
-        />
+        /> */}
         {/* <canvas
           {...props}
           id="paint"

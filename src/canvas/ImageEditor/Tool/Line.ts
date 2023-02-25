@@ -13,7 +13,7 @@ class LineTool {
     this.canvas = views.drawCanvas;
     this.ctx = views.drawCtx;
     this.lastPoint = new Point(0, 0);
-    this.setColor('white');
+    this.setColor('black');
 
     this.views = views;
     this.registerEvent(views.canvas);
@@ -21,16 +21,20 @@ class LineTool {
   draw(e) {
     const { canvas, ctx, views } = this;
 
-    const clientPoint = getClientOffset(e, views.canvas, views.zoomLevel);
-    console.log(clientPoint);
-    ctx.beginPath();
+    const clientPoint = getClientOffset(e, views.canvas, views.zoomLevel, {
+      x: views.cameraOffsetX,
+      y: views.cameraOffsetY,
+    });
 
-    ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
-    ctx.lineTo(clientPoint.x, clientPoint.y);
-    ctx.strokeStyle = this.color;
-    ctx.lineWidth = 5;
-    ctx.lineCap = 'round';
-    ctx.stroke();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+    views.bufferCtx.beginPath;
+    views.bufferCtx.moveTo(this.lastPoint.x, this.lastPoint.y);
+    views.bufferCtx.lineTo(clientPoint.x, clientPoint.y);
+    views.bufferCtx.strokeStyle = this.color;
+    views.bufferCtx.lineWidth = 5;
+    views.bufferCtx.lineCap = 'round';
+    views.bufferCtx.stroke();
 
     this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
     this.views.draw();
@@ -44,8 +48,11 @@ class LineTool {
     e.preventDefault();
     this.isDrawStart = true;
     const { canvas, views } = this;
-    console.log(views.zoomLevel);
-    const clientPoint = getClientOffset(e, views.canvas, views.zoomLevel);
+
+    const clientPoint = getClientOffset(e, views.canvas, views.zoomLevel, {
+      x: views.cameraOffsetX,
+      y: views.cameraOffsetY,
+    });
 
     this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
   };

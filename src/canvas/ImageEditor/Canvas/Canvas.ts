@@ -14,6 +14,9 @@ class Views {
   zoomLevel = 1;
   lastView = null;
   layerArray: Layer[] = [];
+  cameraOffsetX: number = 0;
+  cameraOffsetY: number = 0;
+
   constructor() {}
 
   initializeCanvas(canvas: HTMLCanvasElement) {
@@ -35,6 +38,8 @@ class Views {
     this.drawCtx = this.drawCanvas.getContext('2d');
     this.zoomLevel = 1;
     this.registerEvent(this.canvas);
+    this.cameraOffsetX = canvas.width / 2;
+    this.cameraOffsetY = canvas.height / 2;
   }
 
   async loadFile(file: File) {
@@ -46,32 +51,33 @@ class Views {
   }
 
   draw() {
-    const { ctx, bufferCanvas, drawCanvas } = this;
+    const { ctx, bufferCanvas, drawCanvas, canvas, bufferCtx } = this;
+    // bufferCtx.drawImage(drawCanvas, 0, 0);
     ctx.drawImage(bufferCanvas, 0, 0);
-    ctx.drawImage(drawCanvas, 0, 0);
+
+    // ctx.drawImage(canvas, 0, 0);
+    // ctx.drawImage(drawCanvas, 0, 0);
   }
 
   zoom(e) {
-    const { canvas, ctx, bufferCanvas, bufferCtx } = this;
+    const { canvas, ctx, bufferCanvas, bufferCtx, drawCtx, cameraOffsetX, cameraOffsetY } = this;
     let MAX_ZOOM = 5;
     let MIN_ZOOM = 0.1;
     let SCROLL_SENSITIVITY = 0.0005;
 
     const clientPoint = getClientOffset(e, canvas);
     const zoomAmount = SCROLL_SENSITIVITY * e.deltaY;
-    this.zoomLevel += zoomAmount;
+    this.zoomLevel -= zoomAmount;
     this.zoomLevel = Math.min(this.zoomLevel, MAX_ZOOM);
     this.zoomLevel = Math.max(this.zoomLevel, MIN_ZOOM);
-
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'grey';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.translate(clientPoint.x, clientPoint.y);
+    ctx.translate(canvas.width / 2, canvas.height / 2);
     ctx.scale(this.zoomLevel, this.zoomLevel);
-    ctx.translate(-clientPoint.x, -clientPoint.y);
-
+    ctx.translate(-cameraOffsetX, -cameraOffsetY);
     this.draw();
   }
 
@@ -88,19 +94,21 @@ class Views {
     if (!this.isDrawStart) return;
 
     // this.lineCoordinates = this.getClientOffset(event);
-    this.clearCanvas();
   };
 
   mouseUp = (e) => {
     // e.preventDefault();
 
     this.isDrawStart = false;
-    this.draw();
+    // this.draw();
   };
 
-  clearCanvas = () => {
-    // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  };
+  cleanCanvas() {
+    const { canvas, ctx, bufferCanvas, bufferCtx, drawCtx } = this;
+    // debugger;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
 
   registerEvent(canvas) {
     // canvas.addEventListener('mousedown', this.mouseDown);
