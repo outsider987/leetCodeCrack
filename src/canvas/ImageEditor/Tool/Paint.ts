@@ -1,8 +1,8 @@
-import { getClientOffset } from '~/utils/canvas/coordinate';
-import Point from './../Point';
+import { getClientOffset, getTransformedPaintPoint, getTransformedPoint } from '~/utils/canvas/coordinate';
+import Point from '../Point';
 import Views from '../Canvas/Canvas';
 
-class LineTool {
+class PaintTool {
   ctx: CanvasRenderingContext2D;
   color: string;
   canvas: HTMLCanvasElement;
@@ -21,22 +21,19 @@ class LineTool {
   draw(e) {
     const { canvas, ctx, views } = this;
 
-    const clientPoint = getClientOffset(e, views.canvas, views.zoomLevel, {
-      x: views.cameraOffsetX,
-      y: views.cameraOffsetY,
-    });
+    const currentTransformedCursor = getTransformedPaintPoint(e, canvas, ctx);
 
     ctx.setTransform(1, 0, 0, 1, 0, 0);
 
     views.bufferCtx.beginPath;
     views.bufferCtx.moveTo(this.lastPoint.x, this.lastPoint.y);
-    views.bufferCtx.lineTo(clientPoint.x, clientPoint.y);
+    views.bufferCtx.lineTo(currentTransformedCursor.x, currentTransformedCursor.y);
     views.bufferCtx.strokeStyle = this.color;
     views.bufferCtx.lineWidth = 5;
     views.bufferCtx.lineCap = 'round';
     views.bufferCtx.stroke();
 
-    this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
+    this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
     this.views.draw();
   }
 
@@ -47,14 +44,10 @@ class LineTool {
   mouseDown = (e) => {
     e.preventDefault();
     this.isDrawStart = true;
-    const { canvas, views } = this;
+    const { canvas, views, ctx } = this;
 
-    const clientPoint = getClientOffset(e, views.canvas, views.zoomLevel, {
-      x: views.cameraOffsetX,
-      y: views.cameraOffsetY,
-    });
-
-    this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
+    const currentTransformedCursor = getTransformedPaintPoint(e, canvas, ctx);
+    this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
   };
 
   mouseMove = (e) => {
@@ -87,4 +80,4 @@ class LineTool {
     canvas.removeEventListener('touchend', this.mouseUp);
   }
 }
-export default LineTool;
+export default PaintTool;

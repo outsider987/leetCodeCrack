@@ -21,3 +21,32 @@ export function getClientOffset(e, canvas: HTMLCanvasElement, scale = 1, offsetP
     y,
   };
 }
+
+// export function getTransformedPoint(e, ctx: CanvasRenderingContext2D) {
+//   const { offsetx: pageX, offsetY: pageY } = e.touches ? e.touches[0] : e;
+//   const originalPoint = new DOMPoint(e.offsetx, e.offsetY);
+//   return ctx.getTransform().invertSelf().transformPoint(originalPoint);
+// }
+
+export function getTransformedPoint(e, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+  const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
+  const originalPoint = new DOMPoint(offsetX, offsetY);
+  return ctx.getTransform().invertSelf().transformPoint(originalPoint);
+}
+
+export function getTransformedPaintPoint(e, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, scale = 1) {
+  const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
+  const rect = canvas.getBoundingClientRect();
+
+  console.log(ctx.getTransform());
+
+  const originalPoint = new DOMPoint(offsetX - rect.left, offsetY, rect.top);
+  return ctx.getTransform().invertSelf().transformPoint(originalPoint);
+}
+
+export function getTransformedPoints(e, canvas, ctx) {
+  const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
+  const point = new DOMPoint(offsetX, offsetY);
+  const matrix = ctx.getTransform().inverse();
+  return point.matrixTransform(matrix);
+}

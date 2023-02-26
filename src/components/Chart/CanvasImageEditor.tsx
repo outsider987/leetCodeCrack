@@ -25,7 +25,7 @@ const CanvasImageEditor = (props: CanvasProps) => {
     setFile(null);
   };
   const onDraw = () => {
-    setMode('LineTool');
+    setMode('PaintTool');
   };
   const onErase = () => {
     setMode('EraseTool');

@@ -1,4 +1,4 @@
-import { getClientOffset } from '~/utils/canvas/coordinate';
+import { getClientOffset, getTransformedPoint } from '~/utils/canvas/coordinate';
 import Layer from '../Layer/Layer';
 import Point from './../Point';
 
@@ -60,24 +60,34 @@ class Views {
   }
 
   zoom(e) {
-    const { canvas, ctx, bufferCanvas, bufferCtx, drawCtx, cameraOffsetX, cameraOffsetY } = this;
-    let MAX_ZOOM = 5;
-    let MIN_ZOOM = 0.1;
-    let SCROLL_SENSITIVITY = 0.0005;
+    // const { canvas, ctx, bufferCanvas, bufferCtx, drawCtx, cameraOffsetX, cameraOffsetY } = this;
+    // let MAX_ZOOM = 5;
+    // let MIN_ZOOM = 0.1;
+    // let SCROLL_SENSITIVITY = 0.0005;
 
-    const clientPoint = getClientOffset(e, canvas);
-    const zoomAmount = SCROLL_SENSITIVITY * e.deltaY;
-    this.zoomLevel -= zoomAmount;
-    this.zoomLevel = Math.min(this.zoomLevel, MAX_ZOOM);
-    this.zoomLevel = Math.max(this.zoomLevel, MIN_ZOOM);
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    // const clientPoint = getClientOffset(e, canvas);
+    // const zoomAmount = SCROLL_SENSITIVITY * e.deltaY;
+    // this.zoomLevel -= zoomAmount;
+    // this.zoomLevel = Math.min(this.zoomLevel, MAX_ZOOM);
+    // this.zoomLevel = Math.max(this.zoomLevel, MIN_ZOOM);
+
+    // ctx.translate(canvas.width / 2, canvas.height / 2);
+    // ctx.scale(this.zoomLevel, this.zoomLevel);
+    // ctx.translate(-cameraOffsetX, -cameraOffsetY);
+    // this.draw();
+    const { canvas, ctx, bufferCanvas, bufferCtx, drawCtx, cameraOffsetX, cameraOffsetY } = this;
+    const currentTransformedCursor = getTransformedPoint(e, canvas, this.ctx);
+
+    const zoom = e.deltaY < 0 ? 1.1 : 0.9;
+
+    // ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = 'grey';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.translate(canvas.width / 2, canvas.height / 2);
-    ctx.scale(this.zoomLevel, this.zoomLevel);
-    ctx.translate(-cameraOffsetX, -cameraOffsetY);
+    ctx.translate(currentTransformedCursor.x, currentTransformedCursor.y);
+    ctx.scale(zoom, zoom);
+    ctx.translate(-currentTransformedCursor.x, -currentTransformedCursor.y);
     this.draw();
   }
 
@@ -90,18 +100,10 @@ class Views {
   };
 
   mouseMove = (e) => {
-    // e.preventDefault();
-    if (!this.isDrawStart) return;
-
-    // this.lineCoordinates = this.getClientOffset(event);
+    const transformedCursorPosition = getTransformedPoint(e, this.canvas, this.ctx);
   };
 
-  mouseUp = (e) => {
-    // e.preventDefault();
-
-    this.isDrawStart = false;
-    // this.draw();
-  };
+  mouseUp = (e) => {};
 
   cleanCanvas() {
     const { canvas, ctx, bufferCanvas, bufferCtx, drawCtx } = this;
