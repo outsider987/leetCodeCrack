@@ -30,16 +30,9 @@ class Views {
             this.isDrawStart = true;
         };
         this.mouseMove = (e) => {
-            // e.preventDefault();
-            if (!this.isDrawStart)
-                return;
-            // this.lineCoordinates = this.getClientOffset(event);
+            const transformedCursorPosition = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoint)(e, this.canvas, this.ctx);
         };
-        this.mouseUp = (e) => {
-            // e.preventDefault();
-            this.isDrawStart = false;
-            // this.draw();
-        };
+        this.mouseUp = (e) => { };
     }
     initializeCanvas(canvas) {
         this.canvas = canvas;
@@ -76,22 +69,29 @@ class Views {
         // ctx.drawImage(drawCanvas, 0, 0);
     }
     zoom(e) {
+        // const { canvas, ctx, bufferCanvas, bufferCtx, drawCtx, cameraOffsetX, cameraOffsetY } = this;
+        // let MAX_ZOOM = 5;
+        // let MIN_ZOOM = 0.1;
+        // let SCROLL_SENSITIVITY = 0.0005;
+        // const clientPoint = getClientOffset(e, canvas);
+        // const zoomAmount = SCROLL_SENSITIVITY * e.deltaY;
+        // this.zoomLevel -= zoomAmount;
+        // this.zoomLevel = Math.min(this.zoomLevel, MAX_ZOOM);
+        // this.zoomLevel = Math.max(this.zoomLevel, MIN_ZOOM);
+        // ctx.translate(canvas.width / 2, canvas.height / 2);
+        // ctx.scale(this.zoomLevel, this.zoomLevel);
+        // ctx.translate(-cameraOffsetX, -cameraOffsetY);
+        // this.draw();
         const { canvas, ctx, bufferCanvas, bufferCtx, drawCtx, cameraOffsetX, cameraOffsetY } = this;
-        let MAX_ZOOM = 5;
-        let MIN_ZOOM = 0.1;
-        let SCROLL_SENSITIVITY = 0.0005;
-        const clientPoint = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getClientOffset)(e, canvas);
-        const zoomAmount = SCROLL_SENSITIVITY * e.deltaY;
-        this.zoomLevel -= zoomAmount;
-        this.zoomLevel = Math.min(this.zoomLevel, MAX_ZOOM);
-        this.zoomLevel = Math.max(this.zoomLevel, MIN_ZOOM);
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoint)(e, canvas, this.ctx);
+        const zoom = e.deltaY < 0 ? 1.1 : 0.9;
+        // ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = 'grey';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.translate(canvas.width / 2, canvas.height / 2);
-        ctx.scale(this.zoomLevel, this.zoomLevel);
-        ctx.translate(-cameraOffsetX, -cameraOffsetY);
+        ctx.translate(currentTransformedCursor.x, currentTransformedCursor.y);
+        ctx.scale(zoom, zoom);
+        ctx.translate(-currentTransformedCursor.x, -currentTransformedCursor.y);
         this.draw();
     }
     cleanCanvas() {
@@ -285,10 +285,10 @@ class EraseTool {
 
 /***/ }),
 
-/***/ "./src/canvas/ImageEditor/Tool/Line.ts":
-/*!*********************************************!*\
-  !*** ./src/canvas/ImageEditor/Tool/Line.ts ***!
-  \*********************************************/
+/***/ "./src/canvas/ImageEditor/Tool/Paint.ts":
+/*!**********************************************!*\
+  !*** ./src/canvas/ImageEditor/Tool/Paint.ts ***!
+  \**********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -296,10 +296,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ~/utils/canvas/coordinate */ "./src/utils/canvas/coordinate.ts");
-/* harmony import */ var _Point__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../Point */ "./src/canvas/ImageEditor/Point.ts");
+/* harmony import */ var _Point__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Point */ "./src/canvas/ImageEditor/Point.ts");
 
 
-class LineTool {
+class PaintTool {
     constructor(views) {
         this.isDrawStart = false;
         this.setColor = (color) => {
@@ -308,12 +308,9 @@ class LineTool {
         this.mouseDown = (e) => {
             e.preventDefault();
             this.isDrawStart = true;
-            const { canvas, views } = this;
-            const clientPoint = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getClientOffset)(e, views.canvas, views.zoomLevel, {
-                x: views.cameraOffsetX,
-                y: views.cameraOffsetY,
-            });
-            this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
+            const { canvas, views, ctx } = this;
+            const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPaintPoint)(e, canvas, ctx);
+            this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
         };
         this.mouseMove = (e) => {
             e.preventDefault();
@@ -334,19 +331,16 @@ class LineTool {
     }
     draw(e) {
         const { canvas, ctx, views } = this;
-        const clientPoint = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getClientOffset)(e, views.canvas, views.zoomLevel, {
-            x: views.cameraOffsetX,
-            y: views.cameraOffsetY,
-        });
+        const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPaintPoint)(e, canvas, ctx);
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         views.bufferCtx.beginPath;
         views.bufferCtx.moveTo(this.lastPoint.x, this.lastPoint.y);
-        views.bufferCtx.lineTo(clientPoint.x, clientPoint.y);
+        views.bufferCtx.lineTo(currentTransformedCursor.x, currentTransformedCursor.y);
         views.bufferCtx.strokeStyle = this.color;
         views.bufferCtx.lineWidth = 5;
         views.bufferCtx.lineCap = 'round';
         views.bufferCtx.stroke();
-        this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
+        this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
         this.views.draw();
     }
     registerEvent(canvas) {
@@ -366,7 +360,7 @@ class LineTool {
         canvas.removeEventListener('touchend', this.mouseUp);
     }
 }
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (LineTool);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PaintTool);
 
 
 /***/ }),
@@ -383,11 +377,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ dynamicClass)
 /* harmony export */ });
 /* harmony import */ var _Erase__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Erase */ "./src/canvas/ImageEditor/Tool/Erase.ts");
-/* harmony import */ var _Line__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Line */ "./src/canvas/ImageEditor/Tool/Line.ts");
+/* harmony import */ var _Paint__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Paint */ "./src/canvas/ImageEditor/Tool/Paint.ts");
 
 
 const Tools = {
-    LineTool: _Line__WEBPACK_IMPORTED_MODULE_1__["default"],
+    PaintTool: _Paint__WEBPACK_IMPORTED_MODULE_1__["default"],
     EraseTool: _Erase__WEBPACK_IMPORTED_MODULE_0__["default"],
 };
 function dynamicClass(name) {
@@ -431,7 +425,7 @@ const CanvasImageEditor = (props) => {
         setFile(null);
     };
     const onDraw = () => {
-        setMode('LineTool');
+        setMode('PaintTool');
     };
     const onErase = () => {
         setMode('EraseTool');
@@ -527,7 +521,10 @@ const ImageEditor = () => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getClientOffset": () => (/* binding */ getClientOffset)
+/* harmony export */   "getClientOffset": () => (/* binding */ getClientOffset),
+/* harmony export */   "getTransformedPaintPoint": () => (/* binding */ getTransformedPaintPoint),
+/* harmony export */   "getTransformedPoint": () => (/* binding */ getTransformedPoint),
+/* harmony export */   "getTransformedPoints": () => (/* binding */ getTransformedPoints)
 /* harmony export */ });
 function getClientOffset(e, canvas, scale = 1, offsetPoint) {
     const { pageX, pageY } = e.touches ? e.touches[0] : e;
@@ -548,9 +545,32 @@ function getClientOffset(e, canvas, scale = 1, offsetPoint) {
         y,
     };
 }
+// export function getTransformedPoint(e, ctx: CanvasRenderingContext2D) {
+//   const { offsetx: pageX, offsetY: pageY } = e.touches ? e.touches[0] : e;
+//   const originalPoint = new DOMPoint(e.offsetx, e.offsetY);
+//   return ctx.getTransform().invertSelf().transformPoint(originalPoint);
+// }
+function getTransformedPoint(e, canvas, ctx) {
+    const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
+    const originalPoint = new DOMPoint(offsetX, offsetY);
+    return ctx.getTransform().invertSelf().transformPoint(originalPoint);
+}
+function getTransformedPaintPoint(e, canvas, ctx, scale = 1) {
+    const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
+    const rect = canvas.getBoundingClientRect();
+    console.log(ctx.getTransform());
+    const originalPoint = new DOMPoint(offsetX - rect.left, offsetY, rect.top);
+    return ctx.getTransform().invertSelf().transformPoint(originalPoint);
+}
+function getTransformedPoints(e, canvas, ctx) {
+    const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
+    const point = new DOMPoint(offsetX, offsetY);
+    const matrix = ctx.getTransform().inverse();
+    return point.matrixTransform(matrix);
+}
 
 
 /***/ })
 
 }]);
-//# sourceMappingURL=js/ea876c2247721c26b19c.js.map
+//# sourceMappingURL=js/21489fd3a5f686b440ba.js.map
