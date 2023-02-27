@@ -84,6 +84,15 @@ class Views {
         // this.draw();
         const { canvas, ctx, bufferCanvas, bufferCtx, drawCtx, cameraOffsetX, cameraOffsetY } = this;
         const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoint)(e, canvas, this.ctx);
+        let MAX_ZOOM = 5;
+        let MIN_ZOOM = 0.1;
+        let SCROLL_SENSITIVITY = 0.0005;
+        const zoomAmount = SCROLL_SENSITIVITY * e.deltaY;
+        this.zoomLevel -= zoomAmount;
+        this.zoomLevel = Math.min(this.zoomLevel, MAX_ZOOM);
+        this.zoomLevel = Math.max(this.zoomLevel, MIN_ZOOM);
+        if (this.zoomLevel === MAX_ZOOM || this.zoomLevel === MIN_ZOOM)
+            return;
         const zoom = e.deltaY < 0 ? 1.1 : 0.9;
         // ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -309,7 +318,7 @@ class PaintTool {
             e.preventDefault();
             this.isDrawStart = true;
             const { canvas, views, ctx } = this;
-            const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPaintPoint)(e, canvas, ctx);
+            const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoints)(e, views.canvas, views.ctx);
             this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
         };
         this.mouseMove = (e) => {
@@ -331,8 +340,7 @@ class PaintTool {
     }
     draw(e) {
         const { canvas, ctx, views } = this;
-        const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPaintPoint)(e, canvas, ctx);
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoints)(e, views.canvas, views.ctx);
         views.bufferCtx.beginPath;
         views.bufferCtx.moveTo(this.lastPoint.x, this.lastPoint.y);
         views.bufferCtx.lineTo(currentTransformedCursor.x, currentTransformedCursor.y);
@@ -553,6 +561,8 @@ function getClientOffset(e, canvas, scale = 1, offsetPoint) {
 function getTransformedPoint(e, canvas, ctx) {
     const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
     const originalPoint = new DOMPoint(offsetX, offsetY);
+    // const t = ctx.getTransform();
+    // console.log(t);
     return ctx.getTransform().invertSelf().transformPoint(originalPoint);
 }
 function getTransformedPaintPoint(e, canvas, ctx, scale = 1) {
@@ -563,14 +573,19 @@ function getTransformedPaintPoint(e, canvas, ctx, scale = 1) {
     return ctx.getTransform().invertSelf().transformPoint(originalPoint);
 }
 function getTransformedPoints(e, canvas, ctx) {
-    const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
-    const point = new DOMPoint(offsetX, offsetY);
-    const matrix = ctx.getTransform().inverse();
-    return point.matrixTransform(matrix);
+    const { offsetX, offsetY, pageX, pageY } = e.touches ? e.touches[0] : e;
+    const originalPoint = new DOMPoint(offsetX, offsetY);
+    const point = ctx.getTransform().invertSelf().transformPoint(originalPoint);
+    const t = ctx.getTransform();
+    console.log(t);
+    const rect = canvas.getBoundingClientRect();
+    const x = point.x;
+    const y = point.y;
+    return { x: x, y: y };
 }
 
 
 /***/ })
 
 }]);
-//# sourceMappingURL=js/21489fd3a5f686b440ba.js.map
+//# sourceMappingURL=js/2a03907986528d730e05.js.map
