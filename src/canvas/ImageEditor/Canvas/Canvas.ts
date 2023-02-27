@@ -86,7 +86,7 @@ class Views {
     this.zoomLevel = Math.min(this.zoomLevel, MAX_ZOOM);
     this.zoomLevel = Math.max(this.zoomLevel, MIN_ZOOM);
 
-    if (this.zoomLevel === MAX_ZOOM || this.zoomLevel === MIN_ZOOM) return;
+    // if (this.zoomLevel === MAX_ZOOM || this.zoomLevel === MIN_ZOOM) return;
     const zoom = e.deltaY < 0 ? 1.1 : 0.9;
 
     // ctx.setTransform(1, 0, 0, 1, 0, 0);
