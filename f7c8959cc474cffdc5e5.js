@@ -91,8 +91,7 @@ class Views {
         this.zoomLevel -= zoomAmount;
         this.zoomLevel = Math.min(this.zoomLevel, MAX_ZOOM);
         this.zoomLevel = Math.max(this.zoomLevel, MIN_ZOOM);
-        if (this.zoomLevel === MAX_ZOOM || this.zoomLevel === MIN_ZOOM)
-            return;
+        // if (this.zoomLevel === MAX_ZOOM || this.zoomLevel === MIN_ZOOM) return;
         const zoom = e.deltaY < 0 ? 1.1 : 0.9;
         // ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -588,4 +587,4 @@ function getTransformedPoints(e, canvas, ctx) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/2a03907986528d730e05.js.map
+//# sourceMappingURL=js/f7c8959cc474cffdc5e5.js.map
