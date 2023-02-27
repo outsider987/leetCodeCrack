@@ -1,4 +1,9 @@
-import { getClientOffset, getTransformedPaintPoint, getTransformedPoint } from '~/utils/canvas/coordinate';
+import {
+  getClientOffset,
+  getTransformedPaintPoint,
+  getTransformedPoint,
+  getTransformedPoints,
+} from '~/utils/canvas/coordinate';
 import Point from '../Point';
 import Views from '../Canvas/Canvas';
 
@@ -21,9 +26,7 @@ class PaintTool {
   draw(e) {
     const { canvas, ctx, views } = this;
 
-    const currentTransformedCursor = getTransformedPaintPoint(e, canvas, ctx);
-
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    const currentTransformedCursor = getTransformedPoints(e, views.canvas, views.ctx);
 
     views.bufferCtx.beginPath;
     views.bufferCtx.moveTo(this.lastPoint.x, this.lastPoint.y);
@@ -46,7 +49,7 @@ class PaintTool {
     this.isDrawStart = true;
     const { canvas, views, ctx } = this;
 
-    const currentTransformedCursor = getTransformedPaintPoint(e, canvas, ctx);
+    const currentTransformedCursor = getTransformedPoints(e, views.canvas, views.ctx);
     this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
   };
 

@@ -31,6 +31,8 @@ export function getClientOffset(e, canvas: HTMLCanvasElement, scale = 1, offsetP
 export function getTransformedPoint(e, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
   const originalPoint = new DOMPoint(offsetX, offsetY);
+  // const t = ctx.getTransform();
+  // console.log(t);
   return ctx.getTransform().invertSelf().transformPoint(originalPoint);
 }
 
@@ -45,8 +47,13 @@ export function getTransformedPaintPoint(e, canvas: HTMLCanvasElement, ctx: Canv
 }
 
 export function getTransformedPoints(e, canvas, ctx) {
-  const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
-  const point = new DOMPoint(offsetX, offsetY);
-  const matrix = ctx.getTransform().inverse();
-  return point.matrixTransform(matrix);
+  const { offsetX, offsetY, pageX, pageY } = e.touches ? e.touches[0] : e;
+  const originalPoint = new DOMPoint(offsetX, offsetY);
+  const point = ctx.getTransform().invertSelf().transformPoint(originalPoint);
+  const t = ctx.getTransform();
+  console.log(t);
+  const rect = canvas.getBoundingClientRect();
+  const x = point.x;
+  const y = point.y;
+  return { x: x, y: y };
 }

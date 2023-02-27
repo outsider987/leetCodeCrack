@@ -78,6 +78,15 @@ class Views {
     const { canvas, ctx, bufferCanvas, bufferCtx, drawCtx, cameraOffsetX, cameraOffsetY } = this;
     const currentTransformedCursor = getTransformedPoint(e, canvas, this.ctx);
 
+    let MAX_ZOOM = 5;
+    let MIN_ZOOM = 0.1;
+    let SCROLL_SENSITIVITY = 0.0005;
+    const zoomAmount = SCROLL_SENSITIVITY * e.deltaY;
+    this.zoomLevel -= zoomAmount;
+    this.zoomLevel = Math.min(this.zoomLevel, MAX_ZOOM);
+    this.zoomLevel = Math.max(this.zoomLevel, MIN_ZOOM);
+
+    if (this.zoomLevel === MAX_ZOOM || this.zoomLevel === MIN_ZOOM) return;
     const zoom = e.deltaY < 0 ? 1.1 : 0.9;
 
     // ctx.setTransform(1, 0, 0, 1, 0, 0);
