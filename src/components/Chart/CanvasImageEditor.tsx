@@ -5,7 +5,7 @@ import { cv } from 'react-opencv';
 import dynamicClass, { Tools } from '~/canvas/ImageEditor/Tool';
 import { getClientOffset } from '~/utils/canvas/coordinate';
 import Views from '~/canvas/ImageEditor/Canvas/Canvas';
-import Layer from '~/canvas/ImageEditor/Layer/Layer';
+import FileLayer from '~/canvas/ImageEditor/Layer/FileLayer';
 
 interface CanvasProps extends React.HTMLAttributes<HTMLCanvasElement> {}
 
@@ -30,19 +30,6 @@ const CanvasImageEditor = (props: CanvasProps) => {
   const onErase = () => {
     setMode('EraseTool');
   };
-
-  // useEffect(() => {
-  //   if (canvasRef.current && file !== null) {
-  //     const canvas = canvasRef.current;
-  //     const ctx = canvasRef.current.getContext('2d');
-  //     const main = new Views(ctx, canvas);
-  //     main.loadFile(file);
-  //   } else {
-  //     const canvas = canvasRef.current;
-  //     const ctx = canvasRef.current.getContext('2d');
-  //     ctx.clearRect(0, 0, canvas.width, canvas.height);
-  //   }
-  // }, [file]);
 
   useEffect(() => {
     if (canvasRef.current && file !== null) {
@@ -95,13 +82,13 @@ const CanvasImageEditor = (props: CanvasProps) => {
         )}
 
         <canvas {...props} ref={canvasRef} width={window.innerWidth * 0.6} height={window.innerHeight / 2} />
-        {/* <canvas
+        <canvas
           {...props}
           id="buffer"
           ref={bufferCanvasRef}
           width={window.innerWidth * 0.6}
           height={window.innerHeight / 2}
-        /> */}
+        />
         {/* <canvas
           {...props}
           id="paint"

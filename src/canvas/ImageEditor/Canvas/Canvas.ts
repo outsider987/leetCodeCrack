@@ -1,6 +1,7 @@
 import { getClientOffset, getTransformedPoint } from '~/utils/canvas/coordinate';
-import Layer from '../Layer/Layer';
+import FileLayer from '../Layer/FileLayer';
 import Point from './../Point';
+import BackgroundLayer from '../Layer/BackgroundLayer';
 
 class Views {
   ctx: CanvasRenderingContext2D;
@@ -9,54 +10,55 @@ class Views {
   private isDrawStart: boolean = false;
   bufferCanvas: HTMLCanvasElement;
   bufferCtx: CanvasRenderingContext2D;
-  drawCanvas: HTMLCanvasElement;
-  drawCtx: CanvasRenderingContext2D;
+  backgroundLayer: BackgroundLayer;
+
   zoomLevel = 1;
   lastView = null;
-  layerArray: Layer[] = [];
+  layerArray: FileLayer[] = [];
   cameraOffsetX: number = 0;
   cameraOffsetY: number = 0;
+  width: number;
+  height: number;
 
   constructor() {}
 
   initializeCanvas(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
-    // this.bufferCanvas = document.createElement('canvas');
-    // this.bufferCanvas = bufferCanvasRef;
+    this.width = canvas.width;
+    this.height = canvas.height;
 
-    // this.drawCanvas = document.getElementById('buffer') as HTMLCanvasElement;
     this.bufferCanvas = document.createElement('canvas');
     this.bufferCanvas.width = canvas.width;
     this.bufferCanvas.height = canvas.height;
     this.bufferCtx = this.bufferCanvas.getContext('2d');
-
-    // this.drawCanvas = document.getElementById('paint') as HTMLCanvasElement;
-    this.drawCanvas = document.createElement('canvas');
-    this.drawCanvas.width = canvas.width;
-    this.drawCanvas.height = canvas.height;
-    this.drawCtx = this.drawCanvas.getContext('2d');
+    this.backgroundLayer = new BackgroundLayer(canvas);
     this.zoomLevel = 1;
+    this.cameraOffsetX = 0;
+    this.cameraOffsetY = 0;
+
+    this.backgroundLayer.draw();
     this.registerEvent(this.canvas);
-    this.cameraOffsetX = canvas.width / 2;
-    this.cameraOffsetY = canvas.height / 2;
   }
 
   async loadFile(file: File) {
     const { bufferCanvas, bufferCtx } = this;
-    const layer = new Layer(bufferCtx, bufferCanvas);
+    const layer = new FileLayer(bufferCanvas);
     this.layerArray.push(layer);
     await layer.loadFile(file);
     this.draw();
   }
 
   draw() {
-    const { ctx, bufferCanvas, drawCanvas, canvas, bufferCtx } = this;
-    // bufferCtx.drawImage(drawCanvas, 0, 0);
+    const { ctx, bufferCanvas, canvas, bufferCtx } = this;
+
+    // Draw a semi-transparent rectangle on the second canvas
+
+    ctx.drawImage(this.backgroundLayer.getLayerCanvas(), 0, 0);
+
     ctx.drawImage(bufferCanvas, 0, 0);
 
-    // ctx.drawImage(canvas, 0, 0);
-    // ctx.drawImage(drawCanvas, 0, 0);
+    // ctx.putImageData(bufferCtx.getImageData(0, 0, bufferCanvas.width, bufferCanvas.height), 0, 0);
   }
 
   zoom(e) {
@@ -75,18 +77,21 @@ class Views {
     // ctx.scale(this.zoomLevel, this.zoomLevel);
     // ctx.translate(-cameraOffsetX, -cameraOffsetY);
     // this.draw();
-    const { canvas, ctx, bufferCanvas, bufferCtx, drawCtx, cameraOffsetX, cameraOffsetY } = this;
+    const { canvas, ctx, bufferCanvas, bufferCtx, cameraOffsetX, cameraOffsetY } = this;
     const currentTransformedCursor = getTransformedPoint(e, canvas, this.ctx);
 
     let MAX_ZOOM = 5;
     let MIN_ZOOM = 0.1;
     let SCROLL_SENSITIVITY = 0.0005;
+
     const zoomAmount = SCROLL_SENSITIVITY * e.deltaY;
+    console.log(e.deltaY);
+    console.log(zoomAmount);
     this.zoomLevel -= zoomAmount;
     this.zoomLevel = Math.min(this.zoomLevel, MAX_ZOOM);
     this.zoomLevel = Math.max(this.zoomLevel, MIN_ZOOM);
 
-    // if (this.zoomLevel === MAX_ZOOM || this.zoomLevel === MIN_ZOOM) return;
+    // if (this.zoomLevel >= MAX_ZOOM || this.zoomLevel <= MIN_ZOOM) return;
     const zoom = e.deltaY < 0 ? 1.1 : 0.9;
 
     // ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -100,13 +105,7 @@ class Views {
     this.draw();
   }
 
-  mouseDown = (e) => {
-    // e.preventDefault();
-    const clientPoint = getClientOffset(e, this.canvas);
-    this.lastPoint.setPoint(clientPoint.x, clientPoint.y);
-
-    this.isDrawStart = true;
-  };
+  mouseDown = (e) => {};
 
   mouseMove = (e) => {
     const transformedCursorPosition = getTransformedPoint(e, this.canvas, this.ctx);
@@ -115,7 +114,7 @@ class Views {
   mouseUp = (e) => {};
 
   cleanCanvas() {
-    const { canvas, ctx, bufferCanvas, bufferCtx, drawCtx } = this;
+    const { canvas, ctx, bufferCanvas, bufferCtx } = this;
     // debugger;
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -123,8 +122,8 @@ class Views {
 
   registerEvent(canvas) {
     // canvas.addEventListener('mousedown', this.mouseDown);
-    canvas.addEventListener('mousemove', this.mouseMove);
-    canvas.addEventListener('mouseup', this.mouseUp);
+    // canvas.addEventListener('mousemove', this.mouseMove);
+    // canvas.addEventListener('mouseup', this.mouseUp);
     canvas.addEventListener('touchstart', this.mouseDown);
     canvas.addEventListener('touchmove', this.mouseMove);
     canvas.addEventListener('touchend', this.mouseUp);
@@ -132,8 +131,8 @@ class Views {
   }
   unRegisterEvent(canvas) {
     // canvas.removeEventListener('mousedown', this.mouseDown(this));
-    canvas.removeEventListener('mousemove', this.mouseMove(this));
-    canvas.removeEventListener('mouseup', this.mouseUp(this));
+    // canvas.removeEventListener('mousemove', this.mouseMove(this));
+    // canvas.removeEventListener('mouseup', this.mouseUp(this));
     canvas.removeEventListener('touchstart', this.mouseDown(this));
     canvas.removeEventListener('touchmove', this.mouseMove(this));
     canvas.removeEventListener('touchend', this.mouseUp(this));

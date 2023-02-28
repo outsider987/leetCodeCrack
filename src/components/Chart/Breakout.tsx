@@ -3,7 +3,7 @@ import Ball from '~/canvas/Ball';
 import Brick from '~/canvas/Brick';
 import Game from '~/canvas/Game';
 import Paddle from '~/canvas/Paddle';
-import { drawPie, drawSegmentLabel, accumlateOfPercentange, getAngleOfPercentage } from '~/utils/canvas/canvas';
+import { drawPie, drawSegmentLabel, accumlateOfPercentange, getAngleOfPercentage } from '~/utils/canvas/chart';
 
 interface CanvasProps extends React.HTMLAttributes<HTMLCanvasElement> {}
 

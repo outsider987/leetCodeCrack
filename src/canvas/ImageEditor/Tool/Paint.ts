@@ -15,8 +15,6 @@ class PaintTool {
   private isDrawStart: boolean = false;
   views: Views;
   constructor(views: Views) {
-    this.canvas = views.drawCanvas;
-    this.ctx = views.drawCtx;
     this.lastPoint = new Point(0, 0);
     this.setColor('black');
 
@@ -28,13 +26,14 @@ class PaintTool {
 
     const currentTransformedCursor = getTransformedPoints(e, views.canvas, views.ctx);
 
-    views.bufferCtx.beginPath;
+    views.bufferCtx.beginPath();
     views.bufferCtx.moveTo(this.lastPoint.x, this.lastPoint.y);
     views.bufferCtx.lineTo(currentTransformedCursor.x, currentTransformedCursor.y);
     views.bufferCtx.strokeStyle = this.color;
     views.bufferCtx.lineWidth = 5;
     views.bufferCtx.lineCap = 'round';
     views.bufferCtx.stroke();
+    views.bufferCtx.closePath();
 
     this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
     this.views.draw();
@@ -45,7 +44,7 @@ class PaintTool {
   };
 
   mouseDown = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     this.isDrawStart = true;
     const { canvas, views, ctx } = this;
 
@@ -54,16 +53,17 @@ class PaintTool {
   };
 
   mouseMove = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     if (!this.isDrawStart) return;
 
     this.draw(e);
   };
 
   mouseUp = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     this.isDrawStart = false;
+    this.views.draw();
   };
 
   registerEvent(canvas) {
