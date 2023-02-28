@@ -13,7 +13,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/utils/canvas/canvas */ "./src/utils/canvas/canvas.ts");
+/* harmony import */ var _utils_canvas_chart__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/utils/canvas/chart */ "./src/utils/canvas/chart.ts");
 
 
 const ChartBar = (props) => {
@@ -29,14 +29,14 @@ const ChartBar = (props) => {
     let lastValue = 0;
     const datas = results.map((result) => {
         const lastPercentage = (lastValue / totalNumber) * 100;
-        const accumlatePercentage = (0,_utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_1__.accumlateOfPercentange)(result.total, lastPercentage, totalNumber);
+        const accumlatePercentage = (0,_utils_canvas_chart__WEBPACK_IMPORTED_MODULE_1__.accumlateOfPercentange)(result.total, lastPercentage, totalNumber);
         lastValue += result.total;
         return {
             accumlatePercentage: accumlatePercentage,
             percentage: Math.round((result.total / totalNumber) * 100),
             data: result.total,
             color: result.color,
-            startAngle: (0,_utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_1__.getAngleOfPercentage)(lastPercentage),
+            startAngle: (0,_utils_canvas_chart__WEBPACK_IMPORTED_MODULE_1__.getAngleOfPercentage)(lastPercentage),
         };
     });
     const options = {
@@ -59,8 +59,8 @@ const ChartBar = (props) => {
                 let gridValue = 0;
                 while (gridValue <= maxValue) {
                     var gridY = canvasActualHeight * (1 - gridValue / maxValue) + options.padding;
-                    (0,_utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_1__.drawLine)(ctx, 0, gridY, canvas.width, gridY, options.gridColor);
-                    (0,_utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_1__.drawLine)(ctx, options.padding / 2, options.padding / 2, options.padding / 2, gridY + options.padding / 2, options.gridColor);
+                    (0,_utils_canvas_chart__WEBPACK_IMPORTED_MODULE_1__.drawLine)(ctx, 0, gridY, canvas.width, gridY, options.gridColor);
+                    (0,_utils_canvas_chart__WEBPACK_IMPORTED_MODULE_1__.drawLine)(ctx, options.padding / 2, options.padding / 2, options.padding / 2, gridY + options.padding / 2, options.gridColor);
                     // Writing grid markers
                     ctx.save();
                     ctx.fillStyle = options.gridColor;
@@ -84,7 +84,7 @@ const ChartBar = (props) => {
                     let barHeight = Math.round((canvasActualHeight * val.data) / maxValue);
                     let leftSpace = space * (i + 1);
                     let rightSpace = space * i;
-                    (0,_utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_1__.drawBar)(ctx, options.padding + barIndex * barSize + leftSpace + rightSpace, canvas.height - barHeight - options.padding, barSize, barHeight, val.color);
+                    (0,_utils_canvas_chart__WEBPACK_IMPORTED_MODULE_1__.drawBar)(ctx, options.padding + barIndex * barSize + leftSpace + rightSpace, canvas.height - barHeight - options.padding, barSize, barHeight, val.color);
                     barIndex++;
                 }
             }
@@ -111,7 +111,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/utils/canvas/canvas */ "./src/utils/canvas/canvas.ts");
+/* harmony import */ var _utils_canvas_chart__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/utils/canvas/chart */ "./src/utils/canvas/chart.ts");
 
 
 const ChartPie = (props) => {
@@ -127,14 +127,14 @@ const ChartPie = (props) => {
     let lastValue = 0;
     const datas = results.map((result) => {
         const lastPercentage = (lastValue / totalNumber) * 100;
-        const accumlatePercentage = (0,_utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_1__.accumlateOfPercentange)(result.total, lastPercentage, totalNumber);
+        const accumlatePercentage = (0,_utils_canvas_chart__WEBPACK_IMPORTED_MODULE_1__.accumlateOfPercentange)(result.total, lastPercentage, totalNumber);
         lastValue += result.total;
         return {
             accumlatePercentage: accumlatePercentage,
             percentage: Math.round((result.total / totalNumber) * 100),
             data: result.total,
             color: result.color,
-            startAngle: (0,_utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_1__.getAngleOfPercentage)(lastPercentage),
+            startAngle: (0,_utils_canvas_chart__WEBPACK_IMPORTED_MODULE_1__.getAngleOfPercentage)(lastPercentage),
         };
     });
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -171,7 +171,7 @@ const ChartPie = (props) => {
                         if (moodValue.color === '#0a9627') {
                             // debugger;
                         }
-                        (0,_utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_1__.drawPie)(ctx, {
+                        (0,_utils_canvas_chart__WEBPACK_IMPORTED_MODULE_1__.drawPie)(ctx, {
                             radius,
                             startAngle: moodValue.startAngle,
                             endAngle: endRadians,
@@ -179,11 +179,11 @@ const ChartPie = (props) => {
                             cy,
                             color: moodValue.color,
                         });
-                        (0,_utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_1__.drawSegmentLabel)(ctx, {
+                        (0,_utils_canvas_chart__WEBPACK_IMPORTED_MODULE_1__.drawSegmentLabel)(ctx, {
                             cx,
                             cy,
                             startAngle: moodValue.startAngle,
-                            endAngle: (0,_utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_1__.getAngleOfPercentage)(moodValue.accumlatePercentage),
+                            endAngle: (0,_utils_canvas_chart__WEBPACK_IMPORTED_MODULE_1__.getAngleOfPercentage)(moodValue.accumlatePercentage),
                             radius,
                             percentage: moodValue.accumlatePercentage,
                             text: String(moodValue.percentage),
@@ -228,10 +228,10 @@ const Chart = () => {
 
 /***/ }),
 
-/***/ "./src/utils/canvas/canvas.ts":
-/*!************************************!*\
-  !*** ./src/utils/canvas/canvas.ts ***!
-  \************************************/
+/***/ "./src/utils/canvas/chart.ts":
+/*!***********************************!*\
+  !*** ./src/utils/canvas/chart.ts ***!
+  \***********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -297,4 +297,4 @@ const accumlateOfPercentange = (data, percentage, totalNumber) => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/b25e413fa663043e2271.js.map
+//# sourceMappingURL=js/fd7337e45e082aa64a87.js.map
