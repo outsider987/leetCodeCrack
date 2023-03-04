@@ -498,9 +498,25 @@ class PanTool {
         this.registerEvent(views.canvas);
     }
     paning(point) {
-        const { ctx, views } = this;
+        const { ctx, views, canvas } = this;
+        const OutsideRect = canvas.getBoundingClientRect();
         ctx.translate(point.x - this.lastPoint.x, point.y - this.lastPoint.y);
-        this.lastPoint.setPoint(point.x, point.y);
+        const materix = ctx.getTransform();
+        // if (
+        //   IsOverBoundRect(
+        //     materix.e,
+        //     materix.f,
+        //     materix.e + canvas.width * materix.a,
+        //     materix.f + canvas.height * materix.d,
+        //     0,
+        //     0,
+        //     canvas.width,
+        //     canvas.height,
+        //   ) &&
+        //   getCurrentZoom(ctx) < 1
+        // ) {
+        //   return;
+        // }
         views.draw();
     }
     registerEvent(canvas) {
@@ -764,4 +780,4 @@ function getTransformedPoints(e, canvas, ctx) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/3c363ff3dfd477438ea7.js.map
+//# sourceMappingURL=js/b866be72c14d5da253b8.js.map
