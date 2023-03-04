@@ -570,10 +570,10 @@ function dynamicClass(name) {
 
 /***/ }),
 
-/***/ "./src/components/Chart/CanvasImageEditor.tsx":
-/*!****************************************************!*\
-  !*** ./src/components/Chart/CanvasImageEditor.tsx ***!
-  \****************************************************/
+/***/ "./src/components/ImageEditor/CanvasImageEditor.tsx":
+/*!**********************************************************!*\
+  !*** ./src/components/ImageEditor/CanvasImageEditor.tsx ***!
+  \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -591,12 +591,9 @@ __webpack_require__.r(__webpack_exports__);
 
 const CanvasImageEditor = (props) => {
     const canvasRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
-    const bufferCanvasRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
-    const paintCanvasRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
     const [file, setFile] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
     const [mode, setMode] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
     const ViewsRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(new _canvas_ImageEditor_Canvas_Canvas__WEBPACK_IMPORTED_MODULE_3__["default"]());
-    const requestRef = react__WEBPACK_IMPORTED_MODULE_0___default().useRef(null);
     const onClickFile = (e) => {
         setFile(e.target.files[0]);
     };
@@ -631,16 +628,6 @@ const CanvasImageEditor = (props) => {
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         if (canvasRef.current) {
             ViewsRef.current.initializeCanvas(canvasRef.current);
-            // requestRef.current = requestAnimationFrame(ViewsRef.current.draw);
-            // return () => cancelAnimationFrame(requestRef.current);
-            // function start() {
-            //   requestAnimationFrame(animate);
-            // }
-            // function animate() {
-            //   ViewsRef.current.draw();
-            //   requestAnimationFrame(animate);
-            // }
-            // start();
         }
     }, []);
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null,
@@ -672,12 +659,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_Chart_CanvasImageEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/components/Chart/CanvasImageEditor */ "./src/components/Chart/CanvasImageEditor.tsx");
+/* harmony import */ var _components_ImageEditor_CanvasImageEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/components/ImageEditor/CanvasImageEditor */ "./src/components/ImageEditor/CanvasImageEditor.tsx");
 
 
 const ImageEditor = () => {
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "m-auto flex w-full flex-col items-center justify-center" },
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Chart_CanvasImageEditor__WEBPACK_IMPORTED_MODULE_1__["default"], { className: " border border-solid border-white " })));
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ImageEditor_CanvasImageEditor__WEBPACK_IMPORTED_MODULE_1__["default"], { className: " border border-solid border-white " })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ImageEditor);
 
@@ -780,4 +767,4 @@ function getTransformedPoints(e, canvas, ctx) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/b866be72c14d5da253b8.js.map
+//# sourceMappingURL=js/87766d0bfb0941c0e628.js.map
