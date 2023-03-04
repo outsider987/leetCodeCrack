@@ -11,12 +11,9 @@ interface CanvasProps extends React.HTMLAttributes<HTMLCanvasElement> {}
 
 const CanvasImageEditor = (props: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const bufferCanvasRef = useRef<HTMLCanvasElement>(null);
-  const paintCanvasRef = useRef<HTMLCanvasElement>(null);
   const [file, setFile] = useState<File>(null);
   const [mode, setMode] = useState<keyof typeof Tools>(null);
   const ViewsRef = useRef(new Views());
-  const requestRef = React.useRef(null);
 
   const onClickFile = (e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files[0]);
@@ -55,17 +52,6 @@ const CanvasImageEditor = (props: CanvasProps) => {
   useEffect(() => {
     if (canvasRef.current) {
       ViewsRef.current.initializeCanvas(canvasRef.current);
-      // requestRef.current = requestAnimationFrame(ViewsRef.current.draw);
-      // return () => cancelAnimationFrame(requestRef.current);
-      // function start() {
-      //   requestAnimationFrame(animate);
-      // }
-
-      // function animate() {
-      //   ViewsRef.current.draw();
-      //   requestAnimationFrame(animate);
-      // }
-      // start();
     }
   }, []);
 

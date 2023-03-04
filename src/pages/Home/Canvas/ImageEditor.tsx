@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import CanvasImageEditor from '~/components/Chart/CanvasImageEditor';
+import CanvasImageEditor from '~/components/ImageEditor/CanvasImageEditor';
 
 const ImageEditor = () => {
   return (
