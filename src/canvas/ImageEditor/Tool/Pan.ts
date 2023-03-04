@@ -1,6 +1,8 @@
 import { getClientOffset, getTransformedPoints } from '~/utils/canvas/coordinate';
 import Point from '../Point';
 import Views from '../Canvas/Canvas';
+import { IsOverBoundRect } from '~/utils/canvas/rect';
+import { getCurrentZoom } from '~/utils/canvas/canvas';
 
 class PanTool {
   ctx: CanvasRenderingContext2D;
@@ -18,10 +20,27 @@ class PanTool {
     this.registerEvent(views.canvas);
   }
   paning(point: Point) {
-    const { ctx, views } = this;
+    const { ctx, views, canvas } = this;
+
+    const OutsideRect = canvas.getBoundingClientRect();
 
     ctx.translate(point.x - this.lastPoint.x, point.y - this.lastPoint.y);
-    this.lastPoint.setPoint(point.x, point.y);
+    const materix = ctx.getTransform();
+    // if (
+    //   IsOverBoundRect(
+    //     materix.e,
+    //     materix.f,
+    //     materix.e + canvas.width * materix.a,
+    //     materix.f + canvas.height * materix.d,
+    //     0,
+    //     0,
+    //     canvas.width,
+    //     canvas.height,
+    //   ) &&
+    //   getCurrentZoom(ctx) < 1
+    // ) {
+    //   return;
+    // }
     views.draw();
   }
 
