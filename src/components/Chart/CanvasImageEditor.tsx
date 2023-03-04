@@ -30,6 +30,9 @@ const CanvasImageEditor = (props: CanvasProps) => {
   const onErase = () => {
     setMode('EraseTool');
   };
+  const onPan = () => {
+    setMode('PanTool');
+  };
 
   useEffect(() => {
     if (canvasRef.current && file !== null) {
@@ -82,13 +85,13 @@ const CanvasImageEditor = (props: CanvasProps) => {
         )}
 
         <canvas {...props} ref={canvasRef} width={window.innerWidth * 0.6} height={window.innerHeight / 2} />
-        <canvas
+        {/* <canvas
           {...props}
           id="buffer"
           ref={bufferCanvasRef}
           width={window.innerWidth * 0.6}
           height={window.innerHeight / 2}
-        />
+        /> */}
         {/* <canvas
           {...props}
           id="paint"
@@ -100,6 +103,7 @@ const CanvasImageEditor = (props: CanvasProps) => {
       <div className="flex w-full space-x-3">
         <Button onClick={onDeleteFile}> delete File</Button>
         <Button onClick={onDraw}> draw mode</Button>
+        <Button onClick={onPan}> Pan mode</Button>
         <Button onClick={onErase}> Erase mode</Button>
       </div>
     </>

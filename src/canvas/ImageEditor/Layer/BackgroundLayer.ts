@@ -5,6 +5,7 @@ import Layer from './Layer';
 class BackgroundLayer extends Layer {
   private backgroundCanvas: HTMLCanvasElement;
   private backgroundCtx: CanvasRenderingContext2D;
+  private rectSize: number;
   constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
@@ -16,12 +17,14 @@ class BackgroundLayer extends Layer {
     this.backgroundCanvas.height = canvas.height;
     this.backgroundCtx = this.backgroundCanvas.getContext('2d');
     this.registerEvent(this.backgroundCanvas);
+    this.rectSize = 20;
   }
 
   draw() {
-    const { backgroundCanvas, backgroundCtx } = this;
-    const numRows = Math.floor(backgroundCanvas.height / 20);
-    const numCols = Math.floor(backgroundCanvas.width / 20);
+    const { backgroundCanvas, backgroundCtx, rectSize } = this;
+
+    const numRows = Math.floor(backgroundCanvas.height / rectSize);
+    const numCols = Math.floor(backgroundCanvas.width / rectSize);
 
     const rectWidth = backgroundCanvas.width / numCols;
     const rectHeight = backgroundCanvas.height / numRows;
@@ -45,16 +48,19 @@ class BackgroundLayer extends Layer {
     }
   }
 
-  zoom(e) {}
+  zoom(e, zoomLevel: number) {
+    this.rectSize = Math.min(40 / zoomLevel, 20);
+    this.draw();
+  }
 
   getLayerCanvas() {
     return this.backgroundCanvas;
   }
   registerEvent(canvas) {
-    canvas.addEventListener('wheel', this.zoom.bind(this));
+    // canvas.addEventListener('wheel', this.zoom.bind(this));
   }
   unRegisterEvent(canvas) {
-    canvas.removeEventListener('wheel', this.zoom(this));
+    // canvas.removeEventListener('wheel', this.zoom(this));
   }
 }
 export default BackgroundLayer;

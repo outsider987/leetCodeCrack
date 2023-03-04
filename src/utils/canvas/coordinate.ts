@@ -46,13 +46,12 @@ export function getTransformedPaintPoint(e, canvas: HTMLCanvasElement, ctx: Canv
   return ctx.getTransform().invertSelf().transformPoint(originalPoint);
 }
 
-export function getTransformedPoints(e, canvas, ctx) {
-  const { offsetX, offsetY, pageX, pageY } = e.touches ? e.touches[0] : e;
-  const originalPoint = new DOMPoint(offsetX, offsetY);
-  const point = ctx.getTransform().invertSelf().transformPoint(originalPoint);
-  const t = ctx.getTransform();
-  console.log(t);
+export function getTransformedPoints(e, canvas: HTMLCanvasElement, ctx) {
+  const { pageX, pageY } = e.touches ? e.touches[0] : e;
   const rect = canvas.getBoundingClientRect();
+  const originalPoint = new DOMPoint(pageX - rect.left, pageY - rect.top);
+  const point = ctx.getTransform().invertSelf().transformPoint(originalPoint);
+
   const x = point.x;
   const y = point.y;
   return { x: x, y: y };
