@@ -126,12 +126,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const Home = () => {
-    const contentContainer = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useLocation)().pathname === '/profile'
-        ? 'content_tags_container'
-        : 'content_container';
+    const { pathname } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useLocation)();
+    let contentContainer = pathname === '/profile' ? 'content_tags_container' : 'content_container';
+    contentContainer = pathname === '/canvas/image-editor' ? 'content_editor_container' : 'content_container';
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_layouts_HomeWrapper__WEBPACK_IMPORTED_MODULE_1__["default"], null,
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_layouts_NavBar__WEBPACK_IMPORTED_MODULE_2__["default"], null),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: contentContainer }, (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useLocation)().pathname !== '/' ? (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Outlet, null)) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Navigate, { to: '/profile' })))));
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: contentContainer }, (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useLocation)().pathname !== '/' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Outlet, null) : react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Navigate, { to: '/profile' }))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Home);
 
@@ -139,4 +139,4 @@ const Home = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/927f77b1bcebf48bdab3.js.map
+//# sourceMappingURL=js/72224364d96da19d33af.js.map

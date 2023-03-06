@@ -42,11 +42,9 @@ class Views {
         this.bufferCanvas.width = canvas.width;
         this.bufferCanvas.height = canvas.height;
         this.bufferCtx = this.bufferCanvas.getContext('2d');
-        this.backgroundLayer = new _Layer_BackgroundLayer__WEBPACK_IMPORTED_MODULE_2__["default"](canvas);
         this.zoomLevel = 0;
         this.cameraOffsetX = 0;
         this.cameraOffsetY = 0;
-        this.backgroundLayer.draw();
         this.registerEvent(this.canvas);
     }
     async loadFile(file) {
@@ -54,6 +52,7 @@ class Views {
         const layer = new _Layer_FileLayer__WEBPACK_IMPORTED_MODULE_1__["default"](bufferCanvas);
         this.layerArray.push(layer);
         await layer.loadFile(file);
+        this.backgroundLayer = new _Layer_BackgroundLayer__WEBPACK_IMPORTED_MODULE_2__["default"](this.canvas);
         this.draw();
     }
     draw() {
@@ -66,8 +65,8 @@ class Views {
         const { canvas, ctx } = this;
         const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoint)(e, canvas, this.ctx);
         const zoom = e.deltaY < 0 ? 1.1 : 0.9;
-        const maxZoom = 10; // maximum zoom level
-        const minZoom = 0.1; // minimum zoom level
+        const maxZoom = 20; // maximum zoom level
+        const minZoom = 0.01; // minimum zoom level
         const currentZoom = (0,_utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_3__.getCurrentZoom)(ctx); // helper function to get current zoom level
         // Calculate the new zoom level, making sure it stays within the maximum and minimum bounds
         const newZoom = Math.min(Math.max(currentZoom * zoom, minZoom), maxZoom);
@@ -142,6 +141,7 @@ class BackgroundLayer extends _Layer__WEBPACK_IMPORTED_MODULE_1__["default"] {
         this.backgroundCtx = this.backgroundCanvas.getContext('2d');
         this.registerEvent(this.backgroundCanvas);
         this.rectSize = 20;
+        this.draw();
     }
     draw() {
         const { backgroundCanvas, backgroundCtx, rectSize } = this;
@@ -585,6 +585,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Button */ "./src/components/Button.tsx");
 /* harmony import */ var _canvas_ImageEditor_Tool__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ~/canvas/ImageEditor/Tool */ "./src/canvas/ImageEditor/Tool/index.ts");
 /* harmony import */ var _canvas_ImageEditor_Canvas_Canvas__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ~/canvas/ImageEditor/Canvas/Canvas */ "./src/canvas/ImageEditor/Canvas/Canvas.ts");
+/* harmony import */ var _Menu__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Menu */ "./src/components/ImageEditor/Menu.tsx");
+
 
 
 
@@ -594,6 +596,7 @@ const CanvasImageEditor = (props) => {
     const [file, setFile] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
     const [mode, setMode] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
     const ViewsRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(new _canvas_ImageEditor_Canvas_Canvas__WEBPACK_IMPORTED_MODULE_3__["default"]());
+    const ContentRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
     const onClickFile = (e) => {
         setFile(e.target.files[0]);
     };
@@ -628,21 +631,55 @@ const CanvasImageEditor = (props) => {
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         if (canvasRef.current) {
             ViewsRef.current.initializeCanvas(canvasRef.current);
+            updateDimensions();
+            window.addEventListener('resize', updateDimensions);
+            return () => window.removeEventListener('resize', updateDimensions);
         }
     }, []);
+    const updateDimensions = () => {
+        canvasRef.current.width = ContentRef.current.offsetWidth;
+        canvasRef.current.height = ContentRef.current.offsetHeight;
+        // ViewsRef.current.draw();
+    };
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null,
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: ` relative border-solid border-yellow-400` },
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { ref: ContentRef, className: ` relative border-solid border-yellow-400` },
             file === null && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "absolute inset-0 flex items-center justify-center" },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " text-white" }, "please click or drag file"),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { onChange: onClickFile, className: " absolute inset-0 z-10 cursor-pointer opacity-0", type: "file", accept: "image/*" }))),
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { ...props, ref: canvasRef, width: window.innerWidth * 0.6, height: window.innerHeight / 2 })),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { ...props, ref: canvasRef })),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-full space-x-3" },
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button__WEBPACK_IMPORTED_MODULE_1__["default"], { onClick: onDeleteFile }, " delete File"),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button__WEBPACK_IMPORTED_MODULE_1__["default"], { onClick: onDraw }, " draw mode"),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button__WEBPACK_IMPORTED_MODULE_1__["default"], { onClick: onPan }, " Pan mode"),
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button__WEBPACK_IMPORTED_MODULE_1__["default"], { onClick: onErase }, " Erase mode"))));
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Button__WEBPACK_IMPORTED_MODULE_1__["default"], { onClick: onErase }, " Erase mode")),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Menu__WEBPACK_IMPORTED_MODULE_4__["default"], null)));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CanvasImageEditor);
+
+
+/***/ }),
+
+/***/ "./src/components/ImageEditor/Menu.tsx":
+/*!*********************************************!*\
+  !*** ./src/components/ImageEditor/Menu.tsx ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _mui_icons_material__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @mui/icons-material */ "./node_modules/@mui/icons-material/esm/Brush.js");
+
+
+const Menu = () => {
+    const [menu, setMenu] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+    const menuRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+    return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " absolute inset-y-0 left-0" }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_1__["default"], null));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Menu);
 
 
 /***/ }),
@@ -663,8 +700,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const ImageEditor = () => {
-    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "m-auto flex w-full flex-col items-center justify-center" },
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ImageEditor_CanvasImageEditor__WEBPACK_IMPORTED_MODULE_1__["default"], { className: " border border-solid border-white " })));
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative m-auto flex w-full flex-col items-center justify-center" },
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ImageEditor_CanvasImageEditor__WEBPACK_IMPORTED_MODULE_1__["default"], { className: " h-[100vh] w-[80vw] border border-solid border-white" })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ImageEditor);
 
@@ -767,4 +804,4 @@ function getTransformedPoints(e, canvas, ctx) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/87766d0bfb0941c0e628.js.map
+//# sourceMappingURL=js/ce6e39ce6d4a84f702ae.js.map
