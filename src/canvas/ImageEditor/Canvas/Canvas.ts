@@ -2,7 +2,8 @@ import { getClientOffset, getTransformedPoint } from '~/utils/canvas/coordinate'
 import FileLayer from '../Layer/FileLayer';
 import Point from './../Point';
 import BackgroundLayer from '../Layer/BackgroundLayer';
-import { getCurrentZoom, redrawBoundBackGround } from '~/utils/canvas/canvas';
+import {  getCurrentZoom, redrawBoundBackGround } from '~/utils/canvas/canvas';
+import { onload2promise } from '~/utils/image';
 
 class Views {
   ctx: CanvasRenderingContext2D;
@@ -33,12 +34,10 @@ class Views {
     this.bufferCanvas.width = canvas.width;
     this.bufferCanvas.height = canvas.height;
     this.bufferCtx = this.bufferCanvas.getContext('2d');
-    this.backgroundLayer = new BackgroundLayer(canvas);
     this.zoomLevel = 0;
     this.cameraOffsetX = 0;
     this.cameraOffsetY = 0;
 
-    this.backgroundLayer.draw();
     this.registerEvent(this.canvas);
   }
 
@@ -47,6 +46,8 @@ class Views {
     const layer = new FileLayer(bufferCanvas);
     this.layerArray.push(layer);
     await layer.loadFile(file);
+    this.backgroundLayer = new BackgroundLayer(this.canvas)
+    
     this.draw();
   }
 
@@ -55,7 +56,6 @@ class Views {
 
     redrawBoundBackGround(this.canvas);
     ctx.drawImage(this.backgroundLayer.getLayerCanvas(), 0, 0);
-
     ctx.drawImage(bufferCanvas, 0, 0);
   }
 
@@ -64,8 +64,8 @@ class Views {
     const currentTransformedCursor = getTransformedPoint(e, canvas, this.ctx);
 
     const zoom = e.deltaY < 0 ? 1.1 : 0.9;
-    const maxZoom = 10; // maximum zoom level
-    const minZoom = 0.1; // minimum zoom level
+    const maxZoom = 20; // maximum zoom level
+    const minZoom = 0.01; // minimum zoom level
     const currentZoom = getCurrentZoom(ctx); // helper function to get current zoom level
 
     // Calculate the new zoom level, making sure it stays within the maximum and minimum bounds

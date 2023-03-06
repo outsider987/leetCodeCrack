@@ -18,6 +18,7 @@ class BackgroundLayer extends Layer {
     this.backgroundCtx = this.backgroundCanvas.getContext('2d');
     this.registerEvent(this.backgroundCanvas);
     this.rectSize = 20;
+    this.draw();
   }
 
   draw() {

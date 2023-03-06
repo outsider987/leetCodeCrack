@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/outsider987/leetCodeCrack",
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
     "@react-three/cannon": "^6.5.2",
     "@react-three/drei": "^9.51.24",
     "@react-three/fiber": "^8.10.0",
@@ -37,7 +39,7 @@
     "three": "^0.148.0"
   },
   "devDependencies": {
-    "@mui/icons-material": "^5.10.6",
+    "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.10.7",
     "@reduxjs/toolkit": "^1.8.5",
     "@types/react": "^18.0.9",
