@@ -15,6 +15,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Layer_FileLayer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Layer/FileLayer */ "./src/canvas/ImageEditor/Layer/FileLayer.ts");
 /* harmony import */ var _Layer_BackgroundLayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Layer/BackgroundLayer */ "./src/canvas/ImageEditor/Layer/BackgroundLayer.ts");
 /* harmony import */ var _utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ~/utils/canvas/canvas */ "./src/utils/canvas/canvas.ts");
+/* harmony import */ var _utils_image__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ~/utils/image */ "./src/utils/image.ts");
+/* harmony import */ var _utils_canvas_rect__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ~/utils/canvas/rect */ "./src/utils/canvas/rect.ts");
+
+
 
 
 
@@ -39,8 +43,6 @@ class Views {
         this.width = canvas.width;
         this.height = canvas.height;
         this.bufferCanvas = document.createElement('canvas');
-        this.bufferCanvas.width = canvas.width;
-        this.bufferCanvas.height = canvas.height;
         this.bufferCtx = this.bufferCanvas.getContext('2d');
         this.zoomLevel = 0;
         this.cameraOffsetX = 0;
@@ -48,25 +50,42 @@ class Views {
         this.registerEvent(this.canvas);
     }
     async loadFile(file) {
-        const { bufferCanvas, bufferCtx } = this;
+        const { bufferCanvas, bufferCtx, canvas, ctx } = this;
         const layer = new _Layer_FileLayer__WEBPACK_IMPORTED_MODULE_1__["default"](bufferCanvas);
         this.layerArray.push(layer);
-        await layer.loadFile(file);
-        this.backgroundLayer = new _Layer_BackgroundLayer__WEBPACK_IMPORTED_MODULE_2__["default"](this.canvas);
+        const image = new Image();
+        image.src = URL.createObjectURL(file);
+        await (0,_utils_image__WEBPACK_IMPORTED_MODULE_4__.onload2promise)(image);
+        const newSize = (0,_utils_canvas_rect__WEBPACK_IMPORTED_MODULE_5__.getNewSize)(canvas, image);
+        bufferCanvas.width = newSize.newWidth;
+        bufferCanvas.height = newSize.newHeight;
+        bufferCtx.clearRect(0, 0, canvas.width, canvas.height);
+        bufferCtx.fillStyle = 'white';
+        bufferCtx.fillRect(0, 0, canvas.width, canvas.height);
+        let ratio = Math.min(bufferCanvas.width / image.width, bufferCanvas.height / image.height);
+        let x = (bufferCanvas.width - image.width * ratio) / 2;
+        let y = (bufferCanvas.height - image.height * ratio) / 2;
+        bufferCtx.drawImage(image, 0, 0, image.width, image.height, x, y, image.width * ratio, image.height * ratio);
+        // bufferCtx.drawImage(image, 0, 0);
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.scale(0.5, 0.5);
+        ctx.translate(-canvas.width / 2, -canvas.height / 2);
+        ctx.transform(1, 0, 0, 1, (canvas.width - bufferCanvas.width) / 2, (canvas.height - bufferCanvas.height) / 2);
+        this.backgroundLayer = new _Layer_BackgroundLayer__WEBPACK_IMPORTED_MODULE_2__["default"](this.bufferCanvas);
         this.draw();
     }
     draw() {
-        const { ctx, bufferCanvas } = this;
+        const { ctx, bufferCanvas, canvas } = this;
         (0,_utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_3__.redrawBoundBackGround)(this.canvas);
         ctx.drawImage(this.backgroundLayer.getLayerCanvas(), 0, 0);
         ctx.drawImage(bufferCanvas, 0, 0);
     }
     zoom(e) {
-        const { canvas, ctx } = this;
+        const { canvas, ctx, bufferCanvas } = this;
         const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoint)(e, canvas, this.ctx);
         const zoom = e.deltaY < 0 ? 1.1 : 0.9;
-        const maxZoom = 20; // maximum zoom level
-        const minZoom = 0.01; // minimum zoom level
+        const maxZoom = 15; // maximum zoom level
+        const minZoom = 0.1; // minimum zoom level
         const currentZoom = (0,_utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_3__.getCurrentZoom)(ctx); // helper function to get current zoom level
         // Calculate the new zoom level, making sure it stays within the maximum and minimum bounds
         const newZoom = Math.min(Math.max(currentZoom * zoom, minZoom), maxZoom);
@@ -77,12 +96,14 @@ class Views {
             ctx.translate(canvas.width / 2, canvas.height / 2);
             ctx.scale(newZoom, newZoom);
             ctx.translate(-canvas.width / 2, -canvas.height / 2);
+            ctx.transform(1, 0, 0, 1, (canvas.width - bufferCanvas.width) / 2, (canvas.height - bufferCanvas.height) / 2);
         }
         else {
             ctx.translate(currentTransformedCursor.x, currentTransformedCursor.y);
             ctx.scale(zoomDiff, zoomDiff);
             ctx.translate(-currentTransformedCursor.x, -currentTransformedCursor.y);
         }
+        //
         this.backgroundLayer.zoom(e, newZoom);
         this.draw();
     }
@@ -210,27 +231,10 @@ class FileLayer extends _Layer__WEBPACK_IMPORTED_MODULE_1__["default"] {
     }
     async loadFile(file) {
         const { ctx, canvas, position, image } = this;
-        image.src = URL.createObjectURL(file);
-        await onload2promise(image);
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = 'white';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        let ratio = Math.min(canvas.width / image.width, canvas.height / image.height);
-        let x = (canvas.width - image.width * ratio) / 2;
-        let y = (canvas.height - image.height * ratio) / 2;
-        position.x = x;
-        position.y = y;
-        ctx.drawImage(image, 0, 0, image.width, image.height, x, y, image.width * ratio, image.height * ratio);
     }
     redraw() { }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FileLayer);
-function onload2promise(obj) {
-    return new Promise((resolve, reject) => {
-        obj.onload = () => resolve(obj);
-        obj.onerror = reject;
-    });
-}
 
 
 /***/ }),
@@ -801,7 +805,63 @@ function getTransformedPoints(e, canvas, ctx) {
 }
 
 
+/***/ }),
+
+/***/ "./src/utils/canvas/rect.ts":
+/*!**********************************!*\
+  !*** ./src/utils/canvas/rect.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "IsInRect": () => (/* binding */ IsInRect),
+/* harmony export */   "IsOutRect": () => (/* binding */ IsOutRect),
+/* harmony export */   "IsOverBoundRect": () => (/* binding */ IsOverBoundRect),
+/* harmony export */   "getNewSize": () => (/* binding */ getNewSize)
+/* harmony export */ });
+function IsInRect(x, y, left, top, right, bottom) {
+    return x >= left && x <= right && y >= top && y <= bottom;
+}
+function IsOutRect(x, y, left, top, right, bottom) {
+    return x < left || x > right || y < top || y > bottom;
+}
+function IsOverBoundRect(innerLeft, innerTop, innerRight, innerBottom, outerLeft, outerTop, outerRight, outerBottom) {
+    return innerLeft < outerLeft || innerTop < outerTop || innerRight > outerRight || innerBottom > outerBottom;
+}
+function getNewSize(canvas, image) {
+    const widthRatio = canvas.width / image.width;
+    const heightRatio = canvas.height / image.height;
+    // Use the smaller ratio to ensure that the image fits inside the canvas
+    const scale = Math.min(widthRatio, heightRatio);
+    // Calculate the new width and height of the image
+    const newWidth = image.width * scale;
+    const newHeight = image.height * scale;
+    return { newWidth, newHeight };
+}
+
+
+/***/ }),
+
+/***/ "./src/utils/image.ts":
+/*!****************************!*\
+  !*** ./src/utils/image.ts ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "onload2promise": () => (/* binding */ onload2promise)
+/* harmony export */ });
+function onload2promise(obj) {
+    return new Promise((resolve, reject) => {
+        obj.onload = () => resolve(obj);
+        obj.onerror = reject;
+    });
+}
+
+
 /***/ })
 
 }]);
-//# sourceMappingURL=js/ce6e39ce6d4a84f702ae.js.map
+//# sourceMappingURL=js/84f8aa077ffe2041695e.js.map
