@@ -2,8 +2,9 @@ import { getClientOffset, getTransformedPoint } from '~/utils/canvas/coordinate'
 import FileLayer from '../Layer/FileLayer';
 import Point from './../Point';
 import BackgroundLayer from '../Layer/BackgroundLayer';
-import {  getCurrentZoom, redrawBoundBackGround } from '~/utils/canvas/canvas';
+import { getCurrentZoom, redrawBoundBackGround } from '~/utils/canvas/canvas';
 import { onload2promise } from '~/utils/image';
+import { getNewSize } from '~/utils/canvas/rect';
 
 class Views {
   ctx: CanvasRenderingContext2D;
@@ -31,8 +32,6 @@ class Views {
     this.height = canvas.height;
 
     this.bufferCanvas = document.createElement('canvas');
-    this.bufferCanvas.width = canvas.width;
-    this.bufferCanvas.height = canvas.height;
     this.bufferCtx = this.bufferCanvas.getContext('2d');
     this.zoomLevel = 0;
     this.cameraOffsetX = 0;
@@ -42,30 +41,55 @@ class Views {
   }
 
   async loadFile(file: File) {
-    const { bufferCanvas, bufferCtx } = this;
+    const { bufferCanvas, bufferCtx, canvas, ctx } = this;
     const layer = new FileLayer(bufferCanvas);
     this.layerArray.push(layer);
-    await layer.loadFile(file);
-    this.backgroundLayer = new BackgroundLayer(this.canvas)
-    
+    const image = new Image();
+    image.src = URL.createObjectURL(file);
+    await onload2promise(image);
+
+    const newSize = getNewSize(canvas, image);
+
+    bufferCanvas.width = newSize.newWidth;
+    bufferCanvas.height = newSize.newHeight;
+
+    bufferCtx.clearRect(0, 0, canvas.width, canvas.height);
+    bufferCtx.fillStyle = 'white';
+    bufferCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+    let ratio = Math.min(bufferCanvas.width / image.width, bufferCanvas.height / image.height);
+    let x = (bufferCanvas.width - image.width * ratio) / 2;
+    let y = (bufferCanvas.height - image.height * ratio) / 2;
+
+    bufferCtx.drawImage(image, 0, 0, image.width, image.height, x, y, image.width * ratio, image.height * ratio);
+    // bufferCtx.drawImage(image, 0, 0);
+
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.scale(0.5, 0.5);
+    ctx.translate(-canvas.width / 2, -canvas.height / 2);
+    ctx.transform(1, 0, 0, 1, (canvas.width - bufferCanvas.width) / 2, (canvas.height - bufferCanvas.height) / 2);
+
+    this.backgroundLayer = new BackgroundLayer(this.bufferCanvas);
     this.draw();
   }
 
   draw() {
-    const { ctx, bufferCanvas } = this;
+    const { ctx, bufferCanvas, canvas } = this;
 
     redrawBoundBackGround(this.canvas);
+
     ctx.drawImage(this.backgroundLayer.getLayerCanvas(), 0, 0);
+
     ctx.drawImage(bufferCanvas, 0, 0);
   }
 
   zoom(e) {
-    const { canvas, ctx } = this;
+    const { canvas, ctx, bufferCanvas } = this;
     const currentTransformedCursor = getTransformedPoint(e, canvas, this.ctx);
 
     const zoom = e.deltaY < 0 ? 1.1 : 0.9;
-    const maxZoom = 20; // maximum zoom level
-    const minZoom = 0.01; // minimum zoom level
+    const maxZoom = 15; // maximum zoom level
+    const minZoom = 0.1; // minimum zoom level
     const currentZoom = getCurrentZoom(ctx); // helper function to get current zoom level
 
     // Calculate the new zoom level, making sure it stays within the maximum and minimum bounds
@@ -80,11 +104,13 @@ class Views {
       ctx.translate(canvas.width / 2, canvas.height / 2);
       ctx.scale(newZoom, newZoom);
       ctx.translate(-canvas.width / 2, -canvas.height / 2);
+      ctx.transform(1, 0, 0, 1, (canvas.width - bufferCanvas.width) / 2, (canvas.height - bufferCanvas.height) / 2);
     } else {
       ctx.translate(currentTransformedCursor.x, currentTransformedCursor.y);
       ctx.scale(zoomDiff, zoomDiff);
       ctx.translate(-currentTransformedCursor.x, -currentTransformedCursor.y);
     }
+    //
 
     this.backgroundLayer.zoom(e, newZoom);
 
