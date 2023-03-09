@@ -626,11 +626,11 @@ video {
 .z-\[99\] {
   z-index: 99;
 }
-.z-10 {
-  z-index: 10;
-}
 .z-50 {
   z-index: 50;
+}
+.z-10 {
+  z-index: 10;
 }
 .m-auto {
   margin: auto;
@@ -767,6 +767,9 @@ video {
 }
 .w-\[1px\] {
   width: 1px;
+}
+.w-\[2vw\] {
+  width: 2vw;
 }
 .w-\[65vw\] {
   width: 65vw;
@@ -1523,4 +1526,4 @@ video {
   }
 }
 
-/*# sourceMappingURL=../js/css/main~src_index_scss_0c888290.809556026b90f9fad372.css.map*/
+/*# sourceMappingURL=../js/css/main~src_index_scss_0c888290.13e7a7c0209e16e0ca84.css.map*/
