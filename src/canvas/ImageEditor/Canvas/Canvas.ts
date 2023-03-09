@@ -74,7 +74,7 @@ class Views {
   }
 
   draw() {
-    const { ctx, bufferCanvas, canvas } = this;
+    const { ctx, bufferCanvas, canvas, bufferCtx } = this;
 
     redrawBoundBackGround(this.canvas);
 
@@ -98,7 +98,7 @@ class Views {
     // Calculate the difference in zoom level between the new and old zoom levels
     const zoomDiff = newZoom / currentZoom;
 
-    if (newZoom < 0.3) {
+    if (newZoom < 0.11) {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
 
       ctx.translate(canvas.width / 2, canvas.height / 2);
@@ -110,7 +110,6 @@ class Views {
       ctx.scale(zoomDiff, zoomDiff);
       ctx.translate(-currentTransformedCursor.x, -currentTransformedCursor.y);
     }
-    //
 
     this.backgroundLayer.zoom(e, newZoom);
 
