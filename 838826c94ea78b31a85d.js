@@ -314,6 +314,8 @@ class EraseTool {
             const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoints)(e, views.canvas, views.ctx);
             eraserPath.push({ x: currentTransformedCursor.x, y: currentTransformedCursor.y });
             this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
+            const point = new _Point__WEBPACK_IMPORTED_MODULE_1__["default"](currentTransformedCursor.x, currentTransformedCursor.y);
+            this.erase(point);
         };
         this.mouseMove = (e) => {
             const { canvas, ctx, views } = this;
@@ -350,9 +352,6 @@ class EraseTool {
         ctx.closePath();
         this.lastPoint.setPoint(point.x, point.y);
         eraserPath.push({ x: point.x, y: point.y });
-        // const testBuifferCanvas = document.getElementById('buffer') as HTMLCanvasElement;
-        // const ctx2 = testBuifferCanvas.getContext('2d');
-        // ctx2.putImageData(views.bufferCtx.getImageData(0, 0, views.bufferCanvas.width, views.bufferCanvas.height), 0, 0);
         views.draw();
     }
     registerEvent(canvas) {
@@ -398,11 +397,12 @@ class PaintTool {
             this.color = color;
         };
         this.mouseDown = (e) => {
-            // e.preventDefault();
+            e.preventDefault();
             this.isDrawStart = true;
             const { canvas, views, ctx } = this;
             const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoints)(e, views.canvas, views.ctx);
             this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
+            this.draw(e);
         };
         this.mouseMove = (e) => {
             // e.preventDefault();
@@ -574,4 +574,4 @@ function dynamicClass(name) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/f0cbb689efd8d1cf11a6.js.map
+//# sourceMappingURL=js/838826c94ea78b31a85d.js.map

@@ -29,40 +29,46 @@ const CanvasImageEditor = (props) => {
         setFile(e.target.files[0]);
     };
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        if (canvasRef.current && file !== null) {
-            ViewsRef.current.loadFile(file);
-            window.addEventListener('resize', updateDimensions);
-        }
+        if (!canvasRef.current || !ContentRef.current || file === null)
+            return;
+        ViewsRef.current.initializeCanvas(canvasRef.current);
+        canvasRef.current.width = ContentRef.current.offsetWidth;
+        canvasRef.current.height = ContentRef.current.offsetHeight;
+        ViewsRef.current.loadFile(file);
+        const observer = new ResizeObserver((entries) => {
+            entries.forEach((entry) => {
+                updateDimensions();
+            });
+        });
+        observer.observe(canvasRef.current);
         return () => {
-            window.removeEventListener('resize', updateDimensions);
+            observer.unobserve(canvasRef.current);
             ViewsRef.current.cleanCanvas();
         };
     }, [file]);
-    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        if (canvasRef.current) {
-            ViewsRef.current.initializeCanvas(canvasRef.current);
-            canvasRef.current.width = ContentRef.current.offsetWidth;
-            canvasRef.current.height = ContentRef.current.offsetHeight;
-        }
-    }, []);
     const updateDimensions = () => {
         if (canvasRef.current && file !== null) {
+            // adjust the canvas size to match the size of its container
             const zoomLevel = (0,_utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_3__.getCurrentZoom)(ViewsRef.current.ctx);
+            const x = ViewsRef.current.ctx.getTransform().e + ContentRef.current.offsetWidth - canvasRef.current.width;
+            const y = ViewsRef.current.ctx.getTransform().f + ContentRef.current.offsetHeight - canvasRef.current.height;
+            // reset the transform matrix as it is cumulative
             canvasRef.current.width = ContentRef.current.offsetWidth;
             canvasRef.current.height = ContentRef.current.offsetHeight;
+            ViewsRef.current.ctx.translate(x, y);
             ViewsRef.current.ctx.scale(zoomLevel, zoomLevel);
             ViewsRef.current.draw();
         }
     };
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null,
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-row" },
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-full space-x-3" },
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: `${props.className} h-[100vh] ` },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-10 " },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Menu__WEBPACK_IMPORTED_MODULE_2__["default"], { ViewsRef: ViewsRef, setFile: setFile, file: file })),
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { ref: ContentRef, className: ` relative flex border-solid border-yellow-400` },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { ref: ContentRef, className: `relative flex w-full max-w-[calc(100%-2.5rem)]  border  border-solid border-yellow-400` },
                 file === null && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "absolute inset-0 flex items-center justify-center" },
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " text-white" }, "please click or drag file"),
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { onChange: onClickFile, className: " absolute inset-0 z-10 cursor-pointer opacity-0", type: "file", accept: "image/*" }))),
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { ...props, ref: canvasRef })))));
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { onChange: onClickFile, className: `absolute inset-0 z-10 cursor-pointer opacity-0 `, type: "file", accept: "image/*" }))),
+                ContentRef.current && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { ref: canvasRef, width: ContentRef.current.offsetWidth, height: ContentRef.current.offsetHeight }))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CanvasImageEditor);
 
@@ -120,7 +126,7 @@ const Menu = ({ ViewsRef, setFile, file }) => {
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_4__["default"], { onClick: onErase }),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_5__["default"], { onClick: onDeleteFile }),
     ];
-    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " inset-y-0 left-0 flex w-[2vw] flex-col items-center space-y-2 text-white" }, tools.map((tool, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " cursor-pointer", key: index }, tool)))));
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " inset-y-0 left-0 flex w-[2vw] flex-col items-center space-y-3  text-white" }, tools.map((tool, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " cursor-pointer", key: index }, tool)))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Menu);
 
@@ -144,7 +150,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const ImageEditor = () => {
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative m-auto flex w-full flex-col items-center justify-center" },
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_canvas_components_ImageEditor_CanvasImageEditor__WEBPACK_IMPORTED_MODULE_1__["default"], { className: " h-[100vh] w-[80vw] border border-solid border-white" })));
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_canvas_components_ImageEditor_CanvasImageEditor__WEBPACK_IMPORTED_MODULE_1__["default"], { className: "relative  flex h-full w-full max-w-[100vw-(240px)] flex-row border border-solid border-white" })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ImageEditor);
 
@@ -303,4 +309,4 @@ function onload2promise(obj) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/01e9e54a8c35a4c65a1a.js.map
+//# sourceMappingURL=js/6a2e5fcba087892eac9d.js.map
