@@ -1,7 +1,7 @@
-const {keyFrames,animates} = require('outsiderreact/dist/configs/tailwindAnimate')
+const { keyFrames, animates } = require('outsiderreact/dist/configs/tailwindAnimate')
 module.exports = {
-    content: ['./src/**/*.{js,jsx,ts,tsx}', 
-  './public/index.html','./node_modules/outsiderreact/dist/**/*.{ts,js}'],
+  content: ['./src/**/*.{js,jsx,ts,tsx}',
+    './public/index.html', './node_modules/outsiderreact/dist/**/*.{ts,js}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
@@ -16,6 +16,7 @@ module.exports = {
       spacing: {
         'navbar-desktop-w': '5rem',
         'm-navbar-desktop-h': '8vh',
+        navbar_desktop_w: '15rem',
       },
       maxWidth: {
         navbar_desktop_w: '15rem',
@@ -31,20 +32,20 @@ module.exports = {
       },
       keyframes: {
         ...keyFrames,
-        fade_in:{
-            '0%': { opacity: 0 },
-            '100%': { opacity: 100 },
+        fade_in: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 100 },
         },
         menu_collpase_on: {
           '0%': { height: '0vh', opacity: 0 },
-          '100%': { height: '50vh',opacity: 100 },
+          '100%': { height: '50vh', opacity: 100 },
         },
         menu_collpase_off: {
           '0%': { height: '50vh', opacity: 100 },
           '100%': { height: '0vh', opacity: 0 },
         },
-        pop:{
-            '0%': { marginBottom: '15vh', opacity: 0 },
+        pop: {
+          '0%': { marginBottom: '15vh', opacity: 0 },
           '100%': { marginBottom: '0vh', opacity: 100 },
         }
       },
@@ -52,8 +53,8 @@ module.exports = {
         ...animates,
         menu_collpase_on: 'menu_collpase_on 0.5s ease-in ',
         menu_collpase_off: 'menu_collpase_off 0.5s ease-in ',
-        fade_in:'fade_in 0.2s ease-in ',
-        pop:'pop 0.2s ease-in'
+        fade_in: 'fade_in 0.2s ease-in ',
+        pop: 'pop 0.2s ease-in'
       },
     },
   },

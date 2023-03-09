@@ -33,9 +33,6 @@ class EraseTool {
 
     eraserPath.push({ x: point.x, y: point.y });
 
-    // const testBuifferCanvas = document.getElementById('buffer') as HTMLCanvasElement;
-    // const ctx2 = testBuifferCanvas.getContext('2d');
-    // ctx2.putImageData(views.bufferCtx.getImageData(0, 0, views.bufferCanvas.width, views.bufferCanvas.height), 0, 0);
     views.draw();
   }
 
@@ -47,6 +44,8 @@ class EraseTool {
     const currentTransformedCursor = getTransformedPoints(e, views.canvas, views.ctx);
     eraserPath.push({ x: currentTransformedCursor.x, y: currentTransformedCursor.y });
     this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
+    const point = new Point(currentTransformedCursor.x, currentTransformedCursor.y);
+    this.erase(point);
   };
 
   mouseMove = (e) => {

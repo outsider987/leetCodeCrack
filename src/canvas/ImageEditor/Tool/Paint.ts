@@ -44,12 +44,13 @@ class PaintTool {
   };
 
   mouseDown = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     this.isDrawStart = true;
     const { canvas, views, ctx } = this;
 
     const currentTransformedCursor = getTransformedPoints(e, views.canvas, views.ctx);
     this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
+    this.draw(e);
   };
 
   mouseMove = (e) => {

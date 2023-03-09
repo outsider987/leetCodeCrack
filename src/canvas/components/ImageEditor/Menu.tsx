@@ -41,7 +41,7 @@ const Menu = ({ ViewsRef, setFile, file }: Props) => {
     <DeleteForever onClick={onDeleteFile}></DeleteForever>,
   ];
   return (
-    <div className=" inset-y-0 left-0 flex w-[2vw] flex-col items-center space-y-2 text-white">
+    <div className=" inset-y-0 left-0 flex w-[2vw] flex-col items-center space-y-3  text-white">
       {tools.map((tool, index) => (
         <div className=" cursor-pointer" key={index}>
           {tool}
