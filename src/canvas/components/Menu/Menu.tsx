@@ -1,7 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Brush, PanTool, DeleteForever, AutoFixNormal } from '@mui/icons-material';
+import { Brush, PanTool as PanIcon, DeleteForever, AutoFixNormal } from '@mui/icons-material';
 import Views from '~/canvas/ImageEditor/Canvas/Canvas';
 import dynamicClass, { Tools } from '~/canvas/ImageEditor/Tool';
+import Panel from '../Panel/Panel';
+import { useGlobalContext } from '~/store/context';
 interface Props {
   ViewsRef: React.MutableRefObject<Views>;
   setFile: React.Dispatch<React.SetStateAction<File>>;
@@ -10,6 +12,7 @@ interface Props {
 const Menu = ({ ViewsRef, setFile, file }: Props) => {
   const menuRef = useRef(null);
   const [mode, setMode] = useState<keyof typeof Tools>(null);
+  const { setShowPanel } = useGlobalContext();
 
   const onDeleteFile = (e) => {
     setFile(null);
@@ -26,7 +29,7 @@ const Menu = ({ ViewsRef, setFile, file }: Props) => {
 
   useEffect(() => {
     if (ViewsRef.current.canvas && file !== null) {
-      // const ctx = paintCanvasRef.current.getContext('2d');
+      setShowPanel(true);
       const ToolClass = dynamicClass(mode);
       let tool = new ToolClass(ViewsRef.current);
       return () => {
@@ -36,18 +39,21 @@ const Menu = ({ ViewsRef, setFile, file }: Props) => {
   }, [mode]);
   const tools = [
     <Brush onClick={onDraw}></Brush>,
-    <PanTool onClick={onPan}></PanTool>,
+    <PanIcon onClick={onPan}></PanIcon>,
     <AutoFixNormal onClick={onErase}></AutoFixNormal>,
     <DeleteForever onClick={onDeleteFile}></DeleteForever>,
   ];
   return (
-    <div className=" inset-y-0 left-0 flex w-[2vw] flex-col items-center space-y-3  text-white">
-      {tools.map((tool, index) => (
-        <div className=" cursor-pointer" key={index}>
-          {tool}
-        </div>
-      ))}
-    </div>
+    <>
+      <div className=" inset-y-0 left-0 flex w-menu-width min-w-[2.5rem] flex-col items-center  space-y-3 text-white">
+        {tools.map((tool, index) => (
+          <div className=" cursor-pointer" key={index}>
+            {tool}
+          </div>
+        ))}
+      </div>
+      <Panel title={mode} className=" "></Panel>
+    </>
   );
 };
 

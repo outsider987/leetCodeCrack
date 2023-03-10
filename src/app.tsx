@@ -11,17 +11,20 @@ import ModalsWrapper from './layouts/ModalsWrapper';
 const rootElement = document.getElementById('root') as HTMLElement;
 const root = createRoot(rootElement);
 import { QueryClient, QueryClientProvider } from 'react-query';
+import ContextProvider from './store/context';
 const queryClient = new QueryClient();
 
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <HashRouter>
-        <QueryClientProvider client={queryClient}>
-          <ModalsWrapper>
-            <MYRoutes />
-          </ModalsWrapper>
-        </QueryClientProvider>
+        <ContextProvider>
+          <QueryClientProvider client={queryClient}>
+            <ModalsWrapper>
+              <MYRoutes />
+            </ModalsWrapper>
+          </QueryClientProvider>
+        </ContextProvider>
       </HashRouter>
     </Provider>
   </React.StrictMode>,

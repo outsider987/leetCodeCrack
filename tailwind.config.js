@@ -17,6 +17,8 @@ module.exports = {
         'navbar-desktop-w': '5rem',
         'm-navbar-desktop-h': '8vh',
         navbar_desktop_w: '15rem',
+        "panel-width": '10rem',
+        "menu-width": '2.5rem'
       },
       maxWidth: {
         navbar_desktop_w: '15rem',

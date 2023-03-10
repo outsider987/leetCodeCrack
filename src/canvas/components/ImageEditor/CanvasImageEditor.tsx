@@ -1,20 +1,24 @@
-import React, { useRef, useEffect, useState, ChangeEvent } from 'react';
+import React, { useRef, useEffect, useState, ChangeEvent, useMemo } from 'react';
 import { json } from 'react-router-dom';
 import Button from '../../../components/Button';
 import { cv } from 'react-opencv';
 import dynamicClass, { Tools } from '~/canvas/ImageEditor/Tool';
-import { getClientOffset } from '~/utils/canvas/coordinate';
+
 import Views from '~/canvas/ImageEditor/Canvas/Canvas';
-import Menu from './Menu';
+import Menu from '../Menu/Menu';
 import { getCurrentZoom } from '~/utils/canvas/canvas';
+import { LAYOUT_SIZE } from '~/utils/canvas/constants';
+import { useGlobalContext } from '~/store/context';
 
 interface CanvasProps extends React.HTMLAttributes<HTMLCanvasElement> {}
 
 const CanvasImageEditor = (props: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { MENU_WIDTH, PANEL_WIDTH } = LAYOUT_SIZE;
   const [file, setFile] = useState<File>(null);
   const ViewsRef = useRef(new Views());
   const ContentRef = useRef<HTMLDivElement>();
+  const { isShowPanel } = useGlobalContext();
 
   const onClickFile = (e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files[0]);
@@ -22,6 +26,7 @@ const CanvasImageEditor = (props: CanvasProps) => {
 
   useEffect(() => {
     if (!canvasRef.current || !ContentRef.current || file === null) return;
+
     ViewsRef.current.initializeCanvas(canvasRef.current);
     canvasRef.current.width = ContentRef.current.offsetWidth;
     canvasRef.current.height = ContentRef.current.offsetHeight;
@@ -32,13 +37,18 @@ const CanvasImageEditor = (props: CanvasProps) => {
       });
     });
 
-    observer.observe(canvasRef.current);
+    observer.observe(ContentRef.current);
 
     return () => {
-      observer.unobserve(canvasRef.current);
+      observer.unobserve(ContentRef.current);
       ViewsRef.current.cleanCanvas();
     };
   }, [file]);
+
+  const contentMaxSize = useMemo(() => {
+    const panelWidth = isShowPanel ? PANEL_WIDTH : 0;
+    return `calc(100% - ${panelWidth || MENU_WIDTH})`;
+  }, [isShowPanel]);
 
   const updateDimensions = () => {
     if (canvasRef.current && file !== null) {
@@ -60,12 +70,13 @@ const CanvasImageEditor = (props: CanvasProps) => {
   return (
     <>
       <div className={`${props.className} h-[100vh] `}>
-        <div className="flex w-10 ">
+        <div className="flex min-w-[2.5rem]">
           <Menu ViewsRef={ViewsRef} setFile={setFile} file={file}></Menu>
         </div>
         <div
           ref={ContentRef}
-          className={`relative flex w-full max-w-[calc(100%-2.5rem)]  border  border-solid border-yellow-400`}
+          className={`relative flex-1  border  border-solid border-yellow-400`}
+          style={{ maxWidth: contentMaxSize }}
         >
           {file === null && (
             <div className="absolute inset-0 flex items-center justify-center">
@@ -79,9 +90,7 @@ const CanvasImageEditor = (props: CanvasProps) => {
             </div>
           )}
 
-          {ContentRef.current && (
-            <canvas ref={canvasRef} width={ContentRef.current.offsetWidth} height={ContentRef.current.offsetHeight} />
-          )}
+          {ContentRef.current && <canvas ref={canvasRef} />}
         </div>
       </div>
     </>

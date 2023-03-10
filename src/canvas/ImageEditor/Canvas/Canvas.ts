@@ -1,4 +1,4 @@
-import { getClientOffset, getTransformedPoint } from '~/utils/canvas/coordinate';
+import { getTransformedPoint } from '~/utils/canvas/coordinate';
 import FileLayer from '../Layer/FileLayer';
 import Point from './../Point';
 import BackgroundLayer from '../Layer/BackgroundLayer';
@@ -62,7 +62,6 @@ class Views {
     let y = (bufferCanvas.height - image.height * ratio) / 2;
 
     bufferCtx.drawImage(image, 0, 0, image.width, image.height, x, y, image.width * ratio, image.height * ratio);
-    // bufferCtx.drawImage(image, 0, 0);
 
     ctx.translate(canvas.width / 2, canvas.height / 2);
     ctx.scale(0.5, 0.5);

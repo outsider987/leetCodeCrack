@@ -1,4 +1,3 @@
-import { getClientOffset } from '~/utils/canvas/coordinate';
 import Point from '../Point';
 import Layer from './Layer';
 

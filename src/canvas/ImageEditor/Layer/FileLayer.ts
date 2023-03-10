@@ -1,4 +1,3 @@
-import { getClientOffset } from '~/utils/canvas/coordinate';
 import Point from '../Point';
 import Layer from './Layer';
 
@@ -13,11 +12,8 @@ class FileLayer extends Layer {
   }
   async loadFile(file) {
     const { ctx, canvas, position, image } = this;
-   
   }
 
   redraw() {}
 }
 export default FileLayer;
-
-

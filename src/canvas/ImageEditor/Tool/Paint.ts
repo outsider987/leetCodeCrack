@@ -1,9 +1,4 @@
-import {
-  getClientOffset,
-  getTransformedPaintPoint,
-  getTransformedPoint,
-  getTransformedPoints,
-} from '~/utils/canvas/coordinate';
+import { getTransformedPaintPoint, getTransformedPoint, getTransformedPoints } from '~/utils/canvas/coordinate';
 import Point from '../Point';
 import Views from '../Canvas/Canvas';
 
