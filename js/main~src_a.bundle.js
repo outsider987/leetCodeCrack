@@ -35,7 +35,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./router */ "./src/router/index.tsx");
 /* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index.scss */ "./src/index.scss");
 /* harmony import */ var _reset_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./reset.scss */ "./src/reset.scss");
@@ -43,6 +43,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _layouts_ModalsWrapper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./layouts/ModalsWrapper */ "./src/layouts/ModalsWrapper.tsx");
 /* harmony import */ var react_query__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-query */ "./node_modules/react-query/es/index.js");
+/* harmony import */ var _store_context__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./store/context */ "./src/store/context/index.tsx");
 
 
 
@@ -55,13 +56,15 @@ __webpack_require__.r(__webpack_exports__);
 const rootElement = document.getElementById('root');
 const root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(rootElement);
 
+
 const queryClient = new react_query__WEBPACK_IMPORTED_MODULE_8__.QueryClient();
 root.render(react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().StrictMode), null,
     react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_redux__WEBPACK_IMPORTED_MODULE_6__.Provider, { store: _store__WEBPACK_IMPORTED_MODULE_5__.store },
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.HashRouter, null,
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_query__WEBPACK_IMPORTED_MODULE_8__.QueryClientProvider, { client: queryClient },
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_layouts_ModalsWrapper__WEBPACK_IMPORTED_MODULE_7__["default"], null,
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_router__WEBPACK_IMPORTED_MODULE_2__.MYRoutes, null)))))));
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.HashRouter, null,
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_store_context__WEBPACK_IMPORTED_MODULE_9__["default"], null,
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_query__WEBPACK_IMPORTED_MODULE_8__.QueryClientProvider, { client: queryClient },
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_layouts_ModalsWrapper__WEBPACK_IMPORTED_MODULE_7__["default"], null,
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_router__WEBPACK_IMPORTED_MODULE_2__.MYRoutes, null))))))));
 
 
 /***/ }),
@@ -557,7 +560,7 @@ const HomeRoute = {
                 },
                 {
                     path: '/canvas/image-editor',
-                    element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_emotion_cache_dist_emotion-cache_browser_esm_js-node_modules_clsx_dist_c-3b4961"), __webpack_require__.e("vendors-node_modules_emotion_hash_dist_emotion-hash_esm_js-node_modules_emotion_is-prop-valid-d47ef5"), __webpack_require__.e("vendors-node_modules_emotion_react_dist_emotion-react_browser_esm_js"), __webpack_require__.e("vendors-node_modules_emotion_serialize_dist_emotion-serialize_browser_esm_js"), __webpack_require__.e("vendors-node_modules_emotion_sheet_dist_emotion-sheet_browser_esm_js-node_modules_emotion_sty-920671"), __webpack_require__.e("vendors-node_modules_mui_icons-material_esm_AutoFixNormal_js-node_modules_mui_icons-material_-89a835"), __webpack_require__.e("vendors-node_modules_mui_material_styles_createMixins_js-node_modules_mui_material_styles_cre-e1ef3c"), __webpack_require__.e("vendors-node_modules_mui_material_styles_styled_js-node_modules_mui_material_styles_useThemeP-598e64"), __webpack_require__.e("vendors-node_modules_mui_material_styles_zIndex_js-node_modules_mui_material_utils_capitalize-502eb8"), __webpack_require__.e("vendors-node_modules_mui_system_esm_borders_js-node_modules_mui_system_esm_colorManipulator_js"), __webpack_require__.e("vendors-node_modules_mui_system_esm_createStyled_js-node_modules_mui_system_esm_cssGrid_js-no-49a160"), __webpack_require__.e("vendors-node_modules_mui_system_esm_propsToClassKey_js-node_modules_mui_system_esm_styleFunct-5ba1e5"), __webpack_require__.e("vendors-node_modules_mui_utils_esm_capitalize_js-node_modules_mui_utils_esm_composeClasses_co-3deb45"), __webpack_require__.e("vendors-node_modules_prop-types_factoryWithTypeCheckers_js"), __webpack_require__.e("vendors-node_modules_prop-types_index_js-node_modules_prop-types_lib_ReactPropTypesSecret_js--40d499"), __webpack_require__.e("vendors-node_modules_react_cjs_react-jsx-runtime_development_js"), __webpack_require__.e("vendors-node_modules_react_jsx-runtime_js-node_modules_stylis_src_Middleware_js-node_modules_-548351"), __webpack_require__.e("src_canvas_ImageEditor_Canvas_Canvas_ts-src_canvas_ImageEditor_Tool_index_ts"), __webpack_require__.e("src_pages_Home_Canvas_ImageEditor_tsx-src_utils_canvas_coordinate_ts-src_utils_canvas_rect_ts-0de39c")]).then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Canvas/ImageEditor */ "./src/pages/Home/Canvas/ImageEditor.tsx")))),
+                    element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_emotion_cache_dist_emotion-cache_browser_esm_js-node_modules_clsx_dist_c-3b4961"), __webpack_require__.e("vendors-node_modules_emotion_hash_dist_emotion-hash_esm_js-node_modules_emotion_is-prop-valid-d47ef5"), __webpack_require__.e("vendors-node_modules_emotion_react_dist_emotion-react_browser_esm_js"), __webpack_require__.e("vendors-node_modules_emotion_serialize_dist_emotion-serialize_browser_esm_js"), __webpack_require__.e("vendors-node_modules_emotion_sheet_dist_emotion-sheet_browser_esm_js-node_modules_emotion_sty-920671"), __webpack_require__.e("vendors-node_modules_mui_icons-material_esm_AutoFixNormal_js-node_modules_mui_icons-material_-e63a36"), __webpack_require__.e("vendors-node_modules_mui_material_styles_createMixins_js-node_modules_mui_material_styles_cre-e1ef3c"), __webpack_require__.e("vendors-node_modules_mui_material_styles_styled_js-node_modules_mui_material_styles_useThemeP-598e64"), __webpack_require__.e("vendors-node_modules_mui_material_styles_zIndex_js-node_modules_mui_material_utils_capitalize-502eb8"), __webpack_require__.e("vendors-node_modules_mui_system_esm_borders_js-node_modules_mui_system_esm_colorManipulator_js"), __webpack_require__.e("vendors-node_modules_mui_system_esm_createStyled_js-node_modules_mui_system_esm_cssGrid_js-no-49a160"), __webpack_require__.e("vendors-node_modules_mui_system_esm_propsToClassKey_js-node_modules_mui_system_esm_styleFunct-5ba1e5"), __webpack_require__.e("vendors-node_modules_mui_utils_esm_capitalize_js-node_modules_mui_utils_esm_composeClasses_co-3deb45"), __webpack_require__.e("vendors-node_modules_prop-types_factoryWithTypeCheckers_js"), __webpack_require__.e("vendors-node_modules_prop-types_index_js-node_modules_prop-types_lib_ReactPropTypesSecret_js--40d499"), __webpack_require__.e("vendors-node_modules_react_cjs_react-jsx-runtime_development_js"), __webpack_require__.e("vendors-node_modules_react_jsx-runtime_js-node_modules_stylis_src_Middleware_js-node_modules_-548351"), __webpack_require__.e("src_canvas_ImageEditor_Canvas_Canvas_ts-src_canvas_ImageEditor_Tool_index_ts"), __webpack_require__.e("src_pages_Home_Canvas_ImageEditor_tsx-src_utils_canvas_coordinate_ts-src_utils_canvas_rect_ts-0de39c")]).then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Canvas/ImageEditor */ "./src/pages/Home/Canvas/ImageEditor.tsx")))),
                     icon: 'template',
                     isShow: true,
                     text: 'ImageEditor',
@@ -660,6 +663,35 @@ const globalSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice
 // Action creators are generated for each case reducer function
 const { setToken } = globalSlice.actions;
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (globalSlice.reducer);
+
+
+/***/ }),
+
+/***/ "./src/store/context/index.tsx":
+/*!*************************************!*\
+  !*** ./src/store/context/index.tsx ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "useGlobalContext": () => (/* binding */ useGlobalContext)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+const state = {
+    isShowPanel: false,
+    setShowPanel: (value) => { },
+};
+const GlobalContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)(state);
+const ContextProvider = ({ children }) => {
+    const [isShowPanel, setShowPanel] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+    return react__WEBPACK_IMPORTED_MODULE_0___default().createElement(GlobalContext.Provider, { value: { isShowPanel, setShowPanel } }, children);
+};
+const useGlobalContext = () => (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(GlobalContext);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ContextProvider);
 
 
 /***/ }),

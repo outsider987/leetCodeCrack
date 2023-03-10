@@ -66,7 +66,6 @@ class Views {
         let x = (bufferCanvas.width - image.width * ratio) / 2;
         let y = (bufferCanvas.height - image.height * ratio) / 2;
         bufferCtx.drawImage(image, 0, 0, image.width, image.height, x, y, image.width * ratio, image.height * ratio);
-        // bufferCtx.drawImage(image, 0, 0);
         ctx.translate(canvas.width / 2, canvas.height / 2);
         ctx.scale(0.5, 0.5);
         ctx.translate(-canvas.width / 2, -canvas.height / 2);
@@ -574,4 +573,4 @@ function dynamicClass(name) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/838826c94ea78b31a85d.js.map
+//# sourceMappingURL=js/5623d2311f507a323dd8.js.map

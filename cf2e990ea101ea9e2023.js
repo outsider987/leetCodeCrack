@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkleetcodecrack"] = self["webpackChunkleetcodecrack"] || []).push([["vendors-node_modules_mui_icons-material_esm_AutoFixNormal_js-node_modules_mui_icons-material_-89a835"],{
+(self["webpackChunkleetcodecrack"] = self["webpackChunkleetcodecrack"] || []).push([["vendors-node_modules_mui_icons-material_esm_AutoFixNormal_js-node_modules_mui_icons-material_-e63a36"],{
 
 /***/ "./node_modules/@mui/icons-material/esm/AutoFixNormal.js":
 /*!***************************************************************!*\
@@ -38,6 +38,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_utils_createSvgIcon__WEBPACK_IMPORTED_MODULE_1__["default"])( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", {
   d: "M7 14c-1.66 0-3 1.34-3 3 0 1.31-1.16 2-2 2 .92 1.22 2.49 2 4 2 2.21 0 4-1.79 4-4 0-1.66-1.34-3-3-3zm13.71-9.37-1.34-1.34a.9959.9959 0 0 0-1.41 0L9 12.25 11.75 15l8.96-8.96c.39-.39.39-1.02 0-1.41z"
 }), 'Brush'));
+
+/***/ }),
+
+/***/ "./node_modules/@mui/icons-material/esm/Close.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@mui/icons-material/esm/Close.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _utils_createSvgIcon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/createSvgIcon */ "./node_modules/@mui/material/utils/createSvgIcon.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_utils_createSvgIcon__WEBPACK_IMPORTED_MODULE_1__["default"])( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", {
+  d: "M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+}), 'Close'));
 
 /***/ }),
 
@@ -312,4 +332,4 @@ const svgIconClasses = (0,_mui_utils__WEBPACK_IMPORTED_MODULE_1__["default"])('M
 /***/ })
 
 }]);
-//# sourceMappingURL=js/2c08a124700297c141cd.js.map
+//# sourceMappingURL=js/cf2e990ea101ea9e2023.js.map
