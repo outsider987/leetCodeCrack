@@ -4,11 +4,12 @@ import { useGlobalContext } from '~/store/context';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
+  children?: React.ReactNode;
 }
 
 const Panel = (props: Props) => {
   const { isShowPanel, setShowPanel } = useGlobalContext();
-  const { title } = props;
+  const { title, children } = props;
   return (
     <>
       {isShowPanel && (
@@ -19,6 +20,7 @@ const Panel = (props: Props) => {
               <Close></Close>
             </button>
           </div>
+          {children}
         </div>
       )}
     </>

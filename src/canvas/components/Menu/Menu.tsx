@@ -10,22 +10,8 @@ interface Props {
   file: File;
 }
 const Menu = ({ ViewsRef, setFile, file }: Props) => {
-  const menuRef = useRef(null);
   const [mode, setMode] = useState<keyof typeof Tools>(null);
   const { setShowPanel } = useGlobalContext();
-
-  const onDeleteFile = (e) => {
-    setFile(null);
-  };
-  const onDraw = () => {
-    setMode('PaintTool');
-  };
-  const onErase = () => {
-    setMode('EraseTool');
-  };
-  const onPan = () => {
-    setMode('PanTool');
-  };
 
   useEffect(() => {
     if (ViewsRef.current.canvas && file !== null) {
@@ -37,23 +23,38 @@ const Menu = ({ ViewsRef, setFile, file }: Props) => {
       };
     }
   }, [mode]);
+
   const tools = [
-    <Brush onClick={onDraw}></Brush>,
-    <PanIcon onClick={onPan}></PanIcon>,
-    <AutoFixNormal onClick={onErase}></AutoFixNormal>,
-    <DeleteForever onClick={onDeleteFile}></DeleteForever>,
+    {
+      icon: <Brush />,
+      onClick: () => setMode('PaintTool'),
+    },
+    {
+      icon: <PanIcon />,
+      onClick: () => setMode('PanTool'),
+    },
+    {
+      icon: <AutoFixNormal />,
+      onClick: () => setMode('EraseTool'),
+    },
+    {
+      icon: <DeleteForever />,
+      onClick: () => setFile(null),
+    },
   ];
   return (
-    <>
-      <div className=" inset-y-0 left-0 flex w-menu-width min-w-[2.5rem] flex-col items-center  space-y-3 text-white">
-        {tools.map((tool, index) => (
-          <div className=" cursor-pointer" key={index}>
-            {tool}
-          </div>
-        ))}
-      </div>
-      <Panel title={mode} className=" "></Panel>
-    </>
+    file && (
+      <>
+        <div className=" inset-y-0 left-0 flex w-menu-width min-w-[2.5rem] flex-col items-center  space-y-3 text-white">
+          {tools.map(({ icon, onClick }, index) => (
+            <div className="cursor-pointer" key={index} onClick={onClick}>
+              {icon}
+            </div>
+          ))}
+        </div>
+        <Panel title={mode} className=" "></Panel>
+      </>
+    )
   );
 };
 
