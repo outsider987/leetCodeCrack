@@ -110,21 +110,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const Menu = ({ ViewsRef, setFile, file }) => {
-    const menuRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
     const [mode, setMode] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
     const { setShowPanel } = (0,_store_context__WEBPACK_IMPORTED_MODULE_3__.useGlobalContext)();
-    const onDeleteFile = (e) => {
-        setFile(null);
-    };
-    const onDraw = () => {
-        setMode('PaintTool');
-    };
-    const onErase = () => {
-        setMode('EraseTool');
-    };
-    const onPan = () => {
-        setMode('PanTool');
-    };
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         if (ViewsRef.current.canvas && file !== null) {
             setShowPanel(true);
@@ -136,14 +123,26 @@ const Menu = ({ ViewsRef, setFile, file }) => {
         }
     }, [mode]);
     const tools = [
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_4__["default"], { onClick: onDraw }),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_5__["default"], { onClick: onPan }),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_6__["default"], { onClick: onErase }),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_7__["default"], { onClick: onDeleteFile }),
+        {
+            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_4__["default"], null),
+            onClick: () => setMode('PaintTool'),
+        },
+        {
+            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_5__["default"], null),
+            onClick: () => setMode('PanTool'),
+        },
+        {
+            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_6__["default"], null),
+            onClick: () => setMode('EraseTool'),
+        },
+        {
+            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_7__["default"], null),
+            onClick: () => setFile(null),
+        },
     ];
-    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null,
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " inset-y-0 left-0 flex w-menu-width min-w-[2.5rem] flex-col items-center  space-y-3 text-white" }, tools.map((tool, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " cursor-pointer", key: index }, tool)))),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Panel_Panel__WEBPACK_IMPORTED_MODULE_2__["default"], { title: mode, className: " " })));
+    return (file && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null,
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " inset-y-0 left-0 flex w-menu-width min-w-[2.5rem] flex-col items-center  space-y-3 text-white" }, tools.map(({ icon, onClick }, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "cursor-pointer", key: index, onClick: onClick }, icon)))),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Panel_Panel__WEBPACK_IMPORTED_MODULE_2__["default"], { title: mode, className: " " }))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Menu);
 
@@ -169,12 +168,13 @@ __webpack_require__.r(__webpack_exports__);
 
 const Panel = (props) => {
     const { isShowPanel, setShowPanel } = (0,_store_context__WEBPACK_IMPORTED_MODULE_1__.useGlobalContext)();
-    const { title } = props;
+    const { title, children } = props;
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, isShowPanel && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { ...props, className: `flex h-full w-panel-width flex-row justify-around bg-navbar p-2` },
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col items-center space-y-3  border-b border-solid text-white" }, title),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { className: "flex-1 text-white", onClick: () => setShowPanel(false) },
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_2__["default"], null)))))));
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_2__["default"], null))),
+        children))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Panel);
 
@@ -345,4 +345,4 @@ function onload2promise(obj) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/2a1d5d9d1a9ae9e66559.js.map
+//# sourceMappingURL=js/62eff041566f125396b9.js.map
