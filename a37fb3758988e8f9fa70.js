@@ -85,6 +85,30 @@ const CanvasImageEditor = (props) => {
 
 /***/ }),
 
+/***/ "./src/canvas/components/Menu/Brush.tsx":
+/*!**********************************************!*\
+  !*** ./src/canvas/components/Menu/Brush.tsx ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _mui_icons_material__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @mui/icons-material */ "./node_modules/@mui/icons-material/esm/Brush.js");
+
+
+const BrushTool = (props) => {
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { ...props, className: "cursor-pointer" },
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_1__["default"], null)));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BrushTool);
+
+
+/***/ }),
+
 /***/ "./src/canvas/components/Menu/Menu.tsx":
 /*!*********************************************!*\
   !*** ./src/canvas/components/Menu/Menu.tsx ***!
@@ -97,13 +121,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _mui_icons_material__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mui/icons-material */ "./node_modules/@mui/icons-material/esm/Brush.js");
-/* harmony import */ var _mui_icons_material__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @mui/icons-material */ "./node_modules/@mui/icons-material/esm/PanTool.js");
-/* harmony import */ var _mui_icons_material__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mui/icons-material */ "./node_modules/@mui/icons-material/esm/AutoFixNormal.js");
-/* harmony import */ var _mui_icons_material__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mui/icons-material */ "./node_modules/@mui/icons-material/esm/DeleteForever.js");
 /* harmony import */ var _canvas_ImageEditor_Tool__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/canvas/ImageEditor/Tool */ "./src/canvas/ImageEditor/Tool/index.ts");
 /* harmony import */ var _Panel_Panel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Panel/Panel */ "./src/canvas/components/Panel/Panel.tsx");
 /* harmony import */ var _store_context__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ~/store/context */ "./src/store/context/index.tsx");
+/* harmony import */ var _Brush__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Brush */ "./src/canvas/components/Menu/Brush.tsx");
 
 
 
@@ -123,25 +144,22 @@ const Menu = ({ ViewsRef, setFile, file }) => {
         }
     }, [mode]);
     const tools = [
-        {
-            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_4__["default"], null),
-            onClick: () => setMode('PaintTool'),
-        },
-        {
-            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_5__["default"], null),
-            onClick: () => setMode('PanTool'),
-        },
-        {
-            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_6__["default"], null),
-            onClick: () => setMode('EraseTool'),
-        },
-        {
-            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_7__["default"], null),
-            onClick: () => setFile(null),
-        },
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Brush__WEBPACK_IMPORTED_MODULE_4__["default"], { onClick: () => setMode('PaintTool') }),
+        // {
+        //   tool: <PanIcon />,
+        //   onClick: () => setMode('PanTool'),
+        // },
+        // {
+        //   icon: <AutoFixNormal />,
+        //   onClick: () => setMode('EraseTool'),
+        // },
+        // {
+        //   icon: <DeleteForever />,
+        //   onClick: () => setFile(null),
+        // },
     ];
     return (file && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null,
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " inset-y-0 left-0 flex w-menu-width min-w-[2.5rem] flex-col items-center  space-y-3 text-white" }, tools.map(({ icon, onClick }, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "cursor-pointer", key: index, onClick: onClick }, icon)))),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " inset-y-0 left-0 flex w-menu-width min-w-[2.5rem] flex-col items-center  space-y-3 text-white" }, tools.map((Tool, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), { key: index }, Tool)))),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Panel_Panel__WEBPACK_IMPORTED_MODULE_2__["default"], { title: mode, className: " " }))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Menu);
@@ -345,4 +363,4 @@ function onload2promise(obj) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/62eff041566f125396b9.js.map
+//# sourceMappingURL=js/a37fb3758988e8f9fa70.js.map
