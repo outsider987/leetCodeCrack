@@ -289,6 +289,86 @@ class Point {
 
 /***/ }),
 
+/***/ "./src/canvas/ImageEditor/Tool/Brush.ts":
+/*!**********************************************!*\
+  !*** ./src/canvas/ImageEditor/Tool/Brush.ts ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ~/utils/canvas/coordinate */ "./src/utils/canvas/coordinate.ts");
+/* harmony import */ var _Point__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Point */ "./src/canvas/ImageEditor/Point.ts");
+
+
+class BrushTool {
+    constructor(views) {
+        this.isDrawStart = false;
+        this.setColor = (color) => {
+            this.color = color;
+        };
+        this.mouseDown = (e) => {
+            e.preventDefault();
+            this.isDrawStart = true;
+            const { canvas, views, ctx } = this;
+            const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoints)(e, views.canvas, views.ctx);
+            this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
+            this.draw(e);
+        };
+        this.mouseMove = (e) => {
+            // e.preventDefault();
+            if (!this.isDrawStart)
+                return;
+            this.draw(e);
+        };
+        this.mouseUp = (e) => {
+            // e.preventDefault();
+            this.isDrawStart = false;
+            this.views.draw();
+        };
+        this.lastPoint = new _Point__WEBPACK_IMPORTED_MODULE_1__["default"](0, 0);
+        this.setColor('black');
+        this.views = views;
+        this.registerEvent(views.canvas);
+    }
+    draw(e) {
+        const { canvas, ctx, views } = this;
+        const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoints)(e, views.canvas, views.ctx);
+        views.bufferCtx.beginPath();
+        views.bufferCtx.moveTo(this.lastPoint.x, this.lastPoint.y);
+        views.bufferCtx.lineTo(currentTransformedCursor.x, currentTransformedCursor.y);
+        views.bufferCtx.strokeStyle = this.color;
+        views.bufferCtx.lineWidth = 5;
+        views.bufferCtx.lineCap = 'round';
+        views.bufferCtx.stroke();
+        views.bufferCtx.closePath();
+        this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
+        this.views.draw();
+    }
+    registerEvent(canvas) {
+        canvas.addEventListener('mousedown', this.mouseDown);
+        canvas.addEventListener('mousemove', this.mouseMove);
+        canvas.addEventListener('mouseup', this.mouseUp);
+        canvas.addEventListener('touchstart', this.mouseDown);
+        canvas.addEventListener('touchmove', this.mouseMove);
+        canvas.addEventListener('touchend', this.mouseUp);
+    }
+    unRegisterEvent(canvas) {
+        canvas.removeEventListener('mousedown', this.mouseDown);
+        canvas.removeEventListener('mousemove', this.mouseMove);
+        canvas.removeEventListener('mouseup', this.mouseUp);
+        canvas.removeEventListener('touchstart', this.mouseDown);
+        canvas.removeEventListener('touchmove', this.mouseMove);
+        canvas.removeEventListener('touchend', this.mouseUp);
+    }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BrushTool);
+
+
+/***/ }),
+
 /***/ "./src/canvas/ImageEditor/Tool/Erase.ts":
 /*!**********************************************!*\
   !*** ./src/canvas/ImageEditor/Tool/Erase.ts ***!
@@ -371,86 +451,6 @@ class EraseTool {
     }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (EraseTool);
-
-
-/***/ }),
-
-/***/ "./src/canvas/ImageEditor/Tool/Paint.ts":
-/*!**********************************************!*\
-  !*** ./src/canvas/ImageEditor/Tool/Paint.ts ***!
-  \**********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ~/utils/canvas/coordinate */ "./src/utils/canvas/coordinate.ts");
-/* harmony import */ var _Point__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Point */ "./src/canvas/ImageEditor/Point.ts");
-
-
-class PaintTool {
-    constructor(views) {
-        this.isDrawStart = false;
-        this.setColor = (color) => {
-            this.color = color;
-        };
-        this.mouseDown = (e) => {
-            e.preventDefault();
-            this.isDrawStart = true;
-            const { canvas, views, ctx } = this;
-            const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoints)(e, views.canvas, views.ctx);
-            this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
-            this.draw(e);
-        };
-        this.mouseMove = (e) => {
-            // e.preventDefault();
-            if (!this.isDrawStart)
-                return;
-            this.draw(e);
-        };
-        this.mouseUp = (e) => {
-            // e.preventDefault();
-            this.isDrawStart = false;
-            this.views.draw();
-        };
-        this.lastPoint = new _Point__WEBPACK_IMPORTED_MODULE_1__["default"](0, 0);
-        this.setColor('black');
-        this.views = views;
-        this.registerEvent(views.canvas);
-    }
-    draw(e) {
-        const { canvas, ctx, views } = this;
-        const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoints)(e, views.canvas, views.ctx);
-        views.bufferCtx.beginPath();
-        views.bufferCtx.moveTo(this.lastPoint.x, this.lastPoint.y);
-        views.bufferCtx.lineTo(currentTransformedCursor.x, currentTransformedCursor.y);
-        views.bufferCtx.strokeStyle = this.color;
-        views.bufferCtx.lineWidth = 5;
-        views.bufferCtx.lineCap = 'round';
-        views.bufferCtx.stroke();
-        views.bufferCtx.closePath();
-        this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
-        this.views.draw();
-    }
-    registerEvent(canvas) {
-        canvas.addEventListener('mousedown', this.mouseDown);
-        canvas.addEventListener('mousemove', this.mouseMove);
-        canvas.addEventListener('mouseup', this.mouseUp);
-        canvas.addEventListener('touchstart', this.mouseDown);
-        canvas.addEventListener('touchmove', this.mouseMove);
-        canvas.addEventListener('touchend', this.mouseUp);
-    }
-    unRegisterEvent(canvas) {
-        canvas.removeEventListener('mousedown', this.mouseDown);
-        canvas.removeEventListener('mousemove', this.mouseMove);
-        canvas.removeEventListener('mouseup', this.mouseUp);
-        canvas.removeEventListener('touchstart', this.mouseDown);
-        canvas.removeEventListener('touchmove', this.mouseMove);
-        canvas.removeEventListener('touchend', this.mouseUp);
-    }
-}
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PaintTool);
 
 
 /***/ }),
@@ -555,13 +555,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ dynamicClass)
 /* harmony export */ });
 /* harmony import */ var _Erase__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Erase */ "./src/canvas/ImageEditor/Tool/Erase.ts");
-/* harmony import */ var _Paint__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Paint */ "./src/canvas/ImageEditor/Tool/Paint.ts");
+/* harmony import */ var _Brush__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Brush */ "./src/canvas/ImageEditor/Tool/Brush.ts");
 /* harmony import */ var _Pan__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Pan */ "./src/canvas/ImageEditor/Tool/Pan.ts");
 
 
 
 const Tools = {
-    PaintTool: _Paint__WEBPACK_IMPORTED_MODULE_1__["default"],
+    BrushTool: _Brush__WEBPACK_IMPORTED_MODULE_1__["default"],
     EraseTool: _Erase__WEBPACK_IMPORTED_MODULE_0__["default"],
     PanTool: _Pan__WEBPACK_IMPORTED_MODULE_2__["default"],
 };
@@ -573,4 +573,4 @@ function dynamicClass(name) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/5623d2311f507a323dd8.js.map
+//# sourceMappingURL=js/d3798e90b40abfd63486.js.map
