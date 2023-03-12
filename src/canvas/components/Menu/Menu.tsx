@@ -5,51 +5,65 @@ import dynamicClass, { Tools } from '~/canvas/ImageEditor/Tool';
 import Panel from '../Panel/Panel';
 import { useGlobalContext } from '~/store/context';
 import BrushTool from './Brush';
+import PanTool from './Pan';
+import { LAYOUT_SIZE } from '~/utils/canvas/constants';
+
 interface Props {
   ViewsRef: React.MutableRefObject<Views>;
   setFile: React.Dispatch<React.SetStateAction<File>>;
   file: File;
 }
 const Menu = ({ ViewsRef, setFile, file }: Props) => {
-  const [mode, setMode] = useState<keyof typeof Tools>(null);
-  const { setShowPanel } = useGlobalContext();
+  const { mode, setMode, setShowPanel } = useGlobalContext();
+  const ToolRef = useRef(null);
+
+  const { MENU_WIDTH } = LAYOUT_SIZE;
 
   useEffect(() => {
     if (ViewsRef.current.canvas && file !== null) {
       setShowPanel(true);
       const ToolClass = dynamicClass(mode);
-      let tool = new ToolClass(ViewsRef.current);
+      ToolRef.current = new ToolClass(ViewsRef.current);
+
       return () => {
-        tool.unRegisterEvent(ViewsRef.current.canvas);
+        ToolRef.current.unRegisterEvent(ViewsRef.current.canvas);
       };
     }
   }, [mode]);
 
   const tools = [
-    <BrushTool onClick={() => setMode('PaintTool')} />,
+    {
+      icon: <Brush />,
+      onClick: () => setMode(Tools.BrushTool.name),
+    },
 
-    // {
-    //   tool: <PanIcon />,
-    //   onClick: () => setMode('PanTool'),
-    // },
-    // {
-    //   icon: <AutoFixNormal />,
-    //   onClick: () => setMode('EraseTool'),
-    // },
-    // {
-    //   icon: <DeleteForever />,
-    //   onClick: () => setFile(null),
-    // },
+    {
+      icon: <PanIcon />,
+      onClick: () => setMode(Tools.PanTool.name),
+    },
+    {
+      icon: <AutoFixNormal />,
+      onClick: () => setMode(Tools.EraseTool.name),
+    },
+    {
+      icon: <DeleteForever />,
+      onClick: () => setFile(null),
+    },
   ];
   return (
     file && (
       <>
-        <div className=" inset-y-0 left-0 flex w-menu-width min-w-[2.5rem] flex-col items-center  space-y-3 text-white">
-          {tools.map((Tool, index) => (
-            <React.Fragment key={index}>{Tool}</React.Fragment>
+        <div
+          className={`inset-y-0 left-0 flex min-w-[${MENU_WIDTH}] flex-col  items-center  space-y-3 text-white`}
+          style={{ maxWidth: MENU_WIDTH }}
+        >
+          {tools.map(({ icon, onClick }, index) => (
+            <button key={index} onClick={onClick} className="cursor-pointer">
+              {icon}
+            </button>
           ))}
         </div>
-        <Panel title={mode} className=" "></Panel>
+        <Panel title={mode} mode={mode} tool={ToolRef.current} className=" "></Panel>
       </>
     )
   );

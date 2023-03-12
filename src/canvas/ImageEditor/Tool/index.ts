@@ -1,9 +1,9 @@
 import EraseTool from './Erase';
-import PaintTool from './Paint';
+import BrushTool from './Brush';
 import PanTool from './Pan';
 
 export const Tools = {
-  PaintTool,
+  BrushTool,
   EraseTool,
   PanTool,
 };

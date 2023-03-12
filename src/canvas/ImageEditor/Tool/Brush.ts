@@ -2,7 +2,7 @@ import { getTransformedPaintPoint, getTransformedPoint, getTransformedPoints } f
 import Point from '../Point';
 import Views from '../Canvas/Canvas';
 
-class PaintTool {
+class BrushTool {
   ctx: CanvasRenderingContext2D;
   color: string;
   canvas: HTMLCanvasElement;
@@ -79,4 +79,4 @@ class PaintTool {
     canvas.removeEventListener('touchend', this.mouseUp);
   }
 }
-export default PaintTool;
+export default BrushTool;
