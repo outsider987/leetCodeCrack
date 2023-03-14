@@ -51,6 +51,9 @@ const CanvasColorPicker = (props: Props) => {
 
     setColorCallBack(event.target.value);
   };
+  useEffect(() => {
+    setColor(colorValue);
+  }, []);
 
   return (
     <div>

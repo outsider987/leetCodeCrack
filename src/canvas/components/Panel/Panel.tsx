@@ -34,7 +34,7 @@ const Panel = (props: Props) => {
       default:
         return <></>;
     }
-  }, [mode, tool]);
+  }, [tool]);
 
   return (
     <>

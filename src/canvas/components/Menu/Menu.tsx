@@ -29,6 +29,7 @@ const Menu = ({ ViewsRef, setFile, file }: Props) => {
       setTool(toolInstance);
       return () => {
         toolInstance.unRegisterEvent(ViewsRef.current.canvas);
+        setTool(null);
       };
     }
   }, [mode]);
