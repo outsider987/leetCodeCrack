@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkleetcodecrack"] = self["webpackChunkleetcodecrack"] || []).push([["src_components_Slider_tsx-src_pages_Home_Canvas_ImageEditor_tsx-src_utils_canvas_canvas_ts-sr-9a5343"],{
+(self["webpackChunkleetcodecrack"] = self["webpackChunkleetcodecrack"] || []).push([["src_components_Slider_tsx-src_pages_Home_Canvas_ImageEditor_tsx-src_utils_canvas_canvas_ts-sr-d31d34"],{
 
 /***/ "./src/components/Slider.tsx":
 /*!***********************************!*\
@@ -16,13 +16,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const Slider = (props) => {
-    const { setSizeCallBack, min = 1, max = 100 } = props;
-    const [value, setValue] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(50);
+    const { setSizeCallBack, min = 1, max = 100, size } = props;
     const [isDragging, setIsDragging] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
     const handleChange = (event) => {
         const newValue = event.target.value;
         const value = min && newValue < min ? min : max && newValue > max ? max : newValue;
-        setValue(value);
         setSizeCallBack(value);
     };
     const handleDragStart = () => {
@@ -31,18 +29,19 @@ const Slider = (props) => {
     const handleDragEnd = () => {
         setIsDragging(false);
     };
+    const percentage = (size / max) * 100;
     const volumeGradient = `linear-gradient(to right, 
       rgba(255, 212, 71, 1) 0%, 
-      rgba(255, 161, 71, 1) ${value}%, 
+      rgba(255, 161, 71, 1) ${percentage}%, 
       rgba(255, 84, 84, 1) 100%)`;
     const circlePosition = {
-        left: `calc(${value}% - 7px)`,
+        left: `calc(${percentage}% - 7px)`,
     };
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative h-4 w-full rounded-full bg-gray-800" },
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "h-full rounded-full", style: { width: `${value}%`, background: volumeGradient } }),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "h-full rounded-full", style: { width: `${percentage}%`, background: volumeGradient } }),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: `absolute top-0  ${isDragging ? 'block' : 'hidden'}`, style: circlePosition },
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "h-4 w-4 rounded-full border-2 border-yellow-500 bg-white" })),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "range", min: min, max: max, value: value, onChange: handleChange, onMouseDown: handleDragStart, onTouchStart: handleDragStart, onTouchEnd: handleDragEnd, onTouchCancel: handleDragEnd, onMouseUp: handleDragEnd, className: "absolute top-0 left-0 h-full w-full cursor-pointer opacity-0" })));
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "range", min: min, max: max, value: size, onChange: handleChange, onMouseDown: handleDragStart, onTouchStart: handleDragStart, onTouchEnd: handleDragEnd, onTouchCancel: handleDragEnd, onMouseUp: handleDragEnd, className: "absolute top-0 left-0 h-full w-full cursor-pointer opacity-0" })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Slider);
 
@@ -210,7 +209,63 @@ function onload2promise(obj) {
 }
 
 
+/***/ }),
+
+/***/ "./src/utils/storage.ts":
+/*!******************************!*\
+  !*** ./src/utils/storage.ts ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "cleanTokenStorage": () => (/* binding */ cleanTokenStorage),
+/* harmony export */   "getTokenStorage": () => (/* binding */ getTokenStorage),
+/* harmony export */   "setTokenStorage": () => (/* binding */ setTokenStorage),
+/* harmony export */   "useBrushStorage": () => (/* binding */ useBrushStorage)
+/* harmony export */ });
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ~/store */ "./src/store/index.ts");
+/* harmony import */ var _store_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/store/auth */ "./src/store/auth.ts");
+
+
+const setTokenStorage = (tokens) => {
+    localStorage.setItem('tokens', JSON.stringify(tokens));
+    _store__WEBPACK_IMPORTED_MODULE_0__.store.dispatch((0,_store_auth__WEBPACK_IMPORTED_MODULE_1__.setToken)({ ...tokens, userInformation: null }));
+    // store.dispatch(setTokenConfig({}));
+};
+const getTokenStorage = () => {
+    const tokens = localStorage.getItem('tokens');
+    if (tokens == undefined)
+        return { accessToken: '', refreshToken: '' };
+    if (tokens)
+        return JSON.parse(tokens);
+    return '';
+};
+const cleanTokenStorage = () => {
+    localStorage.removeItem('tokens');
+    _store__WEBPACK_IMPORTED_MODULE_0__.store.dispatch((0,_store_auth__WEBPACK_IMPORTED_MODULE_1__.setToken)({ accessToken: '', refreshToken: '', userInformation: null }));
+};
+const useBrushStorage = () => {
+    const key = 'brush-color';
+    const setBrushStorage = (value) => {
+        sessionStorage.setItem(key, JSON.stringify(value));
+    };
+    const getBrushStorage = () => {
+        const value = sessionStorage.getItem(key);
+        if (value == undefined)
+            return null;
+        if (value)
+            return JSON.parse(value);
+        return null;
+    };
+    const removeBrushStorage = () => {
+        sessionStorage.removeItem(key);
+    };
+    return { setBrushStorage, getBrushStorage, removeBrushStorage };
+};
+
+
 /***/ })
 
 }]);
-//# sourceMappingURL=js/519aaf1af3164f89a16e.js.map
+//# sourceMappingURL=js/fccd8101756a00df1285.js.map

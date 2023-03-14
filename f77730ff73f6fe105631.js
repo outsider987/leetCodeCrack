@@ -123,6 +123,7 @@ const Menu = ({ ViewsRef, setFile, file }) => {
             setTool(toolInstance);
             return () => {
                 toolInstance.unRegisterEvent(ViewsRef.current.canvas);
+                setTool(null);
             };
         }
     }, [mode]);
@@ -167,17 +168,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ColorPicker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ColorPicker */ "./src/canvas/components/Panel/Brush/ColorPicker.tsx");
 /* harmony import */ var _components_Slider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ~/components/Slider */ "./src/components/Slider.tsx");
+/* harmony import */ var _utils_storage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ~/utils/storage */ "./src/utils/storage.ts");
+
 
 
 
 const BrushPanel = (props) => {
-    const canvasRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
-    const [color, setColor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('#000000');
     const { tool } = props;
-    (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(() => { }, []);
+    const brushStorage = (0,_utils_storage__WEBPACK_IMPORTED_MODULE_3__.useBrushStorage)();
+    const lastColor = brushStorage.getBrushStorage();
+    const currentColor = lastColor || tool.color;
+    const [color, setColor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(currentColor);
+    const [size, setSize] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(tool.size);
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        tool.setColor(color);
+    }, [tool]);
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        tool.setSize(size);
+    }, [size]);
+    const handleSetColor = (newColor) => {
+        setColor(newColor);
+        tool.setColor(newColor);
+        brushStorage.setBrushStorage(newColor);
+    };
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_1__["default"], { colorValue: color, setColorCallBack: tool.setColor }),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Slider__WEBPACK_IMPORTED_MODULE_2__["default"], { setSizeCallBack: tool.setSize })));
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_1__["default"], { colorValue: color, setColorCallBack: handleSetColor }),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Slider__WEBPACK_IMPORTED_MODULE_2__["default"], { size: size, setSizeCallBack: setSize, max: 1000 })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BrushPanel);
 
@@ -235,6 +251,9 @@ const CanvasColorPicker = (props) => {
         setColor(event.target.value);
         setColorCallBack(event.target.value);
     };
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        setColor(colorValue);
+    }, []);
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "color", value: color, onChange: handleColorChange })));
 };
@@ -285,7 +304,7 @@ const Panel = (props) => {
             default:
                 return react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null);
         }
-    }, [mode, tool]);
+    }, [tool]);
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, isShowPanel && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: `h-full flex-1 flex-col max-w-[${PANEL_WIDTH}]` },
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { ...props, className: `flex  flex-row justify-around bg-navbar p-2` },
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col items-center space-y-3  border-b border-solid text-white" }, title),
@@ -300,4 +319,4 @@ const Panel = (props) => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/8e112320e645c45b97ac.js.map
+//# sourceMappingURL=js/f77730ff73f6fe105631.js.map
