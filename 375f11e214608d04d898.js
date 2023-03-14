@@ -70,7 +70,7 @@ class Views {
         ctx.scale(0.5, 0.5);
         ctx.translate(-canvas.width / 2, -canvas.height / 2);
         ctx.transform(1, 0, 0, 1, (canvas.width - bufferCanvas.width) / 2, (canvas.height - bufferCanvas.height) / 2);
-        this.backgroundLayer = new _Layer_BackgroundLayer__WEBPACK_IMPORTED_MODULE_2__["default"](this.bufferCanvas);
+        this.backgroundLayer = await new _Layer_BackgroundLayer__WEBPACK_IMPORTED_MODULE_2__["default"](this.bufferCanvas);
         this.draw();
     }
     draw() {
@@ -309,6 +309,9 @@ class BrushTool {
         this.setColor = (color) => {
             this.color = color;
         };
+        this.setSize = (size) => {
+            this.size = size;
+        };
         this.mouseDown = (e) => {
             e.preventDefault();
             this.isDrawStart = true;
@@ -330,6 +333,7 @@ class BrushTool {
         };
         this.lastPoint = new _Point__WEBPACK_IMPORTED_MODULE_1__["default"](0, 0);
         this.setColor('black');
+        this.size = 5;
         this.views = views;
         this.registerEvent(views.canvas);
     }
@@ -340,7 +344,7 @@ class BrushTool {
         views.bufferCtx.moveTo(this.lastPoint.x, this.lastPoint.y);
         views.bufferCtx.lineTo(currentTransformedCursor.x, currentTransformedCursor.y);
         views.bufferCtx.strokeStyle = this.color;
-        views.bufferCtx.lineWidth = 5;
+        views.bufferCtx.lineWidth = this.size;
         views.bufferCtx.lineCap = 'round';
         views.bufferCtx.stroke();
         views.bufferCtx.closePath();
@@ -573,4 +577,4 @@ function dynamicClass(name) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/d3798e90b40abfd63486.js.map
+//# sourceMappingURL=js/375f11e214608d04d898.js.map

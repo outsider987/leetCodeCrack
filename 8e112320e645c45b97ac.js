@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkleetcodecrack"] = self["webpackChunkleetcodecrack"] || []).push([["src_pages_Home_Canvas_ImageEditor_tsx-src_utils_canvas_coordinate_ts-src_utils_canvas_rect_ts-0de39c"],{
+(self["webpackChunkleetcodecrack"] = self["webpackChunkleetcodecrack"] || []).push([["src_canvas_components_ImageEditor_CanvasImageEditor_tsx"],{
 
 /***/ "./src/canvas/components/ImageEditor/CanvasImageEditor.tsx":
 /*!*****************************************************************!*\
@@ -43,7 +43,7 @@ const CanvasImageEditor = (props) => {
         ViewsRef.current.loadFile(file);
         const observer = new ResizeObserver((entries) => {
             entries.forEach((entry) => {
-                updateDimensions();
+                ViewsRef.current.backgroundLayer && updateDimensions();
             });
         });
         observer.observe(ContentRef.current);
@@ -113,15 +113,16 @@ __webpack_require__.r(__webpack_exports__);
 
 const Menu = ({ ViewsRef, setFile, file }) => {
     const { mode, setMode, setShowPanel } = (0,_store_context__WEBPACK_IMPORTED_MODULE_3__.useGlobalContext)();
-    const ToolRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+    const [tool, setTool] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
     const { MENU_WIDTH } = _utils_canvas_constants__WEBPACK_IMPORTED_MODULE_4__.LAYOUT_SIZE;
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         if (ViewsRef.current.canvas && file !== null) {
             setShowPanel(true);
             const ToolClass = (0,_canvas_ImageEditor_Tool__WEBPACK_IMPORTED_MODULE_1__["default"])(mode);
-            ToolRef.current = new ToolClass(ViewsRef.current);
+            const toolInstance = new ToolClass(ViewsRef.current);
+            setTool(toolInstance);
             return () => {
-                ToolRef.current.unRegisterEvent(ViewsRef.current.canvas);
+                toolInstance.unRegisterEvent(ViewsRef.current.canvas);
             };
         }
     }, [mode]);
@@ -144,8 +145,8 @@ const Menu = ({ ViewsRef, setFile, file }) => {
         },
     ];
     return (file && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null,
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: `inset-y-0 left-0 flex min-w-[${MENU_WIDTH}] flex-col  items-center  space-y-3 text-white`, style: { maxWidth: MENU_WIDTH } }, tools.map(({ icon, onClick }, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { key: index, onClick: onClick, className: "cursor-pointer" }, icon)))),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Panel_Panel__WEBPACK_IMPORTED_MODULE_2__["default"], { title: mode, mode: mode, tool: ToolRef.current, className: " " }))));
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: `inset-y-0 left-0 flex min-w-[${MENU_WIDTH}] flex-col  items-center  text-white`, style: { maxWidth: MENU_WIDTH } }, tools.map(({ icon, onClick }, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { key: index, onClick: onClick, className: " row-auto cursor-pointer p-2  hover:bg-slate-500" }, icon)))),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Panel_Panel__WEBPACK_IMPORTED_MODULE_2__["default"], { title: mode, mode: mode, tool: tool, className: " " }))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Menu);
 
@@ -165,15 +166,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ColorPicker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ColorPicker */ "./src/canvas/components/Panel/Brush/ColorPicker.tsx");
+/* harmony import */ var _components_Slider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ~/components/Slider */ "./src/components/Slider.tsx");
+
 
 
 const BrushPanel = (props) => {
     const canvasRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
     const [color, setColor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('#000000');
     const { tool } = props;
-    console.log(tool);
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(() => { }, []);
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_1__["default"], { setColorCallBack: tool.setColor })));
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_1__["default"], { colorValue: color, setColorCallBack: tool.setColor }),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Slider__WEBPACK_IMPORTED_MODULE_2__["default"], { setSizeCallBack: tool.setSize })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BrushPanel);
 
@@ -225,12 +229,11 @@ const CanvasColorPicker = (props) => {
     //   setSelectedColor(color);
     // }
     // const selectedColorString = `rgba(${selectedColor.R}, ${selectedColor.G}, ${selectedColor.B}, ${selectedColor.A})`;
-    const { setColorCallBack } = props;
-    const [color, setColor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('#000000');
+    const { setColorCallBack, colorValue } = props;
+    const [color, setColor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(colorValue);
     const handleColorChange = (event) => {
         setColor(event.target.value);
         setColorCallBack(event.target.value);
-        console.log(event.target.value);
     };
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "color", value: color, onChange: handleColorChange })));
@@ -294,170 +297,7 @@ const Panel = (props) => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Panel);
 
 
-/***/ }),
-
-/***/ "./src/pages/Home/Canvas/ImageEditor.tsx":
-/*!***********************************************!*\
-  !*** ./src/pages/Home/Canvas/ImageEditor.tsx ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _canvas_components_ImageEditor_CanvasImageEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/canvas/components/ImageEditor/CanvasImageEditor */ "./src/canvas/components/ImageEditor/CanvasImageEditor.tsx");
-
-
-const ImageEditor = () => {
-    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: `relative m-auto flex h-full max-h-screen w-full flex-col items-center justify-center` },
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_canvas_components_ImageEditor_CanvasImageEditor__WEBPACK_IMPORTED_MODULE_1__["default"], { className: "relative  flex h-full w-full  flex-row border border-solid border-white" })));
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ImageEditor);
-
-
-/***/ }),
-
-/***/ "./src/utils/canvas/canvas.ts":
-/*!************************************!*\
-  !*** ./src/utils/canvas/canvas.ts ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getCurrentZoom": () => (/* binding */ getCurrentZoom),
-/* harmony export */   "redrawBoundBackGround": () => (/* binding */ redrawBoundBackGround)
-/* harmony export */ });
-function getCurrentZoom(ctx) {
-    // Extract the current transformation matrix from the context
-    const matrix = ctx.getTransform();
-    // Calculate the current zoom level as the square root of the determinant of the transformation matrix
-    // (see https://developer.mozilla.org/en-US/docs/Web/API/DOMMatrix/determinant)
-    return Math.sqrt(Math.abs(matrix.a * matrix.d - matrix.b * matrix.c));
-}
-function redrawBoundBackGround(canvas) {
-    const ctx = canvas.getContext('2d');
-    ctx.save();
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'grey';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.restore();
-}
-
-
-/***/ }),
-
-/***/ "./src/utils/canvas/constants.ts":
-/*!***************************************!*\
-  !*** ./src/utils/canvas/constants.ts ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "LAYOUT_SIZE": () => (/* binding */ LAYOUT_SIZE)
-/* harmony export */ });
-const LAYOUT_SIZE = { MENU_WIDTH: '2.5rem', PANEL_WIDTH: '10rem' };
-
-
-/***/ }),
-
-/***/ "./src/utils/canvas/coordinate.ts":
-/*!****************************************!*\
-  !*** ./src/utils/canvas/coordinate.ts ***!
-  \****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getTransformedPaintPoint": () => (/* binding */ getTransformedPaintPoint),
-/* harmony export */   "getTransformedPoint": () => (/* binding */ getTransformedPoint),
-/* harmony export */   "getTransformedPoints": () => (/* binding */ getTransformedPoints)
-/* harmony export */ });
-function getTransformedPoint(e, canvas, ctx) {
-    const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
-    const originalPoint = new DOMPoint(offsetX, offsetY);
-    return ctx.getTransform().invertSelf().transformPoint(originalPoint);
-}
-function getTransformedPaintPoint(e, canvas, ctx, scale = 1) {
-    const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
-    const rect = canvas.getBoundingClientRect();
-    console.log(ctx.getTransform());
-    const originalPoint = new DOMPoint(offsetX - rect.left, offsetY, rect.top);
-    return ctx.getTransform().invertSelf().transformPoint(originalPoint);
-}
-function getTransformedPoints(e, canvas, ctx) {
-    const { pageX, pageY } = e.touches ? e.touches[0] : e;
-    const rect = canvas.getBoundingClientRect();
-    const originalPoint = new DOMPoint(pageX - rect.left, pageY - rect.top);
-    const point = ctx.getTransform().invertSelf().transformPoint(originalPoint);
-    const x = point.x;
-    const y = point.y;
-    return { x: x, y: y };
-}
-
-
-/***/ }),
-
-/***/ "./src/utils/canvas/rect.ts":
-/*!**********************************!*\
-  !*** ./src/utils/canvas/rect.ts ***!
-  \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "IsInRect": () => (/* binding */ IsInRect),
-/* harmony export */   "IsOutRect": () => (/* binding */ IsOutRect),
-/* harmony export */   "IsOverBoundRect": () => (/* binding */ IsOverBoundRect),
-/* harmony export */   "getNewSize": () => (/* binding */ getNewSize)
-/* harmony export */ });
-function IsInRect(x, y, left, top, right, bottom) {
-    return x >= left && x <= right && y >= top && y <= bottom;
-}
-function IsOutRect(x, y, left, top, right, bottom) {
-    return x < left || x > right || y < top || y > bottom;
-}
-function IsOverBoundRect(innerLeft, innerTop, innerRight, innerBottom, outerLeft, outerTop, outerRight, outerBottom) {
-    return innerLeft < outerLeft || innerTop < outerTop || innerRight > outerRight || innerBottom > outerBottom;
-}
-function getNewSize(canvas, image) {
-    const widthRatio = canvas.width / image.width;
-    const heightRatio = canvas.height / image.height;
-    // Use the smaller ratio to ensure that the image fits inside the canvas
-    const scale = Math.min(widthRatio, heightRatio);
-    // Calculate the new width and height of the image
-    const newWidth = image.width * scale;
-    const newHeight = image.height * scale;
-    return { newWidth, newHeight };
-}
-
-
-/***/ }),
-
-/***/ "./src/utils/image.ts":
-/*!****************************!*\
-  !*** ./src/utils/image.ts ***!
-  \****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "onload2promise": () => (/* binding */ onload2promise)
-/* harmony export */ });
-function onload2promise(obj) {
-    return new Promise((resolve, reject) => {
-        obj.onload = () => resolve(obj);
-        obj.onerror = reject;
-    });
-}
-
-
 /***/ })
 
 }]);
-//# sourceMappingURL=js/522a41fbd99b49615a36.js.map
+//# sourceMappingURL=js/8e112320e645c45b97ac.js.map
