@@ -33,7 +33,7 @@ const CanvasImageEditor = (props: CanvasProps) => {
     ViewsRef.current.loadFile(file);
     const observer = new ResizeObserver((entries) => {
       entries.forEach((entry) => {
-        updateDimensions();
+        ViewsRef.current.backgroundLayer && updateDimensions();
       });
     });
 

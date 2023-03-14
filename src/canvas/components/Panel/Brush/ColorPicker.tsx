@@ -3,6 +3,7 @@ import { SketchPicker } from 'react-color';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   setColorCallBack: (color: string) => void;
+  colorValue: string;
 }
 
 const CanvasColorPicker = (props: Props) => {
@@ -42,13 +43,13 @@ const CanvasColorPicker = (props: Props) => {
 
   // const selectedColorString = `rgba(${selectedColor.R}, ${selectedColor.G}, ${selectedColor.B}, ${selectedColor.A})`;
 
-  const { setColorCallBack } = props;
+  const { setColorCallBack, colorValue } = props;
 
-  const [color, setColor] = useState('#000000');
+  const [color, setColor] = useState(colorValue);
   const handleColorChange = (event) => {
     setColor(event.target.value);
+
     setColorCallBack(event.target.value);
-    console.log(event.target.value);
   };
 
   return (

@@ -8,6 +8,7 @@ const BrushTool = (props: Props) => {
     <button {...props} className="cursor-pointer">
       <BrushIcon></BrushIcon>
     </button>
+    
   );
 };
 

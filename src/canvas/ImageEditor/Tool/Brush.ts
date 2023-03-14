@@ -9,10 +9,11 @@ class BrushTool {
   lastPoint: Point;
   private isDrawStart: boolean = false;
   views: Views;
+  size: number;
   constructor(views: Views) {
     this.lastPoint = new Point(0, 0);
     this.setColor('black');
-
+    this.size = 5;
     this.views = views;
     this.registerEvent(views.canvas);
   }
@@ -25,7 +26,7 @@ class BrushTool {
     views.bufferCtx.moveTo(this.lastPoint.x, this.lastPoint.y);
     views.bufferCtx.lineTo(currentTransformedCursor.x, currentTransformedCursor.y);
     views.bufferCtx.strokeStyle = this.color;
-    views.bufferCtx.lineWidth = 5;
+    views.bufferCtx.lineWidth = this.size;
     views.bufferCtx.lineCap = 'round';
     views.bufferCtx.stroke();
     views.bufferCtx.closePath();
@@ -36,6 +37,9 @@ class BrushTool {
 
   setColor = (color) => {
     this.color = color;
+  };
+  setSize = (size) => {
+    this.size = size;
   };
 
   mouseDown = (e) => {

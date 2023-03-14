@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { Brush, PanTool as PanIcon, DeleteForever, AutoFixNormal } from '@mui/icons-material';
 import Views from '~/canvas/ImageEditor/Canvas/Canvas';
 import dynamicClass, { Tools } from '~/canvas/ImageEditor/Tool';
@@ -15,18 +15,20 @@ interface Props {
 }
 const Menu = ({ ViewsRef, setFile, file }: Props) => {
   const { mode, setMode, setShowPanel } = useGlobalContext();
-  const ToolRef = useRef(null);
+
+  const [tool, setTool] = useState<any>(null);
 
   const { MENU_WIDTH } = LAYOUT_SIZE;
 
   useEffect(() => {
     if (ViewsRef.current.canvas && file !== null) {
       setShowPanel(true);
-      const ToolClass = dynamicClass(mode);
-      ToolRef.current = new ToolClass(ViewsRef.current);
 
+      const ToolClass = dynamicClass(mode);
+      const toolInstance = new ToolClass(ViewsRef.current);
+      setTool(toolInstance);
       return () => {
-        ToolRef.current.unRegisterEvent(ViewsRef.current.canvas);
+        toolInstance.unRegisterEvent(ViewsRef.current.canvas);
       };
     }
   }, [mode]);
@@ -54,16 +56,16 @@ const Menu = ({ ViewsRef, setFile, file }: Props) => {
     file && (
       <>
         <div
-          className={`inset-y-0 left-0 flex min-w-[${MENU_WIDTH}] flex-col  items-center  space-y-3 text-white`}
+          className={`inset-y-0 left-0 flex min-w-[${MENU_WIDTH}] flex-col  items-center  text-white`}
           style={{ maxWidth: MENU_WIDTH }}
         >
           {tools.map(({ icon, onClick }, index) => (
-            <button key={index} onClick={onClick} className="cursor-pointer">
+            <button key={index} onClick={onClick} className=" row-auto cursor-pointer p-2  hover:bg-slate-500">
               {icon}
             </button>
           ))}
         </div>
-        <Panel title={mode} mode={mode} tool={ToolRef.current} className=" "></Panel>
+        <Panel title={mode} mode={mode} tool={tool} className=" "></Panel>
       </>
     )
   );

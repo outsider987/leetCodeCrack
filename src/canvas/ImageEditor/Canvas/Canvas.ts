@@ -68,7 +68,7 @@ class Views {
     ctx.translate(-canvas.width / 2, -canvas.height / 2);
     ctx.transform(1, 0, 0, 1, (canvas.width - bufferCanvas.width) / 2, (canvas.height - bufferCanvas.height) / 2);
 
-    this.backgroundLayer = new BackgroundLayer(this.bufferCanvas);
+    this.backgroundLayer = await new BackgroundLayer(this.bufferCanvas);
     this.draw();
   }
 
