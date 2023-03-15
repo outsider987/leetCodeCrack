@@ -1,5 +1,46 @@
 "use strict";
-(self["webpackChunkleetcodecrack"] = self["webpackChunkleetcodecrack"] || []).push([["src_components_Slider_tsx-src_pages_Home_Canvas_ImageEditor_tsx-src_utils_canvas_canvas_ts-sr-d31d34"],{
+(self["webpackChunkleetcodecrack"] = self["webpackChunkleetcodecrack"] || []).push([["src_components_NumberInput_tsx-src_components_Slider_tsx-src_pages_Home_Canvas_ImageEditor_ts-8f819c"],{
+
+/***/ "./src/components/NumberInput.tsx":
+/*!****************************************!*\
+  !*** ./src/components/NumberInput.tsx ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! clsx */ "./node_modules/clsx/dist/clsx.m.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const NumberInput = (props) => {
+    const { min = 0, max = 100, value, setValue, className } = props;
+    const handleChange = (event) => {
+        const newValue = parseInt(event.target.value, 10);
+        if (!isNaN(newValue) && newValue >= min && newValue <= max) {
+            setValue(newValue);
+        }
+    };
+    const handleKeyDown = (event) => {
+        if (event.key === 'ArrowUp') {
+            event.preventDefault();
+            setValue(Math.min(value + 1, max));
+        }
+        else if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            setValue(Math.max(value - 1, min));
+        }
+    };
+    const inputClasses = (0,clsx__WEBPACK_IMPORTED_MODULE_0__["default"])(className, 'flex-1', 'w-full', 'rounded-lg', 'border-2', 'border-solid', 'border-white', 'bg-black', 'px-2', 'pt-2', 'pb-2', 'text-sm', 'text-white', 'focus:border-orange-400', 'focus:outline-none');
+    return (react__WEBPACK_IMPORTED_MODULE_1___default().createElement("input", { type: "text", value: value, onChange: handleChange, className: inputClasses, min: min, max: max, onKeyDown: handleKeyDown }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NumberInput);
+
+
+/***/ }),
 
 /***/ "./src/components/Slider.tsx":
 /*!***********************************!*\
@@ -72,37 +113,6 @@ const ImageEditor = () => {
 
 /***/ }),
 
-/***/ "./src/utils/canvas/canvas.ts":
-/*!************************************!*\
-  !*** ./src/utils/canvas/canvas.ts ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getCurrentZoom": () => (/* binding */ getCurrentZoom),
-/* harmony export */   "redrawBoundBackGround": () => (/* binding */ redrawBoundBackGround)
-/* harmony export */ });
-function getCurrentZoom(ctx) {
-    // Extract the current transformation matrix from the context
-    const matrix = ctx.getTransform();
-    // Calculate the current zoom level as the square root of the determinant of the transformation matrix
-    // (see https://developer.mozilla.org/en-US/docs/Web/API/DOMMatrix/determinant)
-    return Math.sqrt(Math.abs(matrix.a * matrix.d - matrix.b * matrix.c));
-}
-function redrawBoundBackGround(canvas) {
-    const ctx = canvas.getContext('2d');
-    ctx.save();
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'grey';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.restore();
-}
-
-
-/***/ }),
-
 /***/ "./src/utils/canvas/constants.ts":
 /*!***************************************!*\
   !*** ./src/utils/canvas/constants.ts ***!
@@ -150,6 +160,44 @@ function getTransformedPoints(e, canvas, ctx) {
     const x = point.x;
     const y = point.y;
     return { x: x, y: y };
+}
+
+
+/***/ }),
+
+/***/ "./src/utils/canvas/mainCanvas.ts":
+/*!****************************************!*\
+  !*** ./src/utils/canvas/mainCanvas.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getCurrentZoom": () => (/* binding */ getCurrentZoom),
+/* harmony export */   "redrawBoundBackGround": () => (/* binding */ redrawBoundBackGround),
+/* harmony export */   "updateCanvasSize": () => (/* binding */ updateCanvasSize)
+/* harmony export */ });
+function getCurrentZoom(ctx) {
+    // Extract the current transformation matrix from the context
+    const matrix = ctx.getTransform();
+    // Calculate the current zoom level as the square root of the determinant of the transformation matrix
+    // (see https://developer.mozilla.org/en-US/docs/Web/API/DOMMatrix/determinant)
+    return Math.sqrt(Math.abs(matrix.a * matrix.d - matrix.b * matrix.c));
+}
+function redrawBoundBackGround(canvas) {
+    const ctx = canvas.getContext('2d');
+    ctx.save();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'grey';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.restore();
+}
+function updateCanvasSize(mianCanvas, cursorCanvas, width, height) {
+    mianCanvas.width = width;
+    mianCanvas.height = height;
+    cursorCanvas.width = width;
+    cursorCanvas.height = height;
 }
 
 
@@ -222,7 +270,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "cleanTokenStorage": () => (/* binding */ cleanTokenStorage),
 /* harmony export */   "getTokenStorage": () => (/* binding */ getTokenStorage),
 /* harmony export */   "setTokenStorage": () => (/* binding */ setTokenStorage),
-/* harmony export */   "useBrushStorage": () => (/* binding */ useBrushStorage)
+/* harmony export */   "useGlobalStorage": () => (/* binding */ useGlobalStorage)
 /* harmony export */ });
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ~/store */ "./src/store/index.ts");
 /* harmony import */ var _store_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/store/auth */ "./src/store/auth.ts");
@@ -245,12 +293,12 @@ const cleanTokenStorage = () => {
     localStorage.removeItem('tokens');
     _store__WEBPACK_IMPORTED_MODULE_0__.store.dispatch((0,_store_auth__WEBPACK_IMPORTED_MODULE_1__.setToken)({ accessToken: '', refreshToken: '', userInformation: null }));
 };
-const useBrushStorage = () => {
-    const key = 'brush-color';
-    const setBrushStorage = (value) => {
-        sessionStorage.setItem(key, JSON.stringify(value));
+const useGlobalStorage = () => {
+    const key = 'global_state';
+    const setGlobalStorage = (dataObject) => {
+        sessionStorage.setItem(key, JSON.stringify(dataObject));
     };
-    const getBrushStorage = () => {
+    const getGlobalStorage = () => {
         const value = sessionStorage.getItem(key);
         if (value == undefined)
             return null;
@@ -258,14 +306,14 @@ const useBrushStorage = () => {
             return JSON.parse(value);
         return null;
     };
-    const removeBrushStorage = () => {
+    const removeGlobalStorage = () => {
         sessionStorage.removeItem(key);
     };
-    return { setBrushStorage, getBrushStorage, removeBrushStorage };
+    return { setGlobalStorage, getGlobalStorage, removeGlobalStorage };
 };
 
 
 /***/ })
 
 }]);
-//# sourceMappingURL=js/fccd8101756a00df1285.js.map
+//# sourceMappingURL=js/696f7ec45b3326d4a51e.js.map

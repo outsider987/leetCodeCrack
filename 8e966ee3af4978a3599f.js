@@ -15,7 +15,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _canvas_ImageEditor_Canvas_Canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/canvas/ImageEditor/Canvas/Canvas */ "./src/canvas/ImageEditor/Canvas/Canvas.ts");
 /* harmony import */ var _Menu_Menu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Menu/Menu */ "./src/canvas/components/Menu/Menu.tsx");
-/* harmony import */ var _utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ~/utils/canvas/canvas */ "./src/utils/canvas/canvas.ts");
+/* harmony import */ var _utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ~/utils/canvas/mainCanvas */ "./src/utils/canvas/mainCanvas.ts");
 /* harmony import */ var _utils_canvas_constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ~/utils/canvas/constants */ "./src/utils/canvas/constants.ts");
 /* harmony import */ var _store_context__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ~/store/context */ "./src/store/context/index.tsx");
 
@@ -26,24 +26,24 @@ __webpack_require__.r(__webpack_exports__);
 
 const CanvasImageEditor = (props) => {
     const canvasRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+    const canvasCursorRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
     const { MENU_WIDTH, PANEL_WIDTH } = _utils_canvas_constants__WEBPACK_IMPORTED_MODULE_4__.LAYOUT_SIZE;
     const [file, setFile] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
     const ViewsRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(new _canvas_ImageEditor_Canvas_Canvas__WEBPACK_IMPORTED_MODULE_1__["default"]());
     const ContentRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
-    const { isShowPanel } = (0,_store_context__WEBPACK_IMPORTED_MODULE_5__.useGlobalContext)();
+    const { isShowPanel, mode } = (0,_store_context__WEBPACK_IMPORTED_MODULE_5__.useGlobalContext)();
     const onClickFile = (e) => {
         setFile(e.target.files[0]);
     };
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        if (!canvasRef.current || !ContentRef.current || file === null)
+        if (!canvasRef.current || !canvasCursorRef.current || !ContentRef.current || file === null)
             return;
         ViewsRef.current.initializeCanvas(canvasRef.current);
-        canvasRef.current.width = ContentRef.current.offsetWidth;
-        canvasRef.current.height = ContentRef.current.offsetHeight;
+        (0,_utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_3__.updateCanvasSize)(canvasRef.current, canvasCursorRef.current, ContentRef.current.offsetWidth, ContentRef.current.offsetHeight);
         ViewsRef.current.loadFile(file);
         const observer = new ResizeObserver((entries) => {
             entries.forEach((entry) => {
-                ViewsRef.current.backgroundLayer && updateDimensions();
+                ViewsRef.current.backgroundLayer && resizeCanvas();
             });
         });
         observer.observe(ContentRef.current);
@@ -56,15 +56,13 @@ const CanvasImageEditor = (props) => {
         const panelWidth = isShowPanel ? PANEL_WIDTH : 0;
         return `calc(100% - ${panelWidth || MENU_WIDTH})`;
     }, [isShowPanel]);
-    const updateDimensions = () => {
-        if (canvasRef.current && file !== null) {
+    const resizeCanvas = () => {
+        if (canvasRef.current && canvasCursorRef.current && file !== null) {
             // adjust the canvas size to match the size of its container
-            const zoomLevel = (0,_utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_3__.getCurrentZoom)(ViewsRef.current.ctx);
+            const zoomLevel = (0,_utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_3__.getCurrentZoom)(ViewsRef.current.ctx);
             const x = ViewsRef.current.ctx.getTransform().e + ContentRef.current.offsetWidth - canvasRef.current.width;
             const y = ViewsRef.current.ctx.getTransform().f + ContentRef.current.offsetHeight - canvasRef.current.height;
-            // reset the transform matrix as it is cumulative
-            canvasRef.current.width = ContentRef.current.offsetWidth;
-            canvasRef.current.height = ContentRef.current.offsetHeight;
+            (0,_utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_3__.updateCanvasSize)(canvasRef.current, canvasCursorRef.current, ContentRef.current.offsetWidth, ContentRef.current.offsetHeight);
             ViewsRef.current.ctx.translate(x, y);
             ViewsRef.current.ctx.scale(zoomLevel, zoomLevel);
             ViewsRef.current.draw();
@@ -78,7 +76,8 @@ const CanvasImageEditor = (props) => {
                 file === null && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "absolute inset-0 flex items-center justify-center" },
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " text-white" }, "please click or drag file"),
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { onChange: onClickFile, className: `absolute inset-0 z-10 cursor-pointer opacity-0 `, type: "file", accept: "image/*" }))),
-                ContentRef.current && react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { ref: canvasRef })))));
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { className: "z-10", ref: canvasRef }),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { className: "pointer-events-none absolute inset-0 flex-1 select-none", ref: canvasCursorRef })))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CanvasImageEditor);
 
@@ -169,15 +168,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ColorPicker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ColorPicker */ "./src/canvas/components/Panel/Brush/ColorPicker.tsx");
 /* harmony import */ var _components_Slider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ~/components/Slider */ "./src/components/Slider.tsx");
 /* harmony import */ var _utils_storage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ~/utils/storage */ "./src/utils/storage.ts");
+/* harmony import */ var _components_NumberInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ~/components/NumberInput */ "./src/components/NumberInput.tsx");
+
 
 
 
 
 const BrushPanel = (props) => {
     const { tool } = props;
-    const brushStorage = (0,_utils_storage__WEBPACK_IMPORTED_MODULE_3__.useBrushStorage)();
-    const lastColor = brushStorage.getBrushStorage();
-    const currentColor = lastColor || tool.color;
+    const globalStorage = (0,_utils_storage__WEBPACK_IMPORTED_MODULE_3__.useGlobalStorage)();
+    const globalState = globalStorage.getGlobalStorage();
+    const { brushColor } = globalState || {};
+    const currentColor = brushColor || tool.color;
     const [color, setColor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(currentColor);
     const [size, setSize] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(tool.size);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -189,11 +191,12 @@ const BrushPanel = (props) => {
     const handleSetColor = (newColor) => {
         setColor(newColor);
         tool.setColor(newColor);
-        brushStorage.setBrushStorage(newColor);
+        globalStorage.setGlobalStorage({ ...globalState, brushColor: newColor });
     };
-    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex-1 flex-col space-y-2" },
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ColorPicker__WEBPACK_IMPORTED_MODULE_1__["default"], { colorValue: color, setColorCallBack: handleSetColor }),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Slider__WEBPACK_IMPORTED_MODULE_2__["default"], { size: size, setSizeCallBack: setSize, max: 1000 })));
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Slider__WEBPACK_IMPORTED_MODULE_2__["default"], { size: size, setSizeCallBack: setSize, max: 1000 }),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_NumberInput__WEBPACK_IMPORTED_MODULE_4__["default"], { max: 1000, value: size, setValue: setSize })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BrushPanel);
 
@@ -262,6 +265,41 @@ const CanvasColorPicker = (props) => {
 
 /***/ }),
 
+/***/ "./src/canvas/components/Panel/Erase/ErasePanel.tsx":
+/*!**********************************************************!*\
+  !*** ./src/canvas/components/Panel/Erase/ErasePanel.tsx ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_Slider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/components/Slider */ "./src/components/Slider.tsx");
+/* harmony import */ var _utils_storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ~/utils/storage */ "./src/utils/storage.ts");
+
+
+
+const ErasePanel = (props) => {
+    const { tool } = props;
+    const { getGlobalStorage } = (0,_utils_storage__WEBPACK_IMPORTED_MODULE_2__.useGlobalStorage)();
+    const globalState = getGlobalStorage();
+    const { eraseSize } = globalState || {};
+    const currentSize = eraseSize || tool.size;
+    const [size, setSize] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(currentSize);
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        tool.setSize(size);
+    }, [size]);
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Slider__WEBPACK_IMPORTED_MODULE_1__["default"], { size: size, setSizeCallBack: setSize, max: 1000 })));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ErasePanel);
+
+
+/***/ }),
+
 /***/ "./src/canvas/components/Panel/Panel.tsx":
 /*!***********************************************!*\
   !*** ./src/canvas/components/Panel/Panel.tsx ***!
@@ -272,7 +310,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _mui_icons_material__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mui/icons-material */ "./node_modules/@mui/icons-material/esm/Close.js");
+/* harmony import */ var _mui_icons_material__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @mui/icons-material */ "./node_modules/@mui/icons-material/esm/Close.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _store_context__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/store/context */ "./src/store/context/index.tsx");
@@ -281,6 +319,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _canvas_ImageEditor_Tool_Brush__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ~/canvas/ImageEditor/Tool/Brush */ "./src/canvas/ImageEditor/Tool/Brush.ts");
 /* harmony import */ var _canvas_ImageEditor_Tool_Pan__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ~/canvas/ImageEditor/Tool/Pan */ "./src/canvas/ImageEditor/Tool/Pan.ts");
 /* harmony import */ var _canvas_ImageEditor_Tool_Erase__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ~/canvas/ImageEditor/Tool/Erase */ "./src/canvas/ImageEditor/Tool/Erase.ts");
+/* harmony import */ var _Erase_ErasePanel__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Erase/ErasePanel */ "./src/canvas/components/Panel/Erase/ErasePanel.tsx");
+
 
 
 
@@ -300,7 +340,7 @@ const Panel = (props) => {
             case _canvas_ImageEditor_Tool_Pan__WEBPACK_IMPORTED_MODULE_5__["default"].name:
                 return react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null);
             case _canvas_ImageEditor_Tool_Erase__WEBPACK_IMPORTED_MODULE_6__["default"].name:
-                return react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null);
+                return react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Erase_ErasePanel__WEBPACK_IMPORTED_MODULE_7__["default"], { tool: tool });
             default:
                 return react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null);
         }
@@ -310,7 +350,7 @@ const Panel = (props) => {
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col items-center space-y-3  border-b border-solid text-white" }, title),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { className: "flex-1 text-white", onClick: () => setShowPanel(false) },
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_7__["default"], null)))),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_8__["default"], null)))),
         panel))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Panel);
@@ -319,4 +359,4 @@ const Panel = (props) => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/f77730ff73f6fe105631.js.map
+//# sourceMappingURL=js/8e966ee3af4978a3599f.js.map

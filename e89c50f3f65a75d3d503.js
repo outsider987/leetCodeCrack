@@ -14,7 +14,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ~/utils/canvas/coordinate */ "./src/utils/canvas/coordinate.ts");
 /* harmony import */ var _Layer_FileLayer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Layer/FileLayer */ "./src/canvas/ImageEditor/Layer/FileLayer.ts");
 /* harmony import */ var _Layer_BackgroundLayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Layer/BackgroundLayer */ "./src/canvas/ImageEditor/Layer/BackgroundLayer.ts");
-/* harmony import */ var _utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ~/utils/canvas/canvas */ "./src/utils/canvas/canvas.ts");
+/* harmony import */ var _utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ~/utils/canvas/mainCanvas */ "./src/utils/canvas/mainCanvas.ts");
 /* harmony import */ var _utils_image__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ~/utils/image */ "./src/utils/image.ts");
 /* harmony import */ var _utils_canvas_rect__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ~/utils/canvas/rect */ "./src/utils/canvas/rect.ts");
 
@@ -75,7 +75,7 @@ class Views {
     }
     draw() {
         const { ctx, bufferCanvas, canvas, bufferCtx } = this;
-        (0,_utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_3__.redrawBoundBackGround)(this.canvas);
+        (0,_utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_3__.redrawBoundBackGround)(this.canvas);
         ctx.drawImage(this.backgroundLayer.getLayerCanvas(), 0, 0);
         ctx.drawImage(bufferCanvas, 0, 0);
     }
@@ -85,7 +85,7 @@ class Views {
         const zoom = e.deltaY < 0 ? 1.1 : 0.9;
         const maxZoom = 15; // maximum zoom level
         const minZoom = 0.1; // minimum zoom level
-        const currentZoom = (0,_utils_canvas_canvas__WEBPACK_IMPORTED_MODULE_3__.getCurrentZoom)(ctx); // helper function to get current zoom level
+        const currentZoom = (0,_utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_3__.getCurrentZoom)(ctx); // helper function to get current zoom level
         // Calculate the new zoom level, making sure it stays within the maximum and minimum bounds
         const newZoom = Math.min(Math.max(currentZoom * zoom, minZoom), maxZoom);
         // Calculate the difference in zoom level between the new and old zoom levels
@@ -390,6 +390,9 @@ __webpack_require__.r(__webpack_exports__);
 class EraseTool {
     constructor(views) {
         this.isDrawStart = false;
+        this.setSize = (size) => {
+            this.size = size;
+        };
         this.mouseDown = (e) => {
             e.preventDefault();
             this.isDrawStart = true;
@@ -424,12 +427,12 @@ class EraseTool {
         this.eraserPath = [];
     }
     erase(point) {
-        const { ctx, views, eraserPath } = this;
+        const { ctx, views, eraserPath, size } = this;
         ctx.beginPath();
         ctx.globalCompositeOperation = 'destination-out';
         ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
         ctx.lineTo(point.x, point.y);
-        ctx.lineWidth = 20;
+        ctx.lineWidth = size;
         ctx.lineCap = 'round';
         ctx.stroke();
         ctx.closePath();
@@ -577,4 +580,4 @@ function dynamicClass(name) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/375f11e214608d04d898.js.map
+//# sourceMappingURL=js/e89c50f3f65a75d3d503.js.map
