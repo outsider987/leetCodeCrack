@@ -1,5 +1,6 @@
 import { store } from '~/store';
 import { setToken } from '~/store/auth';
+import { globalState } from './initializeState';
 
 export const setTokenStorage = (tokens: { accessToken: string; refreshToken: string }) => {
   localStorage.setItem('tokens', JSON.stringify(tokens));
@@ -19,21 +20,21 @@ export const cleanTokenStorage = () => {
   store.dispatch(setToken({ accessToken: '', refreshToken: '', userInformation: null }));
 };
 
-export const useBrushStorage = () => {
-  const key = 'brush-color';
-  const setBrushStorage = (value: any) => {
-    sessionStorage.setItem(key, JSON.stringify(value));
+export const useGlobalStorage = () => {
+  const key = 'global_state';
+  const setGlobalStorage = (dataObject: typeof globalState) => {
+    sessionStorage.setItem(key, JSON.stringify(dataObject));
   };
 
-  const getBrushStorage = () => {
+  const getGlobalStorage = () => {
     const value = sessionStorage.getItem(key);
     if (value == undefined) return null;
-    if (value) return JSON.parse(value);
+    if (value) return JSON.parse(value) as typeof globalState;
     return null;
   };
 
-  const removeBrushStorage = () => {
+  const removeGlobalStorage = () => {
     sessionStorage.removeItem(key);
   };
-  return { setBrushStorage, getBrushStorage, removeBrushStorage };
+  return { setGlobalStorage, getGlobalStorage, removeGlobalStorage };
 };

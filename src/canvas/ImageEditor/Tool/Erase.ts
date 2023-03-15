@@ -10,6 +10,7 @@ class EraseTool {
   private isDrawStart: boolean = false;
   views: Views;
   eraserPath: { x: number; y: number }[];
+
   constructor(views: Views) {
     this.canvas = views.bufferCanvas;
     this.ctx = views.bufferCtx;
@@ -19,13 +20,13 @@ class EraseTool {
     this.eraserPath = [];
   }
   erase(point: Point) {
-    const { ctx, views, eraserPath } = this;
+    const { ctx, views, eraserPath, size } = this;
 
     ctx.beginPath();
     ctx.globalCompositeOperation = 'destination-out';
     ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
     ctx.lineTo(point.x, point.y);
-    ctx.lineWidth = 20;
+    ctx.lineWidth = size;
     ctx.lineCap = 'round';
     ctx.stroke();
     ctx.closePath();
@@ -35,6 +36,10 @@ class EraseTool {
 
     views.draw();
   }
+
+  setSize = (size) => {
+    this.size = size;
+  };
 
   mouseDown = (e) => {
     e.preventDefault();

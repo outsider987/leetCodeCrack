@@ -16,3 +16,15 @@ export function redrawBoundBackGround(canvas: HTMLCanvasElement) {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.restore();
 }
+
+export function updateCanvasSize(
+  mianCanvas: HTMLCanvasElement,
+  cursorCanvas: HTMLCanvasElement,
+  width: number,
+  height: number,
+) {
+  mianCanvas.width = width;
+  mianCanvas.height = height;
+  cursorCanvas.width = width;
+  cursorCanvas.height = height;
+}

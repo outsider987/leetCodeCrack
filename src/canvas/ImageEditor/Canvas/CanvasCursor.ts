@@ -6,18 +6,14 @@ import { getCurrentZoom, redrawBoundBackGround } from '~/utils/canvas/mainCanvas
 import { onload2promise } from '~/utils/image';
 import { getNewSize } from '~/utils/canvas/rect';
 
-class Views {
+class CursorCanvas {
   ctx: CanvasRenderingContext2D;
   canvas: HTMLCanvasElement;
   lastPoint: Point;
-  private isDrawStart: boolean = false;
-  bufferCanvas: HTMLCanvasElement;
-  bufferCtx: CanvasRenderingContext2D;
-  backgroundLayer: BackgroundLayer;
 
   zoomLevel = 1;
   lastView = null;
-  layerArray: FileLayer[] = [];
+
   cameraOffsetX: number = 0;
   cameraOffsetY: number = 0;
   width: number;
@@ -31,8 +27,6 @@ class Views {
     this.width = canvas.width;
     this.height = canvas.height;
 
-    this.bufferCanvas = document.createElement('canvas');
-    this.bufferCtx = this.bufferCanvas.getContext('2d');
     this.zoomLevel = 0;
     this.cameraOffsetX = 0;
     this.cameraOffsetY = 0;
@@ -40,50 +34,14 @@ class Views {
     this.registerEvent(this.canvas);
   }
 
-  async loadFile(file: File) {
-    const { bufferCanvas, bufferCtx, canvas, ctx } = this;
-    const layer = new FileLayer(bufferCanvas);
-    this.layerArray.push(layer);
-    const image = new Image();
-    image.src = URL.createObjectURL(file);
-    await onload2promise(image);
-
-    const newSize = getNewSize(canvas, image);
-
-    bufferCanvas.width = newSize.newWidth;
-    bufferCanvas.height = newSize.newHeight;
-
-    bufferCtx.clearRect(0, 0, canvas.width, canvas.height);
-    bufferCtx.fillStyle = 'white';
-    bufferCtx.fillRect(0, 0, canvas.width, canvas.height);
-
-    let ratio = Math.min(bufferCanvas.width / image.width, bufferCanvas.height / image.height);
-    let x = (bufferCanvas.width - image.width * ratio) / 2;
-    let y = (bufferCanvas.height - image.height * ratio) / 2;
-
-    bufferCtx.drawImage(image, 0, 0, image.width, image.height, x, y, image.width * ratio, image.height * ratio);
-
-    ctx.translate(canvas.width / 2, canvas.height / 2);
-    ctx.scale(0.5, 0.5);
-    ctx.translate(-canvas.width / 2, -canvas.height / 2);
-    ctx.transform(1, 0, 0, 1, (canvas.width - bufferCanvas.width) / 2, (canvas.height - bufferCanvas.height) / 2);
-
-    this.backgroundLayer = await new BackgroundLayer(this.bufferCanvas);
-    this.draw();
-  }
-
   draw() {
-    const { ctx, bufferCanvas, canvas, bufferCtx } = this;
+    const { ctx, canvas } = this;
 
     redrawBoundBackGround(this.canvas);
-
-    ctx.drawImage(this.backgroundLayer.getLayerCanvas(), 0, 0);
-
-    ctx.drawImage(bufferCanvas, 0, 0);
   }
 
   zoom(e) {
-    const { canvas, ctx, bufferCanvas } = this;
+    const { canvas, ctx } = this;
     const currentTransformedCursor = getTransformedPoint(e, canvas, this.ctx);
 
     const zoom = e.deltaY < 0 ? 1.1 : 0.9;
@@ -103,14 +61,11 @@ class Views {
       ctx.translate(canvas.width / 2, canvas.height / 2);
       ctx.scale(newZoom, newZoom);
       ctx.translate(-canvas.width / 2, -canvas.height / 2);
-      ctx.transform(1, 0, 0, 1, (canvas.width - bufferCanvas.width) / 2, (canvas.height - bufferCanvas.height) / 2);
     } else {
       ctx.translate(currentTransformedCursor.x, currentTransformedCursor.y);
       ctx.scale(zoomDiff, zoomDiff);
       ctx.translate(-currentTransformedCursor.x, -currentTransformedCursor.y);
     }
-
-    this.backgroundLayer.zoom(e, newZoom);
 
     this.draw();
   }
@@ -124,7 +79,7 @@ class Views {
   mouseUp = (e) => {};
 
   cleanCanvas() {
-    const { canvas, ctx, bufferCanvas, bufferCtx } = this;
+    const { canvas, ctx } = this;
     // debugger;
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -149,4 +104,4 @@ class Views {
     canvas.removeEventListener('wheel', this.zoom(this));
   }
 }
-export default Views;
+export default CursorCanvas;

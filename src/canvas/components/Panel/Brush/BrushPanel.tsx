@@ -4,7 +4,9 @@ import CanvasColorPicker from './ColorPicker';
 import { Tools } from '~/canvas/ImageEditor/Tool';
 import BrushTool from '~/canvas/ImageEditor/Tool/Brush';
 import Slider from '~/components/Slider';
-import { useBrushStorage } from '~/utils/storage';
+import { useGlobalStorage } from '~/utils/storage';
+import NumberInput from '~/components/NumberInput';
+import Input from '~/components/Input';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   tool: BrushTool;
@@ -12,10 +14,10 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 const BrushPanel = (props: Props) => {
   const { tool } = props;
-  const brushStorage = useBrushStorage();
-
-  const lastColor = brushStorage.getBrushStorage();
-  const currentColor = lastColor || tool.color;
+  const globalStorage = useGlobalStorage();
+  const globalState = globalStorage.getGlobalStorage();
+  const { brushColor } = globalState || {};
+  const currentColor = brushColor || tool.color;
 
   const [color, setColor] = useState(currentColor);
   const [size, setSize] = useState(tool.size);
@@ -29,13 +31,15 @@ const BrushPanel = (props: Props) => {
   const handleSetColor = (newColor) => {
     setColor(newColor);
     tool.setColor(newColor);
-    brushStorage.setBrushStorage(newColor);
+    globalStorage.setGlobalStorage({ ...globalState, brushColor: newColor });
   };
 
   return (
-    <div>
+    <div className="flex-1 flex-col space-y-2">
       <CanvasColorPicker colorValue={color} setColorCallBack={handleSetColor}></CanvasColorPicker>
       <Slider size={size} setSizeCallBack={setSize} max={1000}></Slider>
+      <NumberInput max={1000} value={size} setValue={setSize}></NumberInput>
+      {/* <Input></Input> */}
     </div>
   );
 };

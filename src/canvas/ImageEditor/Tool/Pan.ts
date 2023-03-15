@@ -2,7 +2,6 @@ import { getTransformedPoints } from '~/utils/canvas/coordinate';
 import Point from '../Point';
 import Views from '../Canvas/Canvas';
 import { IsOverBoundRect } from '~/utils/canvas/rect';
-import { getCurrentZoom } from '~/utils/canvas/canvas';
 
 class PanTool {
   ctx: CanvasRenderingContext2D;

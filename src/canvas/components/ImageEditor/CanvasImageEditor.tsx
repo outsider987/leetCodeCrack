@@ -6,7 +6,7 @@ import dynamicClass, { Tools } from '~/canvas/ImageEditor/Tool';
 
 import Views from '~/canvas/ImageEditor/Canvas/Canvas';
 import Menu from '../Menu/Menu';
-import { getCurrentZoom } from '~/utils/canvas/canvas';
+import { getCurrentZoom, updateCanvasSize } from '~/utils/canvas/mainCanvas';
 import { LAYOUT_SIZE } from '~/utils/canvas/constants';
 import { useGlobalContext } from '~/store/context';
 
@@ -14,26 +14,32 @@ interface CanvasProps extends React.HTMLAttributes<HTMLCanvasElement> {}
 
 const CanvasImageEditor = (props: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasCursorRef = useRef<HTMLCanvasElement>(null);
   const { MENU_WIDTH, PANEL_WIDTH } = LAYOUT_SIZE;
   const [file, setFile] = useState<File>(null);
   const ViewsRef = useRef(new Views());
   const ContentRef = useRef<HTMLDivElement>();
-  const { isShowPanel } = useGlobalContext();
+  const { isShowPanel, mode } = useGlobalContext();
 
   const onClickFile = (e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files[0]);
   };
 
   useEffect(() => {
-    if (!canvasRef.current || !ContentRef.current || file === null) return;
+    if (!canvasRef.current || !canvasCursorRef.current || !ContentRef.current || file === null) return;
 
     ViewsRef.current.initializeCanvas(canvasRef.current);
-    canvasRef.current.width = ContentRef.current.offsetWidth;
-    canvasRef.current.height = ContentRef.current.offsetHeight;
+    updateCanvasSize(
+      canvasRef.current,
+      canvasCursorRef.current,
+      ContentRef.current.offsetWidth,
+      ContentRef.current.offsetHeight,
+    );
+
     ViewsRef.current.loadFile(file);
     const observer = new ResizeObserver((entries) => {
       entries.forEach((entry) => {
-        ViewsRef.current.backgroundLayer && updateDimensions();
+        ViewsRef.current.backgroundLayer && resizeCanvas();
       });
     });
 
@@ -50,16 +56,19 @@ const CanvasImageEditor = (props: CanvasProps) => {
     return `calc(100% - ${panelWidth || MENU_WIDTH})`;
   }, [isShowPanel]);
 
-  const updateDimensions = () => {
-    if (canvasRef.current && file !== null) {
+  const resizeCanvas = () => {
+    if (canvasRef.current && canvasCursorRef.current && file !== null) {
       // adjust the canvas size to match the size of its container
       const zoomLevel = getCurrentZoom(ViewsRef.current.ctx);
       const x = ViewsRef.current.ctx.getTransform().e + ContentRef.current.offsetWidth - canvasRef.current.width;
       const y = ViewsRef.current.ctx.getTransform().f + ContentRef.current.offsetHeight - canvasRef.current.height;
 
-      // reset the transform matrix as it is cumulative
-      canvasRef.current.width = ContentRef.current.offsetWidth;
-      canvasRef.current.height = ContentRef.current.offsetHeight;
+      updateCanvasSize(
+        canvasRef.current,
+        canvasCursorRef.current,
+        ContentRef.current.offsetWidth,
+        ContentRef.current.offsetHeight,
+      );
 
       ViewsRef.current.ctx.translate(x, y);
       ViewsRef.current.ctx.scale(zoomLevel, zoomLevel);
@@ -90,7 +99,8 @@ const CanvasImageEditor = (props: CanvasProps) => {
             </div>
           )}
 
-          {ContentRef.current && <canvas ref={canvasRef} />}
+          <canvas className="z-10" ref={canvasRef} />
+          <canvas className="pointer-events-none absolute inset-0 flex-1 select-none" ref={canvasCursorRef} />
         </div>
       </div>
     </>

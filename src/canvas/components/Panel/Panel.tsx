@@ -7,6 +7,7 @@ import { LAYOUT_SIZE } from '~/utils/canvas/constants';
 import BrushTool from '~/canvas/ImageEditor/Tool/Brush';
 import PanTool from '~/canvas/ImageEditor/Tool/Pan';
 import EraseTool from '~/canvas/ImageEditor/Tool/Erase';
+import ErasePanel from './Erase/ErasePanel';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
@@ -29,7 +30,7 @@ const Panel = (props: Props) => {
         return <></>;
 
       case EraseTool.name:
-        return <></>;
+        return <ErasePanel tool={tool}></ErasePanel>;
 
       default:
         return <></>;
