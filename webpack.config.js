@@ -44,7 +44,7 @@ module.exports = {
 
       //   { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
       {
-        test: /\.tsx?$/,
+        test: /\.(ts|tsx)?$/,
         loader: 'ts-loader',
         exclude: /node_modules/,
         options: {
@@ -60,6 +60,7 @@ module.exports = {
       },
     ],
   },
+
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
     alias: {

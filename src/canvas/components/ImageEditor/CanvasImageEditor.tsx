@@ -9,15 +9,19 @@ import Menu from '../Menu/Menu';
 import { getCurrentZoom, updateCanvasSize } from '~/utils/canvas/mainCanvas';
 import { LAYOUT_SIZE } from '~/utils/canvas/constants';
 import { useGlobalContext } from '~/store/context';
+import clsx from 'clsx';
+import CursorCanvas from '~/canvas/ImageEditor/Canvas/CanvasCursor';
 
 interface CanvasProps extends React.HTMLAttributes<HTMLCanvasElement> {}
 
 const CanvasImageEditor = (props: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasCursorRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const { MENU_WIDTH, PANEL_WIDTH } = LAYOUT_SIZE;
   const [file, setFile] = useState<File>(null);
   const ViewsRef = useRef(new Views());
+  const CursorRef = useRef(new CursorCanvas());
   const ContentRef = useRef<HTMLDivElement>();
   const { isShowPanel, mode } = useGlobalContext();
 
@@ -29,12 +33,7 @@ const CanvasImageEditor = (props: CanvasProps) => {
     if (!canvasRef.current || !canvasCursorRef.current || !ContentRef.current || file === null) return;
 
     ViewsRef.current.initializeCanvas(canvasRef.current);
-    updateCanvasSize(
-      canvasRef.current,
-      canvasCursorRef.current,
-      ContentRef.current.offsetWidth,
-      ContentRef.current.offsetHeight,
-    );
+    updateCanvasSize(canvasRef.current, ContentRef.current.offsetWidth, ContentRef.current.offsetHeight);
 
     ViewsRef.current.loadFile(file);
     const observer = new ResizeObserver((entries) => {
@@ -63,12 +62,7 @@ const CanvasImageEditor = (props: CanvasProps) => {
       const x = ViewsRef.current.ctx.getTransform().e + ContentRef.current.offsetWidth - canvasRef.current.width;
       const y = ViewsRef.current.ctx.getTransform().f + ContentRef.current.offsetHeight - canvasRef.current.height;
 
-      updateCanvasSize(
-        canvasRef.current,
-        canvasCursorRef.current,
-        ContentRef.current.offsetWidth,
-        ContentRef.current.offsetHeight,
-      );
+      updateCanvasSize(canvasRef.current, ContentRef.current.offsetWidth, ContentRef.current.offsetHeight);
 
       ViewsRef.current.ctx.translate(x, y);
       ViewsRef.current.ctx.scale(zoomLevel, zoomLevel);
@@ -76,17 +70,34 @@ const CanvasImageEditor = (props: CanvasProps) => {
     }
   };
 
+  useEffect(() => {
+    CursorRef.current.initializeCanvas(canvasCursorRef.current);
+    canvasCursorRef.current.width = 100;
+    canvasCursorRef.current.height = 100;
+    function handleMouseMove(e) {
+      const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
+      CursorRef.current.draw();
+      canvasCursorRef.current.style.left = `${offsetX}px`;
+      canvasCursorRef.current.style.top = `${offsetY}px`;
+    }
+
+    ContentRef.current.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      ContentRef.current.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  const menuClasses = clsx('flex', 'min-w-[2.5rem]');
+  const canvasClasses = clsx('flex-1', 'border', 'border-solid', 'border-yellow-400', 'w-full');
+
   return (
     <>
-      <div className={`${props.className} h-[100vh] `}>
-        <div className="flex min-w-[2.5rem]">
+      <div ref={containerRef} className={`${props.className} h-[100vh] `}>
+        <div className={menuClasses}>
           <Menu ViewsRef={ViewsRef} setFile={setFile} file={file}></Menu>
         </div>
-        <div
-          ref={ContentRef}
-          className={`relative flex-1  border  border-solid border-yellow-400`}
-          style={{ maxWidth: contentMaxSize }}
-        >
+        <div ref={ContentRef} className={canvasClasses} style={{ maxWidth: contentMaxSize }}>
           {file === null && (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className=" text-white">please click or drag file</div>
@@ -99,8 +110,8 @@ const CanvasImageEditor = (props: CanvasProps) => {
             </div>
           )}
 
-          <canvas className="z-10" ref={canvasRef} />
-          <canvas className="pointer-events-none absolute inset-0 flex-1 select-none" ref={canvasCursorRef} />
+          <canvas ref={canvasRef} />
+          <canvas className="pointer-events-none absolute inset-0 z-10 flex-1 select-none" ref={canvasCursorRef} />
         </div>
       </div>
     </>

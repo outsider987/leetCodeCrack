@@ -10,7 +10,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 const ErasePanel = (props: Props) => {
   const { tool } = props;
-  const { getGlobalStorage } = useGlobalStorage();
+  const { getGlobalStorage, setGlobalStorage } = useGlobalStorage();
 
   const globalState = getGlobalStorage();
   const { eraseSize } = globalState || {};

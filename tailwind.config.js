@@ -1,8 +1,9 @@
-const { keyFrames, animates } = require('outsiderreact/dist/configs/tailwindAnimate')
+const { keyFrames, animates } = require('outsiderreact/dist/configs/tailwindAnimate');
+const { LAYOUT_SIZE } = require('./src/utils/canvas/constants');
+
 module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx}',
-    './public/index.html', './node_modules/outsiderreact/dist/**/*.{ts,js}'],
-  darkMode: false, // or 'media' or 'class'
+  content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html', './node_modules/outsiderreact/dist/**/*.{ts,js}'],
+
   theme: {
     extend: {
       colors: {
@@ -17,15 +18,13 @@ module.exports = {
         'navbar-desktop-w': '5rem',
         'm-navbar-desktop-h': '8vh',
         navbar_desktop_w: '15rem',
-        "panel-width": '10rem',
-        "menu-width": '2.5rem'
+        'panel-width': LAYOUT_SIZE.PANEL_WIDTH,
+        'menu-width': LAYOUT_SIZE.MENU_WIDTH,
       },
       maxWidth: {
         navbar_desktop_w: '15rem',
       },
-      screens: {
-        follower: '1440px',
-      },
+
       fontFamily: {
         opensans: ['Open Sans', 'sans-serif'],
       },
@@ -49,14 +48,14 @@ module.exports = {
         pop: {
           '0%': { marginBottom: '15vh', opacity: 0 },
           '100%': { marginBottom: '0vh', opacity: 100 },
-        }
+        },
       },
       animation: {
         ...animates,
         menu_collpase_on: 'menu_collpase_on 0.5s ease-in ',
         menu_collpase_off: 'menu_collpase_off 0.5s ease-in ',
         fade_in: 'fade_in 0.2s ease-in ',
-        pop: 'pop 0.2s ease-in'
+        pop: 'pop 0.2s ease-in',
       },
     },
   },

@@ -36,39 +36,17 @@ class CursorCanvas {
 
   draw() {
     const { ctx, canvas } = this;
-
-    redrawBoundBackGround(this.canvas);
+    let centerX = canvas.width / 2;
+    let centerY = canvas.height / 2;
+    let radius = 50;
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+    ctx.strokeStyle = 'black';
+    ctx.stroke();
+    // redrawBoundBackGround(this.canvas);
   }
 
-  zoom(e) {
-    const { canvas, ctx } = this;
-    const currentTransformedCursor = getTransformedPoint(e, canvas, this.ctx);
-
-    const zoom = e.deltaY < 0 ? 1.1 : 0.9;
-    const maxZoom = 15; // maximum zoom level
-    const minZoom = 0.1; // minimum zoom level
-    const currentZoom = getCurrentZoom(ctx); // helper function to get current zoom level
-
-    // Calculate the new zoom level, making sure it stays within the maximum and minimum bounds
-    const newZoom = Math.min(Math.max(currentZoom * zoom, minZoom), maxZoom);
-
-    // Calculate the difference in zoom level between the new and old zoom levels
-    const zoomDiff = newZoom / currentZoom;
-
-    if (newZoom < 0.11) {
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-
-      ctx.translate(canvas.width / 2, canvas.height / 2);
-      ctx.scale(newZoom, newZoom);
-      ctx.translate(-canvas.width / 2, -canvas.height / 2);
-    } else {
-      ctx.translate(currentTransformedCursor.x, currentTransformedCursor.y);
-      ctx.scale(zoomDiff, zoomDiff);
-      ctx.translate(-currentTransformedCursor.x, -currentTransformedCursor.y);
-    }
-
-    this.draw();
-  }
+  zoom(e) {}
 
   mouseDown = (e) => {};
 

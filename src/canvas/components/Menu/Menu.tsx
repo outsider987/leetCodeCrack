@@ -7,6 +7,7 @@ import { useGlobalContext } from '~/store/context';
 import BrushTool from './Brush';
 import PanTool from './Pan';
 import { LAYOUT_SIZE } from '~/utils/canvas/constants';
+import clsx from 'clsx';
 
 interface Props {
   ViewsRef: React.MutableRefObject<Views>;
@@ -14,16 +15,15 @@ interface Props {
   file: File;
 }
 const Menu = ({ ViewsRef, setFile, file }: Props) => {
-  const { mode, setMode, setShowPanel } = useGlobalContext();
+  const { mode, setMode, setShowPanel, isShowPanel } = useGlobalContext();
 
   const [tool, setTool] = useState<any>(null);
 
   const { MENU_WIDTH } = LAYOUT_SIZE;
 
   useEffect(() => {
-    if (ViewsRef.current.canvas && file !== null) {
+    if (ViewsRef.current.canvas && file !== null && mode) {
       setShowPanel(true);
-
       const ToolClass = dynamicClass(mode);
       const toolInstance = new ToolClass(ViewsRef.current);
       setTool(toolInstance);
@@ -33,6 +33,10 @@ const Menu = ({ ViewsRef, setFile, file }: Props) => {
       };
     }
   }, [mode]);
+
+  useEffect(() => {
+    !isShowPanel && setMode(null);
+  }, [isShowPanel]);
 
   const tools = [
     {
@@ -53,13 +57,12 @@ const Menu = ({ ViewsRef, setFile, file }: Props) => {
       onClick: () => setFile(null),
     },
   ];
+  const menuClass = clsx('inset-y-0', 'flex', 'flex-col', 'items-center', 'text-white');
+
   return (
     file && (
       <>
-        <div
-          className={`inset-y-0 left-0 flex min-w-[${MENU_WIDTH}] flex-col  items-center  text-white`}
-          style={{ maxWidth: MENU_WIDTH }}
-        >
+        <div className={menuClass} style={{ maxWidth: MENU_WIDTH }}>
           {tools.map(({ icon, onClick }, index) => (
             <button key={index} onClick={onClick} className=" row-auto cursor-pointer p-2  hover:bg-slate-500">
               {icon}

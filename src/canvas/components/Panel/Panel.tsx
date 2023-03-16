@@ -2,12 +2,12 @@ import { Close } from '@mui/icons-material';
 import React, { useMemo } from 'react';
 import { useGlobalContext } from '~/store/context';
 import BrushPanel from './Brush/BrushPanel';
-import { Tools } from '~/canvas/ImageEditor/Tool';
 import { LAYOUT_SIZE } from '~/utils/canvas/constants';
 import BrushTool from '~/canvas/ImageEditor/Tool/Brush';
 import PanTool from '~/canvas/ImageEditor/Tool/Pan';
 import EraseTool from '~/canvas/ImageEditor/Tool/Erase';
 import ErasePanel from './Erase/ErasePanel';
+import clsx from 'clsx';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
@@ -18,8 +18,8 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 const Panel = (props: Props) => {
   const { isShowPanel, setShowPanel } = useGlobalContext();
-  const { PANEL_WIDTH } = LAYOUT_SIZE;
-  const { title, children, mode, tool } = props;
+
+  const { title, mode, tool } = props;
 
   const panel = useMemo(() => {
     switch (mode) {
@@ -37,12 +37,14 @@ const Panel = (props: Props) => {
     }
   }, [tool]);
 
+  const containerClass = clsx('h-full', 'flex-1', 'flex-col', 'w-panel-width');
+
   return (
     <>
       {isShowPanel && (
-        <div className={`h-full flex-1 flex-col max-w-[${PANEL_WIDTH}]`}>
+        <div className={containerClass}>
           {/*Pqnnel */}
-          <div {...props} className={`flex  flex-row justify-around bg-navbar p-2`}>
+          <div {...props} className={`bg-navbar  flex flex-row justify-around p-2`}>
             <div className="flex flex-col items-center space-y-3  border-b border-solid text-white">{title}</div>
             <div>
               <button className="flex-1 text-white" onClick={() => setShowPanel(false)}>
@@ -50,7 +52,7 @@ const Panel = (props: Props) => {
               </button>
             </div>
           </div>
-          {panel}
+          <div className="p-2"> {panel}</div>
         </div>
       )}
     </>
