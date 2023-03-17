@@ -1,5 +1,4 @@
-"use strict";
-(self["webpackChunkleetcodecrack"] = self["webpackChunkleetcodecrack"] || []).push([["src_components_NumberInput_tsx-src_components_Slider_tsx-src_pages_Home_Canvas_ImageEditor_ts-8f819c"],{
+(self["webpackChunkleetcodecrack"] = self["webpackChunkleetcodecrack"] || []).push([["src_components_NumberInput_tsx-src_components_Slider_tsx-src_pages_Home_Canvas_ImageEditor_ts-7d3914"],{
 
 /***/ "./src/components/NumberInput.tsx":
 /*!****************************************!*\
@@ -7,6 +6,7 @@
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -48,6 +48,7 @@ const NumberInput = (props) => {
   \***********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -95,6 +96,7 @@ const Slider = (props) => {
   \***********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -113,27 +115,13 @@ const ImageEditor = () => {
 
 /***/ }),
 
-/***/ "./src/utils/canvas/constants.ts":
-/*!***************************************!*\
-  !*** ./src/utils/canvas/constants.ts ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "LAYOUT_SIZE": () => (/* binding */ LAYOUT_SIZE)
-/* harmony export */ });
-const LAYOUT_SIZE = { MENU_WIDTH: '2.5rem', PANEL_WIDTH: '10rem' };
-
-
-/***/ }),
-
 /***/ "./src/utils/canvas/coordinate.ts":
 /*!****************************************!*\
   !*** ./src/utils/canvas/coordinate.ts ***!
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getTransformedPaintPoint": () => (/* binding */ getTransformedPaintPoint),
@@ -171,6 +159,7 @@ function getTransformedPoints(e, canvas, ctx) {
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getCurrentZoom": () => (/* binding */ getCurrentZoom),
@@ -193,11 +182,9 @@ function redrawBoundBackGround(canvas) {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.restore();
 }
-function updateCanvasSize(mianCanvas, cursorCanvas, width, height) {
+function updateCanvasSize(mianCanvas, width, height) {
     mianCanvas.width = width;
     mianCanvas.height = height;
-    cursorCanvas.width = width;
-    cursorCanvas.height = height;
 }
 
 
@@ -209,6 +196,7 @@ function updateCanvasSize(mianCanvas, cursorCanvas, width, height) {
   \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "IsInRect": () => (/* binding */ IsInRect),
@@ -245,6 +233,7 @@ function getNewSize(canvas, image) {
   \****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "onload2promise": () => (/* binding */ onload2promise)
@@ -259,61 +248,18 @@ function onload2promise(obj) {
 
 /***/ }),
 
-/***/ "./src/utils/storage.ts":
-/*!******************************!*\
-  !*** ./src/utils/storage.ts ***!
-  \******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ "./src/utils/canvas/constants.js":
+/*!***************************************!*\
+  !*** ./src/utils/canvas/constants.js ***!
+  \***************************************/
+/***/ ((module) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "cleanTokenStorage": () => (/* binding */ cleanTokenStorage),
-/* harmony export */   "getTokenStorage": () => (/* binding */ getTokenStorage),
-/* harmony export */   "setTokenStorage": () => (/* binding */ setTokenStorage),
-/* harmony export */   "useGlobalStorage": () => (/* binding */ useGlobalStorage)
-/* harmony export */ });
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ~/store */ "./src/store/index.ts");
-/* harmony import */ var _store_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/store/auth */ "./src/store/auth.ts");
-
-
-const setTokenStorage = (tokens) => {
-    localStorage.setItem('tokens', JSON.stringify(tokens));
-    _store__WEBPACK_IMPORTED_MODULE_0__.store.dispatch((0,_store_auth__WEBPACK_IMPORTED_MODULE_1__.setToken)({ ...tokens, userInformation: null }));
-    // store.dispatch(setTokenConfig({}));
-};
-const getTokenStorage = () => {
-    const tokens = localStorage.getItem('tokens');
-    if (tokens == undefined)
-        return { accessToken: '', refreshToken: '' };
-    if (tokens)
-        return JSON.parse(tokens);
-    return '';
-};
-const cleanTokenStorage = () => {
-    localStorage.removeItem('tokens');
-    _store__WEBPACK_IMPORTED_MODULE_0__.store.dispatch((0,_store_auth__WEBPACK_IMPORTED_MODULE_1__.setToken)({ accessToken: '', refreshToken: '', userInformation: null }));
-};
-const useGlobalStorage = () => {
-    const key = 'global_state';
-    const setGlobalStorage = (dataObject) => {
-        sessionStorage.setItem(key, JSON.stringify(dataObject));
-    };
-    const getGlobalStorage = () => {
-        const value = sessionStorage.getItem(key);
-        if (value == undefined)
-            return null;
-        if (value)
-            return JSON.parse(value);
-        return null;
-    };
-    const removeGlobalStorage = () => {
-        sessionStorage.removeItem(key);
-    };
-    return { setGlobalStorage, getGlobalStorage, removeGlobalStorage };
-};
-
+const LAYOUT_SIZE = { MENU_WIDTH: '2.5rem', PANEL_WIDTH: '10rem' };
+module.exports = {
+    LAYOUT_SIZE,
+}
 
 /***/ })
 
 }]);
-//# sourceMappingURL=js/696f7ec45b3326d4a51e.js.map
+//# sourceMappingURL=js/a5d796b45f7bf2b9c3bd.js.map

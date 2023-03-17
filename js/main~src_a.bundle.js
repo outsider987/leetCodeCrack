@@ -560,7 +560,7 @@ const HomeRoute = {
                 },
                 {
                     path: '/canvas/image-editor',
-                    element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_emotion_cache_dist_emotion-cache_browser_esm_js-node_modules_clsx_dist_c-3b4961"), __webpack_require__.e("vendors-node_modules_emotion_hash_dist_emotion-hash_esm_js-node_modules_emotion_is-prop-valid-d47ef5"), __webpack_require__.e("vendors-node_modules_emotion_react_dist_emotion-react_browser_esm_js"), __webpack_require__.e("vendors-node_modules_emotion_serialize_dist_emotion-serialize_browser_esm_js"), __webpack_require__.e("vendors-node_modules_emotion_sheet_dist_emotion-sheet_browser_esm_js-node_modules_emotion_sty-920671"), __webpack_require__.e("vendors-node_modules_mui_icons-material_esm_AutoFixNormal_js-node_modules_mui_icons-material_-e63a36"), __webpack_require__.e("vendors-node_modules_mui_material_styles_createMixins_js-node_modules_mui_material_styles_cre-e1ef3c"), __webpack_require__.e("vendors-node_modules_mui_material_styles_styled_js-node_modules_mui_material_styles_useThemeP-598e64"), __webpack_require__.e("vendors-node_modules_mui_material_styles_zIndex_js-node_modules_mui_material_utils_capitalize-502eb8"), __webpack_require__.e("vendors-node_modules_mui_system_esm_borders_js-node_modules_mui_system_esm_colorManipulator_js"), __webpack_require__.e("vendors-node_modules_mui_system_esm_createStyled_js-node_modules_mui_system_esm_cssGrid_js-no-49a160"), __webpack_require__.e("vendors-node_modules_mui_system_esm_propsToClassKey_js-node_modules_mui_system_esm_styleFunct-5ba1e5"), __webpack_require__.e("vendors-node_modules_mui_utils_esm_capitalize_js-node_modules_mui_utils_esm_composeClasses_co-3deb45"), __webpack_require__.e("vendors-node_modules_prop-types_factoryWithTypeCheckers_js"), __webpack_require__.e("vendors-node_modules_prop-types_index_js-node_modules_prop-types_lib_ReactPropTypesSecret_js--40d499"), __webpack_require__.e("vendors-node_modules_react_cjs_react-jsx-runtime_development_js"), __webpack_require__.e("vendors-node_modules_react_jsx-runtime_js-node_modules_stylis_src_Middleware_js-node_modules_-548351"), __webpack_require__.e("src_canvas_ImageEditor_Canvas_Canvas_ts-src_canvas_ImageEditor_Tool_index_ts"), __webpack_require__.e("src_canvas_components_ImageEditor_CanvasImageEditor_tsx"), __webpack_require__.e("src_components_NumberInput_tsx-src_components_Slider_tsx-src_pages_Home_Canvas_ImageEditor_ts-8f819c")]).then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Canvas/ImageEditor */ "./src/pages/Home/Canvas/ImageEditor.tsx")))),
+                    element: lazyLoad(react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_emotion_cache_dist_emotion-cache_browser_esm_js-node_modules_clsx_dist_c-3b4961"), __webpack_require__.e("vendors-node_modules_emotion_hash_dist_emotion-hash_esm_js-node_modules_emotion_is-prop-valid-d47ef5"), __webpack_require__.e("vendors-node_modules_emotion_react_dist_emotion-react_browser_esm_js"), __webpack_require__.e("vendors-node_modules_emotion_serialize_dist_emotion-serialize_browser_esm_js"), __webpack_require__.e("vendors-node_modules_emotion_sheet_dist_emotion-sheet_browser_esm_js-node_modules_emotion_sty-920671"), __webpack_require__.e("vendors-node_modules_mui_icons-material_esm_AutoFixNormal_js-node_modules_mui_icons-material_-e63a36"), __webpack_require__.e("vendors-node_modules_mui_material_styles_createMixins_js-node_modules_mui_material_styles_cre-e1ef3c"), __webpack_require__.e("vendors-node_modules_mui_material_styles_styled_js-node_modules_mui_material_styles_useThemeP-598e64"), __webpack_require__.e("vendors-node_modules_mui_material_styles_zIndex_js-node_modules_mui_material_utils_capitalize-502eb8"), __webpack_require__.e("vendors-node_modules_mui_system_esm_borders_js-node_modules_mui_system_esm_colorManipulator_js"), __webpack_require__.e("vendors-node_modules_mui_system_esm_createStyled_js-node_modules_mui_system_esm_cssGrid_js-no-49a160"), __webpack_require__.e("vendors-node_modules_mui_system_esm_propsToClassKey_js-node_modules_mui_system_esm_styleFunct-5ba1e5"), __webpack_require__.e("vendors-node_modules_mui_utils_esm_capitalize_js-node_modules_mui_utils_esm_composeClasses_co-3deb45"), __webpack_require__.e("vendors-node_modules_prop-types_factoryWithTypeCheckers_js"), __webpack_require__.e("vendors-node_modules_prop-types_index_js-node_modules_prop-types_lib_ReactPropTypesSecret_js--40d499"), __webpack_require__.e("vendors-node_modules_react_cjs_react-jsx-runtime_development_js"), __webpack_require__.e("vendors-node_modules_react_jsx-runtime_js-node_modules_stylis_src_Middleware_js-node_modules_-548351"), __webpack_require__.e("src_canvas_ImageEditor_Canvas_Canvas_ts-src_canvas_ImageEditor_Canvas_CanvasCursor_ts-src_can-834258"), __webpack_require__.e("src_canvas_components_ImageEditor_CanvasImageEditor_tsx"), __webpack_require__.e("src_components_NumberInput_tsx-src_components_Slider_tsx-src_pages_Home_Canvas_ImageEditor_ts-7d3914")]).then(__webpack_require__.bind(__webpack_require__, /*! ~/pages/Home/Canvas/ImageEditor */ "./src/pages/Home/Canvas/ImageEditor.tsx")))),
                     icon: 'template',
                     isShow: true,
                     text: 'ImageEditor',
@@ -667,6 +667,42 @@ const { setToken } = globalSlice.actions;
 
 /***/ }),
 
+/***/ "./src/store/context/hooks/useGlobalStateHook.tsx":
+/*!********************************************************!*\
+  !*** ./src/store/context/hooks/useGlobalStateHook.tsx ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utils_initializeState__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/utils/initializeState */ "./src/utils/initializeState.ts");
+/* harmony import */ var _utils_storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ~/utils/storage */ "./src/utils/storage.ts");
+
+
+
+const useGlobalStateHook = () => {
+    const [globalState, setGlobalState] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(_utils_initializeState__WEBPACK_IMPORTED_MODULE_1__.initialGlobalState);
+    const { setGlobalStorage, getGlobalStorage } = (0,_utils_storage__WEBPACK_IMPORTED_MODULE_2__.useGlobalStorage)();
+    const handleGolobalState = (value) => {
+        setGlobalState(value);
+        setGlobalStorage({
+            ...value,
+        });
+    };
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        setGlobalState(getGlobalStorage());
+    }, []);
+    return { globalState, setGlobalState: handleGolobalState };
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (useGlobalStateHook);
+
+
+/***/ }),
+
 /***/ "./src/store/context/index.tsx":
 /*!*************************************!*\
   !*** ./src/store/context/index.tsx ***!
@@ -680,18 +716,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utils_initializeState__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/utils/initializeState */ "./src/utils/initializeState.ts");
+/* harmony import */ var _hooks_useGlobalStateHook__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./hooks/useGlobalStateHook */ "./src/store/context/hooks/useGlobalStateHook.tsx");
+
+
 
 const state = {
     isShowPanel: false,
     setShowPanel: (value) => { },
     mode: '',
     setMode: (value) => { },
+    globalState: _utils_initializeState__WEBPACK_IMPORTED_MODULE_1__.initialGlobalState,
+    setGlobalState: (value) => { },
 };
 const GlobalContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)(state);
 const ContextProvider = ({ children }) => {
     const [isShowPanel, setShowPanel] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
     const [mode, setMode] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
-    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(GlobalContext.Provider, { value: { isShowPanel, setShowPanel, mode, setMode } }, children));
+    const { globalState, setGlobalState } = (0,_hooks_useGlobalStateHook__WEBPACK_IMPORTED_MODULE_2__["default"])();
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(GlobalContext.Provider, { value: { isShowPanel, setShowPanel, mode, setMode, globalState, setGlobalState } }, children));
 };
 const useGlobalContext = () => (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(GlobalContext);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ContextProvider);
@@ -768,6 +811,25 @@ const selectAuth = (state) => state.auth;
 
 /***/ }),
 
+/***/ "./src/utils/initializeState.ts":
+/*!**************************************!*\
+  !*** ./src/utils/initializeState.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "initialGlobalState": () => (/* binding */ initialGlobalState)
+/* harmony export */ });
+const initialGlobalState = {
+    brushColor: '',
+    brushSize: 15,
+    eraseSize: 15,
+};
+
+
+/***/ }),
+
 /***/ "./src/utils/regular.ts":
 /*!******************************!*\
   !*** ./src/utils/regular.ts ***!
@@ -791,6 +853,62 @@ function getRandomNoDuplicateArray(maxValue) {
     }
     return result;
 }
+
+
+/***/ }),
+
+/***/ "./src/utils/storage.ts":
+/*!******************************!*\
+  !*** ./src/utils/storage.ts ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "cleanTokenStorage": () => (/* binding */ cleanTokenStorage),
+/* harmony export */   "getTokenStorage": () => (/* binding */ getTokenStorage),
+/* harmony export */   "setTokenStorage": () => (/* binding */ setTokenStorage),
+/* harmony export */   "useGlobalStorage": () => (/* binding */ useGlobalStorage)
+/* harmony export */ });
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ~/store */ "./src/store/index.ts");
+/* harmony import */ var _store_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/store/auth */ "./src/store/auth.ts");
+
+
+const setTokenStorage = (tokens) => {
+    localStorage.setItem('tokens', JSON.stringify(tokens));
+    _store__WEBPACK_IMPORTED_MODULE_0__.store.dispatch((0,_store_auth__WEBPACK_IMPORTED_MODULE_1__.setToken)({ ...tokens, userInformation: null }));
+    // store.dispatch(setTokenConfig({}));
+};
+const getTokenStorage = () => {
+    const tokens = localStorage.getItem('tokens');
+    if (tokens == undefined)
+        return { accessToken: '', refreshToken: '' };
+    if (tokens)
+        return JSON.parse(tokens);
+    return '';
+};
+const cleanTokenStorage = () => {
+    localStorage.removeItem('tokens');
+    _store__WEBPACK_IMPORTED_MODULE_0__.store.dispatch((0,_store_auth__WEBPACK_IMPORTED_MODULE_1__.setToken)({ accessToken: '', refreshToken: '', userInformation: null }));
+};
+const useGlobalStorage = () => {
+    const key = 'global_state';
+    const setGlobalStorage = (dataObject) => {
+        sessionStorage.setItem(key, JSON.stringify(dataObject));
+    };
+    const getGlobalStorage = () => {
+        const value = sessionStorage.getItem(key);
+        if (value == undefined)
+            return null;
+        if (value)
+            return JSON.parse(value);
+        return null;
+    };
+    const removeGlobalStorage = () => {
+        sessionStorage.removeItem(key);
+    };
+    return { setGlobalStorage, getGlobalStorage, removeGlobalStorage };
+};
 
 
 /***/ })

@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkleetcodecrack"] = self["webpackChunkleetcodecrack"] || []).push([["src_canvas_ImageEditor_Canvas_Canvas_ts-src_canvas_ImageEditor_Tool_index_ts"],{
+(self["webpackChunkleetcodecrack"] = self["webpackChunkleetcodecrack"] || []).push([["src_canvas_ImageEditor_Canvas_Canvas_ts-src_canvas_ImageEditor_Canvas_CanvasCursor_ts-src_can-834258"],{
 
 /***/ "./src/canvas/ImageEditor/Canvas/Canvas.ts":
 /*!*************************************************!*\
@@ -131,6 +131,82 @@ class Views {
     }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Views);
+
+
+/***/ }),
+
+/***/ "./src/canvas/ImageEditor/Canvas/CanvasCursor.ts":
+/*!*******************************************************!*\
+  !*** ./src/canvas/ImageEditor/Canvas/CanvasCursor.ts ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ~/utils/canvas/coordinate */ "./src/utils/canvas/coordinate.ts");
+
+class CursorCanvasClass {
+    constructor() {
+        this.zoomLevel = 1;
+        this.lastView = null;
+        this.cameraOffsetX = 0;
+        this.cameraOffsetY = 0;
+        this.mouseDown = (e) => { };
+        this.mouseMove = (e) => {
+            const transformedCursorPosition = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoint)(e, this.canvas, this.ctx);
+        };
+        this.mouseUp = (e) => { };
+    }
+    initializeCanvas(canvas) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
+        this.width = canvas.width;
+        this.height = canvas.height;
+        this.zoomLevel = 0;
+        this.cameraOffsetX = 0;
+        this.cameraOffsetY = 0;
+        this.registerEvent(this.canvas);
+    }
+    draw() {
+        const { ctx, canvas } = this;
+        let centerX = canvas.width / 2;
+        let centerY = canvas.height / 2;
+        let radius = 50;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        ctx.strokeStyle = 'black';
+        ctx.stroke();
+        // redrawBoundBackGround(this.canvas);
+    }
+    zoom(e) { }
+    cleanCanvas() {
+        const { canvas, ctx } = this;
+        // debugger;
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    registerEvent(canvas) {
+        // canvas.addEventListener('mousedown', this.mouseDown);
+        // canvas.addEventListener('mousemove', this.mouseMove);
+        // canvas.addEventListener('mouseup', this.mouseUp);
+        canvas.addEventListener('touchstart', this.mouseDown);
+        canvas.addEventListener('touchmove', this.mouseMove);
+        canvas.addEventListener('touchend', this.mouseUp);
+        canvas.addEventListener('wheel', this.zoom.bind(this));
+    }
+    unRegisterEvent(canvas) {
+        // canvas.removeEventListener('mousedown', this.mouseDown(this));
+        // canvas.removeEventListener('mousemove', this.mouseMove(this));
+        // canvas.removeEventListener('mouseup', this.mouseUp(this));
+        canvas.removeEventListener('touchstart', this.mouseDown(this));
+        canvas.removeEventListener('touchmove', this.mouseMove(this));
+        canvas.removeEventListener('touchend', this.mouseUp(this));
+        canvas.removeEventListener('wheel', this.zoom(this));
+    }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CursorCanvasClass);
 
 
 /***/ }),
@@ -580,4 +656,4 @@ function dynamicClass(name) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/e89c50f3f65a75d3d503.js.map
+//# sourceMappingURL=js/b9b59c6216a209347c66.js.map
