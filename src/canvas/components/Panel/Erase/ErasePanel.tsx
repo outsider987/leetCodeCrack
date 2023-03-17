@@ -22,9 +22,15 @@ const ErasePanel = (props: Props) => {
     tool.setSize(size);
   }, [size]);
 
+  const handleSetSize = (newSize) => {
+    setSize(newSize);
+    tool.setSize(newSize);
+    setGlobalStorage({ ...globalState, eraseSize: size });
+  };
+
   return (
     <div>
-      <Slider size={size} setSizeCallBack={setSize} max={1000}></Slider>
+      <Slider size={size} setSizeCallBack={handleSetSize} max={1000}></Slider>
     </div>
   );
 };

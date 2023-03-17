@@ -6,7 +6,7 @@ import { getCurrentZoom, redrawBoundBackGround } from '~/utils/canvas/mainCanvas
 import { onload2promise } from '~/utils/image';
 import { getNewSize } from '~/utils/canvas/rect';
 
-class CursorCanvas {
+class CursorCanvasClass {
   ctx: CanvasRenderingContext2D;
   canvas: HTMLCanvasElement;
   lastPoint: Point;
@@ -82,4 +82,4 @@ class CursorCanvas {
     canvas.removeEventListener('wheel', this.zoom(this));
   }
 }
-export default CursorCanvas;
+export default CursorCanvasClass;
