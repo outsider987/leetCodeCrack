@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CursorCanvasClass from '~/canvas/ImageEditor/Canvas/CanvasCursor';
 import { Tools } from '~/canvas/ImageEditor/Tool';
 import { LAYOUT_SIZE } from '~/utils/canvas/constants';
 import { getCurrentZoom } from '~/utils/canvas/mainCanvas';
+import { IsOutRect } from '~/utils/canvas/rect';
 import { initialGlobalState } from '~/utils/initializeState';
 
 interface Props extends React.HTMLAttributes<HTMLCanvasElement> {
@@ -17,9 +18,9 @@ interface Props extends React.HTMLAttributes<HTMLCanvasElement> {
 
 const CursorCanvas = (props: Props) => {
   const { canvasCursorRef, containerRef, CursorRef, canvasRef, ContentRef, mode, globalState } = props;
-  const isShowCursor = mode === 'BrushTool' || mode === 'EraseTool';
-  const { brushSize, eraseSize } = globalState || {};
 
+  const { brushSize, eraseSize } = globalState || {};
+  const [isShowCursor, setShowCursor] = useState(mode === 'BrushTool' || mode === 'EraseTool');
   useEffect(() => {
     if (!canvasCursorRef.current) return;
     handleChangSize();
@@ -56,8 +57,20 @@ const CursorCanvas = (props: Props) => {
 
   function handleMouseMove(e) {
     const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
-    canvasCursorRef.current.style.left = `${offsetX - canvasCursorRef.current.width / 2}px`;
-    canvasCursorRef.current.style.top = `${offsetY - canvasCursorRef.current.height / 2}px`;
+    const newX = offsetX - canvasCursorRef.current.width / 2;
+    const newY = offsetY - canvasCursorRef.current.height / 2;
+    canvasCursorRef.current.style.left = `${newX}px`;
+    canvasCursorRef.current.style.top = `${newY}px`;
+    setShowCursor(
+      !IsOutRect(
+        newX,
+        newY,
+        canvasRef.current.clientLeft,
+        canvasRef.current.clientTop,
+        canvasRef.current.clientWidth,
+        canvasRef.current.clientHeight,
+      ),
+    );
   }
 
   return (
