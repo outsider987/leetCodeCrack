@@ -1,21 +1,24 @@
 import React, { useEffect } from 'react';
 import Views from '~/canvas/ImageEditor/Canvas/Canvas';
+import StateController from '~/canvas/ImageEditor/StateController/StateController';
 import { getCurrentZoom, updateCanvasSize } from '~/utils/canvas/mainCanvas';
 
 interface Props extends React.HTMLAttributes<HTMLCanvasElement> {
   canvasRef: React.MutableRefObject<HTMLCanvasElement>;
   ContentRef: React.MutableRefObject<HTMLDivElement>;
-
+  stateController: StateController;
   ViewsRef: React.MutableRefObject<Views>;
   file: File;
 }
 const CanvasMain = (props: Props) => {
-  const { canvasRef, ContentRef, ViewsRef, file } = props;
+  const { canvasRef, ContentRef, ViewsRef, file, stateController } = props;
 
   useEffect(() => {
     if (!canvasRef.current || !ContentRef.current || file === null) return;
 
     ViewsRef.current.initializeCanvas(canvasRef.current);
+    stateController.initializeCanvas(ViewsRef.current);
+    stateController.registerEvent(canvasRef.current);
     updateCanvasSize(canvasRef.current, ContentRef.current.offsetWidth, ContentRef.current.offsetHeight);
 
     ViewsRef.current.loadFile(file);
@@ -30,6 +33,7 @@ const CanvasMain = (props: Props) => {
     return () => {
       observer.unobserve(ContentRef.current);
       ViewsRef.current.cleanCanvas();
+      stateController.unRegisterEvent(canvasRef.current);
     };
   }, [file]);
 

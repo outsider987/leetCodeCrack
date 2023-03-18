@@ -13,18 +13,21 @@ import clsx from 'clsx';
 import CursorCanvasClass from '~/canvas/ImageEditor/Canvas/CanvasCursor';
 import CanvasMain from './Maincanvas';
 import CursorCanvas from './CursorCanvas';
+import StateController from '~/canvas/ImageEditor/StateController/StateController';
 
 interface CanvasProps extends React.HTMLAttributes<HTMLCanvasElement> {}
 
 const CanvasImageEditor = (props: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const ContentRef = useRef<HTMLDivElement>();
+
+  const ViewsRef = useRef(new Views());
+  const stateController = useRef(new StateController());
+
   const { isShowPanel, mode, globalState } = useGlobalContext();
   const { MENU_WIDTH, PANEL_WIDTH } = LAYOUT_SIZE;
   const [file, setFile] = useState<File>(null);
-  const ViewsRef = useRef(new Views());
-
-  const ContentRef = useRef<HTMLDivElement>();
 
   const onClickFile = (e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files[0]);
@@ -50,7 +53,7 @@ const CanvasImageEditor = (props: CanvasProps) => {
     <>
       <div ref={containerRef} className={`${props.className} h-[100vh] `}>
         <div className={menuClasses}>
-          <Menu ViewsRef={ViewsRef} setFile={setFile} file={file}></Menu>
+          <Menu ViewsRef={ViewsRef} setFile={setFile} file={file} stateController={stateController.current}></Menu>
         </div>
 
         <div ref={ContentRef} className={contentClasses} style={{ maxWidth: contentMaxSize }}>
@@ -66,7 +69,13 @@ const CanvasImageEditor = (props: CanvasProps) => {
             </div>
           )}
 
-          <CanvasMain canvasRef={canvasRef} ContentRef={ContentRef} ViewsRef={ViewsRef} file={file} />
+          <CanvasMain
+            canvasRef={canvasRef}
+            ContentRef={ContentRef}
+            ViewsRef={ViewsRef}
+            file={file}
+            stateController={stateController.current}
+          />
           <CursorCanvas
             mode={mode}
             ContentRef={ContentRef}

@@ -8,15 +8,16 @@ import BrushTool from './Brush';
 import PanTool from './Pan';
 import { LAYOUT_SIZE } from '~/utils/canvas/constants';
 import clsx from 'clsx';
+import StateController from '~/canvas/ImageEditor/StateController/StateController';
 
 interface Props {
   ViewsRef: React.MutableRefObject<Views>;
   setFile: React.Dispatch<React.SetStateAction<File>>;
   file: File;
+  stateController: StateController;
 }
 const Menu = ({ ViewsRef, setFile, file }: Props) => {
   const { mode, setMode, setShowPanel, isShowPanel } = useGlobalContext();
-
   const [tool, setTool] = useState<any>(null);
 
   const { MENU_WIDTH } = LAYOUT_SIZE;
