@@ -1,40 +1,34 @@
 import { getTransformedPoints } from '~/utils/canvas/coordinate';
 import Point from '../Point';
 import Views from '../Canvas/Canvas';
+import BaseTool from './Tool';
 
-class EraseTool {
-  ctx: CanvasRenderingContext2D;
+class EraseTool extends BaseTool {
   size: number;
-  canvas: HTMLCanvasElement;
   lastPoint: Point;
   private isDrawStart: boolean = false;
-  views: Views;
-  eraserPath: { x: number; y: number }[];
 
   constructor(views: Views) {
-    this.canvas = views.bufferCanvas;
-    this.ctx = views.bufferCtx;
+    super(views);
     this.lastPoint = new Point(0, 0);
-    this.views = views;
+    this.size = 5;
     this.registerEvent(views.canvas);
-    this.eraserPath = [];
   }
-  erase(point: Point) {
-    const { ctx, views, eraserPath, size } = this;
+  draw(e) {
+    const { bufferCtx, size, canvas, ctx } = this;
+    const currentTransformedCursor = getTransformedPoints(e, canvas, ctx);
+    bufferCtx.beginPath();
+    bufferCtx.globalCompositeOperation = 'destination-out';
+    bufferCtx.moveTo(this.lastPoint.x, this.lastPoint.y);
 
-    ctx.beginPath();
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
-    ctx.lineTo(point.x, point.y);
-    ctx.lineWidth = size;
-    ctx.lineCap = 'round';
-    ctx.stroke();
-    ctx.closePath();
-    this.lastPoint.setPoint(point.x, point.y);
+    bufferCtx.lineTo(currentTransformedCursor.x, currentTransformedCursor.y);
+    bufferCtx.lineWidth = size;
+    bufferCtx.lineCap = 'round';
+    bufferCtx.stroke();
+    bufferCtx.closePath();
+    this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
 
-    eraserPath.push({ x: point.x, y: point.y });
-
-    views.draw();
+    super.draw(e);
   }
 
   setSize = (size) => {
@@ -45,31 +39,27 @@ class EraseTool {
     e.preventDefault();
 
     this.isDrawStart = true;
-    const { canvas, views, eraserPath } = this;
-    const currentTransformedCursor = getTransformedPoints(e, views.canvas, views.ctx);
-    eraserPath.push({ x: currentTransformedCursor.x, y: currentTransformedCursor.y });
+    const { canvas, ctx } = this;
+    const currentTransformedCursor = getTransformedPoints(e, canvas, ctx);
+
     this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
-    const point = new Point(currentTransformedCursor.x, currentTransformedCursor.y);
-    this.erase(point);
+
+    this.draw(e);
   };
 
   mouseMove = (e) => {
-    const { canvas, ctx, views } = this;
-    e.preventDefault();
     if (!this.isDrawStart) return;
 
-    const currentTransformedCursor = getTransformedPoints(e, views.canvas, views.ctx);
-    const point = new Point(currentTransformedCursor.x, currentTransformedCursor.y);
-
-    this.erase(point);
+    this.draw(e);
   };
 
   mouseUp = (e) => {
     e.preventDefault();
-    const { ctx, views } = this;
-    views.bufferCtx.globalCompositeOperation = 'source-over';
-    views.draw();
+    const { bufferCtx } = this;
+    this.draw(e);
+
     this.isDrawStart = false;
+    bufferCtx.globalCompositeOperation = 'source-over';
   };
 
   registerEvent(canvas) {

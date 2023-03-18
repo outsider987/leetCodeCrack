@@ -1,38 +1,37 @@
 import { getTransformedPaintPoint, getTransformedPoint, getTransformedPoints } from '~/utils/canvas/coordinate';
 import Point from '../Point';
 import Views from '../Canvas/Canvas';
+import BaseTool from './Tool';
 
-class BrushTool {
-  ctx: CanvasRenderingContext2D;
+class BrushTool extends BaseTool {
   color: string;
-  canvas: HTMLCanvasElement;
   lastPoint: Point;
   private isDrawStart: boolean = false;
-  views: Views;
+
   size: number;
   constructor(views: Views) {
+    super(views);
     this.lastPoint = new Point(0, 0);
     this.setColor('black');
     this.size = 5;
-    this.views = views;
     this.registerEvent(views.canvas);
   }
   draw(e) {
-    const { canvas, ctx, views } = this;
+    const { bufferCtx, canvas, ctx } = this;
 
-    const currentTransformedCursor = getTransformedPoints(e, views.canvas, views.ctx);
+    const currentTransformedCursor = getTransformedPoints(e, canvas, ctx);
 
-    views.bufferCtx.beginPath();
-    views.bufferCtx.moveTo(this.lastPoint.x, this.lastPoint.y);
-    views.bufferCtx.lineTo(currentTransformedCursor.x, currentTransformedCursor.y);
-    views.bufferCtx.strokeStyle = this.color;
-    views.bufferCtx.lineWidth = this.size;
-    views.bufferCtx.lineCap = 'round';
-    views.bufferCtx.stroke();
-    views.bufferCtx.closePath();
+    bufferCtx.beginPath();
+    bufferCtx.moveTo(this.lastPoint.x, this.lastPoint.y);
+    bufferCtx.lineTo(currentTransformedCursor.x, currentTransformedCursor.y);
+    bufferCtx.strokeStyle = this.color;
+    bufferCtx.lineWidth = this.size;
+    bufferCtx.lineCap = 'round';
+    bufferCtx.stroke();
+    bufferCtx.closePath();
 
     this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
-    this.views.draw();
+    super.draw(e);
   }
 
   setColor = (color) => {
@@ -45,25 +44,22 @@ class BrushTool {
   mouseDown = (e) => {
     e.preventDefault();
     this.isDrawStart = true;
-    const { canvas, views, ctx } = this;
+    const { canvas, ctx } = this;
 
-    const currentTransformedCursor = getTransformedPoints(e, views.canvas, views.ctx);
+    const currentTransformedCursor = getTransformedPoints(e, canvas, ctx);
     this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
     this.draw(e);
   };
 
   mouseMove = (e) => {
-    // e.preventDefault();
     if (!this.isDrawStart) return;
 
     this.draw(e);
   };
 
   mouseUp = (e) => {
-    // e.preventDefault();
-
     this.isDrawStart = false;
-    this.views.draw();
+    this.draw(e);
   };
 
   registerEvent(canvas) {

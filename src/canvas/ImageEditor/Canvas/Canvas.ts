@@ -5,6 +5,7 @@ import BackgroundLayer from '../Layer/BackgroundLayer';
 import { getCurrentZoom, redrawBoundBackGround } from '~/utils/canvas/mainCanvas';
 import { onload2promise } from '~/utils/image';
 import { getNewSize } from '~/utils/canvas/rect';
+import StateController from '../StateController/StateController';
 
 class Views {
   ctx: CanvasRenderingContext2D;
@@ -26,11 +27,11 @@ class Views {
   constructor() {}
 
   initializeCanvas(canvas: HTMLCanvasElement) {
+    // initialize canvas
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     this.width = canvas.width;
     this.height = canvas.height;
-
     this.bufferCanvas = document.createElement('canvas');
     this.bufferCtx = this.bufferCanvas.getContext('2d');
     this.zoomLevel = 0;
@@ -54,7 +55,7 @@ class Views {
     bufferCanvas.height = newSize.newHeight;
 
     bufferCtx.clearRect(0, 0, canvas.width, canvas.height);
-    bufferCtx.fillStyle = 'white';
+    bufferCtx.fillStyle = 'black';
     bufferCtx.fillRect(0, 0, canvas.width, canvas.height);
 
     let ratio = Math.min(bufferCanvas.width / image.width, bufferCanvas.height / image.height);
@@ -117,9 +118,7 @@ class Views {
 
   mouseDown = (e) => {};
 
-  mouseMove = (e) => {
-    const transformedCursorPosition = getTransformedPoint(e, this.canvas, this.ctx);
-  };
+  mouseMove = (e) => {};
 
   mouseUp = (e) => {};
 

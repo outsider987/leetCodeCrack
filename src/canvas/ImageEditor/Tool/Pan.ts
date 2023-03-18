@@ -25,21 +25,7 @@ class PanTool {
 
     ctx.translate(point.x - this.lastPoint.x, point.y - this.lastPoint.y);
     const materix = ctx.getTransform();
-    // if (
-    //   IsOverBoundRect(
-    //     materix.e,
-    //     materix.f,
-    //     materix.e + canvas.width * materix.a,
-    //     materix.f + canvas.height * materix.d,
-    //     0,
-    //     0,
-    //     canvas.width,
-    //     canvas.height,
-    //   ) &&
-    //   getCurrentZoom(ctx) < 1
-    // ) {
-    //   return;
-    // }
+
     views.draw();
   }
 

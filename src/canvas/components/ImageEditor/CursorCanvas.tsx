@@ -50,8 +50,8 @@ const CursorCanvas = (props: Props) => {
     const ctx = canvasRef.current.getContext('2d');
     const level = getCurrentZoom(ctx);
 
-    canvasCursorRef.current.width = Math.max(size, 15) * level;
-    canvasCursorRef.current.height = Math.max(size, 15) * level;
+    canvasCursorRef.current.width = Math.max(size, 3) * level;
+    canvasCursorRef.current.height = Math.max(size, 3) * level;
     CursorRef.current.initializeCanvas(canvasCursorRef.current);
   }
 
