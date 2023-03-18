@@ -19,10 +19,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_canvas_constants__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_utils_canvas_constants__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _store_context__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ~/store/context */ "./src/store/context/index.tsx");
 /* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! clsx */ "./node_modules/clsx/dist/clsx.m.js");
-/* harmony import */ var _canvas_ImageEditor_Canvas_CanvasCursor__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ~/canvas/ImageEditor/Canvas/CanvasCursor */ "./src/canvas/ImageEditor/Canvas/CanvasCursor.ts");
-/* harmony import */ var _Maincanvas__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Maincanvas */ "./src/canvas/components/ImageEditor/Maincanvas.tsx");
-/* harmony import */ var _CursorCanvas__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./CursorCanvas */ "./src/canvas/components/ImageEditor/CursorCanvas.tsx");
-
+/* harmony import */ var _Maincanvas__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Maincanvas */ "./src/canvas/components/ImageEditor/Maincanvas.tsx");
+/* harmony import */ var _CursorCanvas__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./CursorCanvas */ "./src/canvas/components/ImageEditor/CursorCanvas.tsx");
 
 
 
@@ -33,14 +31,12 @@ __webpack_require__.r(__webpack_exports__);
 
 const CanvasImageEditor = (props) => {
     const canvasRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
-    const canvasCursorRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
     const containerRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+    const { isShowPanel, mode, globalState } = (0,_store_context__WEBPACK_IMPORTED_MODULE_4__.useGlobalContext)();
     const { MENU_WIDTH, PANEL_WIDTH } = _utils_canvas_constants__WEBPACK_IMPORTED_MODULE_3__.LAYOUT_SIZE;
     const [file, setFile] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
     const ViewsRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(new _canvas_ImageEditor_Canvas_Canvas__WEBPACK_IMPORTED_MODULE_1__["default"]());
-    const CursorRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(new _canvas_ImageEditor_Canvas_CanvasCursor__WEBPACK_IMPORTED_MODULE_6__["default"]());
     const ContentRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
-    const { isShowPanel, mode, globalState } = (0,_store_context__WEBPACK_IMPORTED_MODULE_4__.useGlobalContext)();
     const onClickFile = (e) => {
         setFile(e.target.files[0]);
     };
@@ -48,7 +44,7 @@ const CanvasImageEditor = (props) => {
         const panelWidth = isShowPanel ? PANEL_WIDTH : 0;
         return `calc(100% - ${panelWidth || MENU_WIDTH})`;
     }, [isShowPanel]);
-    const menuClasses = (0,clsx__WEBPACK_IMPORTED_MODULE_5__["default"])('flex', 'min-w-[2.5rem]');
+    const menuClasses = (0,clsx__WEBPACK_IMPORTED_MODULE_5__["default"])('flex', 'min-w-[2.5rem]', 'text-white');
     const contentClasses = (0,clsx__WEBPACK_IMPORTED_MODULE_5__["default"])('flex-1', 'border', 'border-solid', 'border-yellow-400', 'w-full', 'relative', 'overflow-hidden');
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null,
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { ref: containerRef, className: `${props.className} h-[100vh] ` },
@@ -58,8 +54,8 @@ const CanvasImageEditor = (props) => {
                 file === null && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "absolute inset-0 flex items-center justify-center" },
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " text-white" }, "please click or drag file"),
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { onChange: onClickFile, className: `absolute inset-0 z-10 cursor-pointer opacity-0 `, type: "file", accept: "image/*" }))),
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Maincanvas__WEBPACK_IMPORTED_MODULE_7__["default"], { canvasCursorRef: canvasCursorRef, canvasRef: canvasRef, ContentRef: ContentRef, ViewsRef: ViewsRef, file: file }),
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_CursorCanvas__WEBPACK_IMPORTED_MODULE_8__["default"], { mode: mode, ContentRef: ContentRef, canvasRef: canvasRef, CursorRef: CursorRef, containerRef: containerRef, canvasCursorRef: canvasCursorRef, globalState: globalState })))));
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Maincanvas__WEBPACK_IMPORTED_MODULE_6__["default"], { canvasRef: canvasRef, ContentRef: ContentRef, ViewsRef: ViewsRef, file: file }),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_CursorCanvas__WEBPACK_IMPORTED_MODULE_7__["default"], { mode: mode, ContentRef: ContentRef, canvasRef: canvasRef, globalState: globalState })))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CanvasImageEditor);
 
@@ -79,23 +75,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/utils/canvas/mainCanvas */ "./src/utils/canvas/mainCanvas.ts");
-/* harmony import */ var _utils_canvas_rect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ~/utils/canvas/rect */ "./src/utils/canvas/rect.ts");
-
 
 
 const CursorCanvas = (props) => {
-    const { canvasCursorRef, containerRef, CursorRef, canvasRef, ContentRef, mode, globalState } = props;
+    const { canvasRef, mode, globalState } = props;
+    const canvasCursorRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
     const { brushSize, eraseSize } = globalState || {};
-    const [isShowCursor, setShowCursor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(mode === 'BrushTool' || mode === 'EraseTool');
+    const isShow = mode === 'BrushTool' || mode === 'EraseTool';
+    const [isCursor, setShowCursor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        if (!canvasCursorRef.current)
+        if (!canvasCursorRef.current && !isShow)
             return;
         handleChangSize();
         canvasRef.current.addEventListener('mousemove', handleMouseMove);
         canvasRef.current.addEventListener('wheel', handleChangSize);
+        setShowCursor(isShow);
         return () => {
             canvasRef.current.removeEventListener('mousemove', handleMouseMove);
             canvasRef.current.removeEventListener('wheel', handleChangSize);
+            setShowCursor(false);
         };
     }, [mode, brushSize, eraseSize]);
     function handleChangSize(e) {
@@ -114,7 +112,6 @@ const CursorCanvas = (props) => {
         const level = (0,_utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_1__.getCurrentZoom)(ctx);
         canvasCursorRef.current.width = Math.max(size, 3) * level;
         canvasCursorRef.current.height = Math.max(size, 3) * level;
-        CursorRef.current.initializeCanvas(canvasCursorRef.current);
     }
     function handleMouseMove(e) {
         const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
@@ -122,9 +119,19 @@ const CursorCanvas = (props) => {
         const newY = offsetY - canvasCursorRef.current.height / 2;
         canvasCursorRef.current.style.left = `${newX}px`;
         canvasCursorRef.current.style.top = `${newY}px`;
-        setShowCursor(!(0,_utils_canvas_rect__WEBPACK_IMPORTED_MODULE_2__.IsOutRect)(newX, newY, canvasRef.current.clientLeft, canvasRef.current.clientTop, canvasRef.current.clientWidth, canvasRef.current.clientHeight));
+        // setShowCursor(
+        //   !IsOutRect(
+        //     newX,
+        //     newY,
+        //     canvasRef.current.clientLeft,
+        //     canvasRef.current.clientTop,
+        //     canvasRef.current.clientWidth,
+        //     canvasRef.current.clientHeight,
+        //   ),
+        // );
     }
-    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { className: "pointer-events-none absolute left-0 top-0 z-10 flex select-none rounded-full border  border-solid border-yellow-400", ref: canvasCursorRef, style: { display: isShowCursor ? 'block' : 'none' } }));
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null,
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { className: "pointer-events-none absolute left-0 top-0 z-10 flex select-none rounded-full border  border-solid border-yellow-400", ref: canvasCursorRef, style: { display: isCursor ? 'block' : 'none' } })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CursorCanvas);
 
@@ -147,7 +154,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const CanvasMain = (props) => {
-    const { canvasRef, ContentRef, ViewsRef, file, canvasCursorRef } = props;
+    const { canvasRef, ContentRef, ViewsRef, file } = props;
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         if (!canvasRef.current || !ContentRef.current || file === null)
             return;
@@ -480,4 +487,4 @@ const Panel = (props) => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/6a24733c793ad1799191.js.map
+//# sourceMappingURL=js/2277e543e9921bbc8c8c.js.map
