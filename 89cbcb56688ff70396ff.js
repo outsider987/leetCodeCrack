@@ -79,12 +79,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/utils/canvas/mainCanvas */ "./src/utils/canvas/mainCanvas.ts");
+/* harmony import */ var _utils_canvas_rect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ~/utils/canvas/rect */ "./src/utils/canvas/rect.ts");
+
 
 
 const CursorCanvas = (props) => {
     const { canvasCursorRef, containerRef, CursorRef, canvasRef, ContentRef, mode, globalState } = props;
-    const isShowCursor = mode === 'BrushTool' || mode === 'EraseTool';
     const { brushSize, eraseSize } = globalState || {};
+    const [isShowCursor, setShowCursor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(mode === 'BrushTool' || mode === 'EraseTool');
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         if (!canvasCursorRef.current)
             return;
@@ -116,8 +118,11 @@ const CursorCanvas = (props) => {
     }
     function handleMouseMove(e) {
         const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
-        canvasCursorRef.current.style.left = `${offsetX - canvasCursorRef.current.width / 2}px`;
-        canvasCursorRef.current.style.top = `${offsetY - canvasCursorRef.current.height / 2}px`;
+        const newX = offsetX - canvasCursorRef.current.width / 2;
+        const newY = offsetY - canvasCursorRef.current.height / 2;
+        canvasCursorRef.current.style.left = `${newX}px`;
+        canvasCursorRef.current.style.top = `${newY}px`;
+        setShowCursor(!(0,_utils_canvas_rect__WEBPACK_IMPORTED_MODULE_2__.IsOutRect)(newX, newY, canvasRef.current.clientLeft, canvasRef.current.clientTop, canvasRef.current.clientWidth, canvasRef.current.clientHeight));
     }
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("canvas", { className: "pointer-events-none absolute left-0 top-0 z-10 flex select-none rounded-full border  border-solid border-yellow-400", ref: canvasCursorRef, style: { display: isShowCursor ? 'block' : 'none' } }));
 };
@@ -384,15 +389,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_Slider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/components/Slider */ "./src/components/Slider.tsx");
-/* harmony import */ var _utils_storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ~/utils/storage */ "./src/utils/storage.ts");
+/* harmony import */ var _components_NumberInput__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/components/NumberInput */ "./src/components/NumberInput.tsx");
+/* harmony import */ var _components_Slider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ~/components/Slider */ "./src/components/Slider.tsx");
+/* harmony import */ var _store_context__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ~/store/context */ "./src/store/context/index.tsx");
+
 
 
 
 const ErasePanel = (props) => {
     const { tool } = props;
-    const { getGlobalStorage, setGlobalStorage } = (0,_utils_storage__WEBPACK_IMPORTED_MODULE_2__.useGlobalStorage)();
-    const globalState = getGlobalStorage();
+    const { globalState, setGlobalState } = (0,_store_context__WEBPACK_IMPORTED_MODULE_3__.useGlobalContext)();
     const { eraseSize } = globalState || {};
     const currentSize = eraseSize || tool.size;
     const [size, setSize] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(currentSize);
@@ -402,10 +408,11 @@ const ErasePanel = (props) => {
     const handleSetSize = (newSize) => {
         setSize(newSize);
         tool.setSize(newSize);
-        setGlobalStorage({ ...globalState, eraseSize: size });
+        setGlobalState({ ...globalState, eraseSize: newSize });
     };
-    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Slider__WEBPACK_IMPORTED_MODULE_1__["default"], { size: size, setSizeCallBack: handleSetSize, max: 1000 })));
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex-1 flex-col space-y-2" },
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Slider__WEBPACK_IMPORTED_MODULE_2__["default"], { size: size, setSizeCallBack: handleSetSize, max: 1000 }),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_NumberInput__WEBPACK_IMPORTED_MODULE_1__["default"], { max: 1000, value: size, setValue: handleSetSize })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ErasePanel);
 
@@ -473,4 +480,4 @@ const Panel = (props) => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/4417138bab9f8ad8ae9c.js.map
+//# sourceMappingURL=js/89cbcb56688ff70396ff.js.map
