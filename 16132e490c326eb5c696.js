@@ -32,12 +32,11 @@ class Views {
         this.cameraOffsetX = 0;
         this.cameraOffsetY = 0;
         this.mouseDown = (e) => { };
-        this.mouseMove = (e) => {
-            const transformedCursorPosition = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoint)(e, this.canvas, this.ctx);
-        };
+        this.mouseMove = (e) => { };
         this.mouseUp = (e) => { };
     }
     initializeCanvas(canvas) {
+        // initialize canvas
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.width = canvas.width;
@@ -60,7 +59,7 @@ class Views {
         bufferCanvas.width = newSize.newWidth;
         bufferCanvas.height = newSize.newHeight;
         bufferCtx.clearRect(0, 0, canvas.width, canvas.height);
-        bufferCtx.fillStyle = 'white';
+        bufferCtx.fillStyle = 'black';
         bufferCtx.fillRect(0, 0, canvas.width, canvas.height);
         let ratio = Math.min(bufferCanvas.width / image.width, bufferCanvas.height / image.height);
         let x = (bufferCanvas.width - image.width * ratio) / 2;
@@ -377,10 +376,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ~/utils/canvas/coordinate */ "./src/utils/canvas/coordinate.ts");
 /* harmony import */ var _Point__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Point */ "./src/canvas/ImageEditor/Point.ts");
+/* harmony import */ var _Tool__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Tool */ "./src/canvas/ImageEditor/Tool/Tool.ts");
 
 
-class BrushTool {
+
+class BrushTool extends _Tool__WEBPACK_IMPORTED_MODULE_2__["default"] {
     constructor(views) {
+        super(views);
         this.isDrawStart = false;
         this.setColor = (color) => {
             this.color = color;
@@ -391,41 +393,38 @@ class BrushTool {
         this.mouseDown = (e) => {
             e.preventDefault();
             this.isDrawStart = true;
-            const { canvas, views, ctx } = this;
-            const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoints)(e, views.canvas, views.ctx);
+            const { canvas, ctx } = this;
+            const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoints)(e, canvas, ctx);
             this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
             this.draw(e);
         };
         this.mouseMove = (e) => {
-            // e.preventDefault();
             if (!this.isDrawStart)
                 return;
             this.draw(e);
         };
         this.mouseUp = (e) => {
-            // e.preventDefault();
             this.isDrawStart = false;
-            this.views.draw();
+            this.draw(e);
         };
         this.lastPoint = new _Point__WEBPACK_IMPORTED_MODULE_1__["default"](0, 0);
         this.setColor('black');
         this.size = 5;
-        this.views = views;
         this.registerEvent(views.canvas);
     }
     draw(e) {
-        const { canvas, ctx, views } = this;
-        const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoints)(e, views.canvas, views.ctx);
-        views.bufferCtx.beginPath();
-        views.bufferCtx.moveTo(this.lastPoint.x, this.lastPoint.y);
-        views.bufferCtx.lineTo(currentTransformedCursor.x, currentTransformedCursor.y);
-        views.bufferCtx.strokeStyle = this.color;
-        views.bufferCtx.lineWidth = this.size;
-        views.bufferCtx.lineCap = 'round';
-        views.bufferCtx.stroke();
-        views.bufferCtx.closePath();
+        const { bufferCtx, canvas, ctx } = this;
+        const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoints)(e, canvas, ctx);
+        bufferCtx.beginPath();
+        bufferCtx.moveTo(this.lastPoint.x, this.lastPoint.y);
+        bufferCtx.lineTo(currentTransformedCursor.x, currentTransformedCursor.y);
+        bufferCtx.strokeStyle = this.color;
+        bufferCtx.lineWidth = this.size;
+        bufferCtx.lineCap = 'round';
+        bufferCtx.stroke();
+        bufferCtx.closePath();
         this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
-        this.views.draw();
+        super.draw(e);
     }
     registerEvent(canvas) {
         canvas.addEventListener('mousedown', this.mouseDown);
@@ -461,10 +460,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ~/utils/canvas/coordinate */ "./src/utils/canvas/coordinate.ts");
 /* harmony import */ var _Point__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Point */ "./src/canvas/ImageEditor/Point.ts");
+/* harmony import */ var _Tool__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Tool */ "./src/canvas/ImageEditor/Tool/Tool.ts");
 
 
-class EraseTool {
+
+class EraseTool extends _Tool__WEBPACK_IMPORTED_MODULE_2__["default"] {
     constructor(views) {
+        super(views);
         this.isDrawStart = false;
         this.setSize = (size) => {
             this.size = size;
@@ -472,49 +474,40 @@ class EraseTool {
         this.mouseDown = (e) => {
             e.preventDefault();
             this.isDrawStart = true;
-            const { canvas, views, eraserPath } = this;
-            const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoints)(e, views.canvas, views.ctx);
-            eraserPath.push({ x: currentTransformedCursor.x, y: currentTransformedCursor.y });
+            const { canvas, ctx } = this;
+            const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoints)(e, canvas, ctx);
             this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
-            const point = new _Point__WEBPACK_IMPORTED_MODULE_1__["default"](currentTransformedCursor.x, currentTransformedCursor.y);
-            this.erase(point);
+            this.draw(e);
         };
         this.mouseMove = (e) => {
-            const { canvas, ctx, views } = this;
-            e.preventDefault();
             if (!this.isDrawStart)
                 return;
-            const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoints)(e, views.canvas, views.ctx);
-            const point = new _Point__WEBPACK_IMPORTED_MODULE_1__["default"](currentTransformedCursor.x, currentTransformedCursor.y);
-            this.erase(point);
+            this.draw(e);
         };
         this.mouseUp = (e) => {
             e.preventDefault();
-            const { ctx, views } = this;
-            views.bufferCtx.globalCompositeOperation = 'source-over';
-            views.draw();
+            const { bufferCtx } = this;
+            this.draw(e);
             this.isDrawStart = false;
+            bufferCtx.globalCompositeOperation = 'source-over';
         };
-        this.canvas = views.bufferCanvas;
-        this.ctx = views.bufferCtx;
         this.lastPoint = new _Point__WEBPACK_IMPORTED_MODULE_1__["default"](0, 0);
-        this.views = views;
+        this.size = 5;
         this.registerEvent(views.canvas);
-        this.eraserPath = [];
     }
-    erase(point) {
-        const { ctx, views, eraserPath, size } = this;
-        ctx.beginPath();
-        ctx.globalCompositeOperation = 'destination-out';
-        ctx.moveTo(this.lastPoint.x, this.lastPoint.y);
-        ctx.lineTo(point.x, point.y);
-        ctx.lineWidth = size;
-        ctx.lineCap = 'round';
-        ctx.stroke();
-        ctx.closePath();
-        this.lastPoint.setPoint(point.x, point.y);
-        eraserPath.push({ x: point.x, y: point.y });
-        views.draw();
+    draw(e) {
+        const { bufferCtx, size, canvas, ctx } = this;
+        const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoints)(e, canvas, ctx);
+        bufferCtx.beginPath();
+        bufferCtx.globalCompositeOperation = 'destination-out';
+        bufferCtx.moveTo(this.lastPoint.x, this.lastPoint.y);
+        bufferCtx.lineTo(currentTransformedCursor.x, currentTransformedCursor.y);
+        bufferCtx.lineWidth = size;
+        bufferCtx.lineCap = 'round';
+        bufferCtx.stroke();
+        bufferCtx.closePath();
+        this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
+        super.draw(e);
     }
     registerEvent(canvas) {
         canvas.addEventListener('mousedown', this.mouseDown);
@@ -587,21 +580,6 @@ class PanTool {
         const OutsideRect = canvas.getBoundingClientRect();
         ctx.translate(point.x - this.lastPoint.x, point.y - this.lastPoint.y);
         const materix = ctx.getTransform();
-        // if (
-        //   IsOverBoundRect(
-        //     materix.e,
-        //     materix.f,
-        //     materix.e + canvas.width * materix.a,
-        //     materix.f + canvas.height * materix.d,
-        //     0,
-        //     0,
-        //     canvas.width,
-        //     canvas.height,
-        //   ) &&
-        //   getCurrentZoom(ctx) < 1
-        // ) {
-        //   return;
-        // }
         views.draw();
     }
     registerEvent(canvas) {
@@ -622,6 +600,53 @@ class PanTool {
     }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PanTool);
+
+
+/***/ }),
+
+/***/ "./src/canvas/ImageEditor/Tool/Tool.ts":
+/*!*********************************************!*\
+  !*** ./src/canvas/ImageEditor/Tool/Tool.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+class BaseTool {
+    constructor(views) {
+        this.mouseDown = (e) => { };
+        this.mouseMove = (e) => { };
+        this.mouseUp = (e) => { };
+        this.views = views;
+        this.canvas = views.canvas;
+        this.bufferCanvas = views.bufferCanvas;
+        this.bufferCtx = views.bufferCtx;
+        this.ctx = views.ctx;
+    }
+    draw(e) {
+        const { views } = this;
+        views.draw();
+    }
+    registerEvent(canvas) {
+        canvas.addEventListener('mousedown', this.mouseDown);
+        canvas.addEventListener('mousemove', this.mouseMove);
+        canvas.addEventListener('mouseup', this.mouseUp);
+        canvas.addEventListener('touchstart', this.mouseDown);
+        canvas.addEventListener('touchmove', this.mouseMove);
+        canvas.addEventListener('touchend', this.mouseUp);
+    }
+    unRegisterEvent(canvas) {
+        canvas.removeEventListener('mousedown', this.mouseDown);
+        canvas.removeEventListener('mousemove', this.mouseMove);
+        canvas.removeEventListener('mouseup', this.mouseUp);
+        canvas.removeEventListener('touchstart', this.mouseDown);
+        canvas.removeEventListener('touchmove', this.mouseMove);
+        canvas.removeEventListener('touchend', this.mouseUp);
+    }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BaseTool);
 
 
 /***/ }),
@@ -656,4 +681,4 @@ function dynamicClass(name) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/b9b59c6216a209347c66.js.map
+//# sourceMappingURL=js/16132e490c326eb5c696.js.map

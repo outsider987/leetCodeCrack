@@ -112,8 +112,8 @@ const CursorCanvas = (props) => {
         }
         const ctx = canvasRef.current.getContext('2d');
         const level = (0,_utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_1__.getCurrentZoom)(ctx);
-        canvasCursorRef.current.width = Math.max(size, 15) * level;
-        canvasCursorRef.current.height = Math.max(size, 15) * level;
+        canvasCursorRef.current.width = Math.max(size, 3) * level;
+        canvasCursorRef.current.height = Math.max(size, 3) * level;
         CursorRef.current.initializeCanvas(canvasCursorRef.current);
     }
     function handleMouseMove(e) {
@@ -480,4 +480,4 @@ const Panel = (props) => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/89cbcb56688ff70396ff.js.map
+//# sourceMappingURL=js/6a24733c793ad1799191.js.map
