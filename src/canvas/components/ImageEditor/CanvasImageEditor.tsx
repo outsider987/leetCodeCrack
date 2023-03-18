@@ -18,14 +18,13 @@ interface CanvasProps extends React.HTMLAttributes<HTMLCanvasElement> {}
 
 const CanvasImageEditor = (props: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const canvasCursorRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const { isShowPanel, mode, globalState } = useGlobalContext();
   const { MENU_WIDTH, PANEL_WIDTH } = LAYOUT_SIZE;
   const [file, setFile] = useState<File>(null);
   const ViewsRef = useRef(new Views());
-  const CursorRef = useRef(new CursorCanvasClass());
+
   const ContentRef = useRef<HTMLDivElement>();
-  const { isShowPanel, mode, globalState } = useGlobalContext();
 
   const onClickFile = (e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files[0]);
@@ -36,7 +35,7 @@ const CanvasImageEditor = (props: CanvasProps) => {
     return `calc(100% - ${panelWidth || MENU_WIDTH})`;
   }, [isShowPanel]);
 
-  const menuClasses = clsx('flex', 'min-w-[2.5rem]');
+  const menuClasses = clsx('flex', 'min-w-[2.5rem]', 'text-white');
   const contentClasses = clsx(
     'flex-1',
     'border',
@@ -53,6 +52,7 @@ const CanvasImageEditor = (props: CanvasProps) => {
         <div className={menuClasses}>
           <Menu ViewsRef={ViewsRef} setFile={setFile} file={file}></Menu>
         </div>
+
         <div ref={ContentRef} className={contentClasses} style={{ maxWidth: contentMaxSize }}>
           {file === null && (
             <div className="absolute inset-0 flex items-center justify-center">
@@ -66,20 +66,11 @@ const CanvasImageEditor = (props: CanvasProps) => {
             </div>
           )}
 
-          <CanvasMain
-            canvasCursorRef={canvasCursorRef}
-            canvasRef={canvasRef}
-            ContentRef={ContentRef}
-            ViewsRef={ViewsRef}
-            file={file}
-          />
+          <CanvasMain canvasRef={canvasRef} ContentRef={ContentRef} ViewsRef={ViewsRef} file={file} />
           <CursorCanvas
             mode={mode}
             ContentRef={ContentRef}
             canvasRef={canvasRef}
-            CursorRef={CursorRef}
-            containerRef={containerRef}
-            canvasCursorRef={canvasCursorRef}
             globalState={globalState}
           ></CursorCanvas>
         </div>

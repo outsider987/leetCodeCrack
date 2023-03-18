@@ -1,7 +1,7 @@
 import { getTransformedPaintPoint, getTransformedPoint, getTransformedPoints } from '~/utils/canvas/coordinate';
 import Point from '../Point';
 import Views from '../Canvas/Canvas';
-import BaseTool from './Tool';
+import BaseTool from './BaselTool';
 
 class BrushTool extends BaseTool {
   color: string;

@@ -5,12 +5,12 @@ import { getCurrentZoom, updateCanvasSize } from '~/utils/canvas/mainCanvas';
 interface Props extends React.HTMLAttributes<HTMLCanvasElement> {
   canvasRef: React.MutableRefObject<HTMLCanvasElement>;
   ContentRef: React.MutableRefObject<HTMLDivElement>;
-  canvasCursorRef: React.MutableRefObject<HTMLCanvasElement>;
+
   ViewsRef: React.MutableRefObject<Views>;
   file: File;
 }
 const CanvasMain = (props: Props) => {
-  const { canvasRef, ContentRef, ViewsRef, file, canvasCursorRef } = props;
+  const { canvasRef, ContentRef, ViewsRef, file } = props;
 
   useEffect(() => {
     if (!canvasRef.current || !ContentRef.current || file === null) return;

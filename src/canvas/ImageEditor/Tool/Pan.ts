@@ -2,57 +2,51 @@ import { getTransformedPoints } from '~/utils/canvas/coordinate';
 import Point from '../Point';
 import Views from '../Canvas/Canvas';
 import { IsOverBoundRect } from '~/utils/canvas/rect';
+import BaseTool from './BaselTool';
 
-class PanTool {
+class PanTool extends BaseTool {
   ctx: CanvasRenderingContext2D;
   size: number;
   canvas: HTMLCanvasElement;
   lastPoint: Point;
   private isPanStart: boolean = false;
-  views: Views;
 
   constructor(views: Views) {
-    this.canvas = views.canvas;
-    this.ctx = views.ctx;
+    super(views);
+
     this.lastPoint = new Point(0, 0);
-    this.views = views;
+
     this.registerEvent(views.canvas);
   }
-  paning(point: Point) {
-    const { ctx, views, canvas } = this;
+  draw(e) {
+    const { ctx, canvas } = this;
+    const currentTransformedCursor = getTransformedPoints(e, canvas, ctx);
+    ctx.translate(currentTransformedCursor.x - this.lastPoint.x, currentTransformedCursor.y - this.lastPoint.y);
 
-    const OutsideRect = canvas.getBoundingClientRect();
-
-    ctx.translate(point.x - this.lastPoint.x, point.y - this.lastPoint.y);
-    const materix = ctx.getTransform();
-
-    views.draw();
+    super.draw(e);
   }
 
   mouseDown = (e) => {
     e.preventDefault();
 
     this.isPanStart = true;
-    const { canvas, views } = this;
-    const currentTransformedCursor = getTransformedPoints(e, views.canvas, views.ctx);
+    const { canvas, ctx } = this;
+    const currentTransformedCursor = getTransformedPoints(e, canvas, ctx);
 
     this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
   };
 
   mouseMove = (e) => {
-    const { canvas, ctx, views } = this;
+    const { canvas, ctx } = this;
     e.preventDefault();
     if (!this.isPanStart) return;
 
-    const currentTransformedCursor = getTransformedPoints(e, views.canvas, views.ctx);
-    const point = new Point(currentTransformedCursor.x, currentTransformedCursor.y);
-
-    this.paning(point);
+    this.draw(e);
   };
 
   mouseUp = (e) => {
     e.preventDefault();
-    const { ctx, views } = this;
+    const { ctx } = this;
 
     this.isPanStart = false;
   };

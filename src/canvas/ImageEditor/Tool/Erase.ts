@@ -1,7 +1,7 @@
 import { getTransformedPoints } from '~/utils/canvas/coordinate';
 import Point from '../Point';
 import Views from '../Canvas/Canvas';
-import BaseTool from './Tool';
+import BaseTool from './BaselTool';
 
 class EraseTool extends BaseTool {
   size: number;
