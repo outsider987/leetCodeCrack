@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkleetcodecrack"] = self["webpackChunkleetcodecrack"] || []).push([["src_canvas_ImageEditor_Canvas_Canvas_ts-src_canvas_ImageEditor_Tool_index_ts"],{
+(self["webpackChunkleetcodecrack"] = self["webpackChunkleetcodecrack"] || []).push([["src_canvas_ImageEditor_Canvas_Canvas_ts-src_canvas_ImageEditor_StateController_StateControlle-78a8c4"],{
 
 /***/ "./src/canvas/ImageEditor/Canvas/Canvas.ts":
 /*!*************************************************!*\
@@ -284,6 +284,103 @@ class Point {
     }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Point);
+
+
+/***/ }),
+
+/***/ "./src/canvas/ImageEditor/StateController/StateController.ts":
+/*!*******************************************************************!*\
+  !*** ./src/canvas/ImageEditor/StateController/StateController.ts ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+class StateController {
+    constructor() {
+        this.undoStack = [];
+        this.redoStack = [];
+        this.mouseDown = (e) => { };
+        this.mouseMove = (e) => { };
+        this.mouseUp = (e) => {
+            const { undoStack, canvas, bufferCanvas } = this;
+            debugger;
+            if (bufferCanvas)
+                undoStack.push(bufferCanvas.toDataURL());
+        };
+        this.onKeyDown = (e) => {
+            const { undo, redo } = this;
+            if (e.ctrlKey) {
+                if (e.key === 'z') {
+                    this.undo.apply(this);
+                }
+                if (e.key === 'y') {
+                    this.redo.apply(this);
+                }
+            }
+        };
+        this.undoStack = [];
+        this.redoStack = [];
+    }
+    initializeCanvas(views) {
+        this.canvas = views.canvas;
+        this.bufferCanvas = views.bufferCanvas;
+        this.bufferCtx = views.bufferCtx;
+    }
+    undo() {
+        debugger;
+        const { undoStack, redoStack, bufferCtx, bufferCanvas, canvas } = this;
+        if (undoStack.length < 2)
+            return;
+        // Remove current state from undo stack and push onto redo stack
+        const currentState = undoStack.pop();
+        redoStack.push(currentState);
+        // Load previous state from undo stack onto canvas
+        const previousState = undoStack[undoStack.length - 1];
+        const img = new Image();
+        img.onload = function () {
+            bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
+            bufferCtx.drawImage(img, 0, 0, bufferCanvas.width, bufferCanvas.height, 0, 0, bufferCanvas.width, bufferCanvas.height);
+        };
+        img.src = previousState;
+    }
+    redo() {
+        debugger;
+        const { undoStack, redoStack, bufferCtx, bufferCanvas } = this;
+        if (redoStack.length === 0)
+            return;
+        // Remove current state from redo stack and push onto undo stack
+        const currentState = redoStack.pop();
+        undoStack.push(currentState);
+        // Load next state from redo stack onto canvas
+        const nextImage = new Image();
+        nextImage.onload = function () {
+            bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
+            bufferCtx.drawImage(nextImage, 0, 0, bufferCanvas.width, bufferCanvas.height, 0, 0, bufferCanvas.width, bufferCanvas.height);
+        };
+        nextImage.src = currentState;
+    }
+    registerEvent(canvas) {
+        debugger;
+        canvas.addEventListener('touchstart', this.mouseDown);
+        canvas.addEventListener('touchmove', this.mouseMove);
+        canvas.addEventListener('touchend', this.mouseUp.bind(this));
+        canvas.addEventListener('mouseup', this.mouseUp.bind(this));
+        window.addEventListener('keydown', this.onKeyDown.bind(this));
+        // canvas.addEventListener('wheel', this.zoom.bind);
+    }
+    unRegisterEvent(canvas) {
+        canvas.removeEventListener('touchstart', this.mouseDown);
+        canvas.removeEventListener('touchmove', this.mouseMove);
+        canvas.removeEventListener('touchend', this.mouseUp.bind(this));
+        canvas.removeEventListener('mouseup', this.mouseUp.bind(this));
+        window.removeEventListener('keydown', this.onKeyDown.bind(this));
+        // canvas.removeEventListener('wheel', this.zoom(this));
+    }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (StateController);
 
 
 /***/ }),
@@ -602,4 +699,4 @@ function dynamicClass(name) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/17ca304b62772d410ef7.js.map
+//# sourceMappingURL=js/9b097a935c2178194399.js.map
