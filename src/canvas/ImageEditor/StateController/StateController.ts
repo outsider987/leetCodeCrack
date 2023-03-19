@@ -1,3 +1,4 @@
+import { onload2promise } from '~/utils/image';
 import Views from '../Canvas/Canvas';
 
 class StateController {
@@ -16,73 +17,86 @@ class StateController {
     this.canvas = views.canvas;
     this.bufferCanvas = views.bufferCanvas;
     this.bufferCtx = views.bufferCtx;
+    this.views = views;
+    this.registerEvent(this.canvas);
   }
-  undo() {
-    debugger;
-    const { undoStack, redoStack, bufferCtx, bufferCanvas, canvas } = this;
-    if (undoStack.length < 2) return;
+  draw() {
+    const { views } = this;
+    views.draw();
+  }
+  async undo() {
+    const { undoStack, redoStack, bufferCtx, bufferCanvas, views } = this;
+    if (this.undoStack.length <= 1) return;
     // Remove current state from undo stack and push onto redo stack
     const currentState = undoStack.pop();
     redoStack.push(currentState);
     // Load previous state from undo stack onto canvas
-    const previousState = undoStack[undoStack.length - 1];
+    const previousState = undoStack[undoStack.length - 1] || currentState;
     const img = new Image();
-    img.onload = function () {
-      bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
-      bufferCtx.drawImage(
-        img,
-        0,
-        0,
-        bufferCanvas.width,
-        bufferCanvas.height,
-        0,
-        0,
-        bufferCanvas.width,
-        bufferCanvas.height,
-      );
-    };
     img.src = previousState;
+    await onload2promise(img);
+    bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
+    bufferCtx.drawImage(
+      img,
+      0,
+      0,
+      bufferCanvas.width,
+      bufferCanvas.height,
+      0,
+      0,
+      bufferCanvas.width,
+      bufferCanvas.height,
+    );
+
+    this.draw();
   }
 
-  redo() {
-    debugger;
+  async redo() {
     const { undoStack, redoStack, bufferCtx, bufferCanvas } = this;
+
     if (redoStack.length === 0) return;
     // Remove current state from redo stack and push onto undo stack
     const currentState = redoStack.pop();
     undoStack.push(currentState);
     // Load next state from redo stack onto canvas
     const nextImage = new Image();
-    nextImage.onload = function () {
-      bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
-      bufferCtx.drawImage(
-        nextImage,
-        0,
-        0,
-        bufferCanvas.width,
-        bufferCanvas.height,
-        0,
-        0,
-        bufferCanvas.width,
-        bufferCanvas.height,
-      );
-    };
     nextImage.src = currentState;
+    await onload2promise(nextImage);
+    bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
+    bufferCtx.drawImage(
+      nextImage,
+      0,
+      0,
+      bufferCanvas.width,
+      bufferCanvas.height,
+      0,
+      0,
+      bufferCanvas.width,
+      bufferCanvas.height,
+    );
+
+    this.draw();
+  }
+
+  cleanState() {
+    this.unRegisterEvent(this.canvas);
+    this.undoStack = [];
+    this.redoStack= [];
   }
 
   mouseDown = (e) => {};
 
   mouseMove = (e) => {};
 
-  mouseUp = (e) => {
+  mouseUp = (e) => {};
+
+  pushUndoStack() {
     const { undoStack, canvas, bufferCanvas } = this;
-    debugger;
+
     if (bufferCanvas) undoStack.push(bufferCanvas.toDataURL());
-  };
+  }
 
   onKeyDown = (e) => {
-    const { undo, redo } = this;
-
     if (e.ctrlKey) {
       if (e.key === 'z') {
         this.undo.apply(this);
@@ -95,7 +109,6 @@ class StateController {
   };
 
   registerEvent(canvas) {
-    debugger;
     canvas.addEventListener('touchstart', this.mouseDown);
     canvas.addEventListener('touchmove', this.mouseMove);
     canvas.addEventListener('touchend', this.mouseUp.bind(this));

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
-import { Brush, PanTool as PanIcon, DeleteForever, AutoFixNormal } from '@mui/icons-material';
+import { Brush, PanTool as PanIcon, DeleteForever, AutoFixNormal, Undo, Redo } from '@mui/icons-material';
 import Views from '~/canvas/ImageEditor/Canvas/Canvas';
 import dynamicClass, { Tools } from '~/canvas/ImageEditor/Tool';
 import Panel from '../Panel/Panel';
@@ -16,7 +16,7 @@ interface Props {
   file: File;
   stateController: StateController;
 }
-const Menu = ({ ViewsRef, setFile, file }: Props) => {
+const Menu = ({ ViewsRef, setFile, file, stateController }: Props) => {
   const { mode, setMode, setShowPanel, isShowPanel } = useGlobalContext();
   const [tool, setTool] = useState<any>(null);
 
@@ -26,7 +26,7 @@ const Menu = ({ ViewsRef, setFile, file }: Props) => {
     if (ViewsRef.current.canvas && file !== null && mode) {
       setShowPanel(true);
       const ToolClass = dynamicClass(mode);
-      const toolInstance = new ToolClass(ViewsRef.current);
+      const toolInstance = new ToolClass(ViewsRef.current, stateController);
       setTool(toolInstance);
       return () => {
         toolInstance.unRegisterEvent(ViewsRef.current.canvas);
@@ -56,6 +56,14 @@ const Menu = ({ ViewsRef, setFile, file }: Props) => {
     {
       icon: <DeleteForever />,
       onClick: () => setFile(null),
+    },
+    {
+      icon: <Undo />,
+      onClick: () => stateController.undo(),
+    },
+    {
+      icon: <Redo />,
+      onClick: () => stateController.redo(),
     },
   ];
   const menuClass = clsx('inset-y-0', 'flex', 'flex-col', 'items-center', 'text-white');

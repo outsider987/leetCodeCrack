@@ -1,17 +1,20 @@
 import Views from '../Canvas/Canvas';
+import StateController from '../StateController/StateController';
 
 class BaseTool {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
   bufferCanvas: HTMLCanvasElement;
   bufferCtx: CanvasRenderingContext2D;
+  stateController: StateController;
   private views: Views;
-  constructor(views: Views) {
+  constructor(views: Views, stateController: StateController) {
     this.views = views;
     this.canvas = views.canvas;
     this.bufferCanvas = views.bufferCanvas;
     this.bufferCtx = views.bufferCtx;
     this.ctx = views.ctx;
+    this.stateController = stateController;
   }
 
   draw(e) {
@@ -23,6 +26,11 @@ class BaseTool {
   mouseMove = (e) => {};
 
   mouseUp = (e) => {};
+
+  doCmd() {
+    const { stateController } = this;
+    stateController.pushUndoStack();
+  }
 
   registerEvent(canvas) {
     canvas.addEventListener('mousedown', this.mouseDown);

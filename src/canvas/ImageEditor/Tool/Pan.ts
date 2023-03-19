@@ -3,6 +3,7 @@ import Point from '../Point';
 import Views from '../Canvas/Canvas';
 import { IsOverBoundRect } from '~/utils/canvas/rect';
 import BaseTool from './BaselTool';
+import StateController from '../StateController/StateController';
 
 class PanTool extends BaseTool {
   ctx: CanvasRenderingContext2D;
@@ -11,8 +12,8 @@ class PanTool extends BaseTool {
   lastPoint: Point;
   private isPanStart: boolean = false;
 
-  constructor(views: Views) {
-    super(views);
+  constructor(views: Views, stateController: StateController) {
+    super(views, stateController);
 
     this.lastPoint = new Point(0, 0);
 
@@ -49,6 +50,7 @@ class PanTool extends BaseTool {
     const { ctx } = this;
 
     this.isPanStart = false;
+    super.doCmd();
   };
 
   registerEvent(canvas) {

@@ -18,10 +18,12 @@ const CanvasMain = (props: Props) => {
 
     ViewsRef.current.initializeCanvas(canvasRef.current);
     stateController.initializeCanvas(ViewsRef.current);
-    stateController.registerEvent(canvasRef.current);
+
     updateCanvasSize(canvasRef.current, ContentRef.current.offsetWidth, ContentRef.current.offsetHeight);
 
-    ViewsRef.current.loadFile(file);
+    ViewsRef.current.loadFile(file).then(() => {
+      stateController.pushUndoStack();
+    });
     const observer = new ResizeObserver((entries) => {
       entries.forEach((entry) => {
         ViewsRef.current.backgroundLayer && resizeCanvas();
@@ -33,7 +35,7 @@ const CanvasMain = (props: Props) => {
     return () => {
       observer.unobserve(ContentRef.current);
       ViewsRef.current.cleanCanvas();
-      stateController.unRegisterEvent(canvasRef.current);
+      stateController.cleanState();
     };
   }, [file]);
 

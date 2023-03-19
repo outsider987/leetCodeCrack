@@ -2,6 +2,7 @@ import { getTransformedPaintPoint, getTransformedPoint, getTransformedPoints } f
 import Point from '../Point';
 import Views from '../Canvas/Canvas';
 import BaseTool from './BaselTool';
+import StateController from '../StateController/StateController';
 
 class BrushTool extends BaseTool {
   color: string;
@@ -9,8 +10,8 @@ class BrushTool extends BaseTool {
   private isDrawStart: boolean = false;
 
   size: number;
-  constructor(views: Views) {
-    super(views);
+  constructor(views: Views, stateController: StateController) {
+    super(views, stateController);
     this.lastPoint = new Point(0, 0);
     this.setColor('black');
     this.size = 5;
@@ -60,6 +61,8 @@ class BrushTool extends BaseTool {
   mouseUp = (e) => {
     this.isDrawStart = false;
     this.draw(e);
+
+    super.doCmd();
   };
 
   registerEvent(canvas) {

@@ -2,14 +2,15 @@ import { getTransformedPoints } from '~/utils/canvas/coordinate';
 import Point from '../Point';
 import Views from '../Canvas/Canvas';
 import BaseTool from './BaselTool';
+import StateController from '../StateController/StateController';
 
 class EraseTool extends BaseTool {
   size: number;
   lastPoint: Point;
   private isDrawStart: boolean = false;
 
-  constructor(views: Views) {
-    super(views);
+  constructor(views: Views, stateController: StateController) {
+    super(views, stateController);
     this.lastPoint = new Point(0, 0);
     this.size = 5;
     this.registerEvent(views.canvas);
@@ -60,6 +61,7 @@ class EraseTool extends BaseTool {
 
     this.isDrawStart = false;
     bufferCtx.globalCompositeOperation = 'source-over';
+    super.doCmd();
   };
 
   registerEvent(canvas) {

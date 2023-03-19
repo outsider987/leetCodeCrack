@@ -10,8 +10,6 @@ import StateController from '../StateController/StateController';
 class Views {
   ctx: CanvasRenderingContext2D;
   canvas: HTMLCanvasElement;
-  lastPoint: Point;
-  private isDrawStart: boolean = false;
   bufferCanvas: HTMLCanvasElement;
   bufferCtx: CanvasRenderingContext2D;
   backgroundLayer: BackgroundLayer;
