@@ -163,9 +163,10 @@ const CanvasMain = (props) => {
             return;
         ViewsRef.current.initializeCanvas(canvasRef.current);
         stateController.initializeCanvas(ViewsRef.current);
-        stateController.registerEvent(canvasRef.current);
         (0,_utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_1__.updateCanvasSize)(canvasRef.current, ContentRef.current.offsetWidth, ContentRef.current.offsetHeight);
-        ViewsRef.current.loadFile(file);
+        ViewsRef.current.loadFile(file).then(() => {
+            stateController.pushUndoStack();
+        });
         const observer = new ResizeObserver((entries) => {
             entries.forEach((entry) => {
                 ViewsRef.current.backgroundLayer && resizeCanvas();
@@ -175,7 +176,7 @@ const CanvasMain = (props) => {
         return () => {
             observer.unobserve(ContentRef.current);
             ViewsRef.current.cleanCanvas();
-            stateController.unRegisterEvent(canvasRef.current);
+            stateController.cleanState();
         };
     }, [file]);
     const resizeCanvas = () => {
@@ -213,6 +214,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mui_icons_material__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mui/icons-material */ "./node_modules/@mui/icons-material/esm/PanTool.js");
 /* harmony import */ var _mui_icons_material__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @mui/icons-material */ "./node_modules/@mui/icons-material/esm/AutoFixNormal.js");
 /* harmony import */ var _mui_icons_material__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @mui/icons-material */ "./node_modules/@mui/icons-material/esm/DeleteForever.js");
+/* harmony import */ var _mui_icons_material__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @mui/icons-material */ "./node_modules/@mui/icons-material/esm/Undo.js");
+/* harmony import */ var _mui_icons_material__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @mui/icons-material */ "./node_modules/@mui/icons-material/esm/Redo.js");
 /* harmony import */ var _canvas_ImageEditor_Tool__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/canvas/ImageEditor/Tool */ "./src/canvas/ImageEditor/Tool/index.ts");
 /* harmony import */ var _Panel_Panel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Panel/Panel */ "./src/canvas/components/Panel/Panel.tsx");
 /* harmony import */ var _store_context__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ~/store/context */ "./src/store/context/index.tsx");
@@ -226,7 +229,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const Menu = ({ ViewsRef, setFile, file }) => {
+const Menu = ({ ViewsRef, setFile, file, stateController }) => {
     const { mode, setMode, setShowPanel, isShowPanel } = (0,_store_context__WEBPACK_IMPORTED_MODULE_3__.useGlobalContext)();
     const [tool, setTool] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
     const { MENU_WIDTH } = _utils_canvas_constants__WEBPACK_IMPORTED_MODULE_4__.LAYOUT_SIZE;
@@ -234,7 +237,7 @@ const Menu = ({ ViewsRef, setFile, file }) => {
         if (ViewsRef.current.canvas && file !== null && mode) {
             setShowPanel(true);
             const ToolClass = (0,_canvas_ImageEditor_Tool__WEBPACK_IMPORTED_MODULE_1__["default"])(mode);
-            const toolInstance = new ToolClass(ViewsRef.current);
+            const toolInstance = new ToolClass(ViewsRef.current, stateController);
             setTool(toolInstance);
             return () => {
                 toolInstance.unRegisterEvent(ViewsRef.current.canvas);
@@ -261,6 +264,14 @@ const Menu = ({ ViewsRef, setFile, file }) => {
         {
             icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_9__["default"], null),
             onClick: () => setFile(null),
+        },
+        {
+            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_10__["default"], null),
+            onClick: () => stateController.undo(),
+        },
+        {
+            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_11__["default"], null),
+            onClick: () => stateController.redo(),
         },
     ];
     const menuClass = (0,clsx__WEBPACK_IMPORTED_MODULE_5__["default"])('inset-y-0', 'flex', 'flex-col', 'items-center', 'text-white');
@@ -493,4 +504,4 @@ const Panel = (props) => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/f03197cee0df2cae5184.js.map
+//# sourceMappingURL=js/9de02715f402e890dcdd.js.map

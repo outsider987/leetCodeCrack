@@ -25,7 +25,6 @@ __webpack_require__.r(__webpack_exports__);
 
 class Views {
     constructor() {
-        this.isDrawStart = false;
         this.zoomLevel = 1;
         this.lastView = null;
         this.layerArray = [];
@@ -298,20 +297,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _utils_image__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ~/utils/image */ "./src/utils/image.ts");
+
 class StateController {
     constructor() {
         this.undoStack = [];
         this.redoStack = [];
         this.mouseDown = (e) => { };
         this.mouseMove = (e) => { };
-        this.mouseUp = (e) => {
-            const { undoStack, canvas, bufferCanvas } = this;
-            debugger;
-            if (bufferCanvas)
-                undoStack.push(bufferCanvas.toDataURL());
-        };
+        this.mouseUp = (e) => { };
         this.onKeyDown = (e) => {
-            const { undo, redo } = this;
             if (e.ctrlKey) {
                 if (e.key === 'z') {
                     this.undo.apply(this);
@@ -328,26 +323,30 @@ class StateController {
         this.canvas = views.canvas;
         this.bufferCanvas = views.bufferCanvas;
         this.bufferCtx = views.bufferCtx;
+        this.views = views;
+        this.registerEvent(this.canvas);
     }
-    undo() {
-        debugger;
-        const { undoStack, redoStack, bufferCtx, bufferCanvas, canvas } = this;
-        if (undoStack.length < 2)
+    draw() {
+        const { views } = this;
+        views.draw();
+    }
+    async undo() {
+        const { undoStack, redoStack, bufferCtx, bufferCanvas, views } = this;
+        if (this.undoStack.length <= 1)
             return;
         // Remove current state from undo stack and push onto redo stack
         const currentState = undoStack.pop();
         redoStack.push(currentState);
         // Load previous state from undo stack onto canvas
-        const previousState = undoStack[undoStack.length - 1];
+        const previousState = undoStack[undoStack.length - 1] || currentState;
         const img = new Image();
-        img.onload = function () {
-            bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
-            bufferCtx.drawImage(img, 0, 0, bufferCanvas.width, bufferCanvas.height, 0, 0, bufferCanvas.width, bufferCanvas.height);
-        };
         img.src = previousState;
+        await (0,_utils_image__WEBPACK_IMPORTED_MODULE_0__.onload2promise)(img);
+        bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
+        bufferCtx.drawImage(img, 0, 0, bufferCanvas.width, bufferCanvas.height, 0, 0, bufferCanvas.width, bufferCanvas.height);
+        this.draw();
     }
-    redo() {
-        debugger;
+    async redo() {
         const { undoStack, redoStack, bufferCtx, bufferCanvas } = this;
         if (redoStack.length === 0)
             return;
@@ -356,14 +355,23 @@ class StateController {
         undoStack.push(currentState);
         // Load next state from redo stack onto canvas
         const nextImage = new Image();
-        nextImage.onload = function () {
-            bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
-            bufferCtx.drawImage(nextImage, 0, 0, bufferCanvas.width, bufferCanvas.height, 0, 0, bufferCanvas.width, bufferCanvas.height);
-        };
         nextImage.src = currentState;
+        await (0,_utils_image__WEBPACK_IMPORTED_MODULE_0__.onload2promise)(nextImage);
+        bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
+        bufferCtx.drawImage(nextImage, 0, 0, bufferCanvas.width, bufferCanvas.height, 0, 0, bufferCanvas.width, bufferCanvas.height);
+        this.draw();
+    }
+    cleanState() {
+        this.unRegisterEvent(this.canvas);
+        this.undoStack = [];
+        this.redoStack = [];
+    }
+    pushUndoStack() {
+        const { undoStack, canvas, bufferCanvas } = this;
+        if (bufferCanvas)
+            undoStack.push(bufferCanvas.toDataURL());
     }
     registerEvent(canvas) {
-        debugger;
         canvas.addEventListener('touchstart', this.mouseDown);
         canvas.addEventListener('touchmove', this.mouseMove);
         canvas.addEventListener('touchend', this.mouseUp.bind(this));
@@ -396,7 +404,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 class BaseTool {
-    constructor(views) {
+    constructor(views, stateController) {
         this.mouseDown = (e) => { };
         this.mouseMove = (e) => { };
         this.mouseUp = (e) => { };
@@ -405,10 +413,15 @@ class BaseTool {
         this.bufferCanvas = views.bufferCanvas;
         this.bufferCtx = views.bufferCtx;
         this.ctx = views.ctx;
+        this.stateController = stateController;
     }
     draw(e) {
         const { views } = this;
         views.draw();
+    }
+    doCmd() {
+        const { stateController } = this;
+        stateController.pushUndoStack();
     }
     registerEvent(canvas) {
         canvas.addEventListener('mousedown', this.mouseDown);
@@ -449,8 +462,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class BrushTool extends _BaselTool__WEBPACK_IMPORTED_MODULE_2__["default"] {
-    constructor(views) {
-        super(views);
+    constructor(views, stateController) {
+        super(views, stateController);
         this.isDrawStart = false;
         this.setColor = (color) => {
             this.color = color;
@@ -474,6 +487,7 @@ class BrushTool extends _BaselTool__WEBPACK_IMPORTED_MODULE_2__["default"] {
         this.mouseUp = (e) => {
             this.isDrawStart = false;
             this.draw(e);
+            super.doCmd();
         };
         this.lastPoint = new _Point__WEBPACK_IMPORTED_MODULE_1__["default"](0, 0);
         this.setColor('black');
@@ -533,8 +547,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class EraseTool extends _BaselTool__WEBPACK_IMPORTED_MODULE_2__["default"] {
-    constructor(views) {
-        super(views);
+    constructor(views, stateController) {
+        super(views, stateController);
         this.isDrawStart = false;
         this.setSize = (size) => {
             this.size = size;
@@ -558,6 +572,7 @@ class EraseTool extends _BaselTool__WEBPACK_IMPORTED_MODULE_2__["default"] {
             this.draw(e);
             this.isDrawStart = false;
             bufferCtx.globalCompositeOperation = 'source-over';
+            super.doCmd();
         };
         this.lastPoint = new _Point__WEBPACK_IMPORTED_MODULE_1__["default"](0, 0);
         this.size = 5;
@@ -616,8 +631,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class PanTool extends _BaselTool__WEBPACK_IMPORTED_MODULE_2__["default"] {
-    constructor(views) {
-        super(views);
+    constructor(views, stateController) {
+        super(views, stateController);
         this.isPanStart = false;
         this.mouseDown = (e) => {
             e.preventDefault();
@@ -637,6 +652,7 @@ class PanTool extends _BaselTool__WEBPACK_IMPORTED_MODULE_2__["default"] {
             e.preventDefault();
             const { ctx } = this;
             this.isPanStart = false;
+            super.doCmd();
         };
         this.lastPoint = new _Point__WEBPACK_IMPORTED_MODULE_1__["default"](0, 0);
         this.registerEvent(views.canvas);
@@ -699,4 +715,4 @@ function dynamicClass(name) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/9b097a935c2178194399.js.map
+//# sourceMappingURL=js/d508d3a9e165c790e355.js.map
