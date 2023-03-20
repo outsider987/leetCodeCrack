@@ -234,12 +234,13 @@ const Menu = ({ ViewsRef, setFile, file, stateController }) => {
     const [tool, setTool] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
     const { MENU_WIDTH } = _utils_canvas_constants__WEBPACK_IMPORTED_MODULE_4__.LAYOUT_SIZE;
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        if (ViewsRef.current.canvas && file !== null && mode) {
+        if (ViewsRef.current.canvas && file !== null) {
             setShowPanel(true);
             const ToolClass = (0,_canvas_ImageEditor_Tool__WEBPACK_IMPORTED_MODULE_1__["default"])(mode);
             const toolInstance = new ToolClass(ViewsRef.current, stateController);
             setTool(toolInstance);
             return () => {
+                debugger;
                 toolInstance.unRegisterEvent(ViewsRef.current.canvas);
                 setTool(null);
             };
@@ -248,6 +249,12 @@ const Menu = ({ ViewsRef, setFile, file, stateController }) => {
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         !isShowPanel && setMode(null);
     }, [isShowPanel]);
+    const handleDelte = () => {
+        setFile(null);
+        setTool(null);
+        setMode(null);
+        setShowPanel(false);
+    };
     const tools = [
         {
             icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_6__["default"], null),
@@ -263,7 +270,7 @@ const Menu = ({ ViewsRef, setFile, file, stateController }) => {
         },
         {
             icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_9__["default"], null),
-            onClick: () => setFile(null),
+            onClick: () => handleDelte(),
         },
         {
             icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_10__["default"], null),
@@ -504,4 +511,4 @@ const Panel = (props) => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/9de02715f402e890dcdd.js.map
+//# sourceMappingURL=js/19687d4d1aab6f14d4f2.js.map

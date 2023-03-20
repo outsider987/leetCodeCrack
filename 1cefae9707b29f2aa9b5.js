@@ -362,21 +362,25 @@ class StateController {
         this.draw();
     }
     cleanState() {
+        debugger;
         this.unRegisterEvent(this.canvas);
+        console.log('cleanState');
         this.undoStack = [];
         this.redoStack = [];
     }
     pushUndoStack() {
         const { undoStack, canvas, bufferCanvas } = this;
-        if (bufferCanvas)
+        if (bufferCanvas) {
             undoStack.push(bufferCanvas.toDataURL());
+            this.redoStack = [];
+        }
     }
     registerEvent(canvas) {
         canvas.addEventListener('touchstart', this.mouseDown);
         canvas.addEventListener('touchmove', this.mouseMove);
         canvas.addEventListener('touchend', this.mouseUp.bind(this));
         canvas.addEventListener('mouseup', this.mouseUp.bind(this));
-        window.addEventListener('keydown', this.onKeyDown.bind(this));
+        window.addEventListener('keydown', this.onKeyDown);
         // canvas.addEventListener('wheel', this.zoom.bind);
     }
     unRegisterEvent(canvas) {
@@ -384,7 +388,7 @@ class StateController {
         canvas.removeEventListener('touchmove', this.mouseMove);
         canvas.removeEventListener('touchend', this.mouseUp.bind(this));
         canvas.removeEventListener('mouseup', this.mouseUp.bind(this));
-        window.removeEventListener('keydown', this.onKeyDown.bind(this));
+        window.removeEventListener('keydown', this.onKeyDown);
         // canvas.removeEventListener('wheel', this.zoom(this));
     }
 }
@@ -715,4 +719,4 @@ function dynamicClass(name) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/d508d3a9e165c790e355.js.map
+//# sourceMappingURL=js/1cefae9707b29f2aa9b5.js.map
