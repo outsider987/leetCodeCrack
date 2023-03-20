@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import CursorCanvasClass from '~/canvas/ImageEditor/Canvas/CanvasCursor';
 import { Tools } from '~/canvas/ImageEditor/Tool';
 import { LAYOUT_SIZE } from '~/utils/canvas/constants';
 import { getCurrentZoom } from '~/utils/canvas/mainCanvas';

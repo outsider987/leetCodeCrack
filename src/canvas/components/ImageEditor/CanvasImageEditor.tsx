@@ -10,7 +10,6 @@ import { getCurrentZoom, updateCanvasSize } from '~/utils/canvas/mainCanvas';
 import { LAYOUT_SIZE } from '~/utils/canvas/constants';
 import { useGlobalContext } from '~/store/context';
 import clsx from 'clsx';
-import CursorCanvasClass from '~/canvas/ImageEditor/Canvas/CanvasCursor';
 import CanvasMain from './Maincanvas';
 import CursorCanvas from './CursorCanvas';
 import StateController from '~/canvas/ImageEditor/StateController/StateController';

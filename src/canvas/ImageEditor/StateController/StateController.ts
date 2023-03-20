@@ -79,9 +79,11 @@ class StateController {
   }
 
   cleanState() {
+    debugger;
     this.unRegisterEvent(this.canvas);
+    console.log('cleanState');
     this.undoStack = [];
-    this.redoStack= [];
+    this.redoStack = [];
   }
 
   mouseDown = (e) => {};
@@ -93,7 +95,10 @@ class StateController {
   pushUndoStack() {
     const { undoStack, canvas, bufferCanvas } = this;
 
-    if (bufferCanvas) undoStack.push(bufferCanvas.toDataURL());
+    if (bufferCanvas) {
+      undoStack.push(bufferCanvas.toDataURL());
+      this.redoStack = [];
+    }
   }
 
   onKeyDown = (e) => {
@@ -113,7 +118,7 @@ class StateController {
     canvas.addEventListener('touchmove', this.mouseMove);
     canvas.addEventListener('touchend', this.mouseUp.bind(this));
     canvas.addEventListener('mouseup', this.mouseUp.bind(this));
-    window.addEventListener('keydown', this.onKeyDown.bind(this));
+    window.addEventListener('keydown', this.onKeyDown);
     // canvas.addEventListener('wheel', this.zoom.bind);
   }
   unRegisterEvent(canvas) {
@@ -121,7 +126,7 @@ class StateController {
     canvas.removeEventListener('touchmove', this.mouseMove);
     canvas.removeEventListener('touchend', this.mouseUp.bind(this));
     canvas.removeEventListener('mouseup', this.mouseUp.bind(this));
-    window.removeEventListener('keydown', this.onKeyDown.bind(this));
+    window.removeEventListener('keydown', this.onKeyDown);
     // canvas.removeEventListener('wheel', this.zoom(this));
   }
 }

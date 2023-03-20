@@ -23,12 +23,13 @@ const Menu = ({ ViewsRef, setFile, file, stateController }: Props) => {
   const { MENU_WIDTH } = LAYOUT_SIZE;
 
   useEffect(() => {
-    if (ViewsRef.current.canvas && file !== null && mode) {
+    if (ViewsRef.current.canvas && file !== null) {
       setShowPanel(true);
       const ToolClass = dynamicClass(mode);
       const toolInstance = new ToolClass(ViewsRef.current, stateController);
       setTool(toolInstance);
       return () => {
+        debugger;
         toolInstance.unRegisterEvent(ViewsRef.current.canvas);
         setTool(null);
       };
@@ -38,6 +39,13 @@ const Menu = ({ ViewsRef, setFile, file, stateController }: Props) => {
   useEffect(() => {
     !isShowPanel && setMode(null);
   }, [isShowPanel]);
+
+  const handleDelte = () => {
+    setFile(null);
+    setTool(null);
+    setMode(null);
+    setShowPanel(false);
+  };
 
   const tools = [
     {
@@ -55,7 +63,7 @@ const Menu = ({ ViewsRef, setFile, file, stateController }: Props) => {
     },
     {
       icon: <DeleteForever />,
-      onClick: () => setFile(null),
+      onClick: () => handleDelte(),
     },
     {
       icon: <Undo />,
