@@ -51,6 +51,23 @@ class CropTool extends BaseTool {
       transform.f + bufferCanvas.height * currentZoom,
     );
   }
+  resetRect() {
+    const { ctx, bufferCanvas } = this;
+    const transform = ctx.getTransform();
+    const currentZoom = getCurrentZoom(ctx);
+    this.originalRect.setRect(
+      transform.e,
+      transform.f,
+      transform.e + bufferCanvas.width * currentZoom,
+      transform.f + bufferCanvas.height * currentZoom,
+    );
+    this.focusRect.setRect(
+      transform.e,
+      transform.f,
+      transform.e + bufferCanvas.width * currentZoom,
+      transform.f + bufferCanvas.height * currentZoom,
+    );
+  }
 
   zoom(e) {
     const { ctx, rasterCanvas, canvas, rasterCtx: rasterCtx, bufferCanvas } = this;

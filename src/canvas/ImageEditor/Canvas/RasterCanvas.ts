@@ -52,7 +52,9 @@ class RasterViews {
 
   draw() {
     const { ctx, rasterCanvas, canvas, rasterCtx, bufferCanvas } = this;
+    this.currentInstance.resetRect();
     this.currentInstance.draw();
+
     // rasterCtx.drawImage(rasterCanvas, 0, 0);
   }
 
