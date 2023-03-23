@@ -31,7 +31,7 @@ const factorResponse = async (res: Response) => {
         cleanTokenStorage();
         return errorData;
       } else {
-        //   debugger;
+        //   ;
         setTokenStorage(errorData);
         console.log(res.url);
       }

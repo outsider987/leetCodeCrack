@@ -22,7 +22,7 @@ const CursorCanvas = (props: Props) => {
   const [isCursor, setShowCursor] = useState(false);
 
   useEffect(() => {
-    if (!canvasCursorRef.current && !isShow) return;
+    if (!canvasCursorRef.current && !isShow && !canvasRef.current) return;
     handleChangSize();
     canvasRef.current.addEventListener('mousemove', handleMouseMove);
     canvasRef.current.addEventListener('wheel', handleChangSize);

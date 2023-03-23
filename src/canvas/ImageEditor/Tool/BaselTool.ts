@@ -1,4 +1,5 @@
 import Views from '../Canvas/Canvas';
+import RasterViews from '../Canvas/RasterCanvas';
 import StateController from '../StateController/StateController';
 
 class BaseTool {
@@ -7,14 +8,21 @@ class BaseTool {
   bufferCanvas: HTMLCanvasElement;
   bufferCtx: CanvasRenderingContext2D;
   stateController: StateController;
+  rasterCanvas: HTMLCanvasElement;
+  rasterCtx: CanvasRenderingContext2D;
+  private rasterViews: RasterViews;
+
   private views: Views;
-  constructor(views: Views, stateController: StateController) {
+  constructor(views: Views, stateController: StateController, rasterViews: RasterViews) {
     this.views = views;
     this.canvas = views.canvas;
     this.bufferCanvas = views.bufferCanvas;
     this.bufferCtx = views.bufferCtx;
     this.ctx = views.ctx;
     this.stateController = stateController;
+    this.rasterCanvas = rasterViews.rasterCanvas;
+    this.rasterCtx = rasterViews.rasterCtx;
+    this.rasterViews = rasterViews;
   }
 
   draw(e) {
@@ -26,6 +34,8 @@ class BaseTool {
   mouseMove = (e) => {};
 
   mouseUp = (e) => {};
+
+  zoom(e) {}
 
   doCmd() {
     const { stateController } = this;
@@ -39,6 +49,7 @@ class BaseTool {
     canvas.addEventListener('touchstart', this.mouseDown);
     canvas.addEventListener('touchmove', this.mouseMove);
     canvas.addEventListener('touchend', this.mouseUp);
+    canvas.addEventListener('wheel', this.zoom);
   }
   unRegisterEvent(canvas) {
     canvas.removeEventListener('mousedown', this.mouseDown);
@@ -47,6 +58,7 @@ class BaseTool {
     canvas.removeEventListener('touchstart', this.mouseDown);
     canvas.removeEventListener('touchmove', this.mouseMove);
     canvas.removeEventListener('touchend', this.mouseUp);
+    canvas.removeEventListener('wheel', this.zoom);
   }
 }
 export default BaseTool;

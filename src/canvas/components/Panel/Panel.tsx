@@ -8,6 +8,8 @@ import PanTool from '~/canvas/ImageEditor/Tool/Pan';
 import EraseTool from '~/canvas/ImageEditor/Tool/Erase';
 import ErasePanel from './Erase/ErasePanel';
 import clsx from 'clsx';
+import CropTool from '~/canvas/ImageEditor/Tool/Crop';
+import CropPanel from './Crop/CropPanel';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
@@ -20,7 +22,6 @@ const Panel = (props: Props) => {
   const { isShowPanel, setShowPanel } = useGlobalContext();
 
   const { title, mode, tool } = props;
-
   const panel = useMemo(() => {
     switch (mode) {
       case BrushTool.name:
@@ -31,6 +32,9 @@ const Panel = (props: Props) => {
 
       case EraseTool.name:
         return <ErasePanel tool={tool}></ErasePanel>;
+
+      case CropTool.name:
+        return <CropPanel tool={tool}></CropPanel>;
 
       default:
         return <></>;
@@ -44,7 +48,7 @@ const Panel = (props: Props) => {
       {isShowPanel && (
         <div className={containerClass}>
           {/*Pqnnel */}
-          <div {...props} className={`bg-navbar  flex flex-row justify-around p-2`}>
+          <div {...props} className={`flex  flex-row justify-around bg-navbar p-2`}>
             <div className="flex flex-col items-center space-y-3  border-b border-solid text-white">{title}</div>
             <div>
               <button className="flex-1 text-white" onClick={() => setShowPanel(false)}>

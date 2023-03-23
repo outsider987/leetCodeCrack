@@ -3,17 +3,17 @@ import Point from '../Point';
 import Views from '../Canvas/Canvas';
 import BaseTool from './BaselTool';
 import StateController from '../StateController/StateController';
+import RasterViews from '../Canvas/RasterCanvas';
 
 class EraseTool extends BaseTool {
   size: number;
   lastPoint: Point;
   private isDrawStart: boolean = false;
 
-  constructor(views: Views, stateController: StateController) {
-    super(views, stateController);
+  constructor(views: Views, stateController: StateController, rasterViews: RasterViews) {
+    super(views, stateController, rasterViews);
     this.lastPoint = new Point(0, 0);
     this.size = 5;
-    this.registerEvent(views.canvas);
   }
   draw(e) {
     const { bufferCtx, size, canvas, ctx } = this;
@@ -63,8 +63,8 @@ class EraseTool extends BaseTool {
     bufferCtx.globalCompositeOperation = 'source-over';
     super.doCmd();
   };
-
-  registerEvent(canvas) {
+  registerEvent() {
+    const { canvas } = this;
     canvas.addEventListener('mousedown', this.mouseDown);
     canvas.addEventListener('mousemove', this.mouseMove);
     canvas.addEventListener('mouseup', this.mouseUp);
@@ -72,7 +72,8 @@ class EraseTool extends BaseTool {
     canvas.addEventListener('touchmove', this.mouseMove);
     canvas.addEventListener('touchend', this.mouseUp);
   }
-  unRegisterEvent(canvas) {
+  unRegisterEvent() {
+    const { canvas } = this;
     canvas.removeEventListener('mousedown', this.mouseDown);
     canvas.removeEventListener('mousemove', this.mouseMove);
     canvas.removeEventListener('mouseup', this.mouseUp);

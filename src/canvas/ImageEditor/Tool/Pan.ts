@@ -4,6 +4,7 @@ import Views from '../Canvas/Canvas';
 import { IsOverBoundRect } from '~/utils/canvas/rect';
 import BaseTool from './BaselTool';
 import StateController from '../StateController/StateController';
+import RasterViews from '../Canvas/RasterCanvas';
 
 class PanTool extends BaseTool {
   ctx: CanvasRenderingContext2D;
@@ -12,12 +13,10 @@ class PanTool extends BaseTool {
   lastPoint: Point;
   private isPanStart: boolean = false;
 
-  constructor(views: Views, stateController: StateController) {
-    super(views, stateController);
+  constructor(views: Views, stateController: StateController, rasterViews: RasterViews) {
+    super(views, stateController, rasterViews);
 
     this.lastPoint = new Point(0, 0);
-
-    this.registerEvent(views.canvas);
   }
   draw(e) {
     const { ctx, canvas } = this;
@@ -53,7 +52,8 @@ class PanTool extends BaseTool {
     super.doCmd();
   };
 
-  registerEvent(canvas) {
+  registerEvent() {
+    const { canvas } = this;
     canvas.addEventListener('mousedown', this.mouseDown);
     canvas.addEventListener('mousemove', this.mouseMove);
     canvas.addEventListener('mouseup', this.mouseUp);
@@ -61,7 +61,8 @@ class PanTool extends BaseTool {
     canvas.addEventListener('touchmove', this.mouseMove);
     canvas.addEventListener('touchend', this.mouseUp);
   }
-  unRegisterEvent(canvas) {
+  unRegisterEvent() {
+    const { canvas } = this;
     canvas.removeEventListener('mousedown', this.mouseDown);
     canvas.removeEventListener('mousemove', this.mouseMove);
     canvas.removeEventListener('mouseup', this.mouseUp);

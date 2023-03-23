@@ -79,7 +79,6 @@ class StateController {
   }
 
   cleanState() {
-    debugger;
     this.unRegisterEvent(this.canvas);
     console.log('cleanState');
     this.undoStack = [];

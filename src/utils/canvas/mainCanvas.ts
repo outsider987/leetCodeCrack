@@ -17,7 +17,14 @@ export function redrawBoundBackGround(canvas: HTMLCanvasElement) {
   ctx.restore();
 }
 
-export function updateCanvasSize(mianCanvas: HTMLCanvasElement, width: number, height: number) {
+export function updateCanvasSize(
+  mianCanvas: HTMLCanvasElement,
+  rasterCanvas: HTMLCanvasElement,
+  width: number,
+  height: number,
+) {
   mianCanvas.width = width;
   mianCanvas.height = height;
+  rasterCanvas.width = width;
+  rasterCanvas.height = height;
 }

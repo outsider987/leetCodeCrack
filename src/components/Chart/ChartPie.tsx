@@ -71,7 +71,7 @@ const ChartPie = (props: CanvasProps) => {
 
           if (endRadians >= moodValue.startAngle && pct <= moodValue.accumlatePercentage) {
             if (moodValue.color === '#0a9627') {
-              // debugger;
+              // ;
             }
             drawPie(ctx, {
               radius,

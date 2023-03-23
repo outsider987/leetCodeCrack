@@ -1,8 +1,9 @@
-import { getTransformedPaintPoint, getTransformedPoint, getTransformedPoints } from '~/utils/canvas/coordinate';
+import { getTransformedPaintPoint, getTransformedPoints } from '~/utils/canvas/coordinate';
 import Point from '../Point';
 import Views from '../Canvas/Canvas';
 import BaseTool from './BaselTool';
 import StateController from '../StateController/StateController';
+import RasterViews from '../Canvas/RasterCanvas';
 
 class BrushTool extends BaseTool {
   color: string;
@@ -10,12 +11,11 @@ class BrushTool extends BaseTool {
   private isDrawStart: boolean = false;
 
   size: number;
-  constructor(views: Views, stateController: StateController) {
-    super(views, stateController);
+  constructor(views: Views, stateController: StateController, rasterViews: RasterViews) {
+    super(views, stateController, rasterViews);
     this.lastPoint = new Point(0, 0);
     this.setColor('black');
     this.size = 5;
-    this.registerEvent(views.canvas);
   }
   draw(e) {
     const { bufferCtx, canvas, ctx } = this;
@@ -65,7 +65,8 @@ class BrushTool extends BaseTool {
     super.doCmd();
   };
 
-  registerEvent(canvas) {
+  registerEvent() {
+    const { canvas } = this;
     canvas.addEventListener('mousedown', this.mouseDown);
     canvas.addEventListener('mousemove', this.mouseMove);
     canvas.addEventListener('mouseup', this.mouseUp);
@@ -73,7 +74,8 @@ class BrushTool extends BaseTool {
     canvas.addEventListener('touchmove', this.mouseMove);
     canvas.addEventListener('touchend', this.mouseUp);
   }
-  unRegisterEvent(canvas) {
+  unRegisterEvent() {
+    const { canvas } = this;
     canvas.removeEventListener('mousedown', this.mouseDown);
     canvas.removeEventListener('mousemove', this.mouseMove);
     canvas.removeEventListener('mouseup', this.mouseUp);

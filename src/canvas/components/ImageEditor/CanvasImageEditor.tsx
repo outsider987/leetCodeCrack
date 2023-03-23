@@ -13,16 +13,19 @@ import clsx from 'clsx';
 import CanvasMain from './Maincanvas';
 import CursorCanvas from './CursorCanvas';
 import StateController from '~/canvas/ImageEditor/StateController/StateController';
+import RasterViews from '~/canvas/ImageEditor/Canvas/RasterCanvas';
 
 interface CanvasProps extends React.HTMLAttributes<HTMLCanvasElement> {}
 
 const CanvasImageEditor = (props: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const rasterCanvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const ContentRef = useRef<HTMLDivElement>();
 
   const ViewsRef = useRef(new Views());
   const stateController = useRef(new StateController());
+  const rasterViewsRef = useRef(new RasterViews());
 
   const { isShowPanel, mode, globalState } = useGlobalContext();
   const { MENU_WIDTH, PANEL_WIDTH } = LAYOUT_SIZE;
@@ -52,7 +55,13 @@ const CanvasImageEditor = (props: CanvasProps) => {
     <>
       <div ref={containerRef} className={`${props.className} h-[100vh] `}>
         <div className={menuClasses}>
-          <Menu ViewsRef={ViewsRef} setFile={setFile} file={file} stateController={stateController.current}></Menu>
+          <Menu
+            ViewsRef={ViewsRef}
+            setFile={setFile}
+            rasterViewsRef={rasterViewsRef}
+            file={file}
+            stateController={stateController.current}
+          ></Menu>
         </div>
 
         <div ref={ContentRef} className={contentClasses} style={{ maxWidth: contentMaxSize }}>
@@ -72,7 +81,10 @@ const CanvasImageEditor = (props: CanvasProps) => {
             canvasRef={canvasRef}
             ContentRef={ContentRef}
             ViewsRef={ViewsRef}
+            rasterViewsRef={rasterViewsRef}
+            rasterCanvasRef={rasterCanvasRef}
             file={file}
+            mode={mode}
             stateController={stateController.current}
           />
           <CursorCanvas

@@ -1,10 +1,3 @@
-export function getTransformedPoint(e, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
-  const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
-  const originalPoint = new DOMPoint(offsetX, offsetY);
-
-  return ctx.getTransform().invertSelf().transformPoint(originalPoint);
-}
-
 export function getTransformedPaintPoint(e, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, scale = 1) {
   const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
   const rect = canvas.getBoundingClientRect();

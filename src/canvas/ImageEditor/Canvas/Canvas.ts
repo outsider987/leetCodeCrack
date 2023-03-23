@@ -1,4 +1,4 @@
-import { getTransformedPoint } from '~/utils/canvas/coordinate';
+import {  getTransformedPoints } from '~/utils/canvas/coordinate';
 import FileLayer from '../Layer/FileLayer';
 import Point from './../Point';
 import BackgroundLayer from '../Layer/BackgroundLayer';
@@ -77,13 +77,12 @@ class Views {
     redrawBoundBackGround(this.canvas);
 
     ctx.drawImage(this.backgroundLayer.getLayerCanvas(), 0, 0);
-
     ctx.drawImage(bufferCanvas, 0, 0);
   }
 
   zoom(e) {
     const { canvas, ctx, bufferCanvas } = this;
-    const currentTransformedCursor = getTransformedPoint(e, canvas, this.ctx);
+    const currentTransformedCursor = getTransformedPoints(e, canvas, this.ctx);
 
     const zoom = e.deltaY < 0 ? 1.1 : 0.9;
     const maxZoom = 15; // maximum zoom level
@@ -122,7 +121,7 @@ class Views {
 
   cleanCanvas() {
     const { canvas, ctx, bufferCanvas, bufferCtx } = this;
-    // debugger;
+    // ;
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
