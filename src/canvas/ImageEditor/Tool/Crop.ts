@@ -71,6 +71,7 @@ class CropTool extends BaseTool {
 
   zoom(e) {
     const { ctx, rasterCanvas, canvas, rasterCtx: rasterCtx, bufferCanvas } = this;
+
     this.draw(e);
   }
 
