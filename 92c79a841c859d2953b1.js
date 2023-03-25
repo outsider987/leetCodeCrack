@@ -55,6 +55,22 @@ class Rect {
     getHeight() {
         return this.bottom - this.top;
     }
+    scaleRect(level) {
+        const width = this.right - this.left;
+        const height = this.bottom - this.top;
+        // Scale the width and height based on the scaleX and scaleY parameters
+        const scaledWidth = width * level;
+        const scaledHeight = height * level;
+        // Calculate the new coordinates for the scaled rectangle
+        const scaledLeft = this.left - (scaledWidth - width) / 2;
+        const scaledTop = this.top - (scaledHeight - height) / 2;
+        const scaledRight = scaledLeft + scaledWidth;
+        const scaledBottom = scaledTop + scaledHeight;
+        this.left = scaledLeft;
+        this.top = scaledTop;
+        this.right = scaledRight;
+        this.bottom = scaledBottom;
+    }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Rect);
 
@@ -322,100 +338,134 @@ class BrushTool extends _BaselTool__WEBPACK_IMPORTED_MODULE_2__["default"] {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CursorPoint": () => (/* binding */ CursorPoint),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ~/utils/canvas/coordinate */ "./src/utils/canvas/coordinate.ts");
 /* harmony import */ var _Point__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Point */ "./src/canvas/ImageEditor/Point.ts");
-/* harmony import */ var _utils_canvas_rect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ~/utils/canvas/rect */ "./src/utils/canvas/rect.ts");
-/* harmony import */ var _BaselTool__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./BaselTool */ "./src/canvas/ImageEditor/Tool/BaselTool.ts");
-/* harmony import */ var _utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ~/utils/canvas/mainCanvas */ "./src/utils/canvas/mainCanvas.ts");
-/* harmony import */ var _utils_canvas_rasterCanvas__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ~/utils/canvas/rasterCanvas */ "./src/utils/canvas/rasterCanvas.ts");
-/* harmony import */ var _Rect__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Rect */ "./src/canvas/ImageEditor/Rect.ts");
+/* harmony import */ var _BaselTool__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BaselTool */ "./src/canvas/ImageEditor/Tool/BaselTool.ts");
+/* harmony import */ var _utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ~/utils/canvas/mainCanvas */ "./src/utils/canvas/mainCanvas.ts");
+/* harmony import */ var _utils_canvas_rasterCanvas__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ~/utils/canvas/rasterCanvas */ "./src/utils/canvas/rasterCanvas.ts");
+/* harmony import */ var _Rect__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Rect */ "./src/canvas/ImageEditor/Rect.ts");
 
 
 
 
 
 
-
-class CropTool extends _BaselTool__WEBPACK_IMPORTED_MODULE_3__["default"] {
+var CursorPoint;
+(function (CursorPoint) {
+    CursorPoint["left"] = "left";
+    CursorPoint["right"] = "right";
+    CursorPoint["top"] = "top";
+    CursorPoint["bottom"] = "bottom";
+    CursorPoint["topLeft"] = "topLeft";
+    CursorPoint["topRight"] = "topRight";
+    CursorPoint["bottomLeft"] = "bottomLeft";
+    CursorPoint["bottomRight"] = "bottomRight";
+    CursorPoint["move"] = "move";
+    CursorPoint["center"] = "center";
+})(CursorPoint || (CursorPoint = {}));
+class CropTool extends _BaselTool__WEBPACK_IMPORTED_MODULE_2__["default"] {
     constructor(views, stateController, rasterViews) {
         super(views, stateController, rasterViews);
-        this.isStart = false;
+        this.isDrag = false;
         this.mouseDown = (e) => {
             e.preventDefault();
-            this.isStart = true;
+            this.isDrag = true;
             const { canvas, ctx } = this;
             const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoints)(e, canvas, ctx);
+            const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
+            this.currentCusorPoint = (0,_utils_canvas_rasterCanvas__WEBPACK_IMPORTED_MODULE_4__.getCursorPoint)({ x: offsetX, y: offsetY }, this.focusRect);
             this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
         };
         this.mouseMove = (e) => {
-            const { canvas, ctx, originalRect } = this;
+            const { canvas, ctx, originalRect, focusRect } = this;
             const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
             const point = { x: offsetX, y: offsetY };
-            (0,_utils_canvas_rasterCanvas__WEBPACK_IMPORTED_MODULE_5__.cropCursorChange)(canvas, point, originalRect);
             e.preventDefault();
-            if (!this.isStart)
+            if (!this.isDrag) {
+                (0,_utils_canvas_rasterCanvas__WEBPACK_IMPORTED_MODULE_4__.cropCursorChange)(canvas, point, focusRect);
                 return;
-            const isOutside = !(0,_utils_canvas_rect__WEBPACK_IMPORTED_MODULE_2__.IsInRect)(point.x, point.y, originalRect.left, originalRect.top, originalRect.right, originalRect.bottom);
-            if (isOutside) {
-                const isleft = point.x < originalRect.left;
-                const isTop = point.y < originalRect.top;
-                const isRight = point.x > originalRect.right;
-                const isBottom = point.y > originalRect.bottom;
-                if (isTop && isRight) {
-                }
-                if (isBottom && isRight) {
-                }
-                if (isleft && isTop) {
-                }
-                if (isRight && isBottom) {
-                }
-                if (isTop) {
-                    this.focusRect.top = offsetY;
-                }
-                if (isBottom) {
-                    this.focusRect.bottom = offsetY;
-                }
-                if (isleft) {
-                    this.focusRect.left = offsetX;
-                }
-                if (isRight) {
-                    this.focusRect.right = offsetX;
-                }
+            }
+            if (this.currentCusorPoint === CursorPoint.left) {
+                this.focusRect.left = Math.min(Math.max(offsetX, originalRect.left), originalRect.right);
+            }
+            if (this.currentCusorPoint === CursorPoint.top) {
+                this.focusRect.top = Math.min(Math.max(offsetY, originalRect.top), originalRect.bottom);
+            }
+            if (this.currentCusorPoint === CursorPoint.right) {
+                this.focusRect.right = Math.max(Math.min(offsetX, originalRect.right), originalRect.left);
+            }
+            if (this.currentCusorPoint === CursorPoint.bottom) {
+                this.focusRect.bottom = Math.max(Math.min(offsetY, originalRect.bottom), originalRect.top);
+            }
+            if (this.currentCusorPoint === CursorPoint.topLeft) {
+                this.focusRect.left = Math.min(Math.max(offsetX, originalRect.left), originalRect.right);
+                this.focusRect.top = Math.min(Math.max(offsetY, originalRect.top), originalRect.bottom);
+            }
+            if (this.currentCusorPoint === CursorPoint.topRight) {
+                this.focusRect.right = Math.max(Math.min(offsetX, originalRect.right), originalRect.left);
+                this.focusRect.top = Math.min(Math.max(offsetY, originalRect.top), originalRect.bottom);
+            }
+            if (this.currentCusorPoint === CursorPoint.bottomLeft) {
+                this.focusRect.left = Math.min(Math.max(offsetX, originalRect.left), originalRect.right);
+                this.focusRect.bottom = Math.max(Math.min(offsetY, originalRect.bottom), originalRect.top);
+            }
+            if (this.currentCusorPoint === CursorPoint.bottomRight) {
+                this.focusRect.right = Math.max(Math.min(offsetX, originalRect.right), originalRect.left);
+                this.focusRect.bottom = Math.max(Math.min(offsetY, originalRect.bottom), originalRect.top);
             }
             this.draw(e);
         };
         this.mouseUp = (e) => {
             e.preventDefault();
             const { ctx } = this;
-            this.isStart = false;
+            this.isDrag = false;
             this.draw(e);
         };
         const { ctx, bufferCanvas } = this;
         this.lastPoint = new _Point__WEBPACK_IMPORTED_MODULE_1__["default"](0, 0);
         this.zoomBindObject = this.zoom.bind(this, views.canvas);
         const transform = ctx.getTransform();
-        const currentZoom = (0,_utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_4__.getCurrentZoom)(ctx);
-        this.originalRect = new _Rect__WEBPACK_IMPORTED_MODULE_6__["default"](transform.e, transform.f, transform.e + bufferCanvas.width * currentZoom, transform.f + bufferCanvas.height * currentZoom);
-        this.focusRect = new _Rect__WEBPACK_IMPORTED_MODULE_6__["default"](transform.e, transform.f, transform.e + bufferCanvas.width * currentZoom, transform.f + bufferCanvas.height * currentZoom);
+        const currentZoom = (0,_utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_3__.getCurrentZoom)(ctx);
+        this.originalRect = new _Rect__WEBPACK_IMPORTED_MODULE_5__["default"](transform.e, transform.f, transform.e + bufferCanvas.width * currentZoom, transform.f + bufferCanvas.height * currentZoom);
+        this.focusRect = new _Rect__WEBPACK_IMPORTED_MODULE_5__["default"](transform.e, transform.f, transform.e + bufferCanvas.width * currentZoom, transform.f + bufferCanvas.height * currentZoom);
     }
     draw(e) {
-        const { ctx, rasterCanvas, canvas, rasterCtx, bufferCanvas, isStart, focusRect } = this;
-        (0,_utils_canvas_rasterCanvas__WEBPACK_IMPORTED_MODULE_5__.drawCropFiled)(ctx, bufferCanvas, rasterCtx, rasterCanvas, isStart, focusRect);
+        const { ctx, rasterCanvas, canvas, rasterCtx, bufferCanvas, isDrag: isStart, focusRect } = this;
+        (0,_utils_canvas_rasterCanvas__WEBPACK_IMPORTED_MODULE_4__.drawCropFiled)(ctx, bufferCanvas, rasterCtx, rasterCanvas, isStart, focusRect);
         const transform = ctx.getTransform();
-        const currentZoom = (0,_utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_4__.getCurrentZoom)(ctx);
+        const currentZoom = (0,_utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_3__.getCurrentZoom)(ctx);
         this.originalRect.setRect(transform.e, transform.f, transform.e + bufferCanvas.width * currentZoom, transform.f + bufferCanvas.height * currentZoom);
     }
     resetRect() {
         const { ctx, bufferCanvas } = this;
         const transform = ctx.getTransform();
-        const currentZoom = (0,_utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_4__.getCurrentZoom)(ctx);
+        const currentZoom = (0,_utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_3__.getCurrentZoom)(ctx);
         this.originalRect.setRect(transform.e, transform.f, transform.e + bufferCanvas.width * currentZoom, transform.f + bufferCanvas.height * currentZoom);
         this.focusRect.setRect(transform.e, transform.f, transform.e + bufferCanvas.width * currentZoom, transform.f + bufferCanvas.height * currentZoom);
     }
     zoom(e) {
-        const { ctx, rasterCanvas, canvas, rasterCtx: rasterCtx, bufferCanvas } = this;
+        const { ctx, rasterCanvas, canvas, rasterCtx: rasterCtx, bufferCanvas, originalRect, focusRect } = this;
+        const zoom = e.deltaY < 0 ? 1.1 : 0.9;
+        const maxZoom = 15; // maximum zoom level
+        const minZoom = 0.1; // minimum zoom level
+        const currentZoom = (0,_utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_3__.getCurrentZoom)(ctx); // helper function to get current zoom level
+        // Calculate the new zoom level, making sure it stays within the maximum and minimum bounds
+        const newZoom = Math.min(Math.max(currentZoom * zoom, minZoom), maxZoom);
+        const transform = ctx.getTransform();
+        this.originalRect.setRect(transform.e, transform.f, transform.e + bufferCanvas.width * currentZoom, transform.f + bufferCanvas.height * currentZoom);
+        const originalWidth = originalRect.right - originalRect.left;
+        const originalHeight = originalRect.bottom - originalRect.top;
+        const dx = originalRect.left - focusRect.left;
+        const dy = originalRect.top - focusRect.top;
+        const scaleX = (originalRect.right - originalRect.left) / (originalRect.right - originalRect.left - dx);
+        const scaleY = (originalRect.bottom - originalRect.top) / (originalRect.bottom - originalRect.top - dy);
+        const scaleFactor = Math.min(scaleX, scaleY);
+        const newWidth = (focusRect.right - focusRect.left) * scaleFactor;
+        const newHeight = (focusRect.bottom - focusRect.top) * scaleFactor;
+        this.focusRect.setRect(transform.e, transform.f, transform.e + bufferCanvas.width * currentZoom, transform.f + bufferCanvas.height * currentZoom);
         this.draw(e);
     }
     cleanCanvas() {
@@ -641,4 +691,4 @@ function dynamicClass(name) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/95b21adf00805ff9626e.js.map
+//# sourceMappingURL=js/92c79a841c859d2953b1.js.map

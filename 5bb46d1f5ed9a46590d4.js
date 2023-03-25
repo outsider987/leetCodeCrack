@@ -182,9 +182,10 @@ class RasterViews {
     }
     draw() {
         const { ctx, rasterCanvas, canvas, rasterCtx, bufferCanvas } = this;
-        this.currentInstance.resetRect();
-        this.currentInstance.draw();
-        // rasterCtx.drawImage(rasterCanvas, 0, 0);
+        if (this.currentInstance) {
+            this.currentInstance.resetRect();
+            this.currentInstance.draw();
+        }
     }
     zoom(e) {
         // this.draw();
@@ -351,4 +352,4 @@ class Layer {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/b0134c245e1629f954a7.js.map
+//# sourceMappingURL=js/5bb46d1f5ed9a46590d4.js.map

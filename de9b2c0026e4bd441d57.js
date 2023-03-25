@@ -107,10 +107,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "cropCursorChange": () => (/* binding */ cropCursorChange),
 /* harmony export */   "drawCropFiled": () => (/* binding */ drawCropFiled),
+/* harmony export */   "getCursorPoint": () => (/* binding */ getCursorPoint),
 /* harmony export */   "redrawRasterBoundBackGround": () => (/* binding */ redrawRasterBoundBackGround)
 /* harmony export */ });
 /* harmony import */ var _mainCanvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mainCanvas */ "./src/utils/canvas/mainCanvas.ts");
 /* harmony import */ var _rect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./rect */ "./src/utils/canvas/rect.ts");
+/* harmony import */ var _canvas_ImageEditor_Tool_Crop__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ~/canvas/ImageEditor/Tool/Crop */ "./src/canvas/ImageEditor/Tool/Crop.ts");
+
 
 
 function redrawRasterBoundBackGround(rasterCanvas) {
@@ -123,46 +126,6 @@ function redrawRasterBoundBackGround(rasterCanvas) {
     ctx.restore();
 }
 function drawCropFiled(ctx, bufferCanvas, rasterCtx, rasterCanvas, isDrawOdd, focusRect) {
-    // const lineWidth = 2;
-    // redrawRasterBoundBackGround(rasterCanvas);
-    // const transform = ctx.getTransform();
-    // const currentZoom = getCurrentZoom(ctx);
-    // rasterCtx.clearRect(transform.e, transform.f, bufferCanvas.width * currentZoom, bufferCanvas.height * currentZoom);
-    // rasterCtx.strokeStyle = 'white';
-    // rasterCtx.strokeRect(
-    //   transform.e - lineWidth,
-    //   transform.f - lineWidth,
-    //   Math.floor(bufferCanvas.width * currentZoom) + lineWidth * 2,
-    //   Math.floor(bufferCanvas.height * currentZoom) + lineWidth * 2,
-    // );
-    // // Draw vertical lines
-    // for (let i = 0; i < 4; i++) {
-    //   if ([0, 3].includes(i) || !isDrawOdd) continue;
-    //   rasterCtx.beginPath();
-    //   rasterCtx.strokeStyle = 'white';
-    //   rasterCtx.lineWidth = lineWidth;
-    //   rasterCtx.moveTo(transform.e + (i * bufferCanvas.width * currentZoom) / 3, transform.f);
-    //   rasterCtx.lineTo(
-    //     transform.e + (i * bufferCanvas.width * currentZoom) / 3,
-    //     transform.f + bufferCanvas.height * currentZoom,
-    //   );
-    //   rasterCtx.stroke();
-    //   rasterCtx.closePath();
-    // }
-    // // Draw horizontal lines
-    // for (let i = 0; i < 4; i++) {
-    //   if ([0, 3].includes(i) || !isDrawOdd) continue;
-    //   rasterCtx.beginPath();
-    //   rasterCtx.strokeStyle = 'white';
-    //   rasterCtx.lineWidth = lineWidth;
-    //   rasterCtx.moveTo(transform.e, transform.f + (i * bufferCanvas.height * currentZoom) / 3);
-    //   rasterCtx.lineTo(
-    //     transform.e + bufferCanvas.width * currentZoom,
-    //     transform.f + (i * bufferCanvas.height * currentZoom) / 3,
-    //   );
-    //   rasterCtx.stroke();
-    //   rasterCtx.closePath();
-    // }
     const lineWidth = 2;
     redrawRasterBoundBackGround(rasterCanvas);
     const transform = ctx.getTransform();
@@ -221,6 +184,42 @@ function cropCursorChange(canvas, point, originalRect) {
         if (isRight && isBottom) {
             canvas.style.cursor = 'se-resize';
         }
+    }
+}
+function getCursorPoint(point, focusRect) {
+    const isOutside = !(0,_rect__WEBPACK_IMPORTED_MODULE_1__.IsInRect)(point.x, point.y, focusRect.left, focusRect.top, focusRect.right, focusRect.bottom);
+    if (isOutside) {
+        const isleft = point.x < focusRect.left;
+        const isTop = point.y < focusRect.top;
+        const isRight = point.x > focusRect.right;
+        const isBottom = point.y > focusRect.bottom;
+        if (isleft && isTop) {
+            return _canvas_ImageEditor_Tool_Crop__WEBPACK_IMPORTED_MODULE_2__.CursorPoint.topLeft;
+        }
+        if (isleft && isBottom) {
+            return _canvas_ImageEditor_Tool_Crop__WEBPACK_IMPORTED_MODULE_2__.CursorPoint.bottomLeft;
+        }
+        if (isRight && isTop) {
+            return _canvas_ImageEditor_Tool_Crop__WEBPACK_IMPORTED_MODULE_2__.CursorPoint.topRight;
+        }
+        if (isRight && isBottom) {
+            return _canvas_ImageEditor_Tool_Crop__WEBPACK_IMPORTED_MODULE_2__.CursorPoint.bottomRight;
+        }
+        if (isTop) {
+            return _canvas_ImageEditor_Tool_Crop__WEBPACK_IMPORTED_MODULE_2__.CursorPoint.top;
+        }
+        if (isleft) {
+            return _canvas_ImageEditor_Tool_Crop__WEBPACK_IMPORTED_MODULE_2__.CursorPoint.left;
+        }
+        if (isRight) {
+            return _canvas_ImageEditor_Tool_Crop__WEBPACK_IMPORTED_MODULE_2__.CursorPoint.right;
+        }
+        if (isBottom) {
+            return _canvas_ImageEditor_Tool_Crop__WEBPACK_IMPORTED_MODULE_2__.CursorPoint.bottom;
+        }
+    }
+    else {
+        return _canvas_ImageEditor_Tool_Crop__WEBPACK_IMPORTED_MODULE_2__.CursorPoint.center;
     }
 }
 
@@ -299,4 +298,4 @@ module.exports = {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/c6001be32a1c0cf68ede.js.map
+//# sourceMappingURL=js/de9b2c0026e4bd441d57.js.map

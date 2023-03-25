@@ -38,13 +38,15 @@ const CanvasImageEditor = (props) => {
     const rasterCanvasRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
     const containerRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
     const ContentRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
-    const ViewsRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(new _canvas_ImageEditor_Canvas_Canvas__WEBPACK_IMPORTED_MODULE_1__["default"]());
+    const ViewsRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
     const stateController = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(new _canvas_ImageEditor_StateController_StateController__WEBPACK_IMPORTED_MODULE_8__["default"]());
-    const rasterViewsRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(new _canvas_ImageEditor_Canvas_RasterCanvas__WEBPACK_IMPORTED_MODULE_9__["default"]());
+    const rasterViewsRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
     const { isShowPanel, mode, globalState } = (0,_store_context__WEBPACK_IMPORTED_MODULE_4__.useGlobalContext)();
     const { MENU_WIDTH, PANEL_WIDTH } = _utils_canvas_constants__WEBPACK_IMPORTED_MODULE_3__.LAYOUT_SIZE;
     const [file, setFile] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
     const onClickFile = (e) => {
+        ViewsRef.current = new _canvas_ImageEditor_Canvas_Canvas__WEBPACK_IMPORTED_MODULE_1__["default"]();
+        rasterViewsRef.current = new _canvas_ImageEditor_Canvas_RasterCanvas__WEBPACK_IMPORTED_MODULE_9__["default"]();
         setFile(e.target.files[0]);
     };
     const contentMaxSize = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(() => {
@@ -174,15 +176,19 @@ const CanvasMain = (props) => {
         });
         const observer = new ResizeObserver((entries) => {
             entries.forEach((entry) => {
-                ViewsRef.current.backgroundLayer && resizeCanvas();
+                if (ViewsRef.current)
+                    resizeCanvas();
+                // if (file === null) ViewsRef.current.cleanCanvas();
             });
         });
         observer.observe(ContentRef.current);
         return () => {
             observer.unobserve;
-            ViewsRef.current.cleanCanvas();
             stateController.cleanState();
             rasterViewsRef.current.cleanCanvas();
+            rasterViewsRef.current = null;
+            ViewsRef.current.cleanCanvas();
+            ViewsRef.current = null;
         };
     }, [file]);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -249,13 +255,15 @@ const Menu = ({ ViewsRef, setFile, file, stateController, rasterViewsRef }) => {
     const [tool, setTool] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
     const { MENU_WIDTH } = _utils_canvas_constants__WEBPACK_IMPORTED_MODULE_4__.LAYOUT_SIZE;
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        if (ViewsRef.current.canvas && file !== null && mode !== null) {
+        if (ViewsRef.current && file !== null && mode !== null) {
             setShowPanel(true);
             const ToolClass = (0,_canvas_ImageEditor_Tool__WEBPACK_IMPORTED_MODULE_1__["default"])(mode);
             const toolInstance = new ToolClass(ViewsRef.current, stateController, rasterViewsRef.current);
             setTool(toolInstance);
             if (mode === 'CropTool')
                 rasterViewsRef.current.setInstance(toolInstance);
+            else
+                rasterViewsRef.current.setInstance(null);
             toolInstance.registerEvent();
             return () => {
                 toolInstance.unRegisterEvent();
@@ -658,4 +666,4 @@ const Slider = (props) => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/822f66127af421b32f7f.js.map
+//# sourceMappingURL=js/36f02d22e3abc9bf9a1f.js.map
