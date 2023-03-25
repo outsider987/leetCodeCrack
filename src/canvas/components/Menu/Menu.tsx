@@ -24,14 +24,16 @@ const Menu = ({ ViewsRef, setFile, file, stateController, rasterViewsRef }: Prop
   const { MENU_WIDTH } = LAYOUT_SIZE;
 
   useEffect(() => {
-    if (ViewsRef.current.canvas && file !== null && mode !== null) {
+    if (ViewsRef.current && file !== null && mode !== null) {
       setShowPanel(true);
       const ToolClass = dynamicClass(mode);
       const toolInstance = new ToolClass(ViewsRef.current, stateController, rasterViewsRef.current);
       setTool(toolInstance);
 
       if (mode === 'CropTool') rasterViewsRef.current.setInstance(toolInstance);
+      else rasterViewsRef.current.setInstance(null);
       toolInstance.registerEvent();
+
       return () => {
         toolInstance.unRegisterEvent();
         setTool(null);

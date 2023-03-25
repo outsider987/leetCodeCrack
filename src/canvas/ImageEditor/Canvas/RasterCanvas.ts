@@ -52,10 +52,10 @@ class RasterViews {
 
   draw() {
     const { ctx, rasterCanvas, canvas, rasterCtx, bufferCanvas } = this;
-    this.currentInstance.resetRect();
-    this.currentInstance.draw();
-
-    // rasterCtx.drawImage(rasterCanvas, 0, 0);
+    if (this.currentInstance) {
+      this.currentInstance.resetRect();
+      this.currentInstance.draw();
+    }
   }
 
   zoom(e) {
@@ -73,6 +73,7 @@ class RasterViews {
 
   cleanCanvas() {
     const { canvas, ctx, rasterCanvas, rasterCtx } = this;
+
     rasterCtx.setTransform(1, 0, 0, 1, 0, 0);
     rasterCtx.clearRect(0, 0, rasterCanvas.width, rasterCanvas.height);
   }

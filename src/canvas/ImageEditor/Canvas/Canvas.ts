@@ -1,4 +1,4 @@
-import {  getTransformedPoints } from '~/utils/canvas/coordinate';
+import { getTransformedPoints } from '~/utils/canvas/coordinate';
 import FileLayer from '../Layer/FileLayer';
 import Point from './../Point';
 import BackgroundLayer from '../Layer/BackgroundLayer';

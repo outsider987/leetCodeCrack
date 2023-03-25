@@ -6,16 +6,35 @@ import BaseTool from './BaselTool';
 import StateController from '../StateController/StateController';
 import RasterViews from '../Canvas/RasterCanvas';
 import { getCurrentZoom } from '~/utils/canvas/mainCanvas';
-import { cropCursorChange, drawCropFiled, redrawRasterBoundBackGround } from '~/utils/canvas/rasterCanvas';
+import {
+  cropCursorChange,
+  drawCropFiled,
+  getCursorPoint,
+  redrawRasterBoundBackGround,
+} from '~/utils/canvas/rasterCanvas';
 import Rect from '../Rect';
+
+export enum CursorPoint {
+  left = 'left',
+  right = 'right',
+  top = 'top',
+  bottom = 'bottom',
+  topLeft = 'topLeft',
+  topRight = 'topRight',
+  bottomLeft = 'bottomLeft',
+  bottomRight = 'bottomRight',
+  move = 'move',
+  center = 'center',
+}
 
 class CropTool extends BaseTool {
   size: number;
   lastPoint: Point;
-  private isStart: boolean = false;
+  private isDrag: boolean = false;
   zoomBindObject;
   focusRect: Rect;
   originalRect: Rect;
+  currentCusorPoint: string;
 
   constructor(views: Views, stateController: StateController, rasterViews: RasterViews) {
     super(views, stateController, rasterViews);
@@ -39,7 +58,7 @@ class CropTool extends BaseTool {
     );
   }
   draw(e?) {
-    const { ctx, rasterCanvas, canvas, rasterCtx, bufferCanvas, isStart, focusRect } = this;
+    const { ctx, rasterCanvas, canvas, rasterCtx, bufferCanvas, isDrag: isStart, focusRect } = this;
 
     drawCropFiled(ctx, bufferCanvas, rasterCtx, rasterCanvas, isStart, focusRect);
     const transform = ctx.getTransform();
@@ -70,16 +89,54 @@ class CropTool extends BaseTool {
   }
 
   zoom(e) {
-    const { ctx, rasterCanvas, canvas, rasterCtx: rasterCtx, bufferCanvas } = this;
+    const { ctx, rasterCanvas, canvas, rasterCtx: rasterCtx, bufferCanvas, originalRect, focusRect } = this;
+
+    const zoom = e.deltaY < 0 ? 1.1 : 0.9;
+    const maxZoom = 15; // maximum zoom level
+    const minZoom = 0.1; // minimum zoom level
+    const currentZoom = getCurrentZoom(ctx); // helper function to get current zoom level
+
+    // Calculate the new zoom level, making sure it stays within the maximum and minimum bounds
+    const newZoom = Math.min(Math.max(currentZoom * zoom, minZoom), maxZoom);
+
+    const transform = ctx.getTransform();
+    this.originalRect.setRect(
+      transform.e,
+      transform.f,
+      transform.e + bufferCanvas.width * currentZoom,
+      transform.f + bufferCanvas.height * currentZoom,
+    );
+    const originalWidth = originalRect.right - originalRect.left;
+    const originalHeight = originalRect.bottom - originalRect.top;
+
+    const dx = originalRect.left - focusRect.left;
+    const dy = originalRect.top - focusRect.top;
+
+    const scaleX = (originalRect.right - originalRect.left) / (originalRect.right - originalRect.left - dx);
+    const scaleY = (originalRect.bottom - originalRect.top) / (originalRect.bottom - originalRect.top - dy);
+
+    const scaleFactor = Math.min(scaleX, scaleY);
+
+    const newWidth = (focusRect.right - focusRect.left) * scaleFactor;
+    const newHeight = (focusRect.bottom - focusRect.top) * scaleFactor;
+
+    this.focusRect.setRect(
+      transform.e,
+      transform.f,
+      transform.e + bufferCanvas.width * currentZoom,
+      transform.f + bufferCanvas.height * currentZoom,
+    );
 
     this.draw(e);
   }
 
   mouseDown = (e) => {
     e.preventDefault();
-    this.isStart = true;
+    this.isDrag = true;
     const { canvas, ctx } = this;
     const currentTransformedCursor = getTransformedPoints(e, canvas, ctx);
+    const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
+    this.currentCusorPoint = getCursorPoint({ x: offsetX, y: offsetY }, this.focusRect);
 
     this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
   };
@@ -88,48 +145,44 @@ class CropTool extends BaseTool {
   }
 
   mouseMove = (e) => {
-    const { canvas, ctx, originalRect } = this;
+    const { canvas, ctx, originalRect, focusRect } = this;
     const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
     const point = { x: offsetX, y: offsetY };
-    cropCursorChange(canvas, point, originalRect);
 
     e.preventDefault();
-    if (!this.isStart) return;
-    const isOutside = !IsInRect(
-      point.x,
-      point.y,
-      originalRect.left,
-      originalRect.top,
-      originalRect.right,
-      originalRect.bottom,
-    );
-    if (isOutside) {
-      const isleft = point.x < originalRect.left;
-      const isTop = point.y < originalRect.top;
-      const isRight = point.x > originalRect.right;
-      const isBottom = point.y > originalRect.bottom;
+    if (!this.isDrag) {
+      cropCursorChange(canvas, point, focusRect);
+      return;
+    }
 
-      if (isTop && isRight) {
-      }
-      if (isBottom && isRight) {
-      }
+    if (this.currentCusorPoint === CursorPoint.left) {
+      this.focusRect.left = Math.min(Math.max(offsetX, originalRect.left), originalRect.right);
+    }
+    if (this.currentCusorPoint === CursorPoint.top) {
+      this.focusRect.top = Math.min(Math.max(offsetY, originalRect.top), originalRect.bottom);
+    }
 
-      if (isleft && isTop) {
-      }
-      if (isRight && isBottom) {
-      }
-      if (isTop) {
-        this.focusRect.top = offsetY;
-      }
-      if (isBottom) {
-        this.focusRect.bottom = offsetY;
-      }
-      if (isleft) {
-        this.focusRect.left = offsetX;
-      }
-      if (isRight) {
-        this.focusRect.right = offsetX;
-      }
+    if (this.currentCusorPoint === CursorPoint.right) {
+      this.focusRect.right = Math.max(Math.min(offsetX, originalRect.right), originalRect.left);
+    }
+    if (this.currentCusorPoint === CursorPoint.bottom) {
+      this.focusRect.bottom = Math.max(Math.min(offsetY, originalRect.bottom), originalRect.top);
+    }
+    if (this.currentCusorPoint === CursorPoint.topLeft) {
+      this.focusRect.left = Math.min(Math.max(offsetX, originalRect.left), originalRect.right);
+      this.focusRect.top = Math.min(Math.max(offsetY, originalRect.top), originalRect.bottom);
+    }
+    if (this.currentCusorPoint === CursorPoint.topRight) {
+      this.focusRect.right = Math.max(Math.min(offsetX, originalRect.right), originalRect.left);
+      this.focusRect.top = Math.min(Math.max(offsetY, originalRect.top), originalRect.bottom);
+    }
+    if (this.currentCusorPoint === CursorPoint.bottomLeft) {
+      this.focusRect.left = Math.min(Math.max(offsetX, originalRect.left), originalRect.right);
+      this.focusRect.bottom = Math.max(Math.min(offsetY, originalRect.bottom), originalRect.top);
+    }
+    if (this.currentCusorPoint === CursorPoint.bottomRight) {
+      this.focusRect.right = Math.max(Math.min(offsetX, originalRect.right), originalRect.left);
+      this.focusRect.bottom = Math.max(Math.min(offsetY, originalRect.bottom), originalRect.top);
     }
 
     this.draw(e);
@@ -139,7 +192,7 @@ class CropTool extends BaseTool {
     e.preventDefault();
     const { ctx } = this;
 
-    this.isStart = false;
+    this.isDrag = false;
     this.draw(e);
   };
 

@@ -37,7 +37,9 @@ const CanvasMain = (props: Props) => {
     });
     const observer = new ResizeObserver((entries) => {
       entries.forEach((entry) => {
-        ViewsRef.current.backgroundLayer && resizeCanvas();
+        if (ViewsRef.current) resizeCanvas();
+
+        // if (file === null) ViewsRef.current.cleanCanvas();
       });
     });
 
@@ -45,9 +47,12 @@ const CanvasMain = (props: Props) => {
 
     return () => {
       observer.unobserve;
-      ViewsRef.current.cleanCanvas();
+
       stateController.cleanState();
       rasterViewsRef.current.cleanCanvas();
+      rasterViewsRef.current = null;
+      ViewsRef.current.cleanCanvas();
+      ViewsRef.current = null;
     };
   }, [file]);
 
@@ -73,6 +78,7 @@ const CanvasMain = (props: Props) => {
 
       ViewsRef.current.ctx.translate(x, y);
       ViewsRef.current.ctx.scale(zoomLevel, zoomLevel);
+
       ViewsRef.current.draw();
       rasterViewsRef.current.draw();
     }

@@ -23,15 +23,17 @@ const CanvasImageEditor = (props: CanvasProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const ContentRef = useRef<HTMLDivElement>();
 
-  const ViewsRef = useRef(new Views());
+  const ViewsRef = useRef(null);
   const stateController = useRef(new StateController());
-  const rasterViewsRef = useRef(new RasterViews());
+  const rasterViewsRef = useRef(null);
 
   const { isShowPanel, mode, globalState } = useGlobalContext();
   const { MENU_WIDTH, PANEL_WIDTH } = LAYOUT_SIZE;
   const [file, setFile] = useState<File>(null);
 
   const onClickFile = (e: ChangeEvent<HTMLInputElement>) => {
+    ViewsRef.current = new Views();
+    rasterViewsRef.current = new RasterViews();
     setFile(e.target.files[0]);
   };
 
