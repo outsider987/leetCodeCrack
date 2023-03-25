@@ -96,6 +96,8 @@ export function cropCursorChange(canvas: HTMLCanvasElement, point: { x; y }, ori
     if (isRight && isBottom) {
       canvas.style.cursor = 'se-resize';
     }
+  } else {
+    canvas.style.cursor = 'move';
   }
 }
 
@@ -132,6 +134,6 @@ export function getCursorPoint(point: { x; y }, focusRect: Rect) {
       return CursorPoint.bottom;
     }
   } else {
-    return CursorPoint.center;
+    return CursorPoint.move;
   }
 }

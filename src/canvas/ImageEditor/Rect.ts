@@ -41,5 +41,8 @@ class Rect {
     this.right = scaledRight;
     this.bottom = scaledBottom;
   }
+  IsOverBoundRect(innerLeft, innerTop, innerRight, innerBottom, outerLeft, outerTop, outerRight, outerBottom) {
+    return innerLeft < outerLeft || innerTop < outerTop || innerRight > outerRight || innerBottom > outerBottom;
+  }
 }
 export default Rect;

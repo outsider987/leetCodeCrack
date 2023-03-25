@@ -24,7 +24,6 @@ export enum CursorPoint {
   bottomLeft = 'bottomLeft',
   bottomRight = 'bottomRight',
   move = 'move',
-  center = 'center',
 }
 
 class CropTool extends BaseTool {
@@ -138,7 +137,7 @@ class CropTool extends BaseTool {
     const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
     this.currentCusorPoint = getCursorPoint({ x: offsetX, y: offsetY }, this.focusRect);
 
-    this.lastPoint.setPoint(currentTransformedCursor.x, currentTransformedCursor.y);
+    this.lastPoint.setPoint(offsetX, offsetY);
   };
   cleanCanvas() {
     this.rasterCtx.clearRect(0, 0, this.rasterCanvas.width, this.rasterCanvas.height);
@@ -153,6 +152,26 @@ class CropTool extends BaseTool {
     if (!this.isDrag) {
       cropCursorChange(canvas, point, focusRect);
       return;
+    }
+
+    if (this.currentCusorPoint === CursorPoint.move) {
+      const dx = offsetX - this.lastPoint.x;
+      const dy = offsetY - this.lastPoint.y;
+      //   if (
+      //     focusRect.left + dx < originalRect.left ||
+      //     focusRect.right + dx > originalRect.right ||
+      //     focusRect.top + dy < originalRect.top ||
+      //     focusRect.bottom + dy > originalRect.bottom
+      //   )
+      //     return;
+      if (focusRect.left + dx > originalRect.left || focusRect.right + dx < originalRect.right) {
+        this.focusRect.left = Math.max(focusRect.left + dx, originalRect.left);
+        this.focusRect.right = Math.min(focusRect.right + dx, originalRect.right);
+      }
+
+      this.focusRect.top += dy;
+      this.focusRect.bottom += dy;
+      this.lastPoint.setPoint(offsetX, offsetY);
     }
 
     if (this.currentCusorPoint === CursorPoint.left) {
