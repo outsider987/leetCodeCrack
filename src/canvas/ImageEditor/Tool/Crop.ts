@@ -93,39 +93,57 @@ class CropTool extends BaseTool {
     const currentZoom = getCurrentZoom(ctx); // helper function to get current zoom level
 
     const transform = ctx.getTransform();
-    const currentOriginalRect = this.originalRect;
 
+    const currentOriginalRect = this.originalRect;
     const currentFocusRect = this.focusRect;
 
     const currentdLeft = currentOriginalRect.left - currentFocusRect.left;
     const currentdRight = currentOriginalRect.right - currentFocusRect.right;
     const currentdTop = currentOriginalRect.top - currentFocusRect.top;
     const currentdBottom = currentOriginalRect.bottom - currentFocusRect.bottom;
-    // // debugger;
-    // const dLeft = transform.e - currentOriginalRect.left;
-    // const dRight = transform.e + bufferCanvas.width * currentZoom - currentOriginalRect.right;
-    // const dTop = transform.f - currentOriginalRect.top;
-    // const dBottom = transform.f + bufferCanvas.height * currentZoom - currentOriginalRect.bottom;
-    console.log(this.originalRect);
+
     this.originalRect.setRect(
       transform.e,
       transform.f,
       transform.e + bufferCanvas.width * currentZoom,
       transform.f + bufferCanvas.height * currentZoom,
     );
-    console.log(this.originalRect);
-    console.log(currentOriginalRect.getWidth());
-    console.log(currentFocusRect.getWidth());
 
     const widthRatio = currentOriginalRect.getWidth() / currentFocusRect.getWidth();
     const heightRatio = currentOriginalRect.getHeight() / currentFocusRect.getHeight();
-    debugger;
+
     this.focusRect.setRect(
       this.originalRect.left + widthRatio * currentdLeft,
       this.originalRect.top + heightRatio * currentdTop,
       this.originalRect.right + widthRatio * currentdRight,
       this.originalRect.bottom + heightRatio * currentdBottom,
     );
+
+    const currentOriginalRect2 = this.originalRect;
+    const currentFocusRect2 = this.focusRect;
+
+    const currentdLeft2 = currentOriginalRect2.left - currentFocusRect2.left;
+    const currentdRight2 = currentOriginalRect2.right - currentFocusRect2.right;
+    const currentdTop2 = currentOriginalRect2.top - currentFocusRect2.top;
+    const currentdBottom2 = currentOriginalRect2.bottom - currentFocusRect2.bottom;
+
+    this.originalRect.setRect(
+      transform.e,
+      transform.f,
+      transform.e + bufferCanvas.width * currentZoom,
+      transform.f + bufferCanvas.height * currentZoom,
+    );
+
+    const widthRatio2 = currentOriginalRect.getWidth() / currentFocusRect.getWidth();
+    const heightRatio2 = currentOriginalRect.getHeight() / currentFocusRect.getHeight();
+
+    this.focusRect.setRect(
+      this.originalRect.left + widthRatio2 * currentdLeft2,
+      this.originalRect.top + heightRatio2 * currentdTop2,
+      this.originalRect.right + widthRatio2 * currentdRight2,
+      this.originalRect.bottom + heightRatio2 * currentdBottom2,
+    );
+    console.log(this.focusRect);
 
     this.draw(e);
   }
