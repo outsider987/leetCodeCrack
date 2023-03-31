@@ -212,11 +212,15 @@ class CropTool extends BaseTool {
   }
 
   mouseMove = (e) => {
-    const { canvas, ctx, originalRect, focusRect } = this;
+    const { canvas, ctx, bufferCanvas, originalRect, focusRect } = this;
+
     const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
     const point = { x: offsetX, y: offsetY };
-    const MIN_DISTANCE = 50;
-
+    const currentZoom = getCurrentZoom(ctx);
+    const clientWidth = bufferCanvas.width * currentZoom;
+    const clientHeight = bufferCanvas.height * currentZoom;
+    const MIN_DISTANCE = Math.min(clientWidth, clientHeight) > 50 ? 50 : Math.min(clientWidth, clientHeight);
+    console.log(MIN_DISTANCE);
     e.preventDefault();
     if (!this.isDrag) {
       cropCursorChange(canvas, point, focusRect);
