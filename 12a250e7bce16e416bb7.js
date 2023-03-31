@@ -197,6 +197,7 @@ class CropTool extends _BaselTool__WEBPACK_IMPORTED_MODULE_2__["default"] {
             const { canvas, ctx, originalRect, focusRect } = this;
             const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
             const point = { x: offsetX, y: offsetY };
+            const MIN_DISTANCE = 50;
             e.preventDefault();
             if (!this.isDrag) {
                 (0,_utils_canvas_rasterCanvas__WEBPACK_IMPORTED_MODULE_4__.cropCursorChange)(canvas, point, focusRect);
@@ -230,34 +231,33 @@ class CropTool extends _BaselTool__WEBPACK_IMPORTED_MODULE_2__["default"] {
                 this.focusRect.bottom += dy;
                 this.lastPoint.setPoint(offsetX, offsetY);
             }
-            const MIN_DISTANCE = 50;
             if (this.currentCusorPoint === CursorPoint.left) {
-                this.focusRect.left = Math.min(Math.max(offsetX, originalRect.left), originalRect.right);
+                this.focusRect.left = Math.min(Math.max(offsetX, originalRect.left), focusRect.right - MIN_DISTANCE);
             }
             if (this.currentCusorPoint === CursorPoint.top) {
-                this.focusRect.top = Math.min(Math.max(offsetY, originalRect.top), originalRect.bottom);
+                this.focusRect.top = Math.min(Math.max(offsetY, originalRect.top), focusRect.bottom - MIN_DISTANCE);
             }
             if (this.currentCusorPoint === CursorPoint.right) {
-                this.focusRect.right = Math.max(Math.min(offsetX, originalRect.right), originalRect.left);
+                this.focusRect.right = Math.max(Math.min(offsetX, originalRect.right), focusRect.left + MIN_DISTANCE);
             }
             if (this.currentCusorPoint === CursorPoint.bottom) {
-                this.focusRect.bottom = Math.max(Math.min(offsetY, originalRect.bottom), originalRect.top);
+                this.focusRect.bottom = Math.max(Math.min(offsetY, originalRect.bottom), focusRect.top + MIN_DISTANCE);
             }
             if (this.currentCusorPoint === CursorPoint.topLeft) {
-                this.focusRect.left = Math.min(Math.max(offsetX, originalRect.left), originalRect.right);
-                this.focusRect.top = Math.min(Math.max(offsetY, originalRect.top), originalRect.bottom);
+                this.focusRect.left = Math.min(Math.max(offsetX, originalRect.left), focusRect.right - MIN_DISTANCE);
+                this.focusRect.top = Math.min(Math.max(offsetY, originalRect.top), focusRect.bottom - MIN_DISTANCE);
             }
             if (this.currentCusorPoint === CursorPoint.topRight) {
-                this.focusRect.right = Math.max(Math.min(offsetX, originalRect.right), originalRect.left);
-                this.focusRect.top = Math.min(Math.max(offsetY, originalRect.top), originalRect.bottom);
+                this.focusRect.right = Math.max(Math.min(offsetX, originalRect.right), focusRect.left + MIN_DISTANCE);
+                this.focusRect.top = Math.min(Math.max(offsetY, originalRect.top), focusRect.bottom - MIN_DISTANCE);
             }
             if (this.currentCusorPoint === CursorPoint.bottomLeft) {
-                this.focusRect.left = Math.min(Math.max(offsetX, originalRect.left), originalRect.right);
-                this.focusRect.bottom = Math.max(Math.min(offsetY, originalRect.bottom), originalRect.top);
+                this.focusRect.left = Math.min(Math.max(offsetX, originalRect.left), focusRect.right - MIN_DISTANCE);
+                this.focusRect.bottom = Math.max(Math.min(offsetY, originalRect.bottom), focusRect.top + MIN_DISTANCE);
             }
             if (this.currentCusorPoint === CursorPoint.bottomRight) {
-                this.focusRect.right = Math.max(Math.min(offsetX, originalRect.right), originalRect.left);
-                this.focusRect.bottom = Math.max(Math.min(offsetY, originalRect.bottom), originalRect.top);
+                this.focusRect.right = Math.max(Math.min(offsetX, originalRect.right), focusRect.left + MIN_DISTANCE);
+                this.focusRect.bottom = Math.max(Math.min(offsetY, originalRect.bottom), focusRect.top + MIN_DISTANCE);
             }
             this.draw(e);
         };
@@ -559,4 +559,4 @@ function dynamicClass(name) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/c2861c4363a603c5b932.js.map
+//# sourceMappingURL=js/12a250e7bce16e416bb7.js.map
