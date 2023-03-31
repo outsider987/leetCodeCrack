@@ -215,6 +215,7 @@ class CropTool extends BaseTool {
     const { canvas, ctx, originalRect, focusRect } = this;
     const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
     const point = { x: offsetX, y: offsetY };
+    const MIN_DISTANCE = 50;
 
     e.preventDefault();
     if (!this.isDrag) {
@@ -253,35 +254,34 @@ class CropTool extends BaseTool {
       this.focusRect.bottom += dy;
       this.lastPoint.setPoint(offsetX, offsetY);
     }
-    const MIN_DISTANCE = 50;
+
     if (this.currentCusorPoint === CursorPoint.left) {
-      this.focusRect.left = Math.min(Math.max(offsetX, originalRect.left), originalRect.right);
+      this.focusRect.left = Math.min(Math.max(offsetX, originalRect.left), focusRect.right - MIN_DISTANCE);
     }
     if (this.currentCusorPoint === CursorPoint.top) {
-      this.focusRect.top = Math.min(Math.max(offsetY, originalRect.top), originalRect.bottom);
+      this.focusRect.top = Math.min(Math.max(offsetY, originalRect.top), focusRect.bottom - MIN_DISTANCE);
     }
-
     if (this.currentCusorPoint === CursorPoint.right) {
-      this.focusRect.right = Math.max(Math.min(offsetX, originalRect.right), originalRect.left);
+      this.focusRect.right = Math.max(Math.min(offsetX, originalRect.right), focusRect.left + MIN_DISTANCE);
     }
     if (this.currentCusorPoint === CursorPoint.bottom) {
-      this.focusRect.bottom = Math.max(Math.min(offsetY, originalRect.bottom), originalRect.top);
+      this.focusRect.bottom = Math.max(Math.min(offsetY, originalRect.bottom), focusRect.top + MIN_DISTANCE);
     }
     if (this.currentCusorPoint === CursorPoint.topLeft) {
-      this.focusRect.left = Math.min(Math.max(offsetX, originalRect.left), originalRect.right);
-      this.focusRect.top = Math.min(Math.max(offsetY, originalRect.top), originalRect.bottom);
+      this.focusRect.left = Math.min(Math.max(offsetX, originalRect.left), focusRect.right - MIN_DISTANCE);
+      this.focusRect.top = Math.min(Math.max(offsetY, originalRect.top), focusRect.bottom - MIN_DISTANCE);
     }
     if (this.currentCusorPoint === CursorPoint.topRight) {
-      this.focusRect.right = Math.max(Math.min(offsetX, originalRect.right), originalRect.left);
-      this.focusRect.top = Math.min(Math.max(offsetY, originalRect.top), originalRect.bottom);
+      this.focusRect.right = Math.max(Math.min(offsetX, originalRect.right), focusRect.left + MIN_DISTANCE);
+      this.focusRect.top = Math.min(Math.max(offsetY, originalRect.top), focusRect.bottom - MIN_DISTANCE);
     }
     if (this.currentCusorPoint === CursorPoint.bottomLeft) {
-      this.focusRect.left = Math.min(Math.max(offsetX, originalRect.left), originalRect.right);
-      this.focusRect.bottom = Math.max(Math.min(offsetY, originalRect.bottom), originalRect.top);
+      this.focusRect.left = Math.min(Math.max(offsetX, originalRect.left), focusRect.right - MIN_DISTANCE);
+      this.focusRect.bottom = Math.max(Math.min(offsetY, originalRect.bottom), focusRect.top + MIN_DISTANCE);
     }
     if (this.currentCusorPoint === CursorPoint.bottomRight) {
-      this.focusRect.right = Math.max(Math.min(offsetX, originalRect.right), originalRect.left);
-      this.focusRect.bottom = Math.max(Math.min(offsetY, originalRect.bottom), originalRect.top);
+      this.focusRect.right = Math.max(Math.min(offsetX, originalRect.right), focusRect.left + MIN_DISTANCE);
+      this.focusRect.bottom = Math.max(Math.min(offsetY, originalRect.bottom), focusRect.top + MIN_DISTANCE);
     }
 
     this.draw(e);
