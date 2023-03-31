@@ -74,6 +74,7 @@ class Views {
     draw() {
         const { ctx, bufferCanvas, canvas, bufferCtx } = this;
         (0,_utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_3__.redrawBoundBackGround)(this.canvas);
+        this.backgroundLayer.setBackGroundSize(bufferCanvas.width, bufferCanvas.height);
         ctx.drawImage(this.backgroundLayer.getLayerCanvas(), 0, 0);
         ctx.drawImage(bufferCanvas, 0, 0);
     }
@@ -82,13 +83,13 @@ class Views {
         const currentTransformedCursor = (0,_utils_canvas_coordinate__WEBPACK_IMPORTED_MODULE_0__.getTransformedPoints)(e, canvas, this.ctx);
         const zoom = e.deltaY < 0 ? 1.1 : 0.9;
         const maxZoom = 15; // maximum zoom level
-        const minZoom = 0.1; // minimum zoom level
+        const minZoom = 0.2; // minimum zoom level
         const currentZoom = (0,_utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_3__.getCurrentZoom)(ctx); // helper function to get current zoom level
         // Calculate the new zoom level, making sure it stays within the maximum and minimum bounds
         const newZoom = Math.min(Math.max(currentZoom * zoom, minZoom), maxZoom);
         // Calculate the difference in zoom level between the new and old zoom levels
         const zoomDiff = newZoom / currentZoom;
-        if (newZoom < 0.11) {
+        if (newZoom < 0.21) {
             ctx.setTransform(1, 0, 0, 1, 0, 0);
             ctx.translate(canvas.width / 2, canvas.height / 2);
             ctx.scale(newZoom, newZoom);
@@ -237,20 +238,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class BackgroundLayer extends _Layer__WEBPACK_IMPORTED_MODULE_1__["default"] {
-    constructor(canvas) {
-        super(canvas);
+    constructor(bufferCanvas) {
+        super(bufferCanvas);
         this.lastPoint = new _Point__WEBPACK_IMPORTED_MODULE_0__["default"](0, 0);
-        this.canvas = canvas;
+        this.bufferCanvas = bufferCanvas;
         this.backgroundCanvas = document.createElement('canvas');
-        this.backgroundCanvas.width = canvas.width;
-        this.backgroundCanvas.height = canvas.height;
+        this.backgroundCanvas.width = bufferCanvas.width;
+        this.backgroundCanvas.height = bufferCanvas.height;
         this.backgroundCtx = this.backgroundCanvas.getContext('2d');
         this.registerEvent(this.backgroundCanvas);
         this.rectSize = 20;
         this.draw();
     }
     draw() {
-        const { backgroundCanvas, backgroundCtx, rectSize } = this;
+        const { bufferCanvas, backgroundCanvas, backgroundCtx, rectSize } = this;
+        backgroundCanvas.width = bufferCanvas.width;
+        backgroundCanvas.height = bufferCanvas.height;
         const numRows = Math.floor(backgroundCanvas.height / rectSize);
         const numCols = Math.floor(backgroundCanvas.width / rectSize);
         const rectWidth = backgroundCanvas.width / numCols;
@@ -279,6 +282,11 @@ class BackgroundLayer extends _Layer__WEBPACK_IMPORTED_MODULE_1__["default"] {
     }
     getLayerCanvas() {
         return this.backgroundCanvas;
+    }
+    setBackGroundSize(width, height) {
+        this.backgroundCanvas.width = width;
+        this.backgroundCanvas.height = height;
+        this.draw();
     }
     registerEvent(canvas) {
         // canvas.addEventListener('wheel', this.zoom.bind(this));
@@ -312,10 +320,10 @@ class FileLayer extends _Layer__WEBPACK_IMPORTED_MODULE_1__["default"] {
         this.image = new Image();
         this.ctx = canvas.getContext('2d');
         this.lastPoint = new _Point__WEBPACK_IMPORTED_MODULE_0__["default"](0, 0);
-        this.canvas = canvas;
+        this.bufferCanvas = canvas;
     }
     async loadFile(file) {
-        const { ctx, canvas, position, image } = this;
+        const { ctx, bufferCanvas: canvas, position, image } = this;
     }
     redraw() { }
 }
@@ -342,7 +350,7 @@ class Layer {
         this.position = { x: 0, y: 0 };
         this.ctx = canvas.getContext('2d');
         this.lastPoint = new _Point__WEBPACK_IMPORTED_MODULE_0__["default"](0, 0);
-        this.canvas = canvas;
+        this.bufferCanvas = canvas;
     }
     draw() { }
 }
@@ -352,4 +360,4 @@ class Layer {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/5bb46d1f5ed9a46590d4.js.map
+//# sourceMappingURL=js/426d4a9bc7d321c656d4.js.map

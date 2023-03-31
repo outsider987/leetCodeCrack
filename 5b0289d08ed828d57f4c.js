@@ -449,20 +449,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _store_context__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/store/context */ "./src/store/context/index.tsx");
+/* harmony import */ var _components_Button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/components/Button */ "./src/components/Button.tsx");
+/* harmony import */ var _store_context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ~/store/context */ "./src/store/context/index.tsx");
+
 
 
 const CropPanel = (props) => {
     const { tool } = props;
-    const { globalState, setGlobalState } = (0,_store_context__WEBPACK_IMPORTED_MODULE_1__.useGlobalContext)();
+    const { globalState, setGlobalState } = (0,_store_context__WEBPACK_IMPORTED_MODULE_2__.useGlobalContext)();
     const { eraseSize } = globalState || {};
     const currentSize = eraseSize || tool.size;
     const [size, setSize] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(currentSize);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         tool.draw();
     }, [tool]);
-    const handleSetSize = (newSize) => { };
-    return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex-1 flex-col space-y-2" });
+    const onConfirm = () => {
+        tool.onConfirm();
+    };
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex-1 flex-col space-y-2" },
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Button__WEBPACK_IMPORTED_MODULE_1__["default"], { onClick: onConfirm }, "confirm")));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CropPanel);
 
@@ -666,4 +671,4 @@ const Slider = (props) => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/36f02d22e3abc9bf9a1f.js.map
+//# sourceMappingURL=js/5b0289d08ed828d57f4c.js.map

@@ -289,6 +289,29 @@ class CropTool extends _BaselTool__WEBPACK_IMPORTED_MODULE_2__["default"] {
         this.originalRect.setRect(transform.e, transform.f, transform.e + bufferCanvas.width * currentZoom, transform.f + bufferCanvas.height * currentZoom);
         this.focusRect.setRect(transform.e, transform.f, transform.e + bufferCanvas.width * currentZoom, transform.f + bufferCanvas.height * currentZoom);
     }
+    onConfirm() {
+        const { ctx, bufferCanvas, focusRect, bufferCtx, canvas } = this;
+        const transform = ctx.getTransform();
+        const currentZoom = (0,_utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_3__.getCurrentZoom)(ctx);
+        this.originalRect.setRect(transform.e, transform.f, transform.e + bufferCanvas.width * currentZoom, transform.f + bufferCanvas.height * currentZoom);
+        const { left, right, top, bottom } = focusRect;
+        const dLeft = left - this.originalRect.left;
+        const dRight = right - this.originalRect.right;
+        const dTop = top - this.originalRect.top;
+        const dBottom = bottom - this.originalRect.bottom;
+        const widthRatio = bufferCanvas.width / this.originalRect.getWidth();
+        const heightRatio = bufferCanvas.height / this.originalRect.getHeight();
+        const imageData = bufferCtx.getImageData(dLeft * widthRatio, dTop * heightRatio, this.focusRect.getWidth() * widthRatio, this.focusRect.getHeight() * heightRatio);
+        this.bufferCanvas.width = imageData.width;
+        this.bufferCanvas.height = imageData.height;
+        bufferCtx.putImageData(imageData, 0, 0);
+        // refine the focusRect and originalRect
+        super.draw();
+        this.originalRect.setRect(transform.e, transform.f, transform.e + bufferCanvas.width * currentZoom, transform.f + bufferCanvas.height * currentZoom);
+        this.focusRect.setRect(transform.e, transform.f, transform.e + bufferCanvas.width * currentZoom, transform.f + bufferCanvas.height * currentZoom);
+        this.draw();
+        this.stateController.pushUndoStack();
+    }
     zoom(e) {
         const { ctx, rasterCanvas, canvas, rasterCtx, bufferCanvas, originalRect, focusRect } = this;
         const currentZoom = (0,_utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_3__.getCurrentZoom)(ctx); // helper function to get current zoom level
@@ -313,7 +336,6 @@ class CropTool extends _BaselTool__WEBPACK_IMPORTED_MODULE_2__["default"] {
         const widthRatio2 = currentOriginalRect.getWidth() / currentFocusRect.getWidth();
         const heightRatio2 = currentOriginalRect.getHeight() / currentFocusRect.getHeight();
         this.focusRect.setRect(this.originalRect.left + widthRatio2 * currentdLeft2, this.originalRect.top + heightRatio2 * currentdTop2, this.originalRect.right + widthRatio2 * currentdRight2, this.originalRect.bottom + heightRatio2 * currentdBottom2);
-        console.log(this.focusRect);
         this.draw(e);
     }
     cleanCanvas() {
@@ -537,4 +559,4 @@ function dynamicClass(name) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/d0c6e5342de2e3ecf9d3.js.map
+//# sourceMappingURL=js/c2861c4363a603c5b932.js.map

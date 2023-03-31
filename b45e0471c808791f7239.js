@@ -96,7 +96,7 @@ const Register = () => {
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: " text-orange-500" }, validator.errors.confirmPassword.message),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Link, { className: "flex font-bold text-orange-400", to: "/member" }, "Login?"),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex w-full " },
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Button__WEBPACK_IMPORTED_MODULE_2__["default"], { isWhite: validator.isPass, type: "submit", className: `m-auto ${isLoading ? 'text-stone-900' : ''}` }, isLoading ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SvgIcon__WEBPACK_IMPORTED_MODULE_8__["default"], { className: "w-4", name: "spin" }) : 'Submit')))));
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Button__WEBPACK_IMPORTED_MODULE_2__["default"], { white: validator.isPass, type: "submit", className: `m-auto ${isLoading ? 'text-stone-900' : ''}` }, isLoading ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_SvgIcon__WEBPACK_IMPORTED_MODULE_8__["default"], { className: "w-4", name: "spin" }) : 'Submit')))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Register);
 
@@ -104,4 +104,4 @@ const Register = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/03268ed886413267f484.js.map
+//# sourceMappingURL=js/b45e0471c808791f7239.js.map
