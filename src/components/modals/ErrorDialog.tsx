@@ -22,7 +22,7 @@ const ErrorDialog = (props: Props) => {
         >
           {props.msg}
         </span>
-        <Button className="border-[0px]" isWhite={false} onClick={props.backdrop}>
+        <Button className="border-[0px]" white={false} onClick={props.backdrop}>
           OK!
         </Button>
       </div>

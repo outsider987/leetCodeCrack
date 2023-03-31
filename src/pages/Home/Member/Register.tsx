@@ -114,7 +114,7 @@ const Register = () => {
         </Link>
 
         <div className="flex w-full ">
-          <Button isWhite={validator.isPass} type="submit" className={`m-auto ${isLoading ? 'text-stone-900' : ''}`}>
+          <Button white={validator.isPass} type="submit" className={`m-auto ${isLoading ? 'text-stone-900' : ''}`}>
             {isLoading ? <SvgICon className="w-4" name="spin" /> : 'Submit'}
           </Button>
         </div>

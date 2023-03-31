@@ -8,10 +8,10 @@ class FileLayer extends Layer {
     super(canvas);
     this.ctx = canvas.getContext('2d');
     this.lastPoint = new Point(0, 0);
-    this.canvas = canvas;
+    this.bufferCanvas = canvas;
   }
   async loadFile(file) {
-    const { ctx, canvas, position, image } = this;
+    const { ctx, bufferCanvas: canvas, position, image } = this;
   }
 
   redraw() {}

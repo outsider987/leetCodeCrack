@@ -25,7 +25,7 @@ class BaseTool {
     this.rasterViews = rasterViews;
   }
 
-  draw(e) {
+  draw(e?) {
     const { views } = this;
     views.draw();
   }

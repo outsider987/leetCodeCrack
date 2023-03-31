@@ -2,7 +2,7 @@ import Point from '../Point';
 
 class Layer {
   ctx: CanvasRenderingContext2D;
-  canvas: HTMLCanvasElement;
+  bufferCanvas: HTMLCanvasElement;
   lastPoint: Point;
   private isDrawStart: boolean = false;
   position = { x: 0, y: 0 };
@@ -10,7 +10,7 @@ class Layer {
   constructor(canvas: HTMLCanvasElement) {
     this.ctx = canvas.getContext('2d');
     this.lastPoint = new Point(0, 0);
-    this.canvas = canvas;
+    this.bufferCanvas = canvas;
   }
 
   draw() {}

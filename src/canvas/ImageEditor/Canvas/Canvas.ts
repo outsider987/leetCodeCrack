@@ -76,6 +76,7 @@ class Views {
 
     redrawBoundBackGround(this.canvas);
 
+    this.backgroundLayer.setBackGroundSize(bufferCanvas.width, bufferCanvas.height);
     ctx.drawImage(this.backgroundLayer.getLayerCanvas(), 0, 0);
     ctx.drawImage(bufferCanvas, 0, 0);
   }
@@ -86,7 +87,7 @@ class Views {
 
     const zoom = e.deltaY < 0 ? 1.1 : 0.9;
     const maxZoom = 15; // maximum zoom level
-    const minZoom = 0.1; // minimum zoom level
+    const minZoom = 0.2; // minimum zoom level
     const currentZoom = getCurrentZoom(ctx); // helper function to get current zoom level
 
     // Calculate the new zoom level, making sure it stays within the maximum and minimum bounds
@@ -95,7 +96,7 @@ class Views {
     // Calculate the difference in zoom level between the new and old zoom levels
     const zoomDiff = newZoom / currentZoom;
 
-    if (newZoom < 0.11) {
+    if (newZoom < 0.21) {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
 
       ctx.translate(canvas.width / 2, canvas.height / 2);
