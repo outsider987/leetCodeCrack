@@ -194,10 +194,14 @@ class CropTool extends _BaselTool__WEBPACK_IMPORTED_MODULE_2__["default"] {
             this.lastPoint.setPoint(offsetX, offsetY);
         };
         this.mouseMove = (e) => {
-            const { canvas, ctx, originalRect, focusRect } = this;
+            const { canvas, ctx, bufferCanvas, originalRect, focusRect } = this;
             const { offsetX, offsetY } = e.touches ? e.touches[0] : e;
             const point = { x: offsetX, y: offsetY };
-            const MIN_DISTANCE = 50;
+            const currentZoom = (0,_utils_canvas_mainCanvas__WEBPACK_IMPORTED_MODULE_3__.getCurrentZoom)(ctx);
+            const clientWidth = bufferCanvas.width * currentZoom;
+            const clientHeight = bufferCanvas.height * currentZoom;
+            const MIN_DISTANCE = Math.min(clientWidth, clientHeight) > 50 ? 50 : Math.min(clientWidth, clientHeight);
+            console.log(MIN_DISTANCE);
             e.preventDefault();
             if (!this.isDrag) {
                 (0,_utils_canvas_rasterCanvas__WEBPACK_IMPORTED_MODULE_4__.cropCursorChange)(canvas, point, focusRect);
@@ -559,4 +563,4 @@ function dynamicClass(name) {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/12a250e7bce16e416bb7.js.map
+//# sourceMappingURL=js/5645109ed878a16fdf32.js.map
