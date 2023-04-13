@@ -113,8 +113,8 @@ const Profile = () => {
           <div className="flex max-h-[50vh] min-h-[50vh] max-w-[75vw] flex-col space-y-6 overflow-auto">
             <h1 className="text-2xl font-bold text-white"> EMPLOYMENT</h1>
             <div className="m-10 grid grid-cols-2 gap-6">
-              {list.map((item) => (
-                <Employment {...item} />
+              {list.map((item, index) => (
+                <Employment key={index} {...item} />
               ))}
             </div>
           </div>

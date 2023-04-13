@@ -28,8 +28,10 @@ const CursorCanvas = (props: Props) => {
     canvasRef.current.addEventListener('wheel', handleChangSize);
     setShowCursor(isShow);
     return () => {
-      canvasRef.current.removeEventListener('mousemove', handleMouseMove);
-      canvasRef.current.removeEventListener('wheel', handleChangSize);
+      if (canvasRef.current) {
+        canvasRef.current.removeEventListener('mousemove', handleMouseMove);
+        canvasRef.current.removeEventListener('wheel', handleChangSize);
+      }
       setShowCursor(false);
     };
   }, [mode, brushSize, eraseSize]);
