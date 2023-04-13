@@ -100,8 +100,10 @@ const CursorCanvas = (props) => {
         canvasRef.current.addEventListener('wheel', handleChangSize);
         setShowCursor(isShow);
         return () => {
-            canvasRef.current.removeEventListener('mousemove', handleMouseMove);
-            canvasRef.current.removeEventListener('wheel', handleChangSize);
+            if (canvasRef.current) {
+                canvasRef.current.removeEventListener('mousemove', handleMouseMove);
+                canvasRef.current.removeEventListener('wheel', handleChangSize);
+            }
             setShowCursor(false);
         };
     }, [mode, brushSize, eraseSize]);
@@ -671,4 +673,4 @@ const Slider = (props) => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/5b0289d08ed828d57f4c.js.map
+//# sourceMappingURL=js/c2149d4dcfce31b91b2f.js.map
