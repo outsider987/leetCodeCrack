@@ -35,6 +35,8 @@ class StateController {
     const img = new Image();
     img.src = previousState;
     await onload2promise(img);
+    this.bufferCanvas.width = img.width;
+    this.bufferCanvas.height = img.height;
     bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
     bufferCtx.drawImage(
       img,
@@ -60,8 +62,12 @@ class StateController {
     undoStack.push(currentState);
     // Load next state from redo stack onto canvas
     const nextImage = new Image();
+
     nextImage.src = currentState;
     await onload2promise(nextImage);
+    this.bufferCanvas.width = nextImage.width;
+    this.bufferCanvas.height = nextImage.height;
+    console.log(nextImage.width, nextImage.height);
     bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
     bufferCtx.drawImage(
       nextImage,
