@@ -135,6 +135,8 @@ class StateController {
         const img = new Image();
         img.src = previousState;
         await (0,_utils_image__WEBPACK_IMPORTED_MODULE_0__.onload2promise)(img);
+        this.bufferCanvas.width = img.width;
+        this.bufferCanvas.height = img.height;
         bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
         bufferCtx.drawImage(img, 0, 0, bufferCanvas.width, bufferCanvas.height, 0, 0, bufferCanvas.width, bufferCanvas.height);
         this.draw();
@@ -150,6 +152,9 @@ class StateController {
         const nextImage = new Image();
         nextImage.src = currentState;
         await (0,_utils_image__WEBPACK_IMPORTED_MODULE_0__.onload2promise)(nextImage);
+        this.bufferCanvas.width = nextImage.width;
+        this.bufferCanvas.height = nextImage.height;
+        console.log(nextImage.width, nextImage.height);
         bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
         bufferCtx.drawImage(nextImage, 0, 0, bufferCanvas.width, bufferCanvas.height, 0, 0, bufferCanvas.width, bufferCanvas.height);
         this.draw();
@@ -190,4 +195,4 @@ class StateController {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/691e44add122f1e2008c.js.map
+//# sourceMappingURL=js/577b5f8478893491ff77.js.map
