@@ -239,6 +239,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mui_icons_material__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @mui/icons-material */ "./node_modules/@mui/icons-material/esm/DeleteForever.js");
 /* harmony import */ var _mui_icons_material__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @mui/icons-material */ "./node_modules/@mui/icons-material/esm/Undo.js");
 /* harmony import */ var _mui_icons_material__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @mui/icons-material */ "./node_modules/@mui/icons-material/esm/Redo.js");
+/* harmony import */ var _mui_icons_material__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @mui/icons-material */ "./node_modules/@mui/icons-material/esm/Camera.js");
 /* harmony import */ var _canvas_ImageEditor_Tool__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/canvas/ImageEditor/Tool */ "./src/canvas/ImageEditor/Tool/index.ts");
 /* harmony import */ var _Panel_Panel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Panel/Panel */ "./src/canvas/components/Panel/Panel.tsx");
 /* harmony import */ var _store_context__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ~/store/context */ "./src/store/context/index.tsx");
@@ -273,6 +274,13 @@ const Menu = ({ ViewsRef, setFile, file, stateController, rasterViewsRef }) => {
             };
         }
     }, [mode]);
+    function exportCanvas() {
+        const dataURL = ViewsRef.current.bufferCanvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.href = dataURL;
+        link.download = 'canvas_image.png';
+        link.click();
+    }
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         !isShowPanel && setMode(null);
     }, [isShowPanel]);
@@ -310,6 +318,10 @@ const Menu = ({ ViewsRef, setFile, file, stateController, rasterViewsRef }) => {
         {
             icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_12__["default"], null),
             onClick: () => stateController.redo(),
+        },
+        {
+            icon: react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mui_icons_material__WEBPACK_IMPORTED_MODULE_13__["default"], null),
+            onClick: () => exportCanvas(),
         },
     ];
     const menuClass = (0,clsx__WEBPACK_IMPORTED_MODULE_5__["default"])('inset-y-0', 'flex', 'flex-col', 'items-center', 'text-white');
@@ -673,4 +685,4 @@ const Slider = (props) => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/c2149d4dcfce31b91b2f.js.map
+//# sourceMappingURL=js/489ca343b81b87dac0cc.js.map
