@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
-import { Brush, PanTool as PanIcon, DeleteForever, AutoFixNormal, Undo, Redo, Crop } from '@mui/icons-material';
+import { Brush, PanTool as PanIcon, DeleteForever, AutoFixNormal, Undo, Redo, Crop, Camera } from '@mui/icons-material';
 import Views from '~/canvas/ImageEditor/Canvas/Canvas';
 import dynamicClass, { Tools } from '~/canvas/ImageEditor/Tool';
 import Panel from '../Panel/Panel';
@@ -40,6 +40,17 @@ const Menu = ({ ViewsRef, setFile, file, stateController, rasterViewsRef }: Prop
       };
     }
   }, [mode]);
+
+  function exportCanvas() {
+    const dataURL = ViewsRef.current.bufferCanvas.toDataURL('image/png');
+
+    const link = document.createElement('a');
+    link.href = dataURL;
+
+    link.download = 'canvas_image.png';
+
+    link.click();
+  }
 
   useEffect(() => {
     !isShowPanel && setMode(null);
@@ -82,6 +93,10 @@ const Menu = ({ ViewsRef, setFile, file, stateController, rasterViewsRef }: Prop
     {
       icon: <Redo />,
       onClick: () => stateController.redo(),
+    },
+    {
+      icon: <Camera />,
+      onClick: () => exportCanvas(),
     },
   ];
   const menuClass = clsx('inset-y-0', 'flex', 'flex-col', 'items-center', 'text-white');
