@@ -68,7 +68,7 @@ const Carousel = (props) => {
             !isHoverImage.current && onNext();
         }, 2800);
         return () => clearInterval(interval);
-    }, []);
+    }, [currentIndexRef.current]);
     const BottomItems = () => {
         return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 space-x-3" }, props.images.map((image, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { onClick: () => {
                 currentIndexRef.current < index ? (ZindexRef.current = 'z-[3]') : (ZindexRef.current = 'z-[0]');
@@ -127,4 +127,4 @@ const CarouselPage = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/8236992d4eda119cbf91.js.map
+//# sourceMappingURL=js/e3008cb4b4cd10d38186.js.map
