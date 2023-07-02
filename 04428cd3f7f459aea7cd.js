@@ -29,6 +29,37 @@ Button.defaultProps = { isRounded: false, isWhite: true };
 
 /***/ }),
 
+/***/ "./node_modules/outsiderreact/dist/components/Input/index.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/outsiderreact/dist/components/Input/index.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+const Input = (props) => {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: `flex flex-col ` + props.className },
+        props.label != undefined && react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: "flex" }, props.label),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", Object.assign({}, props, { "data-testid": "add-word-input", style: { backgroundColor: props.backgroundColor }, className: `w-auto rounded-md border-2
+            border-solid border-opacity-50 bg-black
+          px-2 pt-5 pb-4 text-sm
+           leading-4  
+           tracking-wide text-white outline-none placeholder:opacity-30
+           focus:border-orange-400
+            focus:opacity-100
+          ${props.inputClassName}`, type: props.type, placeholder: props.placeholder, value: props.value, autoFocus: props.autoFocus, onChange: props.onChange }))));
+};
+Input.defaultProps = { autoFocus: false };
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Input);
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
 /***/ "./src/pages/Home/Member/index.tsx":
 /*!*****************************************!*\
   !*** ./src/pages/Home/Member/index.tsx ***!
@@ -152,4 +183,4 @@ const Member = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/6ded0c75a1fd51965da2.js.map
+//# sourceMappingURL=js/04428cd3f7f459aea7cd.js.map
