@@ -57,7 +57,7 @@ const Carousel = (props: Props) => {
       !isHoverImage.current && onNext();
     }, 2800);
     return () => clearInterval(interval);
-  }, []);
+  }, [currentIndexRef.current]);
 
   const BottomItems = () => {
     return (
