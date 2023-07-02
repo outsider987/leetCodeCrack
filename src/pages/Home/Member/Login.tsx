@@ -9,6 +9,8 @@ import { selectAuth, store } from '~/store';
 import { setAlertDialog } from '~/store/global';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTokenStorage } from '~/utils/storage';
+import Account from '~/components/Member/Account';
+import ThridPartySSO from '~/components/Member/ThridPartySSO';
 
 export interface MemberState {
   sort_index: number;
@@ -21,14 +23,12 @@ export const LoginInitial = {
 
 const Login = () => {
   const authSelector = useSelector(selectAuth);
-  const dispatch = useDispatch();
   const [accessCount, setAccessCountToken] = useState(10);
   const [tokeType, setTokeType] = useState('access');
   const firstRender = useRef(false);
   const intervalId = useRef<any>(0);
   const countTime = useRef(10);
   const tokeTypeRef = useRef('access');
-  const [test, setTest] = useState('');
 
   const rules: ValidateType<typeof LoginInitial> = {
     email: [
@@ -84,18 +84,6 @@ const Login = () => {
     });
   };
 
-  const onGoogleClick = async (event: React.FormEvent<HTMLElement>) => {
-    event.preventDefault();
-    // const res = await GET_GoogleLogin();
-    // console.log(res.data);
-    window.open(`${process.env.API_URL}/auth/google`, '_self');
-  };
-  useEffect(() => {
-    GET_USER().then((res) => {
-      setTest(res.data);
-    });
-  }, []);
-
   return (
     <>
       {
@@ -106,31 +94,9 @@ const Login = () => {
               <button onClick={() => GET_LOGOUT()}>log out </button>
             </div>
           )}
-          {/* {JSON.stringify(test)} */}
-          <form className="m-auto w-[50vw] space-y-6 ">
-            <div className="flex flex-col space-y-5 ">
-              <Input
-                name="email"
-                label="Account"
-                className="text-white"
-                type="text"
-                onChange={validator.noWhiteSpaceChange}
-                value={validator.values.email}
-                placeholder="Account"
-              />
-              <span className=" text-orange-500">{validator.errors.email.message}</span>
 
-              <Input
-                name="password"
-                label="Password"
-                className="text-white"
-                type="text"
-                onChange={validator.noWhiteSpaceChange}
-                value={validator.values.password}
-                placeholder="Password"
-              />
-              <span className=" text-orange-500">{validator.errors.password.message}</span>
-            </div>
+          <form className="m-auto w-[50vw] space-y-6 ">
+            <Account validator={validator}></Account>
             <div className="flex font-bold text-orange-400">
               <Link to="/member/register">Register?</Link>
             </div>
@@ -153,11 +119,8 @@ const Login = () => {
                   <span className="text-xl font-bold text-white">{`${tokeType} expired at ${accessCount}`}</span>
                 )}
               </div>
-              <div className="flex cursor-pointer space-x-1 text-white" onClick={onGoogleClick}>
-                <img src={require('~/assets/svg/btn_google_dark_normal_ios.svg')}></img>
-                <button>Google Login</button>
-              </div>
             </div>
+            <ThridPartySSO></ThridPartySSO>
           </form>
         </div>
       }
