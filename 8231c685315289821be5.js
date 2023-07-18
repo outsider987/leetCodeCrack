@@ -44,7 +44,7 @@ const NavBarItem = ({ level = 0, children, iconName, path, isShow, isFocus, text
         };
         return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "relative flex h-full justify-center" },
             renderRootItem(),
-            children && isOpen && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", { className: "absolute inset-0 top-[90%] z-[9999] flex h-fit flex-col space-y-2 bg-orange-500" }, children.map((subItem, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(NavBarItem, { className: "z-[99] ", key: index, ...subItem, level: level })))))));
+            children && isOpen && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", { className: "absolute inset-0 top-[100%] z-[9999] flex h-fit flex-col space-y-2 bg-orange-500" }, children.map((subItem, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(NavBarItem, { className: "z-[99] ", key: index, ...subItem, level: level })))))));
     };
     const rendertMobile = () => {
         const renderRootItem = () => {
@@ -146,8 +146,9 @@ __webpack_require__.r(__webpack_exports__);
 
 const Home = () => {
     const { pathname } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useLocation)();
-    let contentContainer = pathname === '/profile' ? 'content_tags_container' : 'content_container';
+    let contentContainer = '';
     contentContainer = pathname === '/canvas/image-editor' ? 'content_editor_container' : 'content_container';
+    contentContainer = pathname === '/profile' ? 'content_profile' : 'content_container';
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_layouts_HomeWrapper__WEBPACK_IMPORTED_MODULE_1__["default"], null,
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_layouts_NavBar__WEBPACK_IMPORTED_MODULE_2__["default"], null),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: contentContainer }, (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useLocation)().pathname !== '/' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Outlet, null) : react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Navigate, { to: '/profile' }))));
@@ -158,4 +159,4 @@ const Home = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/648d16a69d4d5e0f1ec2.js.map
+//# sourceMappingURL=js/8231c685315289821be5.js.map

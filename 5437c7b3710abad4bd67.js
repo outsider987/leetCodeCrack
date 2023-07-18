@@ -160,9 +160,9 @@ const Profile = () => {
                         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " font-light leading-[1.5rem] tracking-wide text-gray-400" }, contentDescr),
                         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex" },
                             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", { href: "https://micro-react.herokuapp.com/" })))),
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex max-h-[50vh] min-h-[50vh] max-w-[75vw] flex-col space-y-6 overflow-auto" },
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex   flex-col space-y-6 overflow-auto" },
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "text-2xl font-bold text-white" }, " EMPLOYMENT"),
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "m-10 grid grid-cols-2 gap-6" }, list.map((item, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Employment__WEBPACK_IMPORTED_MODULE_2__["default"], { key: index, ...item })))))));
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col" }, list.map((item, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Employment__WEBPACK_IMPORTED_MODULE_2__["default"], { key: index, ...item })))))));
         },
         mobile: () => {
             return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "animate-fade_in overflow-auto opacity-100" },
@@ -197,4 +197,4 @@ module.exports = __webpack_require__.p + "src/assets/img/me.af2f25858a0ff2c5b2b6
 /***/ })
 
 }]);
-//# sourceMappingURL=js/069846475c4daba72a63.js.map
+//# sourceMappingURL=js/5437c7b3710abad4bd67.js.map

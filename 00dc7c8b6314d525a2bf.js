@@ -117,7 +117,7 @@ const Member = () => {
         ],
     };
     const { validator, handleSubmit } = (0,_hooks_useMyForm__WEBPACK_IMPORTED_MODULE_4__.useForm)(LoginInitial, rules);
-    const { POST_LOGIN, GET_TokenTest } = (0,_api_auth__WEBPACK_IMPORTED_MODULE_3__["default"])();
+    const { POST_LOGIN, GET_TokenTest, GET_USER } = (0,_api_auth__WEBPACK_IMPORTED_MODULE_3__["default"])();
     const onSubmit = handleSubmit(async (data) => {
         if (!data)
             throw 'submit failed';
@@ -183,4 +183,4 @@ const Member = () => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/04428cd3f7f459aea7cd.js.map
+//# sourceMappingURL=js/00dc7c8b6314d525a2bf.js.map
