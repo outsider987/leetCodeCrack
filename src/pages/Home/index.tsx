@@ -12,7 +12,6 @@ const Home = () => {
       <NavBar></NavBar>
       <div className={contentContainer}>
         {useLocation().pathname !== '/' ? <Outlet /> : <Navigate to={'/profile'} />}
-        {/* <Outlet /> */}
       </div>
     </HomeWrapper>
   );

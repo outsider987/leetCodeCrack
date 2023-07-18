@@ -3,7 +3,7 @@ import { Router, useLocation } from 'react-router-dom';
 import LayoutDivider from '~/components/LayoutDivider';
 import SvgICon from '~/components/SvgIcon';
 import { HomeRoute } from '~/router';
-import NavBarItem from '../NavBarItem';
+import NavBarItem from './NavBarItem';
 
 const NavBar = () => {
   const [toggelMenu, setToggelMenu] = useState(false);
@@ -26,30 +26,19 @@ const NavBar = () => {
 
   const layouts = {
     desktop: () => (
-      <div
-        className="relative hidden min-h-screen
-        w-full max-w-navbar_desktop_w bg-navbar lg:block "
-      >
-        <div className="absolute right-[-1px] w-[1px] bg-black/20 " />
-        {/* desktop */}
-        <div className="px-[1.66vw] py-[37px]">
-          <div className="mb-[5vh]">
-            <SvgICon name="logo" />
-          </div>
-
-          <div className="relative hidden flex-col items-center space-y-6 lg:flex">
-            {HomeRoute.children.map((item) => (
-              <NavBarItem
-                key={item.path}
-                isShow={item.isShow}
-                iconName={item.icon}
-                path={item.path}
-                text={item.text}
-                children={item.children}
-                isFocus={useLocation().pathname === `${item.path}`}
-              />
-            ))}
-          </div>
+      <div className="fixed z-50 flex max-h-10 min-h-[4rem] w-full flex-col items-center justify-around bg-navbar px-12 ">
+        <div className="grid w-full grid-flow-col">
+          {HomeRoute.children.map((item) => (
+            <NavBarItem
+              key={item.path}
+              isShow={item.isShow}
+              iconName={item.icon}
+              path={item.path}
+              text={item.text}
+              children={item.children}
+              isFocus={useLocation().pathname === `${item.path}`}
+            />
+          ))}
         </div>
       </div>
     ),

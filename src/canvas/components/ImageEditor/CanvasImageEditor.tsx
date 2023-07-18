@@ -68,7 +68,7 @@ const CanvasImageEditor = (props: CanvasProps) => {
 
         <div ref={ContentRef} className={contentClasses} style={{ maxWidth: contentMaxSize }}>
           {file === null && (
-            <div className="absolute inset-0 flex items-center justify-center">
+            <div className="absolute inset-0 z-0 flex items-center justify-center">
               <div className=" text-white">please click or drag file</div>
               <input
                 onChange={onClickFile}
