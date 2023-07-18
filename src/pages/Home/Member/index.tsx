@@ -43,7 +43,7 @@ const Member = () => {
   };
   const { validator, handleSubmit } = useForm(LoginInitial, rules);
 
-  const { POST_LOGIN, GET_TokenTest } = useAuthApi();
+  const { POST_LOGIN, GET_TokenTest, GET_USER } = useAuthApi();
   const onSubmit = handleSubmit(async (data) => {
     if (!data) throw 'submit failed';
     const res = await POST_LOGIN(data);

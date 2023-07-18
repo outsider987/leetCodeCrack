@@ -61,7 +61,7 @@ const NavBarItem: React.FC<Props> = ({ level = 0, children, iconName, path, isSh
       <div className="relative flex h-full justify-center">
         {renderRootItem()}
         {children && isOpen && (
-          <li className="absolute inset-0 top-[90%] z-[9999] flex h-fit flex-col space-y-2 bg-orange-500">
+          <li className="absolute inset-0 top-[100%] z-[9999] flex h-fit flex-col space-y-2 bg-orange-500">
             {children.map((subItem, index) => (
               <NavBarItem className="z-[99] " key={index} {...subItem} level={level} />
             ))}

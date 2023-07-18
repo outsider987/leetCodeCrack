@@ -5,8 +5,9 @@ import NavBar from '../../layouts/NavBar';
 
 const Home = () => {
   const { pathname } = useLocation();
-  let contentContainer = pathname === '/profile' ? 'content_tags_container' : 'content_container';
+  let contentContainer = '';
   contentContainer = pathname === '/canvas/image-editor' ? 'content_editor_container' : 'content_container';
+  contentContainer = pathname === '/profile' ? 'content_profile' : 'content_container';
   return (
     <HomeWrapper>
       <NavBar></NavBar>

@@ -29,7 +29,7 @@ const Login = () => {
   const intervalId = useRef<any>(0);
   const countTime = useRef(10);
   const tokeTypeRef = useRef('access');
-
+  document.cookie = 'name=value';
   const rules: ValidateType<typeof LoginInitial> = {
     email: [
       { validate: validateRegexp.email, message: 'wrong mail formate' },
@@ -43,6 +43,7 @@ const Login = () => {
   const { validator, handleSubmit } = useForm(LoginInitial, rules);
 
   const { POST_LOGIN, GET_TokenTest, GET_USER, GET_LOGOUT } = useAuthApi();
+
   const onSubmit = handleSubmit(async (data) => {
     if (!data) throw 'submit failed';
     const res = await POST_LOGIN(data);
@@ -83,6 +84,15 @@ const Login = () => {
       store.dispatch(setAlertDialog({ show: true, msg: 'test work', title: 'test' }));
     });
   };
+  useEffect(() => {
+    const test = async () => {
+      const res1 = await GET_USER();
+
+      console.log(res1);
+      console.log('123');
+    };
+    test();
+  }, []);
 
   return (
     <>

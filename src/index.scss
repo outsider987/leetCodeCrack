@@ -12,6 +12,10 @@
     @apply h-0 pt-m-navbar-desktop-h sm:min-h-[calc(100vh-theme('spacing.m-navbar-desktop-h'))];
     @apply mx-auto max-h-screen  w-full overflow-auto lg:min-h-[calc(100vh-theme('spacing.4'))] lg:max-w-[70vw] lg:pt-[4rem];
   }
+  .content_profile {
+    @apply h-0 pt-m-navbar-desktop-h sm:min-h-[calc(100vh-theme('spacing.m-navbar-desktop-h'))];
+    @apply h-full lg:pt-[4rem];
+  }
   .content_tags_container {
     @apply m-auto sm:p-3 sm:pt-m-navbar-desktop-h;
     @apply flex h-full w-full lg:ml-[9.09vw] lg:pt-20;
