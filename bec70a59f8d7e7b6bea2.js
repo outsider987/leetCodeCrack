@@ -60,7 +60,7 @@ const CanvasImageEditor = (props) => {
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: menuClasses },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Menu_Menu__WEBPACK_IMPORTED_MODULE_2__["default"], { ViewsRef: ViewsRef, setFile: setFile, rasterViewsRef: rasterViewsRef, file: file, stateController: stateController.current })),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { ref: ContentRef, className: contentClasses, style: { maxWidth: contentMaxSize } },
-                file === null && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "absolute inset-0 flex items-center justify-center" },
+                file === null && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "absolute inset-0 z-0 flex items-center justify-center" },
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " text-white" }, "please click or drag file"),
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { onChange: onClickFile, className: `absolute inset-0 z-10 cursor-pointer opacity-0 `, type: "file", accept: "image/*" }))),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Maincanvas__WEBPACK_IMPORTED_MODULE_6__["default"], { canvasRef: canvasRef, ContentRef: ContentRef, ViewsRef: ViewsRef, rasterViewsRef: rasterViewsRef, rasterCanvasRef: rasterCanvasRef, file: file, mode: mode, stateController: stateController.current }),
@@ -685,4 +685,4 @@ const Slider = (props) => {
 /***/ })
 
 }]);
-//# sourceMappingURL=js/489ca343b81b87dac0cc.js.map
+//# sourceMappingURL=js/bec70a59f8d7e7b6bea2.js.map
