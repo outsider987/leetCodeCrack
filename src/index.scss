@@ -13,8 +13,8 @@
     @apply mx-auto max-h-screen  w-full overflow-auto lg:min-h-[calc(100vh-theme('spacing.4'))] lg:max-w-[70vw] lg:pt-[4rem];
   }
   .content_profile {
-    @apply h-0 pt-m-navbar-desktop-h sm:min-h-[calc(100vh-theme('spacing.m-navbar-desktop-h'))];
-    @apply h-full lg:pt-[4rem];
+    @apply h-0 w-full pt-m-navbar-desktop-h sm:min-h-[calc(100vh-theme('spacing.m-navbar-desktop-h'))] sm:max-w-[90vw] lg:max-w-[50vw];
+    @apply m-auto h-full lg:pt-[4rem];
   }
   .content_tags_container {
     @apply m-auto sm:p-3 sm:pt-m-navbar-desktop-h;

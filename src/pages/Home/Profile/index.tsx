@@ -100,7 +100,7 @@ const Profile = () => {
   const content = {
     desktop: () => {
       return (
-        <div className="flex animate-fade_in flex-col space-y-4">
+        <div className="m-auto flex animate-fade_in flex-col justify-center space-y-4">
           <ProfileHeader name={name} contentDescr={contentDescr} imageSrc={require('~/assets/img/me.jpg')} />
           <div className="flex   flex-col space-y-6 overflow-auto">
             <h1 className="text-2xl font-bold text-white"> EMPLOYMENT</h1>

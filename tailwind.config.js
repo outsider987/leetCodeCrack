@@ -49,6 +49,10 @@ module.exports = {
           '0%': { marginBottom: '15vh', opacity: 0 },
           '100%': { marginBottom: '0vh', opacity: 100 },
         },
+        fadeInLeft: {
+          '0%': { opacity: 0, transform: 'translateX(-10px)', visibility: 'hidden' },
+          '100%': { opacity: 1, transform: 'translateX(0)', visibility: 'visible' },
+        },
       },
       animation: {
         ...animates,
@@ -56,11 +60,12 @@ module.exports = {
         menu_collpase_off: 'menu_collpase_off 0.5s ease-in ',
         fade_in: 'fade_in 0.2s ease-in ',
         pop: 'pop 0.2s ease-in',
+        'fade-in-left': 'fadeInLeft 0.5s ease-in-out forwards',
       },
     },
   },
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require('tailwindcss-animation-delay')],
 };

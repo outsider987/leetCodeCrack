@@ -40,6 +40,7 @@
     "react-icons": "^4.8.0",
     "react-opencv": "^0.0.0",
     "react-query": "^3.39.2",
+    "tailwindcss-animation-delay": "^1.0.7",
     "three": "^0.148.0"
   },
   "devDependencies": {

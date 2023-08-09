@@ -7,28 +7,25 @@ interface ProfileHeaderProps {
 }
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({ name, contentDescr, imageSrc }) => {
-  const Step1 = () => {
-    return (
-      <div className="flex animate-fadeIn items-center justify-around space-x-6 lg:max-w-[70vw]">
-        Victor
-        <span className=" animate__fadeInLeft animate__delay-0.5s">Hi</span>
-        <span className="animate__animated animate__fadeInLeft animate__delay-1s">this</span>
-        <span className="animate__animated animate__fadeInLeft animate__delay-1.5s">is</span>
-        <span className="animate__animated animate__fadeInLeft animate__delay-2s">Victor</span>
-      </div>
-    );
-  };
+  // const Step1 = () => {
+  //   return (
+
+  //   );
+  // };
+  const Step2 = () => {};
+
   return (
-    <div className="flex animate-fadeIn items-center justify-around space-x-6 lg:max-w-[70vw]">
+    <div className="inline-flex items-center justify-center">
+      <div className=" inline-flex space-x-3">
+        <span className="animate-fade-in-left opacity-0 animation-delay-500">This</span>
+        <span className="animate-fade-in-left opacity-0  animation-delay-1000">is</span>
+        <span className=" animate-fade-in-left opacity-0 animation-delay-1500">Victor</span>
+      </div>
       <img
-        className=" w-[15vw] rounded-full transition-opacity duration-1000 ease-in"
+        className="ml-[10vw] w-[10vw] animate-fade-in-left rounded-full opacity-0 animation-delay-2000"
         src={imageSrc}
         alt="Profile picture"
       />
-      <div className="flex h-full flex-col space-y-3 text-white">
-        <h1 className="text-3xl font-bold">{name}</h1>
-        <div className="font-light leading-[1.5rem] tracking-wide text-gray-400">{contentDescr}</div>
-      </div>
     </div>
   );
 };
