@@ -42,6 +42,37 @@ const Employment = (props) => {
 
 /***/ }),
 
+/***/ "./src/components/Profile/ProfileHeader.tsx":
+/*!**************************************************!*\
+  !*** ./src/components/Profile/ProfileHeader.tsx ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+const ProfileHeader = ({ name, contentDescr, imageSrc }) => {
+    // const Step1 = () => {
+    //   return (
+    //   );
+    // };
+    const Step2 = () => { };
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "inline-flex items-center justify-center" },
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " inline-flex space-x-3" },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "animate-fade-in-left opacity-0 animation-delay-500" }, "This"),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "animate-fade-in-left opacity-0  animation-delay-1000" }, "is"),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: " animate-fade-in-left opacity-0 animation-delay-1500" }, "Victor")),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", { className: "ml-[10vw] w-[10vw] animate-fade-in-left rounded-full opacity-0 animation-delay-2000", src: imageSrc, alt: "Profile picture" })));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProfileHeader);
+
+
+/***/ }),
+
 /***/ "./src/pages/Home/Profile/index.tsx":
 /*!******************************************!*\
   !*** ./src/pages/Home/Profile/index.tsx ***!
@@ -56,6 +87,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_LayoutDivider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ~/components/LayoutDivider */ "./src/components/LayoutDivider.tsx");
 /* harmony import */ var _components_Employment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../components/Employment */ "./src/components/Employment.tsx");
+/* harmony import */ var _components_Profile_ProfileHeader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ~/components/Profile/ProfileHeader */ "./src/components/Profile/ProfileHeader.tsx");
+
 
 
 
@@ -152,14 +185,8 @@ const Profile = () => {
   wish I could be a Influential person on the IT`;
     const content = {
         desktop: () => {
-            return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex animate-fade_in flex-col space-y-4" },
-                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "  flex items-center justify-around space-x-6 lg:max-w-[70vw]" },
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", { className: "w-[15vw] rounded-full", src: __webpack_require__(/*! ~/assets/img/me.jpg */ "./src/assets/img/me.jpg") }),
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex h-full flex-col space-y-3 text-white" },
-                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "text-3xl font-bold" }, name),
-                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " font-light leading-[1.5rem] tracking-wide text-gray-400" }, contentDescr),
-                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex" },
-                            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", { href: "https://micro-react.herokuapp.com/" })))),
+            return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "m-auto flex animate-fade_in flex-col justify-center space-y-4" },
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Profile_ProfileHeader__WEBPACK_IMPORTED_MODULE_3__["default"], { name: name, contentDescr: contentDescr, imageSrc: __webpack_require__(/*! ~/assets/img/me.jpg */ "./src/assets/img/me.jpg") }),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex   flex-col space-y-6 overflow-auto" },
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "text-2xl font-bold text-white" }, " EMPLOYMENT"),
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col" }, list.map((item, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Employment__WEBPACK_IMPORTED_MODULE_2__["default"], { key: index, ...item })))))));
@@ -197,4 +224,4 @@ module.exports = __webpack_require__.p + "src/assets/img/me.af2f25858a0ff2c5b2b6
 /***/ })
 
 }]);
-//# sourceMappingURL=js/5437c7b3710abad4bd67.js.map
+//# sourceMappingURL=js/3b35a5116fe5879086ce.js.map

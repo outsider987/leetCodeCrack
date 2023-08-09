@@ -225,7 +225,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
 const HomeWrapper = ({ children }) => {
-    return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex min-h-screen w-full bg-greyscale sm:flex-col lg:flex-row" }, children);
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex min-h-screen w-full justify-center bg-greyscale sm:flex-col lg:flex-row " }, children));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HomeWrapper);
 
