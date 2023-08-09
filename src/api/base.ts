@@ -90,7 +90,7 @@ export const privateApi = (subPath: string = '') => {
                 },
               },
             );
-
+            checkErrorCdoe(rs);
             setTokenStorage(rs.data.data);
 
             return api(error.config);

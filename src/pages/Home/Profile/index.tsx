@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import LayoutDivider from '~/components/LayoutDivider';
 import SvgICon from '~/components/SvgIcon';
 import Employment, { Props } from '../../../components/Employment';
+import ProfileHeader from '~/components/Profile/ProfileHeader';
 
 const Profile = () => {
   const list = [
@@ -100,16 +101,7 @@ const Profile = () => {
     desktop: () => {
       return (
         <div className="flex animate-fade_in flex-col space-y-4">
-          <div className="  flex items-center justify-around space-x-6 lg:max-w-[70vw]">
-            <img className="w-[15vw] rounded-full" src={require('~/assets/img/me.jpg')} />
-            <div className="flex h-full flex-col space-y-3 text-white">
-              <h1 className="text-3xl font-bold">{name}</h1>
-              <div className=" font-light leading-[1.5rem] tracking-wide text-gray-400">{contentDescr}</div>
-              <div className="flex">
-                <a href="https://micro-react.herokuapp.com/">{/* <SvgICon name="story" /> */}</a>
-              </div>
-            </div>
-          </div>
+          <ProfileHeader name={name} contentDescr={contentDescr} imageSrc={require('~/assets/img/me.jpg')} />
           <div className="flex   flex-col space-y-6 overflow-auto">
             <h1 className="text-2xl font-bold text-white"> EMPLOYMENT</h1>
             <div className="flex flex-col">
