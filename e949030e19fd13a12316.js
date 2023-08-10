@@ -56,13 +56,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
 const ProfileHeader = ({ name, contentDescr, imageSrc }) => {
-    // const Step1 = () => {
-    //   return (
-    //   );
-    // };
-    const Step2 = () => { };
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "inline-flex items-center justify-center" },
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " inline-flex space-x-3" },
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " inline-flex space-x-10 text-white md:text-xl lg:text-4xl" },
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "animate-fade-in-left opacity-0 animation-delay-500" }, "This"),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: "animate-fade-in-left opacity-0  animation-delay-1000" }, "is"),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { className: " animate-fade-in-left opacity-0 animation-delay-1500" }, "Victor")),
@@ -194,13 +189,7 @@ const Profile = () => {
         mobile: () => {
             return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "animate-fade_in overflow-auto opacity-100" },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col space-y-4 sm:mr-2 " },
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: " flex flex-col items-center justify-around space-x-6 lg:max-w-[70vw]" },
-                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", { className: "w-[15vw] rounded-full", src: __webpack_require__(/*! ~/assets/img/me.jpg */ "./src/assets/img/me.jpg") }),
-                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex h-full flex-col space-y-3 text-white" },
-                            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "text-center text-xl font-bold" }, name),
-                            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "font-light leading-[1.5rem] tracking-wide text-gray-400" }, contentDescr),
-                            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex" },
-                                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", { href: "https://micro-react.herokuapp.com/" })))),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Profile_ProfileHeader__WEBPACK_IMPORTED_MODULE_3__["default"], { name: name, contentDescr: contentDescr, imageSrc: __webpack_require__(/*! ~/assets/img/me.jpg */ "./src/assets/img/me.jpg") }),
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex min-h-[50vh] flex-col space-y-6 " },
                         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", { className: "text-2xl font-bold text-white" }, " EMPLOYMENT"),
                         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex flex-col gap-6 " }, list.map((item, index) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Employment__WEBPACK_IMPORTED_MODULE_2__["default"], { key: index, ...item }))))))));
@@ -224,4 +213,4 @@ module.exports = __webpack_require__.p + "src/assets/img/me.af2f25858a0ff2c5b2b6
 /***/ })
 
 }]);
-//# sourceMappingURL=js/3b35a5116fe5879086ce.js.map
+//# sourceMappingURL=js/e949030e19fd13a12316.js.map
