@@ -7,16 +7,9 @@ interface ProfileHeaderProps {
 }
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({ name, contentDescr, imageSrc }) => {
-  // const Step1 = () => {
-  //   return (
-
-  //   );
-  // };
-  const Step2 = () => {};
-
   return (
     <div className="inline-flex items-center justify-center">
-      <div className=" inline-flex space-x-3">
+      <div className=" inline-flex space-x-10 text-white md:text-xl lg:text-4xl">
         <span className="animate-fade-in-left opacity-0 animation-delay-500">This</span>
         <span className="animate-fade-in-left opacity-0  animation-delay-1000">is</span>
         <span className=" animate-fade-in-left opacity-0 animation-delay-1500">Victor</span>

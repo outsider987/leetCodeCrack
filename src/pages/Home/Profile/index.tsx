@@ -117,16 +117,7 @@ const Profile = () => {
       return (
         <div className="animate-fade_in overflow-auto opacity-100">
           <div className="flex flex-col space-y-4 sm:mr-2 ">
-            <div className=" flex flex-col items-center justify-around space-x-6 lg:max-w-[70vw]">
-              <img className="w-[15vw] rounded-full" src={require('~/assets/img/me.jpg')} />
-              <div className="flex h-full flex-col space-y-3 text-white">
-                <h1 className="text-center text-xl font-bold">{name}</h1>
-                <div className="font-light leading-[1.5rem] tracking-wide text-gray-400">{contentDescr}</div>
-                <div className="flex">
-                  <a href="https://micro-react.herokuapp.com/">{/* <SvgICon name="story" /> */}</a>
-                </div>
-              </div>
-            </div>
+            <ProfileHeader name={name} contentDescr={contentDescr} imageSrc={require('~/assets/img/me.jpg')} />
             <div className="flex min-h-[50vh] flex-col space-y-6 ">
               <h1 className="text-2xl font-bold text-white"> EMPLOYMENT</h1>
               <div className="flex flex-col gap-6 ">
