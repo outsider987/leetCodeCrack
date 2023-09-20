@@ -33,6 +33,12 @@ jobs:
     - name: npm run build
       run: |
         npm run build
+    - name: Echo secrets.COMMIT
+      run: |
+        echo "The value of secrets.COMMIT is ${{secrets.COMMIT}} "
+    - name: Echo secrets.API_URL
+      run: |
+        echo "The value of secrets.API_URL is ${{secrets.API_URL}} "
 
     - name: Commit dist to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@3.7.1
